@@ -4,17 +4,21 @@ This guide explains how to find and write up the stops for Stroll's next walk ar
 300 SC area. You can follow it by hand, or paste it into Claude and work through it together
 (see [Using this guide with Claude](#using-this-guide-with-claude)).
 
+> **Round 1 note.** The first round of testing is **free exploring only** (see `docs/round1-plan.md`):
+> there's no set route, so stops don't need a walking order, and the **cue** (direction) line and
+> **nearby places** aren't used yet. Fill them in if you have them, since later rounds may use
+> them, but don't let them hold anything up.
+
 ## What Stroll is, in short
 
 Stroll is an audio walking guide for Apple Watch, iPhone and earbuds. As you walk, the watch
-buzzes when you reach something worth noticing. It shows a photo, gives a short direction,
-then asks you to **look for one specific detail**. If you tap *Tell me more*, you hear the
-answer and a short story. The iPhone app shows the walk on a map, the places nearby, and a
-transcript of everything said.
+buzzes when you reach a point of interest. It shows a photo, then asks you to **look for one
+specific detail**. If you tap *Tell me more*, you hear the answer and a short story. The iPhone
+app shows points of interest on a map and keeps a journal of everything you've found.
 
 Every stop follows the same pattern:
 
-1. **Cue**: how to get there, or where to stand.
+1. **Cue** *(optional; not used in round 1)*: how to get there, or where to stand.
 2. **Prompt**: a question that makes you look closely at one detail.
 3. **Reveal**: the answer to the question.
 4. **Story**: three short lines with surprising facts.
@@ -34,14 +38,14 @@ Here is a real stop from the first walk, to show the tone and length:
 
 ## What we need
 
-- **4 to 6 stops** around the 300 SC area, in walking order. Four is enough for the first test.
-- **2 to 4 nearby places for each stop**, for the map in the iPhone app.
+- **4 to 6 stops** around the 300 SC area, in any order. Four is enough for the first test.
 - **A photo of each stop.**
 - **A source for every fact.**
+- *Later rounds, optional:* 2 to 4 nearby places for each stop, for the map in the iPhone app.
 
-The first tests are a "pretend walk", so the exact route doesn't need to be walkable yet.
-Still, choose stops that would make a sensible route, about 2 to 5 minutes' walk apart, because
-real GPS triggers will come later and use the same places.
+The first tests use a scripted "demo walk", so participants don't need to be at the real places.
+Still, choose stops about 2 to 5 minutes' walk apart, so someone wandering the area would come
+across them, because real GPS triggers will come later and use the same places.
 
 ## What makes a good stop
 
@@ -74,7 +78,7 @@ that's awkward to say aloud.
 | **Name** | What the place is called. | A few words |
 | **Category** | One word or short phrase, like *Public art*. | 1 to 3 words |
 | **Latitude, Longitude** | Where to stand to see the detail (see [Getting coordinates](#getting-coordinates)). | 6 decimal places |
-| **Cue** | A direction or where to stand. Use street names and landmarks. | One sentence, up to about 15 words |
+| **Cue** *(optional; not used in round 1)* | A direction or where to stand. Use street names and landmarks. | One sentence, up to about 15 words |
 | **Prompt** | A question that makes people look for one detail. | Up to about 25 words |
 | **Reveal** | The answer to the prompt. | One sentence |
 | **Story 1, 2, 3** | Three facts, from the most surprising to the most interesting background. Each should make sense on its own. | One or two sentences each, up to about 30 words |
@@ -84,6 +88,8 @@ that's awkward to say aloud.
 | **Notes** | Anything else: opening hours, things to watch out for, ideas. | |
 
 ## Nearby places
+
+*Later rounds, optional: not shown in the round 1 app.*
 
 For each stop, list 2 to 4 places within a short walk that a curious person might like:
 a café, a small museum, a mural, a park, a viewpoint, a building with a story.
@@ -138,14 +144,14 @@ folder with Flora.
 
 ## Checklist before handing over
 
-- [ ] 4 to 6 stops, in walking order, about 2 to 5 minutes apart
+- [ ] 4 to 6 stops, about 2 to 5 minutes' walk apart
 - [ ] Every stop has something specific to look at, and the prompt asks about it
 - [ ] Every reveal answers its prompt
 - [ ] Every fact has a source, and you've checked it
 - [ ] Texts are short and read well aloud (try reading them out)
 - [ ] Coordinates are where to stand, checked on a map
 - [ ] Every stop has a photo with the detail in the middle, plus a credit
-- [ ] 2 to 4 nearby places for each stop
+- [ ] *(Optional, later rounds)* 2 to 4 nearby places for each stop
 
 ## Using this guide with Claude
 
