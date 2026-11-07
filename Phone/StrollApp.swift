@@ -4,6 +4,8 @@ import SwiftUI
 @main
 struct StrollApp: App {
     @StateObject private var link = PhoneLink()
+    @StateObject private var session = ExploreSession.live()
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
@@ -15,8 +17,17 @@ struct StrollApp: App {
             }
             .tint(.strollGreen)
             .environmentObject(link)
+            .environmentObject(session)
             .onAppear { link.activate() }
+            .onChange(of: scenePhase) { _, _ in updateReminder() }
+            .onChange(of: session.phase) { _, _ in updateReminder() }
         }
+    }
+
+    /// While Stroll is in the background, keep a reminder scheduled for the next point of interest.
+    private func updateReminder() {
+        ExploreNotifications.cancelReminder()
+        if scenePhase != .active { ExploreNotifications.scheduleReminder(for: session) }
     }
 }
 

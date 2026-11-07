@@ -25,13 +25,18 @@ targets:
     type: application
     platform: iOS
     sources:
-      - Phone
+      - path: Phone
+        excludes: ["Info.plist"]
       - Shared
+      # Narration clips and photos: the phone plays the voice guide too.
+      - Resources/Audio
+      - Resources/Assets.xcassets
     dependencies:
       - target: StrollWatch
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.teamgreen.stroll.remote
+        INFOPLIST_FILE: Phone/Info.plist
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Stroll
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Stroll shows points of interest near you on the map, and notices when you reach one while you explore.
