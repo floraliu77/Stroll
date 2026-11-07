@@ -12,7 +12,7 @@ struct RemoteView: View {
                 findsSection
                 logSection
             }
-            .navigationTitle("Stroll Remote")
+            .navigationTitle("Developer tools")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Reset", role: .destructive) { confirmingReset = true }
