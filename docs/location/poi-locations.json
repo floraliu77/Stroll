@@ -1,7 +1,6 @@
 {
-  "about": "Researched coordinates and content for Stroll POIs near 300 S Craig St. Same shape as Shared/Content/stroll-content.json (PR #2), plus standingSpot, sources and notes. Not loaded by the app. See README.md in this folder.",
-  "updated": "2026-11-07",
-  "coordinateSource": "OpenStreetMap (c) OpenStreetMap contributors, ODbL. Cross-checked against Google Maps (not stored) and photos.",
+  "about": "Researched coordinates and trigger radii for Stroll POIs near 300 S Craig St. Coordinates are where you'd stand to see each POI. textFixes lists lines from the first walk that didn't match sources; those clips need re-recording.",
+  "coordinateSource": "OpenStreetMap (c) OpenStreetMap contributors, ODbL",
   "pois": [
     {
       "id": "mellon-columns",
@@ -11,44 +10,19 @@
         "latitude": 40.44663,
         "longitude": -79.9511
       },
-      "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
-      "standingSpot": "Fifth Ave sidewalk in front of the Mellon Institute, between Bellefield Ave and the main entrance.",
-      "image": "mellon-columns",
-      "photoCredit": {
-        "author": "Cbaile19",
-        "license": "CC0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:Columns_of_the_Mellon_Institute,_2021-12-20,_01.jpg"
-      },
-      "prompt": {
-        "text": "Look at the giant columns on this building. How many stone pieces make up one column?",
-        "audio": "f1-prompt"
-      },
-      "reveal": {
-        "text": "None stacked. Each column is a single piece of stone.",
-        "audio": "f1-reveal"
-      },
-      "story": [
+      "textFixes": [
         {
-          "text": "Each of the 62 columns here is one solid piece of Indiana limestone, about 62 tons.",
-          "audio": "f1-story1"
+          "clip": "f1-story1",
+          "was": "Each of the 62 columns here is one solid piece of Indiana limestone, about 60 tons.",
+          "now": "Each of the 62 columns here is one solid piece of Indiana limestone, about 62 tons."
         },
         {
-          "text": "When the Mellon Institute opened in 1937, they were the largest monolithic columns in the world.",
-          "audio": "f1-story2"
-        },
-        {
-          "text": "The building, now part of Carnegie Mellon, reaches three stories underground.",
-          "audio": "f1-story3"
+          "clip": "f1-story3",
+          "was": "The building, now part of Carnegie Mellon, reaches six stories underground to bedrock, to keep lab experiments steady.",
+          "now": "The building, now part of Carnegie Mellon, reaches three stories underground."
         }
-      ],
-      "sources": [
-        "https://archipediavm.upress.virginia.edu/buildings/PA-01-AL37",
-        "https://www.andrew.cmu.edu/user/gcberry/mi-building/The%20Mellon%20Institute%20Building.pdf",
-        "https://fatherpitt.com/2015/09/28/colonnade-of-the-mellon-institute"
-      ],
-      "notes": "CHANGED two facts. story_1: '60 tons' is now '62 tons' (CMU document). story_3: 'six stories underground to bedrock, to keep lab experiments steady' is now 'three stories underground' (CMU document and SAH Archipedia). No source supports the bedrock or lab-experiment reason. The f1-story1 and f1-story3 clips need re-recording."
+      ]
     },
     {
       "id": "dippy",
@@ -58,45 +32,14 @@
         "latitude": 40.443553,
         "longitude": -79.951498
       },
-      "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
-      "standingSpot": "Forbes Ave sidewalk in front of the Carnegie Museum of Natural History.",
-      "image": "dippy",
-      "photoCredit": {
-        "author": "TheZachMorrisExperience",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:DippyStatuteCarnegiePittsburgh.jpg"
-      },
-      "prompt": {
-        "text": "Spot the dinosaur outside the museum. Look closely: is it bone, or something else?",
-        "audio": "f2-prompt"
-      },
-      "reveal": {
-        "text": "It's a life-size fiberglass copy.",
-        "audio": "f2-reveal"
-      },
-      "story": [
+      "textFixes": [
         {
-          "text": "This is Dippy, a fiberglass copy of a Diplodocus installed in 1999, 100 years after Andrew Carnegie funded the dig that found the original.",
-          "audio": "f2-story1"
-        },
-        {
-          "text": "The first bone, a toe, was found in Wyoming around the Fourth of July, 1899, earning it the nickname 'the star-spangled dinosaur.'",
-          "audio": "f2-story2"
-        },
-        {
-          "text": "The real skeleton still stands inside, and Carnegie gave casts to museums in London, Paris, and other cities.",
-          "audio": "f2-story3"
+          "clip": "f2-story2",
+          "was": "The first bone, a toe, was found in Wyoming on July 4, 1899, earning it the nickname 'the star-spangled dinosaur.'",
+          "now": "The first bone, a toe, was found in Wyoming around the Fourth of July, 1899, earning it the nickname 'the star-spangled dinosaur.'"
         }
-      ],
-      "sources": [
-        "https://carnegiemnh.org/discovering-dippy",
-        "https://carnegiemuseums.org/carnegie-magazine/summer-2024/the-dinosaur-that-changed-the-world/",
-        "https://cowboystatedaily.com/2024/07/06/meet-dippy-the-dinosaur-that-put-wyoming-on-the-prehistoric-map-125-years-ago",
-        "https://en.wikipedia.org/wiki/Dippy"
-      ],
-      "notes": "CHANGED story_2: 'on July 4, 1899' is now 'around the Fourth of July, 1899', because sources disagree on July 3 vs July 4. The f2-story2 clip needs re-recording."
+      ]
     },
     {
       "id": "song-to-nature",
@@ -106,46 +49,7 @@
         "latitude": 40.441995,
         "longitude": -79.9519
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 35,
-      "standingSpot": "Anywhere around the fountain basin in Schenley Plaza, in front of the Frick Fine Arts Building.",
-      "image": "song-to-nature",
-      "photoCredit": {
-        "author": "Daderot",
-        "license": "Public domain",
-        "licenseUrl": "",
-        "source": "https://commons.wikimedia.org/wiki/File:Mary_Schenley_Fountain_-_Pittsburgh_-_IMG_0755.jpg"
-      },
-      "prompt": {
-        "text": "At the fountain, look along the rim of the basin. Find the animals spouting water.",
-        "audio": "f3-prompt"
-      },
-      "reveal": {
-        "text": "Turtles. Four bronze turtles spout water into the basin.",
-        "audio": "f3-reveal"
-      },
-      "story": [
-        {
-          "text": "This 1918 fountain honors Mary Schenley, who donated the land for Schenley Park.",
-          "audio": "f3-story1"
-        },
-        {
-          "text": "The figures show Humanity playing a lyre to Pan, the earth god.",
-          "audio": "f3-story2"
-        },
-        {
-          "text": "Its sculptor, Victor David Brenner, also designed the Lincoln penny, so you've probably carried his work in your pocket.",
-          "audio": "f3-story3"
-        }
-      ],
-      "sources": [
-        "https://pittsburghparks.org/mary-e-schenley-memorial-fountain/",
-        "https://fatherpitt.com/2021/11/11/mary-schenley-memorial-fountain/",
-        "https://medium.com/@PittsburghParks/spotlight-on-mary-schenley-2d1443882617",
-        "https://www.art.pitt.edu/node/375",
-        "https://en.wikipedia.org/wiki/Mary_Schenley_Memorial_Fountain"
-      ],
-      "notes": "Text is from the first walk, unchanged. All facts checked. Only Wikipedia gives the number of turtles (four), citing the book Discovering Pittsburgh's Sculpture (1983). Mapped as 'Mary Schenley Memorial Fountain'. Open plaza, so GPS should be good here."
+      "triggerRadiusMeters": 35
     },
     {
       "id": "forbes-wall",
@@ -155,43 +59,14 @@
         "latitude": 40.44125,
         "longitude": -79.95266
       },
-      "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
-      "standingSpot": "Roberto Clemente Dr, by the flagpole in front of the 457 FT mark.",
-      "image": "forbes-wall",
-      "photoCredit": {
-        "author": "ccbarr",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:Forbes_Field_outfield_walls.jpg"
-      },
-      "prompt": {
-        "text": "Find the numbers on this brick wall. What do you think they measure?",
-        "audio": "f4-prompt"
-      },
-      "reveal": {
-        "text": "Distances from home plate: 457 and 436 feet.",
-        "audio": "f4-reveal"
-      },
-      "story": [
+      "textFixes": [
         {
-          "text": "This wall is all that's left of the outfield of Forbes Field, home of the Pittsburgh Pirates from 1909 to 1970, and of the Negro League Homestead Grays.",
-          "audio": "f4-story1"
-        },
-        {
-          "text": "Bill Mazeroski's ninth-inning home run here won the 1960 World Series. Fans still gather at this wall every October 13 to relive it.",
-          "audio": "f4-story2"
-        },
-        {
-          "text": "Home plate from the last game is preserved inside Posvar Hall, just across the street.",
-          "audio": "f4-story3"
+          "clip": "f4-story3",
+          "was": "Home plate from the last game is preserved in the lobby of Posvar Hall, just across the street.",
+          "now": "Home plate from the last game is preserved inside Posvar Hall, just across the street."
         }
-      ],
-      "sources": [
-        "https://sabr.org/journal/article/the-annual-forbes-field-celebration-pirates-fans-relive-mazeroskis-moment",
-        "https://en.wikipedia.org/wiki/Forbes_Field"
-      ],
-      "notes": "CHANGED story_3: 'in the lobby of Posvar Hall' is now 'inside Posvar Hall'. Sources say it's set in the floor inside the building, not in the lobby. The f4-story3 clip needs re-recording. The wall is about 60 m long, so the radius is wider."
+      ]
     },
     {
       "id": "serra-carnegie",
@@ -201,43 +76,7 @@
         "latitude": 40.44405,
         "longitude": -79.94925
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 35,
-      "standingSpot": "Fountain plaza at the Carnegie Museum of Art's Forbes Ave entrance, near S Craig St.",
-      "image": "serra-carnegie",
-      "photoCredit": {
-        "author": "real00",
-        "license": "CC BY-NC-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/2.0/",
-        "source": "https://www.flickr.com/photos/79855893@N00/11915036673"
-      },
-      "prompt": {
-        "text": "Find the tall rusty steel tower in front of the art museum. Is it one piece of metal, or several?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "Four steel plates, leaning on each other.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "This is Carnegie by Richard Serra. It's about 40 feet tall and went up for the 1985 Carnegie International, where it tied for first prize.",
-          "audio": null
-        },
-        {
-          "text": "Only one mill, Lukens Steel in Coatesville, Pennsylvania, could roll plates this big. They were put together on Neville Island, in the Ohio River.",
-          "audio": null
-        },
-        {
-          "text": "The rust is on purpose. This kind of steel forms its own protective coating, so it never needs paint.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://carnegiemnh.org/facing-outward-looking-ahead-richard-serras-carnegie-as-part-of-an-125-year-legacy-of-architecture-and-outdoor-sculpture/",
-        "https://carnegieart.org/art/art-around-you/fountain-plaza/"
-      ],
-      "notes": "LOCATION CONFIRMED: a photo of the plaza shows the tower just west of Henry Moore's Reclining Figure. That matches a mapped sculpture 7 m from this point. New text, needs team review."
+      "triggerRadiusMeters": 35
     },
     {
       "id": "st-nicholas-cathedral",
@@ -247,43 +86,7 @@
         "latitude": 40.4446,
         "longitude": -79.95025
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 30,
-      "standingSpot": "S Dithridge St sidewalk, in front of the columned porch.",
-      "image": "st-nicholas-cathedral",
-      "photoCredit": {
-        "author": "Cbaile19",
-        "license": "CC0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:St._Nicholas_Greek_Orthodox_Cathedral,_Oakland,_2023-08-21,_01.jpg"
-      },
-      "prompt": {
-        "text": "Look at the tops of the columns on the front porch. What shape curls out at the top of each one?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "Scrolls. These are Ionic columns, a style from ancient Greece.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "This church was built in 1904, but not for a Greek congregation. It was the First Congregational Church.",
-          "audio": null
-        },
-        {
-          "text": "A Greek Orthodox congregation took it over in 1923, and it's been theirs ever since.",
-          "audio": null
-        },
-        {
-          "text": "It became a cathedral in 1955, when Pittsburgh became the seat of a Greek Orthodox diocese.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://www.stnicholascenter.org/gazetteer/468",
-        "https://en.wikipedia.org/wiki/St._Nicholas_Greek_Orthodox_Cathedral_(Pittsburgh)"
-      ],
-      "notes": "PORCH CHECKED IN PHOTO: the columned porch faces S Dithridge St, and the Ionic scrolls are easy to see. New text, needs team review."
+      "triggerRadiusMeters": 30
     },
     {
       "id": "bellefield-hall",
@@ -293,44 +96,7 @@
         "latitude": 40.44538,
         "longitude": -79.95145
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 30,
-      "standingSpot": "S Bellefield Ave sidewalk, across from the tall arched doorway.",
-      "image": "bellefield-hall",
-      "photoCredit": {
-        "author": "Cbaile19",
-        "license": "CC0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:Young_Men_and_Women%E2%80%99s_Hebrew_Association,_Oakland,_2022-01-11.jpg"
-      },
-      "prompt": {
-        "text": "Look at the words carved above the tall arched doorway. Who was this building made for?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "The Young Men and Women's Hebrew Association.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "It was dedicated in 1926 and designed by Benno Janssen, the same architect as the Mellon Institute just up the street.",
-          "audio": null
-        },
-        {
-          "text": "Samuel Yellin, one of America's best-known ironworkers, made the lanterns at the main entrance.",
-          "audio": null
-        },
-        {
-          "text": "Today it belongs to Pitt. Inside are a swimming pool, a gym, and a music recording studio.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://tour.pitt.edu/node/341",
-        "https://archipediavm.upress.virginia.edu/buildings/PA-01-AL34",
-        "https://commons.wikimedia.org/wiki/File:Young_Men_and_Women%E2%80%99s_Hebrew_Association,_Oakland,_inscription,_2022-05-17.jpg"
-      ],
-      "notes": "DOORWAY CHECKED IN PHOTOS: the arched doorway with the carved name is on the short west side of the building, facing Bellefield Ave, which matches the 315 S Bellefield address. New text, needs team review."
+      "triggerRadiusMeters": 30
     },
     {
       "id": "heinz-chapel",
@@ -340,43 +106,7 @@
         "latitude": 40.44515,
         "longitude": -79.9523
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 25,
-      "standingSpot": "West side of the chapel, on the path from the Cathedral of Learning lawn.",
-      "image": "heinz-chapel",
-      "photoCredit": {
-        "author": "Dllu",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:Heinz_Memorial_Chapel,_exterior.jpg"
-      },
-      "prompt": {
-        "text": "Look at the shields carved into the chapel's stone walls. What do you think they stand for?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "Schools. They're the seals of old European universities and early American colleges.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "The chapel was dedicated in 1938, in memory of H. J. Heinz and his mother, Anna.",
-          "audio": null
-        },
-        {
-          "text": "Its tallest stained glass windows are 73 feet high, among the tallest in the world.",
-          "audio": null
-        },
-        {
-          "text": "The windows hold nearly 250,000 pieces of glass and show 391 people.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://heinzchapel.pitt.edu/visit-2/architecture",
-        "https://www.chronicle.pitt.edu/story/heinz-memorial-chapel-celebrates-75-years"
-      ],
-      "notes": "The main entrance is on Bellefield Ave, across from Bellefield Hall. To keep the two trigger circles apart, this point is on the chapel's west side. The seals are carved on gables, parapets and buttresses all around the outside, so they show from there too. New text, needs team review."
+      "triggerRadiusMeters": 25
     },
     {
       "id": "cathedral-of-learning",
@@ -386,43 +116,7 @@
         "latitude": 40.444323,
         "longitude": -79.953191
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 50,
-      "standingSpot": "Anywhere on the lawn around the tower.",
-      "image": "cathedral-of-learning",
-      "photoCredit": {
-        "author": "Cbaile19",
-        "license": "CC0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:Cathedral_of_Learning,_northeast_face,_2022-09-14,_02.jpg"
-      },
-      "prompt": {
-        "text": "Look up at this tower. Guess how many floors it has.",
-        "audio": null
-      },
-      "reveal": {
-        "text": "42. It's 535 feet tall.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "It's the second-tallest university building in the world. Only Moscow State University's main tower is taller.",
-          "audio": null
-        },
-        {
-          "text": "While it was being built, more than 97,000 schoolchildren each sent in a dime to buy a brick.",
-          "audio": null
-        },
-        {
-          "text": "Peregrine falcons have nested on a ledge outside the 40th floor since 2002.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://www.tour.pitt.edu/node/345",
-        "https://chronicle.pitt.edu/story/cathedral-learning-history"
-      ],
-      "notes": "Big open lawn, so GPS should be good, and the radius is wider. The prompt is a guess, not something you can count from the ground. Photo is portrait, so crop to landscape. New text, needs team review."
+      "triggerRadiusMeters": 50
     },
     {
       "id": "the-hiker",
@@ -432,43 +126,7 @@
         "latitude": 40.441852,
         "longitude": -79.950492
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 25,
-      "standingSpot": "Schenley Dr, by the statue next to the Frick Fine Arts Building.",
-      "image": "the-hiker",
-      "photoCredit": {
-        "author": "Peter Radunzel",
-        "license": "CC BY-NC-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/2.0/",
-        "source": "https://www.flickr.com/photos/26771458@N08/6855076679"
-      },
-      "prompt": {
-        "text": "Read the words on the front of the base. Which war is this soldier from?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "The War with Spain, in 1898. Today it's called the Spanish-American War.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "This bronze soldier is by sculptor Allen Newman and was put up here in 1925.",
-          "audio": null
-        },
-        {
-          "text": "Allegheny County built it to honor local soldiers and sailors who served in that war.",
-          "audio": null
-        },
-        {
-          "text": "Newman designed the statue in 1904, more than 20 years before this one was cast.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://www.hmdb.org/m.asp?m=99164",
-        "https://www.art.pitt.edu/node/375"
-      ],
-      "notes": "CHANGED the prompt: no second source confirms 'Hiker of 98' plaques, so it now asks about the base inscription, which reads 'during the War with Spain'. Coordinates match the Historical Marker Database. New text, needs team review."
+      "triggerRadiusMeters": 25
     },
     {
       "id": "first-baptist-church",
@@ -478,43 +136,7 @@
         "latitude": 40.447693,
         "longitude": -79.952977
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 40,
-      "standingSpot": "Corner of Bellefield Ave and Bayard St.",
-      "image": "first-baptist-church",
-      "photoCredit": {
-        "author": "Cbaile19",
-        "license": "CC0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:First_Baptist_Church,_Oakland,_Pittsburgh,_2023-05-20.jpg"
-      },
-      "prompt": {
-        "text": "Look at the tall, thin spire. Why do you think it's green?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "It's copper. Copper turns green as it weathers.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "The church was designed by Bertram Goodhue and finished in 1910.",
-          "audio": null
-        },
-        {
-          "text": "The copper spire is 182 feet tall.",
-          "audio": null
-        },
-        {
-          "text": "The stained glass windows are by Charles Connick, who also made the windows in Heinz Chapel.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://archipediavm.upress.virginia.edu/buildings/PA-01-AL34",
-        "https://heinzchapel.pitt.edu/visit-2/architecture"
-      ],
-      "notes": "A 2023 photo shows the green spire. New text, needs team review."
+      "triggerRadiusMeters": 40
     },
     {
       "id": "st-paul-cathedral",
@@ -524,43 +146,7 @@
         "latitude": 40.44701,
         "longitude": -79.9498
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 40,
-      "standingSpot": "Fifth Ave sidewalk in front of the cathedral, between N Dithridge St and N Craig St.",
-      "image": "st-paul-cathedral",
-      "photoCredit": {
-        "author": "Cbaile19",
-        "license": "CC0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:St._Paul%E2%80%99s_Cathedral,_Oakland,_Pittsburgh,_2022-09-14,_02.jpg"
-      },
-      "prompt": {
-        "text": "Count the arched doorways across the front of the cathedral. How many can you find?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "Five. Three in the middle, and one at the bottom of each spire.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "St. Paul Cathedral was finished in 1906. Its twin spires were inspired by Cologne Cathedral in Germany.",
-          "audio": null
-        },
-        {
-          "text": "This is the third St. Paul Cathedral. The first two stood downtown on Grant Street.",
-          "audio": null
-        },
-        {
-          "text": "Andrew Carnegie paid for the cathedral's first pipe organ.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://archipediavm.upress.virginia.edu/buildings/PA-01-AL36",
-        "https://en.wikipedia.org/wiki/St._Paul_Cathedral_(Pittsburgh)"
-      ],
-      "notes": "DOORS CHECKED IN PHOTO: a 2022 photo of the Fifth Ave front shows five arched doorways. Photo is portrait, so crop to landscape around the doors. New text, needs team review."
+      "triggerRadiusMeters": 40
     },
     {
       "id": "fairfax-apartments",
@@ -570,44 +156,7 @@
         "latitude": 40.447,
         "longitude": -79.94812
       },
-      "coordinateStatus": "researched",
-      "triggerRadiusMeters": 30,
-      "standingSpot": "Fifth Ave sidewalk across from the building, just east of S Craig St.",
-      "image": "fairfax-apartments",
-      "photoCredit": {
-        "author": "Cbaile19",
-        "license": "CC0",
-        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "source": "https://commons.wikimedia.org/wiki/File:Fairfax_Apartments,_Oakland,_Pittsburgh,_2023-11-20.jpg"
-      },
-      "prompt": {
-        "text": "Look up at the roofline of this tall brick building. How many fancy carved stone tops can you count?",
-        "audio": null
-      },
-      "reveal": {
-        "text": "Three. Each one crowns a section that sticks out a little from the wall.",
-        "audio": null
-      },
-      "story": [
-        {
-          "text": "It was built in 1926 and 1927 as the Fifth Avenue Apartments.",
-          "audio": null
-        },
-        {
-          "text": "When it opened in 1927, it was one of the grandest apartment houses in Pittsburgh.",
-          "audio": null
-        },
-        {
-          "text": "Today it's Carnegie Mellon student housing.",
-          "audio": null
-        }
-      ],
-      "sources": [
-        "https://fatherpitt.com/2024/10/19/the-fairfax-oakland-2/",
-        "https://www.cmu.edu/housing/our-communities/residences/fairfax.html",
-        "https://en.wikipedia.org/wiki/Fairfax_Apartments"
-      ],
-      "notes": "A 2023 photo shows the three carved tops. Story 1 (the Fifth Avenue Apartments name) is only on Wikipedia. New text, needs team review."
+      "triggerRadiusMeters": 30
     }
   ]
 }
