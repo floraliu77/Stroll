@@ -78,14 +78,13 @@ private struct JournalCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
+            // The header is identical open or closed; opening only adds the details below it.
             HStack(spacing: 12) {
-                if !isExpanded {   // the big photo replaces the thumbnail when open
-                    Image(poi.image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 56, height: 56)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
+                Image(poi.image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 56, height: 56)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 VStack(alignment: .leading, spacing: 3) {
                     Text(poi.name)
                         .font(.headline)
@@ -107,7 +106,10 @@ private struct JournalCard: View {
                     .foregroundStyle(Color.strollMuted)
                     .rotationEffect(.degrees(isExpanded ? 180 : 0))
             }
-            if isExpanded { details }
+            if isExpanded {
+                VStack(alignment: .leading, spacing: 12) { details }
+                    .transition(.opacity)
+            }
         }
         .padding(14)
         .background(.white, in: RoundedRectangle(cornerRadius: 18))
