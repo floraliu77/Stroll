@@ -1,5 +1,8 @@
 # Watch app: exploring-mode changes (for Flora)
 
+> **Status: deferred.** The team decided to build the companion app first and leave the watch as
+> it is until testing is closer. Keep this spec for then. See the build order in `docs/round1-plan.md`.
+
 Spec for switching the watch app from a set walk to **exploring** for round 1. Written against the
 original scaffold (`watch-app-scaffold`); if your copy has moved on, apply the intent, not the line
 numbers. Background and the full team plan: `docs/round1-plan.md`.

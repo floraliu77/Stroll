@@ -40,7 +40,10 @@ Round 1 content: the **4 existing POIs in Oakland, Pittsburgh, PA** (§4). New s
   photos won't match their surroundings.
 - **No session log / timestamps** for research. (The Journal still shows when something was found.)
 - **No direction ("cue") lines** in round 1: a buzz goes photo preview → prompt. Each prompt stands
-  alone ("Spot the dinosaur outside the museum…").
+  alone ("Spot the dinosaur outside the museum…"). *(A watch change, deferred; see below.)*
+- **Companion app first; watch changes deferred.** We aren't testing yet, so the watch app stays as
+  it is for now and the team focuses on the companion app. The watch's exploring-mode changes
+  (`docs/WATCH-EXPLORING-CHANGES.md`) happen before testing starts.
 - Each POI buzzes **once per session**, only for **enabled categories**, with **no minimum gap**
   between buzzes (product decision). Users can turn the **buzz haptic off** in Settings.
 
@@ -64,14 +67,27 @@ logic, and switching to live location is a setting, not a rebuild.
 
 ### Build order
 
-1. **Watch exploring mode** (Flora; see `docs/WATCH-EXPLORING-CHANGES.md`).
-2. **Shared POI data file** with placeholder coordinates + the demo route.
-3. **Companion app, round-1 screens** in SwiftUI from Figma: Welcome, Explore map, Explore – walk
-   started, Explore – walk in progress, Journal (expandable cards), Settings (Buzz on wrist,
-   category toggles, **Demo walk**).
-4. **Location/trigger engine** with two inputs: demo route (now) and Core Location (later).
-5. **Journal** saved on the phone from what happens on the watch.
+**Now (companion app):**
+
+1. **Shared POI data file** with placeholder coordinates + the demo route.
+2. **Companion app, round-1 screens** in SwiftUI from Figma, replacing the old remote screen in
+   `Phone/` (keep the iOS target and its WatchConnectivity link): Welcome, Explore map with
+   filters, Explore – walk started, Explore – walk in progress, Journal (expandable cards),
+   Settings (Buzz on wrist, category toggles, **Demo walk**).
+3. **Location/trigger engine** with two inputs: demo route (now) and Core Location (later).
+4. **Journal** saved on the phone from what happens on the watch.
+
+**Before testing:**
+
+5. **Watch exploring mode** (Flora; see `docs/WATCH-EXPLORING-CHANGES.md`).
 6. **Live location** once coordinates and detection are reliable.
+
+**Working with the unchanged watch in the meantime.** The companion can already drive the watch
+with the existing `trigger(find:)` message, so the demo walk can play POIs on a real watch during
+development. Until step 5:
+- the watch still plays the cue line, says "Next stop", and **ends the session after find 4**, so
+  keep the demo order 1 → 2 → 3 → 4;
+- the companion's **End** button and **Buzz on wrist** toggle exist but don't reach the watch yet.
 
 All work happens in the **GitHub repo `floraliu77/Stroll`**. The old zip and Mara's original
 `~/Stroll` folder are out of date.
