@@ -27,10 +27,9 @@ struct JournalView: View {
                                     JournalCard(entry: entry, poi: poi,
                                                 isExpanded: expanded == entry.id,
                                                 canListen: !isWalking,
-                                                player: player)
-                                        .onTapGesture {
-                                            withAnimation(.snappy) { expanded = expanded == entry.id ? nil : entry.id }
-                                        }
+                                                player: player) {
+                                        withAnimation(.snappy) { expanded = expanded == entry.id ? nil : entry.id }
+                                    }
                                 }
                             }
                         }
@@ -72,6 +71,9 @@ private struct JournalCard: View {
     let isExpanded: Bool
     let canListen: Bool
     @ObservedObject var player: JournalPlayer
+    /// Opens or closes the card. Only the top row does this, so taps on the details (like
+    /// Listen again) never close it by accident.
+    let onToggle: () -> Void
 
     private var category: StrollContent.Category? { StrollContent.shared.category(poi.category) }
     private var found: Bool { entry.outcome == .found }
@@ -79,33 +81,9 @@ private struct JournalCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // The header is identical open or closed; opening only adds the details below it.
-            HStack(spacing: 12) {
-                Image(poi.image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 56, height: 56)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(poi.name)
-                        .font(.headline)
-                        .foregroundStyle(Color.strollInk)
-                    if let category {
-                        Label(category.name, systemImage: category.symbol)
-                            .font(.footnote.weight(.semibold))
-                            .foregroundStyle(Color.category(category.id))
-                    }
-                }
-                Spacer(minLength: 0)
-                Text(found ? "Explored" : "Skipped")
-                    .font(.caption.weight(.semibold))
-                    .padding(.horizontal, 8).padding(.vertical, 3)
-                    .background(Capsule().fill((found ? Color.strollGreen : Color.strollMuted).opacity(0.15)))
-                    .foregroundStyle(found ? Color.strollGreen : Color.strollMuted)
-                Image(systemName: "chevron.down")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(Color.strollMuted)
-                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
-            }
+            Button(action: onToggle) { header }
+                .buttonStyle(.plain)
+                .accessibilityHint(isExpanded ? "Closes the details" : "Shows the details")
             if isExpanded {
                 VStack(alignment: .leading, spacing: 12) { details }
                     .transition(.opacity)
@@ -114,9 +92,37 @@ private struct JournalCard: View {
         .padding(14)
         .background(.white, in: RoundedRectangle(cornerRadius: 18))
         .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.strollBorder))
-        .contentShape(RoundedRectangle(cornerRadius: 18))
-        .accessibilityElement(children: .contain)
-        .accessibilityHint(isExpanded ? "Collapses" : "Shows the details")
+    }
+
+    private var header: some View {
+        HStack(spacing: 12) {
+            Image(poi.image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 56, height: 56)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            VStack(alignment: .leading, spacing: 3) {
+                Text(poi.name)
+                    .font(.headline)
+                    .foregroundStyle(Color.strollInk)
+                if let category {
+                    Label(category.name, systemImage: category.symbol)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Color.category(category.id))
+                }
+            }
+            Spacer(minLength: 0)
+            Text(found ? "Explored" : "Skipped")
+                .font(.caption.weight(.semibold))
+                .padding(.horizontal, 8).padding(.vertical, 3)
+                .background(Capsule().fill((found ? Color.strollGreen : Color.strollMuted).opacity(0.15)))
+                .foregroundStyle(found ? Color.strollGreen : Color.strollMuted)
+            Image(systemName: "chevron.down")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Color.strollMuted)
+                .rotationEffect(.degrees(isExpanded ? 180 : 0))
+        }
+        .contentShape(Rectangle())   // the whole top row is tappable, including the gaps
     }
 
     @ViewBuilder private var details: some View {
