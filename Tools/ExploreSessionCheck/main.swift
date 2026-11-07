@@ -188,7 +188,7 @@ func checkWatchMirror(_ content: StrollContent) async {
     session.handle(.end)
     check(session.mirrorState.phase == .ended, "End on the watch ends the session")
     session.handle(.reset)
-    check(session.mirrorState == .idle, "Done on the watch goes back to the start")
+    check(session.mirrorState.phase == .idle, "Done on the watch goes back to the start")
     session.handle(.start)
     session.handle(.end)
     let data = RemoteCoding.encode(session.mirrorState)!
