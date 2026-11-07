@@ -29,7 +29,8 @@ final class PhoneLink: NSObject, ObservableObject, WCSessionDelegate {
     /// Opens Stroll on the watch and starts its walking session, so the watch stays awake with
     /// the wrist down. Called when exploring starts on the phone.
     func launchWatchApp() {
-        guard WCSession.isSupported(), WCSession.default.isPaired, WCSession.default.isWatchAppInstalled else { return }
+        guard WCSession.isSupported(), WCSession.default.isPaired, WCSession.default.isWatchAppInstalled,
+              !WCSession.default.isReachable else { return }   // already open: relaunching it makes it stall
         let config = HKWorkoutConfiguration()
         config.activityType = .walking
         config.locationType = .outdoor

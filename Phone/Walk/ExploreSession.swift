@@ -189,6 +189,7 @@ final class ExploreSession: ObservableObject {
         case .pause: pause()
         case .resume: resume()
         case .end: end()
+        case .reset: if phase == .ended { reset() }
         case .sync: break   // answered by PhoneLink
         }
     }

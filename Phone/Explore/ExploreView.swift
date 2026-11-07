@@ -6,6 +6,7 @@ import SwiftUI
 struct ExploreView: View {
     private let content = StrollContent.shared
     @EnvironmentObject private var session: ExploreSession
+    @EnvironmentObject private var link: PhoneLink
     @State private var filter: String?          // nil = All
     @State private var position: MapCameraPosition = .region(ExploreView.pilotArea)
     @State private var showingSettings = false
@@ -97,6 +98,7 @@ struct ExploreView: View {
                 Button {
                     ExploreNotifications.requestPermission()
                     session.start()
+                    link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
                 } label: {
                     Text("Start Exploring")
                         .font(.headline)

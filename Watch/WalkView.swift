@@ -53,7 +53,7 @@ private struct ExploringScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        SpotScreen(controls: [.end, .pause]) {
+        SpotScreen {
             Text("Keep exploring").font(.headline)
             if mirror.state.everythingVisited {
                 Text("That's everything nearby")
@@ -66,18 +66,22 @@ private struct ExploringScreen: View {
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Color.strollGreen)
             }
+            HStack(spacing: 8) {
+                SecondaryButton("Pause") { mirror.send(.pause) }
+                SecondaryButton("End") { mirror.send(.end) }
+            }
         }
     }
 }
 
 // Every screen for a point of interest uses SpotScreen with the photo at the same size, so
 // nothing jumps between them, and the photo stays up so people can compare it with what's in
-// front of them. Replay and Pause sit in the bottom corners, always in view.
+// front of them. Replay and Pause sit on the photo's top corners, away from the main buttons.
 
 private struct PreviewScreen: View {
     var body: some View {
-        SpotScreen(controls: [.pause]) {
-            POIPhoto()
+        SpotScreen {
+            POIPhoto(controls: [.pause])
         }
     }
 }
@@ -86,8 +90,8 @@ private struct PromptScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        SpotScreen(controls: [.replay, .pause]) {
-            POIPhoto()
+        SpotScreen {
+            POIPhoto(controls: [.replay, .pause])
             PrimaryButton("Tell me more") { mirror.send(.tellMeMore) }
             SecondaryButton("Skip") { mirror.send(.skip) }
         }
@@ -98,8 +102,8 @@ private struct StoryScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        SpotScreen(controls: [.replay, .pause]) {
-            POIPhoto()
+        SpotScreen {
+            POIPhoto(controls: [.replay, .pause])
             ListeningDots()
             SecondaryButton("Keep exploring") { mirror.send(.keepExploring) }
         }
@@ -110,8 +114,8 @@ private struct FinishedScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        SpotScreen(controls: [.replay]) {
-            POIPhoto()
+        SpotScreen {
+            POIPhoto(controls: [.replay])
             PrimaryButton("Keep exploring") { mirror.send(.keepExploring) }
         }
     }
@@ -119,7 +123,7 @@ private struct FinishedScreen: View {
 
 private struct SkippingScreen: View {
     var body: some View {
-        SpotScreen(controls: []) {
+        SpotScreen {
             POIPhoto()
             Text("Skipped").font(.headline)
             Text("Onward").font(.footnote).foregroundStyle(.secondary)
@@ -128,12 +132,16 @@ private struct SkippingScreen: View {
 }
 
 private struct DoneScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
     var body: some View {
-        VStack(spacing: 8) {
-            Spacer(minLength: 0)
-            Text("Walk complete").font(.headline)
-            Text("Check your phone").font(.footnote).foregroundStyle(.secondary)
-            Spacer(minLength: 0)
+        ScrollView {
+            VStack(spacing: 8) {
+                Text("Walk complete").font(.headline)
+                Text("Check your phone").font(.footnote).foregroundStyle(.secondary)
+                PrimaryButton("Done") { mirror.send(.reset) }
+                ProblemText()
+            }
         }
     }
 }
@@ -153,13 +161,10 @@ private struct PausedScreen: View {
 
 // MARK: Building blocks
 
-/// The layout for exploring and every point-of-interest screen: the category, the content
-/// (scrolls if it doesn't fit), and the small controls pinned in the bottom corners.
+/// The layout for exploring and every point-of-interest screen: the category, then the
+/// content (scrolls if it doesn't fit).
 private struct SpotScreen<Content: View>: View {
-    enum Control { case replay, pause, end }
-
     @EnvironmentObject private var mirror: MirrorModel
-    let controls: [Control]
     @ViewBuilder let content: Content
 
     var body: some View {
@@ -177,26 +182,16 @@ private struct SpotScreen<Content: View>: View {
                 .frame(maxWidth: .infinity)
             }
         }
-        .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                if controls.contains(.replay) {
-                    CornerButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
-                }
-                if controls.contains(.end) {
-                    CornerButton("End", symbol: "stop.fill") { mirror.send(.end) }
-                }
-                Spacer()
-                if controls.contains(.pause) {
-                    CornerButton("Pause", symbol: "pause.fill") { mirror.send(.pause) }
-                }
-            }
-        }
     }
 }
 
-/// The current point of interest's photo, the same size on every screen.
+/// The current point of interest's photo, the same size on every screen, with Replay
+/// (top left) and Pause (top right) on it.
 private struct POIPhoto: View {
+    enum Control { case replay, pause }
+
     @EnvironmentObject private var mirror: MirrorModel
+    var controls: [Control] = []
 
     var body: some View {
         if let poi = mirror.poi {
@@ -204,9 +199,19 @@ private struct POIPhoto: View {
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity)
-                .frame(height: 72)
+                .frame(height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .accessibilityLabel("Photo of a point of interest")
+                .overlay(alignment: .topLeading) {
+                    if controls.contains(.replay) {
+                        PhotoButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
+                    }
+                }
+                .overlay(alignment: .topTrailing) {
+                    if controls.contains(.pause) {
+                        PhotoButton("Pause", symbol: "pause.fill") { mirror.send(.pause) }
+                    }
+                }
         }
     }
 }
@@ -225,8 +230,8 @@ private struct ProblemText: View {
     }
 }
 
-/// A round icon button in the bottom corners of the screen.
-private struct CornerButton: View {
+/// A small round icon button on a corner of the photo.
+private struct PhotoButton: View {
     let title: String
     let symbol: String
     let action: () -> Void
@@ -240,8 +245,13 @@ private struct CornerButton: View {
     var body: some View {
         Button(action: action) {
             Image(systemName: symbol)
-                .foregroundStyle(Color.strollGreen)
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 34, height: 34)
+                .background(.black.opacity(0.55), in: Circle())
         }
+        .buttonStyle(.plain)
+        .padding(4)
         .accessibilityLabel(title)
     }
 }

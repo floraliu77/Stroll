@@ -28,9 +28,10 @@ struct MirrorState: Codable, Equatable {
 }
 
 /// Watch → phone: a tap on the watch. The phone does exactly what the same tap does on the phone.
-/// `sync` asks the phone to send its current state (e.g. when the watch reconnects).
+/// `reset` is Done after the walk (back to the start). `sync` asks the phone to send its current
+/// state (e.g. when the watch reconnects).
 enum WatchAction: String, Codable, Equatable {
-    case start, tellMeMore, skip, keepExploring, replay, pause, resume, end, sync
+    case start, tellMeMore, skip, keepExploring, replay, pause, resume, end, reset, sync
 }
 
 enum Outcome: String, Codable, Equatable {

@@ -187,6 +187,10 @@ func checkWatchMirror(_ content: StrollContent) async {
     check(session.mirrorState.phase == .exploring && session.mirrorState.foundCount == 1, "the watch sees the found count")
     session.handle(.end)
     check(session.mirrorState.phase == .ended, "End on the watch ends the session")
+    session.handle(.reset)
+    check(session.mirrorState == .idle, "Done on the watch goes back to the start")
+    session.handle(.start)
+    session.handle(.end)
     let data = RemoteCoding.encode(session.mirrorState)!
     check(RemoteCoding.decode(MirrorState.self, from: data) == session.mirrorState, "the watch state survives a JSON round trip")
     check(RemoteCoding.decode(WatchAction.self, from: RemoteCoding.encode(WatchAction.skip)!) == .skip, "watch taps survive a JSON round trip")

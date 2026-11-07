@@ -77,6 +77,8 @@ final class MirrorModel: ObservableObject {
             var next = state
             next.paused = false
             apply(next)
+        case .reset where state.phase == .ended:
+            apply(.idle)
         default:
             break
         }
@@ -105,7 +107,13 @@ final class MirrorModel: ObservableObject {
         case .ended:
             workout.end()
         default:
-            if !workout.isRunning { startWorkout() }
+            if !workout.isRunning {
+                // Let the new screen appear before the walking session starts up.
+                Task {
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                    startWorkout()
+                }
+            }
         }
         // Buzz once when a point of interest comes up (the state may be sent more than once).
         if new.phase == .preview, let id = new.poiID, id != wasBuzzedFor {
