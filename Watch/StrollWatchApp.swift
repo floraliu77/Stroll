@@ -38,6 +38,8 @@ final class MirrorModel: ObservableObject {
     @Published private(set) var state = MirrorState.idle
     @Published private(set) var phoneReachable = false
     @Published private(set) var problem: String?
+    /// Start Exploring was tapped on the watch and the phone hasn't confirmed yet.
+    @Published private(set) var isStarting = false
 
     let content = StrollContent.shared
     var poi: StrollContent.POI? { state.poiID.flatMap { content.poi($0) } }
@@ -60,15 +62,17 @@ final class MirrorModel: ObservableObject {
     }
 
     func send(_ action: WatchAction) {
+        if action == .start {
+            start()
+            return
+        }
         guard link.send(action) else {
             problem = "Can't reach your iPhone. Keep it nearby with Stroll open."
             return
         }
         problem = nil
-        // Show the result straight away; the phone's next state confirms or corrects it.
+        // Show the result straight away; the phone's reply confirms or corrects it.
         switch action {
-        case .start where state.phase == .idle:
-            apply(MirrorState(phase: .exploring, poiID: nil, paused: false, foundCount: 0, everythingVisited: false))
         case .pause:
             var next = state
             next.paused = true
@@ -81,6 +85,27 @@ final class MirrorModel: ObservableObject {
             apply(.idle)
         default:
             break
+        }
+    }
+
+    /// Start Exploring on the watch: show "Starting…" at once, then ask the phone. The phone's
+    /// reply (normally within a second) switches the screen.
+    private func start() {
+        guard state.phase == .idle, !isStarting else { return }
+        isStarting = true
+        problem = nil
+        Task {
+            await Task.yield()   // let "Starting…" appear before talking to the phone
+            guard link.send(.start) else {
+                isStarting = false
+                problem = "Can't reach your iPhone. Keep it nearby with Stroll open."
+                return
+            }
+            try? await Task.sleep(nanoseconds: 8_000_000_000)
+            if isStarting {
+                isStarting = false
+                problem = "Your iPhone didn't answer. Open Stroll on your iPhone and try again."
+            }
         }
     }
 
@@ -99,6 +124,7 @@ final class MirrorModel: ObservableObject {
 
     private func apply(_ new: MirrorState) {
         let wasBuzzedFor = buzzedFor
+        if new.phase != .idle { isStarting = false }
         state = new   // update the screen first; starting the walking session can take a moment
         switch new.phase {
         case .idle:

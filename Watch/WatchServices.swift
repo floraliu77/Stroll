@@ -59,11 +59,15 @@ final class WatchLink: NSObject, WCSessionDelegate {
 
     /// Sends a tap to the phone. Returns false if the phone can't be reached right now; taps
     /// aren't queued, because a late "Tell me more" would apply to the wrong moment.
+    /// The phone replies with its state straight away, so the watch doesn't wait for a separate update.
     func send(_ action: WatchAction) -> Bool {
         let session = WCSession.default
         guard session.activationState == .activated, session.isReachable,
               let data = RemoteCoding.encode(action) else { return false }
-        session.sendMessageData(data, replyHandler: nil, errorHandler: nil)
+        session.sendMessageData(data, replyHandler: { [weak self] reply in
+            guard let state = RemoteCoding.decode(MirrorState.self, from: reply) else { return }
+            Task { @MainActor in self?.onState?(state) }
+        }, errorHandler: nil)
         return true
     }
 

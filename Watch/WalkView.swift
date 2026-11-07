@@ -42,7 +42,12 @@ private struct StartScreen: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                PrimaryButton("Start Exploring") { mirror.send(.start) }
+                if mirror.isStarting {
+                    ProgressView()
+                    Text("Starting…").font(.footnote).foregroundStyle(.secondary)
+                } else {
+                    PrimaryButton("Start Exploring") { mirror.send(.start) }
+                }
                 ProblemText()
             }
         }
@@ -199,7 +204,7 @@ private struct POIPhoto: View {
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity)
-                .frame(height: 80)
+                .frame(height: 72)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .accessibilityLabel("Photo of a point of interest")
                 .overlay(alignment: .topLeading) {
@@ -275,6 +280,7 @@ private struct PrimaryButton: View {
         .foregroundStyle(Color.white)
         .tint(.strollGreen)
         .buttonStyle(.borderedProminent)
+        .controlSize(.small)   // shorter, so Skip shows under Tell me more without scrolling
     }
 }
 
@@ -291,6 +297,7 @@ private struct SecondaryButton: View {
         Button(title, action: action)
             .font(.body.weight(.bold))
             .buttonStyle(.bordered)
+            .controlSize(.small)
     }
 }
 

@@ -44,9 +44,9 @@ final class PhoneLink: NSObject, ObservableObject, WCSessionDelegate {
         lastSent = state
         let wc = WCSession.default
         try? wc.updateApplicationContext(["state": data])   // the latest state, for when the watch app opens
-        if wc.isReachable {
-            wc.sendMessageData(data, replyHandler: nil, errorHandler: nil)
-        }
+        // Try a live message even if isReachable says no: it's often out of date while the phone
+        // is in a pocket. If the watch really can't be reached, the message just fails.
+        wc.sendMessageData(data, replyHandler: nil, errorHandler: nil)
     }
 
     private func refresh(_ wc: WCSession) {
@@ -77,6 +77,20 @@ final class PhoneLink: NSObject, ObservableObject, WCSessionDelegate {
             } else {
                 self.session?.handle(action)
             }
+        }
+    }
+
+    /// A tap from the watch that wants an answer: handle it, then reply with the new state.
+    nonisolated func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
+        guard let action = RemoteCoding.decode(WatchAction.self, from: messageData) else {
+            replyHandler(Data())
+            return
+        }
+        Task { @MainActor in
+            if action != .sync { self.session?.handle(action) }
+            let state = self.session?.mirrorState ?? .idle
+            self.lastSent = state
+            replyHandler(RemoteCoding.encode(state) ?? Data())
         }
     }
 
