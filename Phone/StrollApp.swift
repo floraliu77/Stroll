@@ -5,6 +5,7 @@ import SwiftUI
 struct StrollApp: App {
     @StateObject private var link = PhoneLink()
     @StateObject private var session = ExploreSession.live()
+    @StateObject private var journal = JournalStore()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -15,14 +16,21 @@ struct StrollApp: App {
                 ExploreView()
                     .tabItem { Label("Explore", systemImage: "map") }
                     .toolbarColorScheme(.light, for: .tabBar)
-                JournalPlaceholderView()
+                JournalView()
                     .tabItem { Label("Journal", systemImage: "book.closed") }
                     .toolbarColorScheme(.light, for: .tabBar)
             }
             .tint(.strollGreen)
             .environmentObject(link)
             .environmentObject(session)
-            .onAppear { link.activate(mirroring: session) }
+            .environmentObject(journal)
+            .onAppear {
+                link.activate(mirroring: session)
+                // Each point of interest goes into the Journal as soon as it's explored or skipped.
+                session.onVisit = { [journal] visit in
+                    journal.add(poiID: visit.poiID, outcome: visit.outcome, at: visit.at)
+                }
+            }
             .onChange(of: scenePhase) { _, _ in updateReminder() }
             .onChange(of: session.phase) { _, _ in updateReminder() }
         }
@@ -32,24 +40,6 @@ struct StrollApp: App {
     private func updateReminder() {
         ExploreNotifications.cancelReminder()
         if scenePhase != .active { ExploreNotifications.scheduleReminder(for: session) }
-    }
-}
-
-/// Stand-in until the Journal screen is built.
-struct JournalPlaceholderView: View {
-    @Environment(\.colorScheme) private var colorScheme
-
-    var body: some View {
-        NavigationStack {
-            ContentUnavailableView("Nothing here yet",
-                                   systemImage: "book.closed",
-                                   description: Text("Points of interest you find on a walk will appear here."))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                // Paper in light mode; the system's dark background in dark mode, so the
-                // (automatically light) text stays readable.
-                .background(colorScheme == .dark ? Color(.systemBackground) : Color.strollPaper)
-                .navigationTitle("Journal")
-        }
     }
 }
 

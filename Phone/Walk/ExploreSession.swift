@@ -64,6 +64,8 @@ final class ExploreSession: ObservableObject {
     @Published private(set) var speaking: Int?
     @Published private(set) var paused = false
     @Published private(set) var visits: [Visit] = []
+    /// Called as each point of interest is explored or skipped (the Journal listens).
+    var onVisit: (@MainActor (Visit) -> Void)?
 
     let content: StrollContent
     var category: StrollContent.Category? { poi.flatMap { content.category($0.category) } }
@@ -111,6 +113,7 @@ final class ExploreSession: ObservableObject {
     func tellMeMore() {
         guard phase == .prompt, let poi else { return }
         record(.found)
+        phase = .story   // switch now, so a quick next tap (e.g. Keep exploring) lands on the story
         let lines = [poi.reveal.narration] + poi.story.map(\.narration)
         run { [self] in try await playStory(lines) }
     }
@@ -266,6 +269,7 @@ final class ExploreSession: ObservableObject {
     private func run(_ body: @escaping @MainActor () async throws -> Void) {
         cancelRun()
         task = Task { @MainActor in
+            guard !Task.isCancelled else { return }   // replaced before it even started
             do { try await body() } catch {}   // CancellationError: a newer sequence took over
         }
     }
@@ -307,6 +311,8 @@ final class ExploreSession: ObservableObject {
 
     private func record(_ outcome: Outcome) {
         guard let poi else { return }
-        visits.append(Visit(poiID: poi.id, outcome: outcome, at: Date()))
+        let visit = Visit(poiID: poi.id, outcome: outcome, at: Date())
+        visits.append(visit)
+        onVisit?(visit)
     }
 }

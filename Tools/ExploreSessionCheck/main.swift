@@ -160,6 +160,7 @@ func runChecks() async {
 
     await checkBusyArrivals(content)
     await checkWatchMirror(content)
+    await checkJournal(content)
     print("All exploring checks passed.")
 }
 
@@ -237,3 +238,35 @@ func checkBusyArrivals(_ content: StrollContent) async {
 }
 
 await runChecks()
+
+/// The Journal fills in live from the walk and survives a restart.
+@MainActor
+func checkJournal(_ content: StrollContent) async {
+    let file = FileManager.default.temporaryDirectory.appendingPathComponent("stroll-journal-check-\(UUID().uuidString).json")
+    defer { try? FileManager.default.removeItem(at: file) }
+    let journal = JournalStore(url: file)
+    check(journal.entries.isEmpty, "a new journal is empty")
+
+    let source = ManualSource()
+    let session = ExploreSession(content: content, voice: FakeVoice(), alert: FakeAlert(), source: source,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01))
+    session.onVisit = { journal.add(poiID: $0.poiID, outcome: $0.outcome, at: $0.at) }
+    let a = content.pois[0], b = content.pois[1]
+    session.start()
+    source.onLocation?(a.coordinate)
+    await waitFor("prompt") { session.phase == .prompt }
+    session.tellMeMore()
+    check(journal.entries.first?.poiID == a.id && journal.entries.first?.outcome == .found, "Tell me more adds a find to the journal straight away")
+    session.keepExploring()
+    source.onLocation?(b.coordinate)
+    await waitFor("second prompt") { session.phase == .prompt }
+    session.skip()
+    check(journal.entries.map(\.poiID) == [b.id, a.id], "the journal lists the newest first")
+    check(journal.entries.first?.outcome == .skipped, "Skip adds a skipped entry")
+    session.end()
+
+    let reopened = JournalStore(url: file)
+    check(reopened.entries == journal.entries, "the journal is still there after reopening the app")
+    reopened.clear()
+    check(JournalStore(url: file).entries.isEmpty, "Clear empties the saved journal")
+}

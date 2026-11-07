@@ -7,5 +7,5 @@ export STROLL_CONTENT="$PWD/Shared/Content/stroll-content.json"
 tmp="${TMPDIR:-/tmp}"
 swiftc -swift-version 5 -o "$tmp/stroll-content-check" Shared/StrollContent.swift Shared/Finds.swift Tools/ContentCheck/main.swift
 "$tmp/stroll-content-check" "$PWD"
-swiftc -swift-version 5 -o "$tmp/stroll-explore-check" Shared/StrollContent.swift Shared/Finds.swift Shared/RemoteMessages.swift Phone/Walk/ExploreSession.swift Phone/Walk/DemoWalk.swift Tools/ExploreSessionCheck/main.swift
+swiftc -swift-version 5 -o "$tmp/stroll-explore-check" Shared/StrollContent.swift Shared/Finds.swift Shared/RemoteMessages.swift Phone/Walk/ExploreSession.swift Phone/Walk/DemoWalk.swift Phone/Journal/JournalStore.swift Tools/ExploreSessionCheck/main.swift
 "$tmp/stroll-explore-check"

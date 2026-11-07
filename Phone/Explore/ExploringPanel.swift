@@ -147,8 +147,10 @@ struct StopSheet: View {
                             .font(.title3.weight(.semibold))
                             .foregroundStyle(Color.strollInk)
                     }
-                    ForEach(Array(session.transcript.enumerated()), id: \.offset) { index, line in
-                        TranscriptLine(text: line.text, isSpeaking: index == session.speaking)
+                    ForEach(Array(lines.enumerated()), id: \.offset) { index, line in
+                        TranscriptLine(text: line.text,
+                                       isSpeaking: index == session.speaking,
+                                       isDark: index == session.speaking || session.phase == .finished)
                             .id(index)
                     }
                 }
@@ -156,9 +158,21 @@ struct StopSheet: View {
             }
             .onChange(of: session.speaking) { _, index in
                 guard let index else { return }
+                // Keep the line being read in view at the bottom; scroll up for what's been
+                // said and down for what's coming.
                 withAnimation { proxy.scrollTo(index, anchor: .bottom) }
             }
         }
+    }
+
+    /// Once the story starts, every line is shown at once (the line being read is dark, the
+    /// rest grey), so people can read ahead. Before that only what's been said, so the
+    /// question doesn't give away its answer.
+    private var lines: [Narration] {
+        guard let poi = session.poi, session.phase == .story || session.phase == .finished else {
+            return session.transcript
+        }
+        return [poi.prompt.narration, poi.reveal.narration] + poi.story.map(\.narration)
     }
 
     @ViewBuilder private var controls: some View {
@@ -204,6 +218,7 @@ struct StopSheet: View {
 private struct TranscriptLine: View {
     let text: String
     let isSpeaking: Bool
+    var isDark = false
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
@@ -212,7 +227,7 @@ private struct TranscriptLine: View {
                 .frame(width: 3)
             Text(text)
                 .font(.body)
-                .foregroundStyle(isSpeaking ? Color.strollInk : Color.strollMuted)
+                .foregroundStyle(isDark ? Color.strollInk : Color.strollMuted)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
