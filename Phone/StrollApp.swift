@@ -16,9 +16,6 @@ struct StrollApp: App {
                     .tabItem { Label("Journal", systemImage: "book.closed") }
             }
             .tint(.strollGreen)
-            // The designs (and colours in Theme.swift) are light only; keep the app light even
-            // when the phone is in dark mode, so text stays readable.
-            .preferredColorScheme(.light)
             .environmentObject(link)
             .environmentObject(session)
             .onAppear { link.activate(mirroring: session) }
@@ -36,13 +33,17 @@ struct StrollApp: App {
 
 /// Stand-in until the Journal screen is built.
 struct JournalPlaceholderView: View {
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         NavigationStack {
             ContentUnavailableView("Nothing here yet",
                                    systemImage: "book.closed",
                                    description: Text("Points of interest you find on a walk will appear here."))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.strollPaper)
+                // Paper in light mode; the system's dark background in dark mode, so the
+                // (automatically light) text stays readable.
+                .background(colorScheme == .dark ? Color(.systemBackground) : Color.strollPaper)
                 .navigationTitle("Journal")
         }
     }
