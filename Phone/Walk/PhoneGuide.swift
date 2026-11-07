@@ -3,8 +3,7 @@ import UIKit
 import UserNotifications
 
 /// Plays the recorded narration clips (Resources/Audio) through whatever the iPhone is using:
-/// connected headphones of any brand, or the speaker. Same approach as the watch's
-/// NarrationPlayer.
+/// connected headphones of any brand, or the speaker.
 @MainActor
 final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
     private var player: AVAudioPlayer?

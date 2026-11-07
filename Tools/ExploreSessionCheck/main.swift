@@ -148,7 +148,37 @@ func runChecks() async {
     session.reset()
 
     await checkBusyArrivals(content)
+    await checkWatchMirror(content)
     print("All exploring checks passed.")
+}
+
+/// Taps from the watch drive the same session, and the state sent to the watch follows it.
+@MainActor
+func checkWatchMirror(_ content: StrollContent) async {
+    let voice = FakeVoice()
+    let source = ManualSource()
+    let session = ExploreSession(content: content, voice: voice, alert: FakeAlert(), source: source,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01))
+    let a = content.pois[0]
+    check(session.mirrorState == .idle, "the watch starts on the start screen")
+    session.handle(.start)
+    check(session.mirrorState.phase == .exploring, "Start Exploring on the watch starts the phone's session")
+    source.onLocation?(a.coordinate)
+    await waitFor("prompt") { session.phase == .prompt }
+    check(session.mirrorState.poiID == a.id, "the watch is told which POI to show")
+    session.handle(.pause)
+    check(session.mirrorState.paused, "Pause on the watch pauses the phone")
+    session.handle(.resume)
+    session.handle(.tellMeMore)
+    await waitFor("story") { session.phase == .story }
+    check(session.visits.last?.outcome == .found, "Tell me more on the watch records a find")
+    session.handle(.keepExploring)
+    check(session.mirrorState.phase == .exploring && session.mirrorState.foundCount == 1, "the watch sees the found count")
+    session.handle(.end)
+    check(session.mirrorState.phase == .ended, "End on the watch ends the session")
+    let data = RemoteCoding.encode(session.mirrorState)!
+    check(RemoteCoding.decode(MirrorState.self, from: data) == session.mirrorState, "the watch state survives a JSON round trip")
+    check(RemoteCoding.decode(WatchAction.self, from: RemoteCoding.encode(WatchAction.skip)!) == .skip, "watch taps survive a JSON round trip")
 }
 
 /// A location source driven by hand, like live GPS.

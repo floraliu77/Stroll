@@ -4,23 +4,24 @@ extension Color {
     static let strollGreen = Color(red: 0.184, green: 0.420, blue: 0.310) // brand/green #2F6B4F
 }
 
-/// Every watch screen, matching the web prototype.
+/// Every watch screen. The watch mirrors the phone's exploring session: it shows what the
+/// phone shows and sends taps back, so either device's buttons work.
 struct WalkView: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        if walk.paused {
+        if mirror.state.paused {
             PausedScreen()
         } else {
-            switch walk.screen {
-            case .setup: SetupScreen()
-            case .waiting: WaitingScreen()
-            case .alert: AlertScreen()
+            switch mirror.state.phase {
+            case .idle: StartScreen()
+            case .exploring: ExploringScreen()
+            case .preview: PreviewScreen()
             case .prompt: PromptScreen()
             case .story: StoryScreen()
             case .finished: FinishedScreen()
             case .skipping: StatusScreen(title: "Skipped", detail: "Onward")
-            case .done: DoneScreen()
+            case .ended: DoneScreen()
             }
         }
     }
@@ -28,60 +29,61 @@ struct WalkView: View {
 
 // MARK: Screens
 
-private struct SetupScreen: View {
-    @EnvironmentObject private var app: WatchAppState
+private struct StartScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
                 Text("Stroll").font(.title3.bold())
-                Text("Put in your earbuds, then tap Get ready.")
+                Text("Start exploring here or on your iPhone. Your iPhone plays the guide.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                if app.isPreparing {
-                    ProgressView()
-                } else {
-                    PrimaryButton("Get ready") { Task { await app.getReady() } }
-                }
-                if let problem = app.setupProblem {
-                    Text(problem)
-                        .font(.footnote)
-                        .foregroundStyle(Color.strollGreen)
-                        .multilineTextAlignment(.center)
-                    Button("Continue without earbuds") { app.continueWithoutEarbuds() }
-                        .font(.footnote)
-                }
+                PrimaryButton("Start Exploring") { mirror.send(.start) }
+                ProblemText()
             }
         }
     }
 }
 
-private struct WaitingScreen: View {
+private struct ExploringScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
     var body: some View {
         FindScreen {
             Spacer(minLength: 0)
-            Text("Keep walking").font(.headline)
-            ListeningDots()
+            Text("Keep exploring").font(.headline)
+            if mirror.state.everythingVisited {
+                Text("That's everything nearby")
+                    .font(.footnote).foregroundStyle(.secondary)
+            } else {
+                ListeningDots()
+            }
+            if mirror.state.foundCount > 0 {
+                Text("\(mirror.state.foundCount) found")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Color.strollGreen)
+            }
             Spacer(minLength: 0)
-            ControlRow(replay: false)
+            ControlRow(replay: false, end: true)
         }
     }
 }
 
-private struct AlertScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+private struct PreviewScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         FindScreen {
-            if let find = walk.find {
-                Image(find.image)
+            if let poi = mirror.poi {
+                Image(poi.image)
                     .resizable()
                     .scaledToFill()
                     .frame(maxWidth: .infinity)
                     .frame(height: 96)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .accessibilityLabel("Preview: \(find.name)")
+                    .accessibilityLabel("Photo of a point of interest")
             }
             ControlRow(replay: false)
         }
@@ -89,65 +91,63 @@ private struct AlertScreen: View {
 }
 
 private struct PromptScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         FindScreen {
-            PrimaryButton("Tell me more") { walk.tellMeMore() }
-            SecondaryButton("Skip") { walk.skip() }
+            PrimaryButton("Tell me more") { mirror.send(.tellMeMore) }
+            SecondaryButton("Skip") { mirror.send(.skip) }
             ControlRow(replay: true)
         }
     }
 }
 
 private struct StoryScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         FindScreen {
             Spacer(minLength: 0)
             ListeningDots()
             Spacer(minLength: 0)
-            SecondaryButton(walk.isLastFind ? "Finish walk" : "Next stop") { walk.nextStop() }
+            SecondaryButton("Keep exploring") { mirror.send(.keepExploring) }
             ControlRow(replay: true)
         }
     }
 }
 
 private struct FinishedScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         FindScreen {
             Spacer(minLength: 0)
-            PrimaryButton("Continue walking") { walk.continueWalking() }
-            SmallButton("Replay", symbol: "arrow.counterclockwise") { walk.replay() }
+            PrimaryButton("Keep exploring") { mirror.send(.keepExploring) }
+            SmallButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
         }
     }
 }
 
 private struct DoneScreen: View {
-    @EnvironmentObject private var walk: WalkModel
-
     var body: some View {
         VStack(spacing: 8) {
             Spacer(minLength: 0)
             Text("Walk complete").font(.headline)
             Text("Check your phone").font(.footnote).foregroundStyle(.secondary)
             Spacer(minLength: 0)
-            SmallButton("Replay", symbol: "arrow.counterclockwise") { walk.replay() }
         }
     }
 }
 
 private struct PausedScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         VStack(spacing: 12) {
             Spacer(minLength: 0)
             Text("Paused").font(.headline)
-            PrimaryButton("Resume", symbol: "play.fill") { walk.resume() }
+            PrimaryButton("Resume", symbol: "play.fill") { mirror.send(.resume) }
+            ProblemText()
         }
     }
 }
@@ -168,35 +168,51 @@ private struct StatusScreen: View {
 
 // MARK: Building blocks
 
-/// "1 of 4" and the category, above the screen's content.
+/// The category above the screen's content, and a note if the phone can't be reached.
 private struct FindScreen<Content: View>: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
     @ViewBuilder let content: Content
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            if let find = walk.find {
-                Text("\(find.number) of \(Walk.finds.count)")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(Color.strollGreen)
-                Label(find.category, systemImage: find.symbol)
+            if let category = mirror.category {
+                Label(category.name, systemImage: category.symbol)
                     .font(.footnote.weight(.semibold))
                     .labelStyle(GreenIconLabelStyle())
             }
-            VStack(spacing: 6) { content }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            VStack(spacing: 6) {
+                content
+                ProblemText()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
+
+/// Shown when a tap couldn't reach the phone.
+private struct ProblemText: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
+    var body: some View {
+        if let problem = mirror.problem {
+            Text(problem)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
     }
 }
 
 private struct ControlRow: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
     let replay: Bool
+    var end = false
 
     var body: some View {
         HStack(spacing: 4) {
-            if replay { SmallButton("Replay", symbol: "arrow.counterclockwise") { walk.replay() } }
-            SmallButton("Pause", symbol: "pause.fill") { walk.pause() }
+            if replay { SmallButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) } }
+            SmallButton("Pause", symbol: "pause.fill") { mirror.send(.pause) }
+            if end { SmallButton("End", symbol: "stop.fill") { mirror.send(.end) } }
         }
     }
 }

@@ -18,9 +18,12 @@ struct StrollApp: App {
             .tint(.strollGreen)
             .environmentObject(link)
             .environmentObject(session)
-            .onAppear { link.activate() }
+            .onAppear { link.activate(mirroring: session) }
             .onChange(of: scenePhase) { _, _ in updateReminder() }
-            .onChange(of: session.phase) { _, _ in updateReminder() }
+            .onChange(of: session.phase) { old, new in
+                updateReminder()
+                if old == .idle && new == .exploring { link.launchWatchApp() }
+            }
         }
     }
 
@@ -45,11 +48,10 @@ struct JournalPlaceholderView: View {
     }
 }
 
-/// Temporary: the old moderator remote, kept so the team can buzz the watch by hand until
-/// the demo walk exists. Opened from the settings button on the Explore map.
+/// Temporary testing tools, opened from the settings button on the Explore map.
 struct DeveloperToolsSheet: View {
     var body: some View {
-        RemoteView()
+        DeveloperToolsView()
             .presentationDragIndicator(.visible)
     }
 }

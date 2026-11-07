@@ -39,16 +39,7 @@ protocol LocationSource: AnyObject {
 /// Platform-free so it can be checked on a Mac (see Tools/check-walk-model.sh).
 @MainActor
 final class ExploreSession: ObservableObject {
-    enum Phase: Equatable {
-        case idle        // before Start Exploring
-        case exploring   // wandering until the next point of interest
-        case preview     // buzz + photo
-        case prompt      // Tell me more / Skip
-        case story       // reveal + story playing
-        case finished    // story done: Keep exploring
-        case skipping    // "Okay, onward."
-        case ended       // the participant tapped End
-    }
+    typealias Phase = ExplorePhase
 
     /// A point of interest the participant chose to hear or skip.
     struct Visit: Identifiable, Equatable {
@@ -79,6 +70,10 @@ final class ExploreSession: ObservableObject {
     /// Nothing more will come up this session.
     var everythingVisited: Bool { source.isFinished || arrived.count == content.pois.count }
     var secondsUntilNext: Double? { (phase == .exploring || phase == .finished) && !paused ? source.secondsUntilNext : nil }
+    /// What the watch shows.
+    var mirrorState: MirrorState {
+        MirrorState(phase: phase, poiID: poi?.id, paused: paused, foundCount: foundCount, everythingVisited: everythingVisited)
+    }
 
     private let voice: GuideVoice
     private let alert: ArrivalAlert
@@ -177,6 +172,26 @@ final class ExploreSession: ObservableObject {
         source.stop()
         clearStop()
         phase = .idle
+    }
+
+    /// A tap on the watch.
+    func handle(_ action: WatchAction) {
+        switch action {
+        case .start: start()
+        case .tellMeMore: tellMeMore()
+        case .skip: skip()
+        case .keepExploring: keepExploring()
+        case .replay: replay()
+        case .pause: pause()
+        case .resume: resume()
+        case .end: end()
+        }
+    }
+
+    /// Developer tools: bring up a point of interest now, wherever the participant is.
+    func arriveNow(_ poiID: String) {
+        guard phase != .idle, phase != .ended, let next = content.poi(poiID) else { return }
+        arrive(at: next)
     }
 
     // MARK: Arriving
