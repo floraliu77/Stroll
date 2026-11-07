@@ -7,10 +7,15 @@ struct StrollWatchApp: App {
     @WKApplicationDelegateAdaptor private var delegate: StrollWatchDelegate
     @StateObject private var mirror = MirrorModel.shared
 
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some Scene {
         WindowGroup {
             WalkView()
                 .environmentObject(mirror)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { mirror.sync() }
         }
     }
 }
@@ -47,13 +52,39 @@ final class MirrorModel: ObservableObject {
         link.onState = { [weak self] in self?.apply($0) }
         link.onReachabilityChange = { [weak self] reachable in
             self?.phoneReachable = reachable
-            if reachable { self?.problem = nil }
+            guard reachable else { return }
+            self?.problem = nil
+            _ = self?.link.send(.sync)   // catch up straight away rather than waiting for the phone
         }
         link.activate()
     }
 
     func send(_ action: WatchAction) {
-        problem = link.send(action) ? nil : "Can't reach your iPhone. Keep it nearby with Stroll open."
+        guard link.send(action) else {
+            problem = "Can't reach your iPhone. Keep it nearby with Stroll open."
+            return
+        }
+        problem = nil
+        // Show the result straight away; the phone's next state confirms or corrects it.
+        switch action {
+        case .start where state.phase == .idle:
+            apply(MirrorState(phase: .exploring, poiID: nil, paused: false, foundCount: 0, everythingVisited: false))
+        case .pause:
+            var next = state
+            next.paused = true
+            apply(next)
+        case .resume:
+            var next = state
+            next.paused = false
+            apply(next)
+        default:
+            break
+        }
+    }
+
+    /// Ask the phone for its current state, e.g. when the watch app comes back to the screen.
+    func sync() {
+        _ = link.send(.sync)
     }
 
     func startWorkout() {
@@ -65,6 +96,8 @@ final class MirrorModel: ObservableObject {
     }
 
     private func apply(_ new: MirrorState) {
+        let wasBuzzedFor = buzzedFor
+        state = new   // update the screen first; starting the walking session can take a moment
         switch new.phase {
         case .idle:
             buzzedFor = nil
@@ -75,10 +108,9 @@ final class MirrorModel: ObservableObject {
             if !workout.isRunning { startWorkout() }
         }
         // Buzz once when a point of interest comes up (the state may be sent more than once).
-        if new.phase == .preview, let id = new.poiID, id != buzzedFor {
+        if new.phase == .preview, let id = new.poiID, id != wasBuzzedFor {
             buzzedFor = id
             haptics.buzz()
         }
-        state = new
     }
 }

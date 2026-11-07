@@ -70,7 +70,13 @@ final class PhoneLink: NSObject, ObservableObject, WCSessionDelegate {
 
     nonisolated func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
         guard let action = RemoteCoding.decode(WatchAction.self, from: messageData) else { return }
-        Task { @MainActor in self.session?.handle(action) }
+        Task { @MainActor in
+            if action == .sync {
+                self.sendState(force: true)
+            } else {
+                self.session?.handle(action)
+            }
+        }
     }
 
     nonisolated func sessionDidBecomeInactive(_ session: WCSession) {}

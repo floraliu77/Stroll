@@ -10,18 +10,20 @@ struct WalkView: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        if mirror.state.paused {
-            PausedScreen()
-        } else {
-            switch mirror.state.phase {
-            case .idle: StartScreen()
-            case .exploring: ExploringScreen()
-            case .preview: PreviewScreen()
-            case .prompt: PromptScreen()
-            case .story: StoryScreen()
-            case .finished: FinishedScreen()
-            case .skipping: StatusScreen(title: "Skipped", detail: "Onward")
-            case .ended: DoneScreen()
+        NavigationStack {
+            if mirror.state.paused {
+                PausedScreen()
+            } else {
+                switch mirror.state.phase {
+                case .idle: StartScreen()
+                case .exploring: ExploringScreen()
+                case .preview: PreviewScreen()
+                case .prompt: PromptScreen()
+                case .story: StoryScreen()
+                case .finished: FinishedScreen()
+                case .skipping: SkippingScreen()
+                case .ended: DoneScreen()
+                }
             }
         }
     }
@@ -51,8 +53,7 @@ private struct ExploringScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
+        SpotScreen(controls: [.end, .pause]) {
             Text("Keep exploring").font(.headline)
             if mirror.state.everythingVisited {
                 Text("That's everything nearby")
@@ -65,33 +66,30 @@ private struct ExploringScreen: View {
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(Color.strollGreen)
             }
-            Spacer(minLength: 0)
-            ControlRow(replay: false, end: true)
         }
     }
 }
+
+// Every screen for a point of interest uses SpotScreen with the photo at the same size, so
+// nothing jumps between them, and the photo stays up so people can compare it with what's in
+// front of them. Replay and Pause sit in the bottom corners, always in view.
 
 private struct PreviewScreen: View {
     var body: some View {
-        FindScreen {
-            POIPhoto(height: 96)
-            ControlRow(replay: false)
+        SpotScreen(controls: [.pause]) {
+            POIPhoto()
         }
     }
 }
-
-// The photo stays on screen through the question and the story, so people can compare it with
-// what's in front of them. Scroll down (or turn the crown) for the buttons.
 
 private struct PromptScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        ScrollingFindScreen {
-            POIPhoto(height: 80)
+        SpotScreen(controls: [.replay, .pause]) {
+            POIPhoto()
             PrimaryButton("Tell me more") { mirror.send(.tellMeMore) }
             SecondaryButton("Skip") { mirror.send(.skip) }
-            ControlRow(replay: true)
         }
     }
 }
@@ -100,11 +98,10 @@ private struct StoryScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        ScrollingFindScreen {
-            POIPhoto(height: 80)
+        SpotScreen(controls: [.replay, .pause]) {
+            POIPhoto()
             ListeningDots()
             SecondaryButton("Keep exploring") { mirror.send(.keepExploring) }
-            ControlRow(replay: true)
         }
     }
 }
@@ -113,10 +110,19 @@ private struct FinishedScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        ScrollingFindScreen {
-            POIPhoto(height: 80)
+        SpotScreen(controls: [.replay]) {
+            POIPhoto()
             PrimaryButton("Keep exploring") { mirror.send(.keepExploring) }
-            SmallButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
+        }
+    }
+}
+
+private struct SkippingScreen: View {
+    var body: some View {
+        SpotScreen(controls: []) {
+            POIPhoto()
+            Text("Skipped").font(.headline)
+            Text("Onward").font(.footnote).foregroundStyle(.secondary)
         }
     }
 }
@@ -145,46 +151,15 @@ private struct PausedScreen: View {
     }
 }
 
-private struct StatusScreen: View {
-    let title: String
-    let detail: String
-
-    var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
-            Text(title).font(.headline)
-            Text(detail).font(.footnote).foregroundStyle(.secondary)
-            Spacer(minLength: 0)
-        }
-    }
-}
-
 // MARK: Building blocks
 
-/// The category above the screen's content, and a note if the phone can't be reached.
-private struct FindScreen<Content: View>: View {
-    @EnvironmentObject private var mirror: MirrorModel
-    @ViewBuilder let content: Content
+/// The layout for exploring and every point-of-interest screen: the category, the content
+/// (scrolls if it doesn't fit), and the small controls pinned in the bottom corners.
+private struct SpotScreen<Content: View>: View {
+    enum Control { case replay, pause, end }
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            if let category = mirror.category {
-                Label(category.name, systemImage: category.symbol)
-                    .font(.footnote.weight(.semibold))
-                    .labelStyle(GreenIconLabelStyle())
-            }
-            VStack(spacing: 6) {
-                content
-                ProblemText()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-    }
-}
-
-/// Like FindScreen, but scrolls, for screens with the photo and buttons.
-private struct ScrollingFindScreen<Content: View>: View {
     @EnvironmentObject private var mirror: MirrorModel
+    let controls: [Control]
     @ViewBuilder let content: Content
 
     var body: some View {
@@ -202,13 +177,26 @@ private struct ScrollingFindScreen<Content: View>: View {
                 .frame(maxWidth: .infinity)
             }
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .bottomBar) {
+                if controls.contains(.replay) {
+                    CornerButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
+                }
+                if controls.contains(.end) {
+                    CornerButton("End", symbol: "stop.fill") { mirror.send(.end) }
+                }
+                Spacer()
+                if controls.contains(.pause) {
+                    CornerButton("Pause", symbol: "pause.fill") { mirror.send(.pause) }
+                }
+            }
+        }
     }
 }
 
-/// The current point of interest's photo.
+/// The current point of interest's photo, the same size on every screen.
 private struct POIPhoto: View {
     @EnvironmentObject private var mirror: MirrorModel
-    let height: CGFloat
 
     var body: some View {
         if let poi = mirror.poi {
@@ -216,7 +204,7 @@ private struct POIPhoto: View {
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity)
-                .frame(height: height)
+                .frame(height: 72)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .accessibilityLabel("Photo of a point of interest")
         }
@@ -237,17 +225,24 @@ private struct ProblemText: View {
     }
 }
 
-private struct ControlRow: View {
-    @EnvironmentObject private var mirror: MirrorModel
-    let replay: Bool
-    var end = false
+/// A round icon button in the bottom corners of the screen.
+private struct CornerButton: View {
+    let title: String
+    let symbol: String
+    let action: () -> Void
+
+    init(_ title: String, symbol: String, action: @escaping () -> Void) {
+        self.title = title
+        self.symbol = symbol
+        self.action = action
+    }
 
     var body: some View {
-        HStack(spacing: 4) {
-            if replay { SmallButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) } }
-            SmallButton("Pause", symbol: "pause.fill") { mirror.send(.pause) }
-            if end { SmallButton("End", symbol: "stop.fill") { mirror.send(.end) } }
+        Button(action: action) {
+            Image(systemName: symbol)
+                .foregroundStyle(Color.strollGreen)
         }
+        .accessibilityLabel(title)
     }
 }
 
@@ -286,28 +281,6 @@ private struct SecondaryButton: View {
         Button(title, action: action)
             .font(.body.weight(.bold))
             .buttonStyle(.bordered)
-    }
-}
-
-private struct SmallButton: View {
-    let title: String
-    let symbol: String
-    let action: () -> Void
-
-    init(_ title: String, symbol: String, action: @escaping () -> Void) {
-        self.title = title
-        self.symbol = symbol
-        self.action = action
-    }
-
-    var body: some View {
-        Button(action: action) {
-            Label(title, systemImage: symbol)
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Color.strollGreen)
-                .frame(minHeight: 32)
-        }
-        .buttonStyle(.plain)
     }
 }
 
