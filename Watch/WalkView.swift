@@ -72,29 +72,23 @@ private struct ExploringScreen: View {
 }
 
 private struct PreviewScreen: View {
-    @EnvironmentObject private var mirror: MirrorModel
-
     var body: some View {
         FindScreen {
-            if let poi = mirror.poi {
-                Image(poi.image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 96)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .accessibilityLabel("Photo of a point of interest")
-            }
+            POIPhoto(height: 96)
             ControlRow(replay: false)
         }
     }
 }
 
+// The photo stays on screen through the question and the story, so people can compare it with
+// what's in front of them. Scroll down (or turn the crown) for the buttons.
+
 private struct PromptScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        FindScreen {
+        ScrollingFindScreen {
+            POIPhoto(height: 80)
             PrimaryButton("Tell me more") { mirror.send(.tellMeMore) }
             SecondaryButton("Skip") { mirror.send(.skip) }
             ControlRow(replay: true)
@@ -106,10 +100,9 @@ private struct StoryScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
+        ScrollingFindScreen {
+            POIPhoto(height: 80)
             ListeningDots()
-            Spacer(minLength: 0)
             SecondaryButton("Keep exploring") { mirror.send(.keepExploring) }
             ControlRow(replay: true)
         }
@@ -120,8 +113,8 @@ private struct FinishedScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
+        ScrollingFindScreen {
+            POIPhoto(height: 80)
             PrimaryButton("Keep exploring") { mirror.send(.keepExploring) }
             SmallButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
         }
@@ -185,6 +178,47 @@ private struct FindScreen<Content: View>: View {
                 ProblemText()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
+
+/// Like FindScreen, but scrolls, for screens with the photo and buttons.
+private struct ScrollingFindScreen<Content: View>: View {
+    @EnvironmentObject private var mirror: MirrorModel
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 6) {
+                if let category = mirror.category {
+                    Label(category.name, systemImage: category.symbol)
+                        .font(.footnote.weight(.semibold))
+                        .labelStyle(GreenIconLabelStyle())
+                }
+                VStack(spacing: 6) {
+                    content
+                    ProblemText()
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+}
+
+/// The current point of interest's photo.
+private struct POIPhoto: View {
+    @EnvironmentObject private var mirror: MirrorModel
+    let height: CGFloat
+
+    var body: some View {
+        if let poi = mirror.poi {
+            Image(poi.image)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity)
+                .frame(height: height)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .accessibilityLabel("Photo of a point of interest")
         }
     }
 }

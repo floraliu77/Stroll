@@ -5,6 +5,7 @@ import Foundation
 
 @MainActor
 final class FakeVoice: GuideVoice {
+    var onInterrupted: (@MainActor () -> Void)?
     var spoken: [String] = []
     private var pending: CheckedContinuation<Void, Never>?
     private var clip = 0
@@ -92,12 +93,22 @@ func runChecks() async {
     check(Array(voice.spoken.suffix(storyClips.count)) == storyClips, "reveal and story play in order")
     check(session.transcript.map(\.clip) == [first.prompt.audio] + storyClips, "transcript holds prompt, reveal and story")
     check(session.visits.last?.outcome == .found, "POI recorded as found")
-    check(session.secondsUntilNext != nil, "next countdown starts when the story finishes")
+    check(session.secondsUntilNext == nil, "no countdown while the finished story is open")
+    try? await Task.sleep(nanoseconds: 500_000_000)
+    check(alert.arrivals.count == 1, "nothing new pops up until Keep exploring")
 
-    // Second POI arrives while the finished story is still open
+    // Keep exploring starts the countdown to the second POI
+    session.keepExploring()
+    check(session.phase == .exploring && session.secondsUntilNext != nil, "Keep exploring starts the next countdown")
     await waitFor("second arrival") { alert.arrivals.count == 2 }
     check(alert.arrivals[1] == order[1], "second POI follows the demo order")
     await waitFor("second prompt") { session.phase == .prompt }
+
+    // An interruption (a timer going off) pauses, and Resume carries on
+    voice.onInterrupted?()
+    check(session.paused, "an audio interruption pauses the walk")
+    session.resume()
+    check(!session.paused, "Resume carries on after an interruption")
 
     // Skip
     session.skip()
@@ -210,8 +221,11 @@ func checkBusyArrivals(_ content: StrollContent) async {
     await waitFor("story") { session.phase == .story }
     source.onLocation?(b.coordinate)
     check(alert.arrivals == [a.id], "a location mid-story doesn't interrupt it")
+    await waitFor("story finished") { session.phase == .finished }
+    check(alert.arrivals == [a.id], "it still waits while the finished story is open")
+    session.keepExploring()
     await waitFor("waiting arrival") { alert.arrivals.count == 2 }
-    check(alert.arrivals == [a.id, b.id], "it arrives once the story finishes")
+    check(alert.arrivals == [a.id, b.id], "it arrives after Keep exploring")
     source.onLocation?(a.coordinate)
     try? await Task.sleep(nanoseconds: 300_000_000)
     check(alert.arrivals.count == 2, "returning to a visited POI doesn't buzz again")

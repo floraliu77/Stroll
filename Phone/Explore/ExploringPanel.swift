@@ -123,20 +123,14 @@ struct StopSheet: View {
                     .foregroundStyle(Color.category(category.id))
             }
             Spacer()
-            if [.prompt, .story, .finished].contains(session.phase) {
-                Button { session.replay() } label: {
-                    Image(systemName: "arrow.counterclockwise")
-                }
-                .accessibilityLabel("Replay")
-                Button { session.paused ? session.resume() : session.pause() } label: {
-                    Image(systemName: session.paused ? "play.fill" : "pause.fill")
-                }
-                .accessibilityLabel(session.paused ? "Resume" : "Pause")
-                .padding(.leading, 16)
+            if session.paused {
+                Label("Paused", systemImage: "pause.fill")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 12).padding(.vertical, 6)
+                    .background(Color.strollGreen, in: Capsule())
             }
         }
-        .font(.title3)
-        .foregroundStyle(Color.strollGreen)
     }
 
     private var transcript: some View {
@@ -163,18 +157,41 @@ struct StopSheet: View {
     }
 
     @ViewBuilder private var controls: some View {
-        switch session.phase {
-        case .prompt:
-            VStack(spacing: 10) {
+        VStack(spacing: 10) {
+            switch session.phase {
+            case .preview:
+                pauseButton
+            case .prompt:
                 PanelButton(title: "Tell me more", symbol: nil, filled: true) { session.tellMeMore() }
                 PanelButton(title: "Skip", symbol: nil, filled: false) { session.skip() }
+                listeningRow
+            case .story:
+                listeningRow
+                PanelButton(title: "Keep exploring", symbol: nil, filled: false) { session.keepExploring() }
+            case .finished:
+                PanelButton(title: "Keep exploring", symbol: nil, filled: true) { session.keepExploring() }
+                PanelButton(title: "Replay", symbol: "arrow.counterclockwise", filled: false) { session.replay() }
+            default:
+                EmptyView()
             }
-        case .story:
-            PanelButton(title: "Keep exploring", symbol: nil, filled: false) { session.keepExploring() }
-        case .finished:
-            PanelButton(title: "Keep exploring", symbol: nil, filled: true) { session.keepExploring() }
-        default:
-            EmptyView()
+        }
+    }
+
+    /// Replay and Pause side by side, while narration is playing.
+    private var listeningRow: some View {
+        HStack(spacing: 10) {
+            PanelButton(title: "Replay", symbol: "arrow.counterclockwise", filled: false) { session.replay() }
+            pauseButton
+        }
+    }
+
+    private var pauseButton: some View {
+        Group {
+            if session.paused {
+                PanelButton(title: "Resume", symbol: "play.fill", filled: true) { session.resume() }
+            } else {
+                PanelButton(title: "Pause", symbol: "pause.fill", filled: false) { session.pause() }
+            }
         }
     }
 }

@@ -22,7 +22,8 @@ struct StrollApp: App {
             .onChange(of: scenePhase) { _, _ in updateReminder() }
             .onChange(of: session.phase) { old, new in
                 updateReminder()
-                if old == .idle && new == .exploring { link.launchWatchApp() }
+                // Open Stroll on the watch, unless it's already open (e.g. started from the watch).
+                if old == .idle && new == .exploring && !link.isReachable { link.launchWatchApp() }
             }
         }
     }

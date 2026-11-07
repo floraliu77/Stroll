@@ -6,8 +6,32 @@ import UserNotifications
 /// connected headphones of any brand, or the speaker.
 @MainActor
 final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
+    var onInterrupted: (@MainActor () -> Void)?
     private var player: AVAudioPlayer?
     private var continuation: CheckedContinuation<Void, Never>?
+    private var observers: [NSObjectProtocol] = []
+
+    override init() {
+        super.init()
+        let center = NotificationCenter.default
+        // A timer, alarm or call takes the audio: iOS pauses the clip, so pause the walk too.
+        observers.append(center.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] note in
+            let type = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt).flatMap(AVAudioSession.InterruptionType.init)
+            guard type == .began else { return }
+            Task { @MainActor in self?.interrupted() }
+        })
+        // Headphones disconnected: pause rather than carry on out loud.
+        observers.append(center.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: .main) { [weak self] note in
+            let reason = (note.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt).flatMap(AVAudioSession.RouteChangeReason.init)
+            guard reason == .oldDeviceUnavailable else { return }
+            Task { @MainActor in self?.interrupted() }
+        })
+    }
+
+    private func interrupted() {
+        player?.pause()
+        onInterrupted?()
+    }
 
     func play(_ line: Narration) async {
         stop()
@@ -34,7 +58,11 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
 
     func pause() { player?.pause() }
 
-    func resume() { player?.play() }
+    func resume() {
+        guard let player else { return }
+        activateSession()   // after an interruption the audio session has to be reactivated
+        if !player.play() { finish() }   // still can't play: move on rather than stall
+    }
 
     /// Spoken audio that keeps playing with the screen locked or the ringer switch on silent.
     private func activateSession() {

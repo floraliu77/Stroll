@@ -3,6 +3,8 @@ import Foundation
 /// Plays the narration. `play` returns when the clip ends or `stop()` is called.
 @MainActor
 protocol GuideVoice: AnyObject {
+    /// Something else took the audio (a timer, a call) or the headphones were disconnected.
+    var onInterrupted: (@MainActor () -> Void)? { get set }
     func play(_ line: Narration) async
     func stop()
     func pause()
@@ -69,7 +71,7 @@ final class ExploreSession: ObservableObject {
     var foundCount: Int { visits.filter { $0.outcome == .found }.count }
     /// Nothing more will come up this session.
     var everythingVisited: Bool { source.isFinished || arrived.count == content.pois.count }
-    var secondsUntilNext: Double? { (phase == .exploring || phase == .finished) && !paused ? source.secondsUntilNext : nil }
+    var secondsUntilNext: Double? { phase == .exploring && !paused ? source.secondsUntilNext : nil }
     /// What the watch shows.
     var mirrorState: MirrorState {
         MirrorState(phase: phase, poiID: poi?.id, paused: paused, foundCount: foundCount, everythingVisited: everythingVisited)
@@ -90,6 +92,8 @@ final class ExploreSession: ObservableObject {
         self.source = source
         self.timing = timing
         source.onLocation = { [weak self] in self?.located($0) }
+        // Pause, so the participant can pick up where they left off with Resume.
+        voice.onInterrupted = { [weak self] in self?.pause() }
     }
 
     // MARK: Participant
@@ -197,8 +201,8 @@ final class ExploreSession: ObservableObject {
     // MARK: Arriving
 
     private func located(_ coordinate: StrollContent.Coordinate) {
-        // Arrive only when free: wandering, or still reading a finished story.
-        guard phase == .exploring || phase == .finished else {
+        // Arrive only when free: back to wandering, not while a point of interest is open.
+        guard phase == .exploring else {
             if showsStop { pending = coordinate }
             return
         }
@@ -230,9 +234,7 @@ final class ExploreSession: ObservableObject {
             try await say(line)
         }
         speaking = nil
-        phase = .finished
-        source.participantIsFree()   // the next countdown starts once the story is done
-        arrivePending()
+        phase = .finished   // the next countdown starts when they tap Keep exploring
     }
 
     private func backToExploring() {
