@@ -10,10 +10,14 @@ struct StrollApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
+                // The tab bar keeps its light style in dark mode too, so it stays readable over
+                // the white card.
                 ExploreView()
                     .tabItem { Label("Explore", systemImage: "map") }
+                    .toolbarColorScheme(.light, for: .tabBar)
                 JournalPlaceholderView()
                     .tabItem { Label("Journal", systemImage: "book.closed") }
+                    .toolbarColorScheme(.light, for: .tabBar)
             }
             .tint(.strollGreen)
             .environmentObject(link)
