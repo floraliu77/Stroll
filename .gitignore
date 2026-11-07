@@ -1,0 +1,11 @@
+.DS_Store
+xcuserdata/
+DerivedData/
+*.xcuserstate
+build/
+# Generated from project.yml by XcodeGen
+Stroll.xcodeproj/
+# Packages made for sharing
+*.zip
+# Editor tool cache
+.impeccable/

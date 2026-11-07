@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1714">
+  <title>Stroll prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+
+    <!-- 1. Intro -->
+    <section class="screen intro" id="screen-intro" aria-labelledby="intro-title">
+      <div class="intro-card">
+        <h1 id="intro-title">Stroll</h1>
+        <p class="tagline">Notice what you've been walking past.</p>
+        <p class="lede">Imagine you're on a walk through Oakland wearing an Apple Watch and earbuds. Stroll taps your wrist when you're near something worth noticing, and tells you what to look for.</p>
+        <h2>How this prototype works</h2>
+        <ul class="how">
+          <li><span class="how-icon" aria-hidden="true">⌚</span>The watch on screen = your Apple Watch.</li>
+          <li><span class="how-icon" aria-hidden="true">📷</span>The photo = what you'd see on your walk.</li>
+          <li><span class="how-icon" aria-hidden="true">🎧</span>You'll hear prompts out loud; tap CC for captions.</li>
+        </ul>
+        <p class="tip"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Turn your sound on. Headphones recommended.</p>
+        <p class="no-speech" hidden>Audio isn't supported in this browser; read the captions instead.</p>
+        <button class="btn btn-primary btn-lg" id="btn-open">Open the Stroll app</button>
+      </div>
+    </section>
+
+    <!-- 2 & 4. Companion phone app -->
+    <section class="screen phone-stage" id="screen-phone" hidden aria-label="Companion app (phone)">
+      <p class="device-label">Companion app (phone)</p>
+      <div class="phone">
+        <div class="phone-notch" aria-hidden="true"></div>
+        <div class="phone-screen">
+
+          <div class="phone-view" id="phone-start">
+            <p class="app-name">Stroll</p>
+            <div class="walk-card">
+              <img src="img/mellon-columns.jpg" alt="" class="walk-cover">
+              <div class="walk-card-body">
+                <p class="eyebrow">Today's walk</p>
+                <h2 class="walk-title">Oakland: Things You've Walked Past</h2>
+                <p class="walk-meta">4 finds · about 20 minutes</p>
+              </div>
+            </div>
+            <p class="phone-note">Put your phone away. Stroll will guide you through your watch and earbuds.</p>
+            <button class="btn btn-green btn-lg btn-block" id="btn-start">Start walk</button>
+          </div>
+
+          <div class="phone-view" id="phone-journal" hidden>
+            <p class="app-name">Stroll</p>
+            <h2 class="journal-title" tabindex="-1">Your field journal: Oakland</h2>
+            <p class="journal-summary" id="journal-summary"></p>
+            <ul class="journal-list" id="journal-list"></ul>
+            <button class="btn btn-green btn-lg btn-block" id="btn-again">Walk again</button>
+            <p class="phone-note small">In the real product, your journal grows with every walk.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Walk -->
+    <section class="screen walk-stage" id="screen-walk" hidden aria-label="Walk">
+      <!-- The view in front of you, full screen, with the watch held up in front of it. -->
+      <img class="scene-img" id="scene-img" src="img/mellon-columns.jpg" alt="">
+      <div class="scene-shade" aria-hidden="true"></div>
+
+      <button class="cc-toggle" id="btn-cc" aria-pressed="false" aria-label="Captions">CC</button>
+
+      <div class="watch-col">
+        <div class="watch" id="watch">
+          <div class="band band-top" aria-hidden="true"></div>
+          <div class="watch-case">
+            <div class="watch-crown" aria-hidden="true"></div>
+            <div class="watch-screen" id="watch-screen" aria-live="polite">
+              <div class="w-top">
+                <span class="w-count" id="w-count"></span>
+                <span class="w-time" aria-hidden="true">10:09</span>
+              </div>
+              <div class="w-cat" id="w-cat"></div>
+              <div class="w-body" id="w-body"></div>
+            </div>
+          </div>
+          <div class="band band-bottom" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="caption-bar off" role="region" aria-label="What you hear">
+        <p class="caption-label">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          What you hear
+        </p>
+        <p class="caption-text" id="caption" aria-live="polite"></p>
+        <p class="no-speech" hidden>Audio isn't supported in this browser; read the captions instead.</p>
+      </div>
+    </section>
+
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
