@@ -16,6 +16,9 @@ struct StrollApp: App {
                     .tabItem { Label("Journal", systemImage: "book.closed") }
             }
             .tint(.strollGreen)
+            // The designs (and colours in Theme.swift) are light only; keep the app light even
+            // when the phone is in dark mode, so text stays readable.
+            .preferredColorScheme(.light)
             .environmentObject(link)
             .environmentObject(session)
             .onAppear { link.activate(mirroring: session) }

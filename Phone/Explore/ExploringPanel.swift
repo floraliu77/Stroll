@@ -18,7 +18,12 @@ struct ExploringPanel: View {
         }
         .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
         .frame(maxWidth: .infinity)
-        .background(.white, in: UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24))
+        // The white card runs down behind the floating tab bar, so the map doesn't show through.
+        .background {
+            UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
+                .fill(.white)
+                .ignoresSafeArea(edges: .bottom)
+        }
         .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
         .sheet(isPresented: .constant(session.showsStop)) {
             StopSheet()
