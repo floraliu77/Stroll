@@ -190,7 +190,18 @@ func checkWatchMirror(_ content: StrollContent) async {
     check(session.mirrorState.phase == .ended, "End on the watch ends the session")
     session.handle(.reset)
     check(session.mirrorState.phase == .idle, "Done on the watch goes back to the start")
+    // Developer tools: Restart walk in the middle of a story, paused.
     session.handle(.start)
+    source.onLocation?(content.pois[1].coordinate)
+    await waitFor("second prompt") { session.phase == .prompt }
+    session.handle(.tellMeMore)
+    session.handle(.pause)
+    session.reset()
+    check(session.mirrorState.phase == .idle && !session.mirrorState.paused && session.poi == nil,
+          "Restart walk mid-story takes the phone and watch back to the start")
+    check(session.secondsUntilNext == nil, "nothing is scheduled after Restart walk")
+    session.handle(.start)
+    check(session.phase == .exploring, "a new walk can start after Restart walk")
     session.handle(.end)
     let data = RemoteCoding.encode(session.mirrorState)!
     check(RemoteCoding.decode(MirrorState.self, from: data) == session.mirrorState, "the watch state survives a JSON round trip")

@@ -1,12 +1,14 @@
 import SwiftUI
 
-/// Testing tools: the watch connection, and a way to bring up any point of interest now
-/// instead of waiting for the demo walk. Everything goes through the phone's session, so the
+/// Testing tools: the watch connection, restarting the walk (e.g. for the next participant),
+/// and a way to bring up any point of interest now instead of waiting for the demo walk. Everything goes through the phone's session, so the
 /// watch mirrors it and only the phone speaks.
 struct DeveloperToolsView: View {
     @EnvironmentObject private var link: PhoneLink
     @EnvironmentObject private var session: ExploreSession
+    @EnvironmentObject private var journal: JournalStore
     @Environment(\.dismiss) private var dismiss
+    @State private var confirmingRestart = false
 
     var body: some View {
         NavigationStack {
@@ -22,6 +24,14 @@ struct DeveloperToolsView: View {
                         }
                     }
                     .accessibilityElement(children: .combine)
+                }
+                Section {
+                    Button("Restart walk", role: .destructive) { confirmingRestart = true }
+                        .disabled(!canRestart)
+                } header: {
+                    Text("Restart")
+                } footer: {
+                    Text("Stops the guide and takes the phone and watch back to Start Exploring.")
                 }
                 Section {
                     ForEach(session.content.pois) { poi in
@@ -47,8 +57,28 @@ struct DeveloperToolsView: View {
             }
             .navigationTitle("Developer tools")
             .navigationBarTitleDisplayMode(.inline)
+            .confirmationDialog("Restart the walk?", isPresented: $confirmingRestart, titleVisibility: .visible) {
+                if isWalking {
+                    Button("Restart, keep journal") { restart(clearJournal: false) }
+                }
+                if !journal.entries.isEmpty {
+                    Button("Restart and clear journal", role: .destructive) { restart(clearJournal: true) }
+                }
+            } message: {
+                Text("Clear the journal too when a new participant is starting.")
+            }
         }
     }
+
+    private func restart(clearJournal: Bool) {
+        session.reset()   // the watch follows the phone back to the start
+        if clearJournal { journal.clear() }
+        dismiss()
+    }
+
+    private var isWalking: Bool { session.phase != .idle }
+    /// Something to restart: a walk going (or just ended), or a journal to clear.
+    private var canRestart: Bool { isWalking || !journal.entries.isEmpty }
 
     private var canArrive: Bool { session.phase != .idle && session.phase != .ended }
 
