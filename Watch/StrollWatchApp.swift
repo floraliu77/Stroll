@@ -49,6 +49,8 @@ final class MirrorModel: ObservableObject {
     private let workout = WorkoutKeeper()
     private let haptics = WatchHaptics()
     private var buzzedFor: String?
+    /// When Start Exploring was tapped on the watch, for the timing logs.
+    private var startTappedAt: Date?
 
     private init() {
         link.onState = { [weak self] in self?.apply($0) }
@@ -91,11 +93,17 @@ final class MirrorModel: ObservableObject {
     /// Start Exploring on the watch: show "Starting…" at once, then ask the phone. The phone's
     /// reply (normally within a second) switches the screen.
     private func start() {
-        guard state.phase == .idle, !isStarting else { return }
+        guard state.phase == .idle, !isStarting else {
+            StrollLog.link.log("watch: Start tapped but ignored (phase \(self.state.phase.rawValue, privacy: .public), starting \(self.isStarting))")
+            return
+        }
+        StrollLog.link.log("watch: Start tapped")
+        startTappedAt = Date()
         isStarting = true
         problem = nil
         Task {
             await Task.yield()   // let "Starting…" appear before talking to the phone
+            StrollLog.link.log("watch: Starting… shown after \(StrollLog.ms(since: self.startTappedAt ?? Date())) ms")
             guard link.send(.start) else {
                 isStarting = false
                 problem = "Can't reach your iPhone. Keep it nearby with Stroll open."
@@ -103,6 +111,7 @@ final class MirrorModel: ObservableObject {
             }
             try? await Task.sleep(nanoseconds: 8_000_000_000)
             if isStarting {
+                StrollLog.link.error("watch: no answer to Start after 8 s")
                 isStarting = false
                 problem = "Your iPhone didn't answer. Open Stroll on your iPhone and try again."
             }
@@ -111,6 +120,7 @@ final class MirrorModel: ObservableObject {
 
     /// Ask the phone for its current state, e.g. when the watch app comes back to the screen.
     func sync() {
+        StrollLog.link.log("watch: app on screen, asking the phone for its state")
         _ = link.send(.sync)
     }
 
@@ -124,6 +134,10 @@ final class MirrorModel: ObservableObject {
 
     private func apply(_ new: MirrorState) {
         let wasBuzzedFor = buzzedFor
+        if let tapped = startTappedAt, new.phase != .idle {
+            StrollLog.link.log("watch: screen switched to \(new.phase.rawValue, privacy: .public), \(StrollLog.ms(since: tapped)) ms after Start was tapped")
+            startTappedAt = nil
+        }
         if new.phase != .idle { isStarting = false }
         state = new   // update the screen first; starting the walking session can take a moment
         switch new.phase {

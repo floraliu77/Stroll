@@ -22,7 +22,10 @@ final class WorkoutKeeper: NSObject, HKWorkoutSessionDelegate {
         guard session == nil, !starting, HKHealthStore.isHealthDataAvailable() else { return }
         starting = true
         defer { starting = false }
+        let begun = Date()
+        StrollLog.link.log("watch: starting walking session")
         try await store.requestAuthorization(toShare: [HKObjectType.workoutType()], read: [])
+        StrollLog.link.log("watch: Health permission answered after \(StrollLog.ms(since: begun)) ms")
         let config = HKWorkoutConfiguration()
         config.activityType = .walking
         config.locationType = .outdoor
@@ -30,6 +33,7 @@ final class WorkoutKeeper: NSObject, HKWorkoutSessionDelegate {
         newSession.delegate = self
         newSession.startActivity(with: Date())
         session = newSession
+        StrollLog.link.log("watch: walking session started after \(StrollLog.ms(since: begun)) ms")
     }
 
     func end() {
@@ -63,39 +67,51 @@ final class WatchLink: NSObject, WCSessionDelegate {
     func send(_ action: WatchAction) -> Bool {
         let session = WCSession.default
         guard session.activationState == .activated, session.isReachable,
-              let data = RemoteCoding.encode(action) else { return false }
+              let data = RemoteCoding.encode(action) else {
+            StrollLog.link.log("watch: can't send \(action.rawValue, privacy: .public) (activated: \(WCSession.default.activationState == .activated), reachable: \(WCSession.default.isReachable))")
+            return false
+        }
+        let sentAt = Date()
+        StrollLog.link.log("watch: sending \(action.rawValue, privacy: .public)")
         session.sendMessageData(data, replyHandler: { [weak self] reply in
-            guard let state = RemoteCoding.decode(MirrorState.self, from: reply) else { return }
+            let state = RemoteCoding.decode(MirrorState.self, from: reply)
+            StrollLog.link.log("watch: reply to \(action.rawValue, privacy: .public) after \(StrollLog.ms(since: sentAt)) ms, phase \(state?.phase.rawValue ?? "?", privacy: .public)")
+            guard let state else { return }
             Task { @MainActor in self?.onState?(state) }
-        }, errorHandler: nil)
+        }, errorHandler: { error in
+            StrollLog.link.error("watch: \(action.rawValue, privacy: .public) failed after \(StrollLog.ms(since: sentAt)) ms: \(error.localizedDescription, privacy: .public)")
+        })
         return true
     }
 
-    private func receive(_ data: Data) {
+    private func receive(_ data: Data, via route: String) {
         guard let state = RemoteCoding.decode(MirrorState.self, from: data) else { return }
+        StrollLog.link.log("watch: got phase \(state.phase.rawValue, privacy: .public) via \(route, privacy: .public)")
         onState?(state)
     }
 
     nonisolated func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         let context = session.receivedApplicationContext["state"] as? Data
         let reachable = session.isReachable
+        StrollLog.link.log("watch: link activated, reachable \(reachable)")
         Task { @MainActor in
-            if let context { self.receive(context) }
+            if let context { self.receive(context, via: "saved context") }
             self.onReachabilityChange?(reachable)
         }
     }
 
     nonisolated func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
-        Task { @MainActor in self.receive(messageData) }
+        Task { @MainActor in self.receive(messageData, via: "message") }
     }
 
     nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
         guard let data = applicationContext["state"] as? Data else { return }
-        Task { @MainActor in self.receive(data) }
+        Task { @MainActor in self.receive(data, via: "context") }
     }
 
     nonisolated func sessionReachabilityDidChange(_ session: WCSession) {
         let reachable = session.isReachable
+        StrollLog.link.log("watch: phone reachable \(reachable)")
         Task { @MainActor in self.onReachabilityChange?(reachable) }
     }
 }
