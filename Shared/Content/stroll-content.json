@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "coordinateSource": "Coordinates and trigger radii: MJ's research (docs/location/poi-locations.json), from OpenStreetMap. © OpenStreetMap contributors, ODbL.",
   "categories": [
     {
       "id": "architecture",
@@ -28,10 +29,10 @@
       "name": "Mellon Institute columns",
       "category": "architecture",
       "coordinate": {
-        "latitude": 40.4462,
-        "longitude": -79.9512
+        "latitude": 40.44663,
+        "longitude": -79.9511
       },
-      "coordinateStatus": "placeholder",
+      "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "mellon-columns",
       "photoCredit": {
@@ -68,11 +69,11 @@
       "name": "Dippy the dinosaur",
       "category": "natural-history",
       "coordinate": {
-        "latitude": 40.4436,
-        "longitude": -79.9497
+        "latitude": 40.443553,
+        "longitude": -79.951498
       },
-      "coordinateStatus": "placeholder",
-      "triggerRadiusMeters": 40,
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
       "image": "dippy",
       "photoCredit": {
         "author": "TheZachMorrisExperience",
@@ -108,11 +109,11 @@
       "name": "“A Song to Nature” fountain",
       "category": "public-art",
       "coordinate": {
-        "latitude": 40.4417,
-        "longitude": -79.952
+        "latitude": 40.441995,
+        "longitude": -79.9519
       },
-      "coordinateStatus": "placeholder",
-      "triggerRadiusMeters": 40,
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 35,
       "image": "song-to-nature",
       "photoCredit": {
         "author": "Daderot",
@@ -148,10 +149,10 @@
       "name": "Forbes Field wall",
       "category": "history",
       "coordinate": {
-        "latitude": 40.4428,
-        "longitude": -79.9566
+        "latitude": 40.44125,
+        "longitude": -79.95266
       },
-      "coordinateStatus": "placeholder",
+      "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "forbes-wall",
       "photoCredit": {
