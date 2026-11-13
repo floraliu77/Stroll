@@ -34,6 +34,7 @@
       "coordinateStatus": "placeholder",
       "triggerRadiusMeters": 40,
       "image": "mellon-columns",
+      "altText": "Front of the Mellon Institute: a long row of tall, smooth stone columns.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
@@ -41,7 +42,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Columns_of_the_Mellon_Institute,_2021-12-20,_01.jpg"
       },
       "prompt": {
-        "text": "Look at the giant columns on this building. How many stone pieces make up one column?",
+        "text": "This building has a row of giant stone columns. How many pieces make up one?",
         "audio": "f1-prompt"
       },
       "reveal": {
@@ -74,6 +75,7 @@
       "coordinateStatus": "placeholder",
       "triggerRadiusMeters": 40,
       "image": "dippy",
+      "altText": "A life-size dinosaur with a long curved neck, standing on a lawn beside the museum.",
       "photoCredit": {
         "author": "TheZachMorrisExperience",
         "license": "CC BY-SA 3.0",
@@ -81,7 +83,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:DippyStatuteCarnegiePittsburgh.jpg"
       },
       "prompt": {
-        "text": "Spot the dinosaur outside the museum. Look closely: is it bone, or something else?",
+        "text": "A long-necked dinosaur stands on the museum lawn. Is it bone, or something else?",
         "audio": "f2-prompt"
       },
       "reveal": {
@@ -114,6 +116,7 @@
       "coordinateStatus": "placeholder",
       "triggerRadiusMeters": 40,
       "image": "song-to-nature",
+      "altText": "A stone fountain with a wide round basin and bronze figures in the center.",
       "photoCredit": {
         "author": "Daderot",
         "license": "Public domain",
@@ -121,7 +124,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Mary_Schenley_Fountain_-_Pittsburgh_-_IMG_0755.jpg"
       },
       "prompt": {
-        "text": "At the fountain, look along the rim of the basin. Find the animals spouting water.",
+        "text": "Water spouts into the fountain’s basin from all around its rim. What’s spouting it?",
         "audio": "f3-prompt"
       },
       "reveal": {
@@ -154,6 +157,7 @@
       "coordinateStatus": "placeholder",
       "triggerRadiusMeters": 40,
       "image": "forbes-wall",
+      "altText": "An old red brick wall with large white numbers painted on it.",
       "photoCredit": {
         "author": "ccbarr",
         "license": "CC BY-SA 2.0",
@@ -161,7 +165,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Forbes_Field_outfield_walls.jpg"
       },
       "prompt": {
-        "text": "Find the numbers on this brick wall. What do you think they measure?",
+        "text": "This red brick wall has big white numbers on it. What do you think they measure?",
         "audio": "f4-prompt"
       },
       "reveal": {
