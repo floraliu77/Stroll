@@ -1,0 +1,162 @@
+{
+  "about": "Researched coordinates and trigger radii for Stroll POIs near 300 S Craig St. Coordinates are where you'd stand to see each POI. textFixes lists lines from the first walk that didn't match sources; those clips need re-recording.",
+  "coordinateSource": "OpenStreetMap (c) OpenStreetMap contributors, ODbL",
+  "pois": [
+    {
+      "id": "mellon-columns",
+      "name": "Mellon Institute columns",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.44663,
+        "longitude": -79.9511
+      },
+      "triggerRadiusMeters": 40,
+      "textFixes": [
+        {
+          "clip": "f1-story1",
+          "was": "Each of the 62 columns here is one solid piece of Indiana limestone, about 60 tons.",
+          "now": "Each of the 62 columns here is one solid piece of Indiana limestone, about 62 tons."
+        },
+        {
+          "clip": "f1-story3",
+          "was": "The building, now part of Carnegie Mellon, reaches six stories underground to bedrock, to keep lab experiments steady.",
+          "now": "The building, now part of Carnegie Mellon, reaches three stories underground."
+        }
+      ]
+    },
+    {
+      "id": "dippy",
+      "name": "Dippy the dinosaur",
+      "category": "natural-history",
+      "coordinate": {
+        "latitude": 40.443553,
+        "longitude": -79.951498
+      },
+      "triggerRadiusMeters": 30,
+      "textFixes": [
+        {
+          "clip": "f2-story2",
+          "was": "The first bone, a toe, was found in Wyoming on July 4, 1899, earning it the nickname 'the star-spangled dinosaur.'",
+          "now": "The first bone, a toe, was found in Wyoming around the Fourth of July, 1899, earning it the nickname 'the star-spangled dinosaur.'"
+        }
+      ]
+    },
+    {
+      "id": "song-to-nature",
+      "name": "“A Song to Nature” fountain",
+      "category": "public-art",
+      "coordinate": {
+        "latitude": 40.441995,
+        "longitude": -79.9519
+      },
+      "triggerRadiusMeters": 35
+    },
+    {
+      "id": "forbes-wall",
+      "name": "Forbes Field wall",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.44125,
+        "longitude": -79.95266
+      },
+      "triggerRadiusMeters": 40,
+      "textFixes": [
+        {
+          "clip": "f4-story3",
+          "was": "Home plate from the last game is preserved in the lobby of Posvar Hall, just across the street.",
+          "now": "Home plate from the last game is preserved inside Posvar Hall, just across the street."
+        }
+      ]
+    },
+    {
+      "id": "serra-carnegie",
+      "name": "Richard Serra's Carnegie",
+      "category": "public-art",
+      "coordinate": {
+        "latitude": 40.44405,
+        "longitude": -79.94925
+      },
+      "triggerRadiusMeters": 35
+    },
+    {
+      "id": "st-nicholas-cathedral",
+      "name": "St. Nicholas Greek Orthodox Cathedral",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4446,
+        "longitude": -79.95025
+      },
+      "triggerRadiusMeters": 30
+    },
+    {
+      "id": "bellefield-hall",
+      "name": "Bellefield Hall",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.44538,
+        "longitude": -79.95145
+      },
+      "triggerRadiusMeters": 30
+    },
+    {
+      "id": "heinz-chapel",
+      "name": "Heinz Memorial Chapel",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.44515,
+        "longitude": -79.9523
+      },
+      "triggerRadiusMeters": 25
+    },
+    {
+      "id": "cathedral-of-learning",
+      "name": "Cathedral of Learning",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.444323,
+        "longitude": -79.953191
+      },
+      "triggerRadiusMeters": 50
+    },
+    {
+      "id": "the-hiker",
+      "name": "The Hiker",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.441852,
+        "longitude": -79.950492
+      },
+      "triggerRadiusMeters": 25
+    },
+    {
+      "id": "first-baptist-church",
+      "name": "First Baptist Church",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.447693,
+        "longitude": -79.952977
+      },
+      "triggerRadiusMeters": 40
+    },
+    {
+      "id": "st-paul-cathedral",
+      "name": "St. Paul Cathedral",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.44701,
+        "longitude": -79.9498
+      },
+      "triggerRadiusMeters": 40
+    },
+    {
+      "id": "fairfax-apartments",
+      "name": "Fairfax Apartments",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.447,
+        "longitude": -79.94812
+      },
+      "triggerRadiusMeters": 30
+    }
+  ]
+}
