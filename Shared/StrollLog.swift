@@ -6,6 +6,8 @@ import os
 /// press Start, and search for `subsystem:com.teamgreen.stroll`. Each line shows the device's time.
 enum StrollLog {
     static let link = Logger(subsystem: "com.teamgreen.stroll", category: "link")
+    /// Whether Stroll paused other apps' music or could only lower it (search `category:audio`).
+    static let audio = Logger(subsystem: "com.teamgreen.stroll", category: "audio")
 
     /// Milliseconds since `start`, for "took 1234 ms" style lines.
     static func ms(since start: Date) -> Int {

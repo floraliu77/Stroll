@@ -9,6 +9,9 @@ protocol GuideVoice: AnyObject {
     func stop()
     func pause()
     func resume()
+    /// This place's narration is over (story finished, skipped, or left): give the audio back so
+    /// music that Stroll paused can carry on, even while Keep exploring is still on screen.
+    func placeDone()
 }
 
 /// The buzz (and notification, if Stroll isn't on screen) when a point of interest comes up.
@@ -193,6 +196,7 @@ final class ExploreSession: ObservableObject {
         phase = .ended
         run { [self] in
             try await say(content.lines.done.narration)   // no buzz: the participant chose to end
+            voice.placeDone()
         }
     }
 
@@ -202,6 +206,7 @@ final class ExploreSession: ObservableObject {
         cancelRun()
         source.stop()
         clearStop()
+        voice.placeDone()
         phase = .idle
     }
 
@@ -272,12 +277,14 @@ final class ExploreSession: ObservableObject {
         }
         speaking = nil
         phase = .finished   // the next countdown starts when they tap Keep exploring
+        voice.placeDone()   // music can come back while Keep exploring waits
     }
 
     private func backToExploring() {
         let waiting = pending
         clearStop()
         pending = waiting
+        voice.placeDone()
         phase = .exploring
         source.participantIsFree()
         startQuiet()

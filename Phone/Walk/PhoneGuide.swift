@@ -27,7 +27,7 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate, AVSpeechSyn
         speech.delegate = self
         let center = NotificationCenter.default
         // A timer, alarm or call takes the audio: iOS pauses the clip, so pause the walk too.
-        // (Music starting in another app doesn't count: Stroll shares the audio with it.)
+        // Music started by the participant mid-place counts too: the walk pauses until Resume.
         observers.append(center.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] note in
             let type = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt).flatMap(AVAudioSession.InterruptionType.init)
             guard type == .began else { return }
@@ -83,13 +83,11 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate, AVSpeechSyn
         utterance = nil
         if speech.isSpeaking || speech.isPaused { speech.stopSpeaking(at: .immediate) }
         finish()
-        releaseSessionSoon()   // play() cancels this when the next line starts right away
     }
 
     func pause() {
         player?.pause()
         if speech.isSpeaking { speech.pauseSpeaking(at: .word) }
-        releaseSessionSoon()   // paused: let music come back to full volume
     }
 
     func resume() {
@@ -103,37 +101,53 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate, AVSpeechSyn
     }
 
     /// Spoken audio that keeps playing with the screen locked or the ringer switch on silent.
-    /// It shares the audio with other apps instead of taking it over: music gets quieter while
-    /// Stroll talks (podcasts and other spoken audio pause), then comes back. iOS lets a locked,
-    /// background app do this, but not stop another app's music, which used to skip the line.
-    /// Because it shares, starting music again no longer interrupts the walk.
+    /// Other apps' music pauses while a place is narrated and carries on after (`placeDone`).
+    private var holdingAudio = false
     private func activateSession() {
-        releaseTask?.cancel()
-        releaseTask = nil
         let session = AVAudioSession.sharedInstance()
+        if holdingAudio {
+            try? session.setActive(true)   // e.g. after an interruption
+            return
+        }
+        holdingAudio = true
+        // Taking the audio pauses music. iOS refuses that to an app in the background (phone
+        // locked), which used to skip the line silently.
+        try? session.setCategory(.playback, mode: .spokenAudio)
+        do {
+            try session.setActive(true)
+            StrollLog.audio.log("took the audio (other music paused)")
+            return
+        } catch {}
+        // In the background: join the audio first (allowed), then take it over, which pauses
+        // the music where iOS allows it. If it doesn't, the music is only lowered, so the line
+        // still plays.
         try? session.setCategory(.playback, mode: .spokenAudio,
                                  options: [.duckOthers, .interruptSpokenAudioAndMixWithOthers])
         try? session.setActive(true)
+        do {
+            try session.setCategory(.playback, mode: .spokenAudio)
+            StrollLog.audio.log("in background: joined then took the audio (other music should pause)")
+        } catch {
+            StrollLog.audio.log("in background: could only lower other music: \(error.localizedDescription, privacy: .public)")
+        }
     }
 
-    /// Gives the audio back so music returns to full volume. Waits a moment so it doesn't swell
-    /// up and down between the lines of one story.
-    private var releaseTask: Task<Void, Never>?
-    private func releaseSessionSoon() {
-        releaseTask?.cancel()
-        releaseTask = Task { @MainActor [weak self] in
-            try? await Task.sleep(nanoseconds: 1_500_000_000)
-            guard let self, !Task.isCancelled else { return }
-            if self.player?.isPlaying == true || self.speech.isSpeaking { return }
-            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+    /// This place is over: give the audio back so paused music (Apple Music, Spotify, podcasts)
+    /// can carry on. Apps decide for themselves whether to resume; most music apps do.
+    func placeDone() {
+        guard holdingAudio else { return }
+        holdingAudio = false
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+            StrollLog.audio.log("gave the audio back (other music can resume)")
+        } catch {
+            StrollLog.audio.log("couldn't give the audio back: \(error.localizedDescription, privacy: .public)")
         }
     }
 
     private func finish() {
-        guard let continuation else { return }
-        continuation.resume()
-        self.continuation = nil
-        releaseSessionSoon()
+        continuation?.resume()
+        continuation = nil
     }
 
     nonisolated func audioPlayerDidFinishPlaying(_ finished: AVAudioPlayer, successfully flag: Bool) {

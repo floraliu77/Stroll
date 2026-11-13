@@ -7,12 +7,15 @@ import Foundation
 final class FakeVoice: GuideVoice {
     var onInterrupted: (@MainActor () -> Void)?
     var spoken: [String] = []
+    /// Whether Stroll is holding the audio (music paused): from a line starting until placeDone.
+    var holdingAudio = false
     private var pending: CheckedContinuation<Void, Never>?
     private var clip = 0
     private var isPaused = false
 
     func play(_ line: Narration) async {
         spoken.append(line.clip)
+        holdingAudio = true
         clip += 1
         let mine = clip
         await withCheckedContinuation { c in
@@ -28,6 +31,7 @@ final class FakeVoice: GuideVoice {
     func stop() { finish() }
     func pause() { isPaused = true }
     func resume() { isPaused = false }
+    func placeDone() { holdingAudio = false }
     private func finish() { pending?.resume(); pending = nil }
 }
 
@@ -161,6 +165,7 @@ func runChecks() async {
     await checkBusyArrivals(content)
     await checkQuietGap(content)
     await checkSkipVoice(content)
+    await checkMusicPause(content)
     await checkSourceSwitch(content)
     await checkWatchMirror(content)
     await checkJournal(content)
@@ -294,6 +299,34 @@ func checkSkipVoice(_ content: StrollContent) async {
     await waitFor("shared skip line") { voice.spoken.last == content.lines.skip.audio }
     check(true, "Skip at a place without one plays the shared line")
     session.end()
+}
+
+/// Music stays paused for a whole place (question through story), comes back once the story
+/// ends (before Keep exploring is tapped), and after a skip.
+@MainActor
+func checkMusicPause(_ content: StrollContent) async {
+    let first = content.pois[0], second = content.pois[1]
+    let voice = FakeVoice()
+    let source = ManualSource()
+    let session = ExploreSession(content: content, voice: voice, alert: FakeAlert(), source: source,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
+    session.start()
+    source.onLocation?(first.coordinate)
+    await waitFor("prompt") { session.phase == .prompt && voice.spoken.last == first.prompt.audio }
+    try? await Task.sleep(nanoseconds: 100_000_000)   // the question has finished; they're deciding
+    check(voice.holdingAudio, "music stays paused while the participant decides on the question")
+    session.tellMeMore()
+    await waitFor("story finished") { session.phase == .finished }
+    check(!voice.holdingAudio, "music comes back when the story ends, before Keep exploring")
+    session.keepExploring()
+    source.onLocation?(second.coordinate)
+    await waitFor("second prompt") { session.phase == .prompt }
+    session.skip()
+    await waitFor("exploring") { session.phase == .exploring }
+    check(!voice.holdingAudio, "music comes back after a skip")
+    session.end()
+    await waitFor("done line") { !voice.holdingAudio && voice.spoken.last == content.lines.done.audio }
+    check(true, "music comes back after the walk-complete line")
 }
 
 /// Developer tools switches between the demo walk and real location, only before a walk.
