@@ -151,9 +151,17 @@ def main():
         print(f"Sample: {out}\nText: {poi['prompt']['text']}")
         return
 
-    if not todo:
+    # Per-place "Okay, onward." lines without audio share one clip per voice (e.g. skip-sky).
+    skip_places = [poi for poi in content["pois"] if poi.get("skipLine") and not poi["skipLine"].get("audio")]
+    if not todo and not skip_places:
         print("Nothing to generate.")
         return
+    if skip_places:
+        clip = "skip-" + args.voice.split("_")[-1]
+        print(f"[skip] {clip}: {spoken(skip_places[0]['skipLine']['text'])} ({len(skip_places)} places)")
+        speak(skip_places[0]["skipLine"]["text"], AUDIO / f"{clip}.m4a")
+        for poi in skip_places:
+            poi["skipLine"]["audio"] = clip
     for n, (poi, line, clip) in enumerate(todo, start=1):
         print(f"[{n}/{len(todo)}] {clip}: {spoken(line['text'])}")
         speak(line["text"], AUDIO / f"{clip}.m4a")
@@ -165,7 +173,8 @@ def main():
             del poi["audioStatus"]
             poi["audioVoice"] = voice_note
     CONTENT.write_text(json.dumps(content, indent=2, ensure_ascii=False) + "\n")
-    print(f"Done: {len(todo)} clips in Resources/Audio/. Run Tools/check-walk-model.sh next.")
+    print(f"Done: {len(todo) + (1 if skip_places else 0)} clips in Resources/Audio/. "
+          "Run Tools/check-walk-model.sh next.")
 
 
 if __name__ == "__main__":

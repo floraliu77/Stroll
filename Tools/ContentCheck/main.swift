@@ -32,6 +32,11 @@ for poi in content.pois {
             iPhoneVoice[poi.id, default: 0] += 1
         }
     }
+    if let skip = poi.skipLine {
+        check(!skip.text.isEmpty, "\(poi.id): empty skip line")
+        if skip.hasRecording { check(clipExists(skip.audio), "\(poi.id): missing audio clip '\(skip.audio)'") }
+        else { iPhoneVoice[poi.id, default: 0] += 1 }
+    }
 }
 for line in [content.lines.skip, content.lines.done] { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
 for route in content.walks {

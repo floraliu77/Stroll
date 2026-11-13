@@ -223,6 +223,10 @@
           "audio": "st-nicholas-cathedral-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "ok",
       "standingSpot": "S Dithridge St sidewalk, in front of the columned porch.",
@@ -272,6 +276,10 @@
           "audio": "bellefield-hall-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "ok",
       "standingSpot": "S Bellefield Ave sidewalk, across from the tall arched doorway.",
@@ -322,6 +330,10 @@
           "audio": "heinz-chapel-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "ok",
       "standingSpot": "West side of the chapel, on the path from the Cathedral of Learning lawn.",
@@ -371,6 +383,10 @@
           "audio": "cathedral-of-learning-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "ok: cropped to landscape",
       "standingSpot": "Anywhere on the lawn around the tower.",
@@ -420,6 +436,10 @@
           "audio": "the-hiker-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "replaced: the earlier photo was CC BY-NC-SA (non-commercial). This free one is small (806x1199, portrait, 1980s); crop to landscape. A newer photo from the walk would be better.",
       "standingSpot": "Schenley Dr, by the statue next to the Frick Fine Arts Building.",
@@ -469,6 +489,10 @@
           "audio": "first-baptist-church-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "ok",
       "standingSpot": "Corner of Bellefield Ave and Bayard St.",
@@ -518,6 +542,10 @@
           "audio": "st-paul-cathedral-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "ok: cropped to landscape",
       "standingSpot": "Fifth Ave sidewalk in front of the cathedral, between N Dithridge St and N Craig St.",
@@ -567,6 +595,10 @@
           "audio": "fairfax-apartments-story3"
         }
       ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
       "reviewStatus": "needs-review",
       "photoStatus": "ok",
       "standingSpot": "Fifth Ave sidewalk across from the building, just east of S Craig St.",

@@ -21,6 +21,10 @@ Kokoro's Sky voice** (`af_sky`, normal speed) on Nov 13. Each of these places ha
 `"audioVoice": "kokoro af_sky … final voice not decided yet"`. The original 4 places keep their
 earlier recordings, so **two voices are mixed for now** until the team picks the final voice.
 
+"Okay, onward." after Skip follows the place's voice: the 8 Sky places have their own `skipLine`
+(shared clip `skip-sky`), and the original 4 use the shared `lines.skip`. The end line ("Walk
+complete…") is still the original voice for everyone.
+
 **How the voice tool works** (`Tools/voice/generate.py`, free and local, Kokoro is Apache 2.0):
 it generates a clip for every line with `"audio": null` and never touches lines that already have
 a recording. One-time setup on a Mac, from the Stroll folder:

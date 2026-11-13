@@ -160,6 +160,7 @@ func runChecks() async {
 
     await checkBusyArrivals(content)
     await checkQuietGap(content)
+    await checkSkipVoice(content)
     await checkSourceSwitch(content)
     await checkWatchMirror(content)
     await checkJournal(content)
@@ -265,6 +266,33 @@ func checkQuietGap(_ content: StrollContent) async {
     session.resume()
     await waitFor("arrival after resuming", timeout: 3) { alert.arrivals.count == 4 }
     check(alert.arrivals.last == content.pois[3].id, "the gap carries on after Resume")
+    session.end()
+}
+
+/// "Okay, onward." after Skip uses the place's own line (its voice) when it has one.
+@MainActor
+func checkSkipVoice(_ content: StrollContent) async {
+    guard let own = content.pois.first(where: { $0.skipLine != nil }),
+          let shared = content.pois.first(where: { $0.skipLine == nil }) else {
+        print("ok  (no place with its own skip line to check)")
+        return
+    }
+    let voice = FakeVoice()
+    let source = ManualSource()
+    let session = ExploreSession(content: content, voice: voice, alert: FakeAlert(), source: source,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
+    session.start()
+    source.onLocation?(own.coordinate)
+    await waitFor("own prompt") { session.phase == .prompt }
+    session.skip()
+    await waitFor("own skip line") { voice.spoken.last == own.skipLine!.audio }
+    check(true, "Skip at a place with its own skip line plays that line")
+    await waitFor("exploring") { session.phase == .exploring }
+    source.onLocation?(shared.coordinate)
+    await waitFor("shared prompt") { session.phase == .prompt }
+    session.skip()
+    await waitFor("shared skip line") { voice.spoken.last == content.lines.skip.audio }
+    check(true, "Skip at a place without one plays the shared line")
     session.end()
 }
 
