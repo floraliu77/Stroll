@@ -6,6 +6,9 @@ struct StrollApp: App {
     @StateObject private var link = PhoneLink()
     @StateObject private var session = ExploreSession.live()
     @StateObject private var journal = JournalStore()
+    /// The phone's real position, used when Developer tools is set to Real location.
+    @StateObject private var liveLocation = LiveLocationSource()
+    @AppStorage(WalkMode.storageKey) private var walkMode: WalkMode = .demo
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -14,7 +17,9 @@ struct StrollApp: App {
             .environmentObject(link)
             .environmentObject(session)
             .environmentObject(journal)
+            .environmentObject(liveLocation)
             .onAppear {
+                useWalkMode()
                 link.activate(mirroring: session)
                 // Each point of interest goes into the Journal as soon as it's explored or skipped.
                 session.onVisit = { [journal] visit in
@@ -23,6 +28,18 @@ struct StrollApp: App {
             }
             .onChange(of: scenePhase) { _, _ in updateReminder() }
             .onChange(of: session.phase) { _, _ in updateReminder() }
+            .onChange(of: walkMode) { _, _ in useWalkMode() }
+        }
+    }
+
+    /// Points the session at the demo walk or the phone's real position. Developer tools only
+    /// lets the mode change before a walk starts.
+    private func useWalkMode() {
+        switch walkMode {
+        case .real:
+            session.useSource(liveLocation)
+        case .demo:
+            if !(session.source is DemoWalk) { session.useSource(DemoWalk(content: session.content)) }
         }
     }
 

@@ -49,7 +49,7 @@ targets:
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO   # answers TestFlight's encryption question
         INFOPLIST_KEY_NSHealthShareUsageDescription: Stroll opens on your Apple Watch as a walking session, so it keeps buzzing while your wrist is down.
         INFOPLIST_KEY_NSHealthUpdateUsageDescription: Stroll opens on your Apple Watch as a walking session, so it keeps buzzing while your wrist is down. Nothing is saved to Health.
-        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Stroll shows points of interest near you on the map, and notices when you reach one while you explore.
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Stroll shows points of interest near you on the map, and notices when you reach one while you explore, even with your phone locked in your pocket.
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         TARGETED_DEVICE_FAMILY: "1"

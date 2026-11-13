@@ -64,7 +64,7 @@ func runChecks() async {
     let alert = FakeAlert()
     let demo = DemoWalk(stops: order.compactMap { content.poi($0)?.coordinate }, firstSeconds: 0.2, gapSeconds: 0.2...0.3)
     let session = ExploreSession(content: content, voice: voice, alert: alert, source: demo,
-                                 timing: .init(preview: 0.05, betweenLines: 0.01))
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
 
     // Detector
     let first = content.poi(order[0])!
@@ -159,6 +159,8 @@ func runChecks() async {
     session.reset()
 
     await checkBusyArrivals(content)
+    await checkQuietGap(content)
+    await checkSourceSwitch(content)
     await checkWatchMirror(content)
     await checkJournal(content)
     print("All exploring checks passed.")
@@ -170,7 +172,7 @@ func checkWatchMirror(_ content: StrollContent) async {
     let voice = FakeVoice()
     let source = ManualSource()
     let session = ExploreSession(content: content, voice: voice, alert: FakeAlert(), source: source,
-                                 timing: .init(preview: 0.05, betweenLines: 0.01))
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
     let a = content.pois[0]
     check(session.mirrorState == .idle, "the watch starts on the start screen")
     session.handle(.start)
@@ -221,6 +223,70 @@ final class ManualSource: LocationSource {
     func participantIsFree() {}
 }
 
+/// After a stop, nothing new comes up for the quiet gap. A place still in range when the gap
+/// ends comes up then; one the participant walked past is let go. Pausing pauses the gap.
+@MainActor
+func checkQuietGap(_ content: StrollContent) async {
+    let alert = FakeAlert()
+    let source = ManualSource()
+    let session = ExploreSession(content: content, voice: FakeVoice(), alert: alert, source: source,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0.4))
+    let a = content.pois[0], b = content.pois[1], c = content.pois[2]
+    let farAway = StrollContent.Coordinate(latitude: 0, longitude: 0)
+    session.start()
+    source.onLocation?(a.coordinate)
+    await waitFor("prompt") { session.phase == .prompt }
+    session.skip()
+    await waitFor("back to exploring") { session.phase == .exploring }
+    source.onLocation?(b.coordinate)
+    try? await Task.sleep(nanoseconds: 150_000_000)
+    check(alert.arrivals == [a.id], "nothing comes up during the quiet gap after a stop")
+    await waitFor("arrival after the gap", timeout: 3) { alert.arrivals.count == 2 }
+    check(alert.arrivals.last == b.id, "a place still in range comes up when the gap ends")
+
+    await waitFor("second prompt") { session.phase == .prompt }
+    session.skip()
+    await waitFor("back to exploring again") { session.phase == .exploring }
+    source.onLocation?(c.coordinate)
+    source.onLocation?(farAway)   // walked on before the gap ended
+    try? await Task.sleep(nanoseconds: 700_000_000)
+    check(alert.arrivals.count == 2, "a place walked past during the gap is let go")
+    source.onLocation?(c.coordinate)
+    await waitFor("arrival once back in range") { alert.arrivals.count == 3 }
+    check(alert.arrivals.last == c.id, "after the gap, walking up to a place brings it up as usual")
+
+    await waitFor("third prompt") { session.phase == .prompt }
+    session.skip()
+    await waitFor("exploring after third") { session.phase == .exploring }
+    session.pause()
+    source.onLocation?(content.pois[3].coordinate)
+    try? await Task.sleep(nanoseconds: 700_000_000)
+    check(alert.arrivals.count == 3, "the quiet gap doesn't run out while paused")
+    session.resume()
+    await waitFor("arrival after resuming", timeout: 3) { alert.arrivals.count == 4 }
+    check(alert.arrivals.last == content.pois[3].id, "the gap carries on after Resume")
+    session.end()
+}
+
+/// Developer tools switches between the demo walk and real location, only before a walk.
+@MainActor
+func checkSourceSwitch(_ content: StrollContent) async {
+    let alert = FakeAlert()
+    let first = ManualSource(), second = ManualSource()
+    let session = ExploreSession(content: content, voice: FakeVoice(), alert: alert, source: first,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
+    check(session.useSource(second), "the location source can change before a walk")
+    check(first.onLocation == nil, "the old source no longer feeds the walk")
+    session.start()
+    check(!session.useSource(first), "the location source can't change during a walk")
+    second.onLocation?(content.pois[0].coordinate)
+    await waitFor("arrival from the new source") { alert.arrivals.count == 1 }
+    check(alert.arrivals == [content.pois[0].id], "the new source brings up places")
+    session.end()
+    session.reset()
+    check(session.useSource(first), "the source can change again after the walk")
+}
+
 /// A location that comes in mid-story waits, then arrives once the participant is free.
 @MainActor
 func checkBusyArrivals(_ content: StrollContent) async {
@@ -228,7 +294,7 @@ func checkBusyArrivals(_ content: StrollContent) async {
     let alert = FakeAlert()
     let source = ManualSource()
     let session = ExploreSession(content: content, voice: voice, alert: alert, source: source,
-                                 timing: .init(preview: 0.05, betweenLines: 0.01))
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
     let a = content.pois[0], b = content.pois[1]
     session.start()
     source.onLocation?(a.coordinate)
@@ -260,7 +326,7 @@ func checkJournal(_ content: StrollContent) async {
 
     let source = ManualSource()
     let session = ExploreSession(content: content, voice: FakeVoice(), alert: FakeAlert(), source: source,
-                                 timing: .init(preview: 0.05, betweenLines: 0.01))
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
     session.onVisit = { journal.add(poiID: $0.poiID, outcome: $0.outcome, at: $0.at) }
     let a = content.pois[0], b = content.pois[1]
     session.start()

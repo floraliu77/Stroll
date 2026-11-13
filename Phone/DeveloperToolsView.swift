@@ -1,12 +1,15 @@
 import SwiftUI
 
-/// Testing tools: the watch connection, restarting the walk (e.g. for the next participant),
-/// and a way to bring up any point of interest now instead of waiting for the demo walk. Everything goes through the phone's session, so the
+/// Testing tools: the watch connection, demo walk or real location (with a GPS readout for
+/// outdoor tests), restarting the walk (e.g. for the next participant), and a way to bring up
+/// any point of interest now instead of waiting. Everything goes through the phone's session, so the
 /// watch mirrors it and only the phone speaks.
 struct DeveloperToolsView: View {
     @EnvironmentObject private var link: PhoneLink
     @EnvironmentObject private var session: ExploreSession
     @EnvironmentObject private var journal: JournalStore
+    @EnvironmentObject private var liveLocation: LiveLocationSource
+    @AppStorage(WalkMode.storageKey) private var walkMode: WalkMode = .demo
     @Environment(\.dismiss) private var dismiss
     @State private var confirmingRestart = false
 
@@ -24,6 +27,24 @@ struct DeveloperToolsView: View {
                         }
                     }
                     .accessibilityElement(children: .combine)
+                }
+                Section {
+                    Picker("Walk mode", selection: $walkMode) {
+                        ForEach(WalkMode.allCases) { Text($0.title).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
+                    .disabled(session.phase != .idle)
+                } header: {
+                    Text("Walk mode")
+                } footer: {
+                    Text(walkModeFooter)
+                }
+                if walkMode == .real {
+                    Section("GPS") {
+                        TimelineView(.periodic(from: .now, by: 1)) { context in
+                            gpsRows(now: context.date)
+                        }
+                    }
                 }
                 Section {
                     Button("Restart walk", role: .destructive) { confirmingRestart = true }
@@ -81,6 +102,51 @@ struct DeveloperToolsView: View {
     private var canRestart: Bool { isWalking || !journal.entries.isEmpty }
 
     private var canArrive: Bool { session.phase != .idle && session.phase != .ended }
+
+    private var walkModeFooter: String {
+        let about = walkMode == .demo
+            ? "Places come up on a timer, wherever you are. Use it indoors and for demos."
+            : "Places come up when you walk within their trigger radius. Start the walk with Stroll open on your phone; it keeps going with the phone locked."
+        return session.phase == .idle ? about : about + " End the walk to change the mode."
+    }
+
+    @ViewBuilder
+    private func gpsRows(now: Date) -> some View {
+        LabeledContent("Status", value: statusText)
+        if let fix = liveLocation.lastFix {
+            LabeledContent("Accuracy") {
+                Text("±\(Int(fix.accuracy.rounded())) m")
+                    .foregroundStyle(fix.accuracy <= liveLocation.maxAccuracyMeters ? Color.green : Color.orange)
+            }
+            LabeledContent("Updated", value: "\(max(0, Int(now.timeIntervalSince(fix.at)))) s ago")
+            if let nearest = nearestPlace(to: fix.coordinate) {
+                LabeledContent("Nearest place") {
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text(nearest.poi.name)
+                        Text("\(Int(nearest.meters.rounded())) m away · triggers within \(Int(nearest.poi.triggerRadiusMeters)) m")
+                            .font(.caption)
+                            .foregroundStyle(nearest.meters <= nearest.poi.triggerRadiusMeters ? Color.green : Color.secondary)
+                    }
+                }
+            }
+        }
+    }
+
+    private var statusText: String {
+        switch liveLocation.status {
+        case .off: "Starts with Start Exploring"
+        case .waiting: "Finding your position…"
+        case .weak: "Weak signal: waiting for better accuracy"
+        case .tracking: "Tracking"
+        case .denied: "Location is off for Stroll. Settings → Stroll → Location → While Using the App"
+        }
+    }
+
+    private func nearestPlace(to coordinate: StrollContent.Coordinate) -> (poi: StrollContent.POI, meters: Double)? {
+        session.content.pois
+            .map { (poi: $0, meters: POIDetector.distance(coordinate, $0.coordinate)) }
+            .min { $0.meters < $1.meters }
+    }
 
     private var watchDetail: String {
         if link.isReachable { return "Mirrors the phone: buzz, photo and buttons." }

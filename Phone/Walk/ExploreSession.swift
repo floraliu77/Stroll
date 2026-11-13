@@ -17,8 +17,9 @@ protocol ArrivalAlert {
     func arrived(at poi: StrollContent.POI, category: StrollContent.Category?)
 }
 
-/// Where the participant is: the demo walk now, Core Location later (docs/round1-plan.md).
-/// Either way, locations go through `POIDetector`, so the demo also tests the real trigger logic.
+/// Where the participant is: the scripted demo walk (`DemoWalk`) or the phone's real position
+/// (`LiveLocationSource`). Either way, locations go through `POIDetector`, so the demo also tests
+/// the real trigger logic.
 @MainActor
 protocol LocationSource: AnyObject {
     var onLocation: (@MainActor (StrollContent.Coordinate) -> Void)? { get set }
@@ -32,7 +33,7 @@ protocol LocationSource: AnyObject {
     func pause()
     func resume()
     /// The participant is free for the next point of interest. The demo walk starts its
-    /// countdown; live location doesn't need it.
+    /// countdown; live location doesn't need it (the session's quiet gap covers it).
     func participantIsFree()
 }
 
@@ -54,6 +55,9 @@ final class ExploreSession: ObservableObject {
     struct Timing {
         var preview = 2.5        // photo on screen before the prompt (no cue line in round 1)
         var betweenLines = 0.7   // pause between story lines, as on the watch
+        /// After a stop ends (Keep exploring or Skip), nothing new comes up for this long, so
+        /// places close together don't fire back to back. Pausing pauses it too.
+        var quietAfterStop = 30.0
     }
 
     @Published private(set) var phase: Phase = .idle
@@ -81,9 +85,12 @@ final class ExploreSession: ObservableObject {
 
     private let voice: GuideVoice
     private let alert: ArrivalAlert
-    private let source: LocationSource
+    /// Where locations come from. Swapped with `useSource` (Developer tools), only before a walk.
+    private(set) var source: LocationSource
     private let timing: Timing
     private var task: Task<Void, Never>?
+    /// Running during the quiet gap after a stop.
+    private var quietTask: Task<Void, Never>?
     private var arrived: Set<String> = []   // each point of interest comes up once per session
     private var pending: StrollContent.Coordinate?
 
@@ -98,10 +105,23 @@ final class ExploreSession: ObservableObject {
         voice.onInterrupted = { [weak self] in self?.pause() }
     }
 
+    /// Switches between the demo walk and real location. Only before a walk starts.
+    @discardableResult
+    func useSource(_ newSource: LocationSource) -> Bool {
+        guard phase == .idle else { return false }
+        guard newSource !== source else { return true }
+        source.stop()
+        source.onLocation = nil
+        source = newSource
+        newSource.onLocation = { [weak self] in self?.located($0) }
+        return true
+    }
+
     // MARK: Participant
 
     func start() {
         guard phase == .idle else { return }
+        cancelQuiet()
         visits = []
         arrived = []
         clearStop()
@@ -164,6 +184,7 @@ final class ExploreSession: ObservableObject {
 
     func end() {
         guard phase != .idle, phase != .ended else { return }
+        cancelQuiet()
         cancelRun()
         source.stop()
         clearStop()
@@ -175,6 +196,7 @@ final class ExploreSession: ObservableObject {
 
     /// Back to the map, ready for the next participant or session.
     func reset() {
+        cancelQuiet()
         cancelRun()
         source.stop()
         clearStop()
@@ -211,11 +233,19 @@ final class ExploreSession: ObservableObject {
             if showsStop { pending = coordinate }
             return
         }
+        // During the quiet gap, keep the latest position; it's checked again when the gap ends,
+        // so a place still in range comes up then and one already walked past is let go.
+        if quietTask != nil {
+            pending = coordinate
+            return
+        }
         guard let next = POIDetector.poi(near: coordinate, in: content.pois, excluding: arrived) else { return }
         arrive(at: next)
     }
 
     private func arrive(at next: StrollContent.POI) {
+        cancelQuiet()
+        pending = nil
         arrived.insert(next.id)
         run { [self] in
             poi = next
@@ -248,7 +278,28 @@ final class ExploreSession: ObservableObject {
         pending = waiting
         phase = .exploring
         source.participantIsFree()
-        arrivePending()
+        startQuiet()
+    }
+
+    /// The quiet gap after a stop. When it ends, the latest position is checked again.
+    private func startQuiet() {
+        cancelQuiet()
+        guard timing.quietAfterStop > 0 else {
+            arrivePending()
+            return
+        }
+        let seconds = timing.quietAfterStop
+        quietTask = Task { @MainActor [weak self] in
+            do { try await self?.pausableSleep(seconds) } catch { return }   // cancelled
+            guard let self, !Task.isCancelled else { return }
+            self.quietTask = nil
+            self.arrivePending()
+        }
+    }
+
+    private func cancelQuiet() {
+        quietTask?.cancel()
+        quietTask = nil
     }
 
     /// A location that came in while the participant was busy (e.g. replaying a story).
