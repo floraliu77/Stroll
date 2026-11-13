@@ -8,13 +8,15 @@ extension Color {
     static let strollMuted = Color(hex: 0x5B6A63)      // text/muted
     static let strollBorder = Color(hex: 0xE3DDD0)     // border/subtle
 
-    /// category/* colours, keyed by StrollContent.Category.id.
+    /// category/* colours, keyed by StrollContent.Category.id. Darkened in v2 so each one passes
+    /// WCAG AA (4.5:1) on paper and white, and each has its own lightness so the four stay
+    /// distinct with red-green colour blindness (ethical audit).
     static func category(_ id: String) -> Color {
         switch id {
-        case "architecture": return Color(hex: 0xB5652B)
-        case "natural-history": return Color(hex: 0x3F7D4F)
-        case "public-art": return Color(hex: 0x7A55A6)
-        case "history": return Color(hex: 0x2E6A8E)
+        case "architecture": return Color(hex: 0xA15C17)
+        case "natural-history": return Color(hex: 0x1F5144)
+        case "public-art": return Color(hex: 0x8A4FB0)
+        case "history": return Color(hex: 0x1E4167)
         default: return .strollGreen
         }
     }
