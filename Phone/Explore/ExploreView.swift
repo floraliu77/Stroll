@@ -10,6 +10,7 @@ struct ExploreView: View {
     @State private var filter: String?          // nil = All
     @State private var position: MapCameraPosition = .region(ExploreView.pilotArea)
     @State private var showingSettings = false
+    @State private var askingHowToListen = false
     @State private var location = CLLocationManager()
 
     /// Shows every point of interest (the pilot area in Oakland).
@@ -96,9 +97,12 @@ struct ExploreView: View {
                         .multilineTextAlignment(.center)
                 }
                 Button {
-                    ExploreNotifications.requestPermission()
-                    session.start()
-                    link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
+                    // No headphones: ask before anything plays out loud.
+                    if ListeningMode.isOnPhoneSpeaker {
+                        askingHowToListen = true
+                    } else {
+                        startExploring(readOnly: false)
+                    }
                 } label: {
                     Text("Start Exploring")
                         .font(.headline)
@@ -117,6 +121,21 @@ struct ExploreView: View {
             }
             .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
         }
+        .confirmationDialog("No headphones connected", isPresented: $askingHowToListen, titleVisibility: .visible) {
+            Button("Play out loud") { startExploring(readOnly: false) }
+            Button("Read only") { startExploring(readOnly: true) }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("The story will play from your phone's speaker. Choose Read only to follow along on screen without sound.")
+        }
+    }
+
+    @MainActor
+    private func startExploring(readOnly: Bool) {
+        ListeningMode.readOnly = readOnly
+        ExploreNotifications.requestPermission()
+        session.start()
+        link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
     }
 
     private var countText: String {

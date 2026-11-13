@@ -47,6 +47,11 @@ struct ExploringPanel: View {
                     .font(.subheadline)
                     .foregroundStyle(Color.strollMuted)
                     .multilineTextAlignment(.center)
+                if ListeningMode.readOnly {
+                    Label("Read only, no sound", systemImage: "speaker.slash")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Color.strollMuted)
+                }
                 if !session.visits.isEmpty {
                     Text(foundText)
                         .font(.footnote.weight(.semibold))
@@ -106,7 +111,7 @@ struct StopSheet: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 200)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .accessibilityLabel("Photo of a point of interest")
+                    .accessibilityLabel(poi.altText ?? "Photo of a point of interest")
                 if [.story, .finished].contains(session.phase) {
                     Text(poi.name)
                         .font(.title2.bold())
