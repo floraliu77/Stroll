@@ -10,8 +10,11 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
     private var player: AVAudioPlayer?
     private var continuation: CheckedContinuation<Void, Never>?
     private var observers: [NSObjectProtocol] = []
+    /// Silent while the participant chose Read only (see ListeningMode).
+    private let followsReadOnly: Bool
 
-    override init() {
+    init(followsReadOnly: Bool = true) {
+        self.followsReadOnly = followsReadOnly
         super.init()
         let center = NotificationCenter.default
         // A timer, alarm or call takes the audio: iOS pauses the clip, so pause the walk too.
@@ -43,6 +46,8 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
             return
         }
         next.delegate = self
+        // Read only: the clip still runs (so timing, Pause and Replay work as usual) but makes no sound.
+        next.volume = followsReadOnly && ListeningMode.readOnly ? 0 : 1
         player = next
         await withCheckedContinuation { c in
             continuation = c
@@ -89,6 +94,20 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
     private func clipEnded(_ id: ObjectIdentifier) {
         guard let player, ObjectIdentifier(player) == id else { return }   // an older clip
         finish()
+    }
+}
+
+/// How the participant chose to follow the guide. Asked at Start Exploring when no headphones
+/// are connected, so the story never plays out loud without them choosing it (ethical audit).
+enum ListeningMode {
+    /// The walk runs as usual, but narration is silent and the text on screen carries the story.
+    static var readOnly = false
+
+    /// True when sound would come out of the phone itself rather than headphones.
+    static var isOnPhoneSpeaker: Bool {
+        AVAudioSession.sharedInstance().currentRoute.outputs.allSatisfy {
+            $0.portType == .builtInSpeaker || $0.portType == .builtInReceiver
+        }
     }
 }
 
