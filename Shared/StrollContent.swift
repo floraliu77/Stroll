@@ -27,6 +27,7 @@ struct StrollContent: Decodable {
         let coordinateStatus: String     // "placeholder" until the location research confirms it
         let triggerRadiusMeters: Double
         let image: String                // asset catalog name
+        let altText: String?             // what VoiceOver says about the photo; never gives away the answer
         let photoCredit: PhotoCredit
         let prompt: Line
         let reveal: Line
