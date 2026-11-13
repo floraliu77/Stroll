@@ -203,24 +203,24 @@
       },
       "prompt": {
         "text": "Look at the tops of the columns on the front porch. What shape curls out at the top of each one?",
-        "audio": null
+        "audio": "st-nicholas-cathedral-prompt"
       },
       "reveal": {
         "text": "Scrolls. These are Ionic columns, a style from ancient Greece.",
-        "audio": null
+        "audio": "st-nicholas-cathedral-reveal"
       },
       "story": [
         {
           "text": "This church was built in 1904, but not for a Greek congregation. It was the First Congregational Church.",
-          "audio": null
+          "audio": "st-nicholas-cathedral-story1"
         },
         {
           "text": "A Greek Orthodox congregation took it over in 1923, and it's been theirs ever since.",
-          "audio": null
+          "audio": "st-nicholas-cathedral-story2"
         },
         {
           "text": "It became a cathedral in 1955, when Pittsburgh became the seat of a Greek Orthodox diocese.",
-          "audio": null
+          "audio": "st-nicholas-cathedral-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -231,7 +231,7 @@
         "https://en.wikipedia.org/wiki/St._Nicholas_Greek_Orthodox_Cathedral_(Pittsburgh)"
       ],
       "notes": "PORCH CHECKED IN PHOTO: the columned porch faces S Dithridge St, and the Ionic scrolls are easy to see. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "bellefield-hall",
@@ -252,24 +252,24 @@
       },
       "prompt": {
         "text": "Look at the words carved above the tall arched doorway. Who was this building made for?",
-        "audio": null
+        "audio": "bellefield-hall-prompt"
       },
       "reveal": {
         "text": "The Young Men and Women's Hebrew Association.",
-        "audio": null
+        "audio": "bellefield-hall-reveal"
       },
       "story": [
         {
           "text": "It was dedicated in 1926 and designed by Benno Janssen, the same architect as the Mellon Institute just up the street.",
-          "audio": null
+          "audio": "bellefield-hall-story1"
         },
         {
           "text": "Samuel Yellin, one of America's best-known ironworkers, made the lanterns at the main entrance.",
-          "audio": null
+          "audio": "bellefield-hall-story2"
         },
         {
           "text": "Today it belongs to Pitt. Inside are a swimming pool, a gym, and a music recording studio.",
-          "audio": null
+          "audio": "bellefield-hall-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -281,7 +281,7 @@
         "https://commons.wikimedia.org/wiki/File:Young_Men_and_Women%E2%80%99s_Hebrew_Association,_Oakland,_inscription,_2022-05-17.jpg"
       ],
       "notes": "DOORWAY CHECKED IN PHOTOS: the arched doorway with the carved name is on the short west side of the building, facing Bellefield Ave, which matches the 315 S Bellefield address. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "heinz-chapel",
@@ -302,24 +302,24 @@
       },
       "prompt": {
         "text": "Look at the shields carved into the chapel's stone walls. What do you think they stand for?",
-        "audio": null
+        "audio": "heinz-chapel-prompt"
       },
       "reveal": {
         "text": "Schools. They're the seals of old European universities and early American colleges.",
-        "audio": null
+        "audio": "heinz-chapel-reveal"
       },
       "story": [
         {
           "text": "The chapel was dedicated in 1938, in memory of H. J. Heinz and his mother, Anna.",
-          "audio": null
+          "audio": "heinz-chapel-story1"
         },
         {
           "text": "Its tallest stained glass windows are 73 feet high, among the tallest in the world.",
-          "audio": null
+          "audio": "heinz-chapel-story2"
         },
         {
           "text": "The windows hold nearly 250,000 pieces of glass and show 391 people.",
-          "audio": null
+          "audio": "heinz-chapel-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -330,7 +330,7 @@
         "https://www.chronicle.pitt.edu/story/heinz-memorial-chapel-celebrates-75-years"
       ],
       "notes": "The main entrance is on Bellefield Ave, across from Bellefield Hall. To keep the two trigger circles apart, this point is on the chapel's west side. The seals are carved on gables, parapets and buttresses all around the outside, so they show from there too. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "cathedral-of-learning",
@@ -351,24 +351,24 @@
       },
       "prompt": {
         "text": "Look up at this tower. Guess how many floors it has.",
-        "audio": null
+        "audio": "cathedral-of-learning-prompt"
       },
       "reveal": {
         "text": "42. It's 535 feet tall.",
-        "audio": null
+        "audio": "cathedral-of-learning-reveal"
       },
       "story": [
         {
           "text": "It's the second-tallest university building in the world. Only Moscow State University's main tower is taller.",
-          "audio": null
+          "audio": "cathedral-of-learning-story1"
         },
         {
           "text": "While it was being built, more than 97,000 schoolchildren each sent in a dime to buy a brick.",
-          "audio": null
+          "audio": "cathedral-of-learning-story2"
         },
         {
           "text": "Peregrine falcons have nested on a ledge outside the 40th floor since 2002.",
-          "audio": null
+          "audio": "cathedral-of-learning-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -379,7 +379,7 @@
         "https://chronicle.pitt.edu/story/cathedral-learning-history"
       ],
       "notes": "Big open lawn, so GPS should be good, and the radius is wider. The prompt is a guess, not something you can count from the ground. Photo is portrait, so crop to landscape. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "the-hiker",
@@ -400,24 +400,24 @@
       },
       "prompt": {
         "text": "Read the words on the front of the base. Which war is this soldier from?",
-        "audio": null
+        "audio": "the-hiker-prompt"
       },
       "reveal": {
         "text": "The War with Spain, in 1898. Today it's called the Spanish-American War.",
-        "audio": null
+        "audio": "the-hiker-reveal"
       },
       "story": [
         {
           "text": "This bronze soldier is by sculptor Allen Newman and was put up here in 1925.",
-          "audio": null
+          "audio": "the-hiker-story1"
         },
         {
           "text": "Allegheny County built it to honor local soldiers and sailors who served in that war.",
-          "audio": null
+          "audio": "the-hiker-story2"
         },
         {
           "text": "Newman designed the statue in 1904, more than 20 years before this one was cast.",
-          "audio": null
+          "audio": "the-hiker-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -428,7 +428,7 @@
         "https://www.art.pitt.edu/node/375"
       ],
       "notes": "CHANGED the prompt: no second source confirms 'Hiker of 98' plaques, so it now asks about the base inscription, which reads 'during the War with Spain'. Coordinates match the Historical Marker Database. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "first-baptist-church",
@@ -449,24 +449,24 @@
       },
       "prompt": {
         "text": "Look at the tall, thin spire. Why do you think it's green?",
-        "audio": null
+        "audio": "first-baptist-church-prompt"
       },
       "reveal": {
         "text": "It's copper. Copper turns green as it weathers.",
-        "audio": null
+        "audio": "first-baptist-church-reveal"
       },
       "story": [
         {
           "text": "The church was designed by Bertram Goodhue and finished in 1910.",
-          "audio": null
+          "audio": "first-baptist-church-story1"
         },
         {
           "text": "The copper spire is 182 feet tall.",
-          "audio": null
+          "audio": "first-baptist-church-story2"
         },
         {
           "text": "The stained glass windows are by Charles Connick, who also made the windows in Heinz Chapel.",
-          "audio": null
+          "audio": "first-baptist-church-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -477,7 +477,7 @@
         "https://heinzchapel.pitt.edu/visit-2/architecture"
       ],
       "notes": "A 2023 photo shows the green spire. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "st-paul-cathedral",
@@ -498,24 +498,24 @@
       },
       "prompt": {
         "text": "Count the arched doorways across the front of the cathedral. How many can you find?",
-        "audio": null
+        "audio": "st-paul-cathedral-prompt"
       },
       "reveal": {
         "text": "Five. Three in the middle, and one at the bottom of each spire.",
-        "audio": null
+        "audio": "st-paul-cathedral-reveal"
       },
       "story": [
         {
           "text": "St. Paul Cathedral was finished in 1906. Its twin spires were inspired by Cologne Cathedral in Germany.",
-          "audio": null
+          "audio": "st-paul-cathedral-story1"
         },
         {
           "text": "This is the third St. Paul Cathedral. The first two stood downtown on Grant Street.",
-          "audio": null
+          "audio": "st-paul-cathedral-story2"
         },
         {
           "text": "Andrew Carnegie paid for the cathedral's first pipe organ.",
-          "audio": null
+          "audio": "st-paul-cathedral-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -526,7 +526,7 @@
         "https://en.wikipedia.org/wiki/St._Paul_Cathedral_(Pittsburgh)"
       ],
       "notes": "DOORS CHECKED IN PHOTO: a 2022 photo of the Fifth Ave front shows five arched doorways. Photo is portrait, so crop to landscape around the doors. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "fairfax-apartments",
@@ -547,24 +547,24 @@
       },
       "prompt": {
         "text": "Look up at the roofline of this tall brick building. How many fancy carved stone tops can you count?",
-        "audio": null
+        "audio": "fairfax-apartments-prompt"
       },
       "reveal": {
         "text": "Three. Each one crowns a section that sticks out a little from the wall.",
-        "audio": null
+        "audio": "fairfax-apartments-reveal"
       },
       "story": [
         {
           "text": "It was built in 1926 and 1927 as the Fifth Avenue Apartments.",
-          "audio": null
+          "audio": "fairfax-apartments-story1"
         },
         {
           "text": "When it opened in 1927, it was one of the grandest apartment houses in Pittsburgh.",
-          "audio": null
+          "audio": "fairfax-apartments-story2"
         },
         {
           "text": "Today it's Carnegie Mellon student housing.",
-          "audio": null
+          "audio": "fairfax-apartments-story3"
         }
       ],
       "reviewStatus": "needs-review",
@@ -576,7 +576,7 @@
         "https://en.wikipedia.org/wiki/Fairfax_Apartments"
       ],
       "notes": "A 2023 photo shows the three carved tops. Story 1 (the Fifth Avenue Apartments name) is only on Wikipedia. New text, needs team review.",
-      "audioStatus": "iphone-voice-placeholder: no recordings yet, the iPhone voice reads these lines; record later"
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     }
   ],
   "lines": {

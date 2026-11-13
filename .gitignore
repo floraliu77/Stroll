@@ -9,3 +9,7 @@ Stroll.xcodeproj/
 *.zip
 # Editor tool cache
 .impeccable/
+# Kokoro voice tool: local environment, model files and test samples (large, not shared)
+Tools/voice/.venv/
+Tools/voice/models/
+Tools/voice/samples/

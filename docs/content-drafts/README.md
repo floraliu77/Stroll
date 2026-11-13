@@ -14,21 +14,36 @@ review. Check facts and wording, then change `reviewStatus` to `"reviewed"` in
 - st-nicholas-cathedral · bellefield-hall · heinz-chapel · cathedral-of-learning
 - the-hiker · first-baptist-church · st-paul-cathedral · fairfax-apartments
 
-## 2. Recordings (`"audioStatus": "iphone-voice-placeholder"`)
+## 2. Narration voice (`"audioVoice"`)
 
-Lines without a recording have `"audio": null`. The phone reads them with the **iPhone's
-built-in voice** as a placeholder, so the places work now. To see the current list, run:
+The 40 lines of the 8 new places (5 each: question, answer, 3 story lines) were **generated with
+Kokoro's Sky voice** (`af_sky`, normal speed) on Nov 13. Each of these places has
+`"audioVoice": "kokoro af_sky … final voice not decided yet"`. The original 4 places keep their
+earlier recordings, so **two voices are mixed for now** until the team picks the final voice.
+
+**How the voice tool works** (`Tools/voice/generate.py`, free and local, Kokoro is Apache 2.0):
+it generates a clip for every line with `"audio": null` and never touches lines that already have
+a recording. One-time setup on a Mac, from the Stroll folder:
 
 ```bash
-Tools/check-walk-model.sh
+python3 -m uv venv --python 3.12 Tools/voice/.venv
+python3 -m uv pip install --python Tools/voice/.venv "onnxruntime==1.23.2" kokoro-onnx
 ```
 
-It prints "To record later: … lines in … places use the iPhone voice".
+Then download `kokoro-v1.0.onnx` and `voices-v1.0.bin` from the kokoro-onnx GitHub releases
+(`model-files-v1.0`) into `Tools/voice/models/`. These are excluded from Git (353 MB).
 
-**40 lines to record**: 5 per place (question, answer, 3 story lines) for the 8 places above.
-To add a recording: put the clip in `Resources/Audio/` (mp3 or m4a), set that line's `"audio"`
-to the file name without the extension, and once all of a place's lines are recorded, remove its
-`audioStatus`.
+```bash
+Tools/voice/.venv/bin/python Tools/voice/generate.py --list            # lines without audio
+Tools/voice/.venv/bin/python Tools/voice/generate.py --sample PLACE_ID  # one test clip
+Tools/voice/.venv/bin/python Tools/voice/generate.py                    # generate all missing
+```
+
+New places added with `"audio": null` (for example from another city) are read by the iPhone
+voice until the tool is run. `Tools/check-walk-model.sh` lists any such lines.
+
+**To switch to a different voice later:** set the lines' `"audio"` back to `null`, delete their
+clips, and run the tool with `--voice NAME` (or record them by hand).
 
 **Also re-record 4 existing clips** that MJ found didn't match sources (`textFixes` in
 `docs/location/poi-locations.json`): Mellon columns ×2, Dippy ×1, Forbes Field wall ×1.
