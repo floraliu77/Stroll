@@ -46,11 +46,23 @@ struct StrollContent: Decodable {
     }
 
     /// A line of narration and its recorded clip in Resources/Audio (file name without extension).
+    /// A line without a recording (`"audio": null` in the content file) is read aloud by the
+    /// iPhone's built-in voice for now; `audio` is then empty. Tools/check-walk-model.sh lists
+    /// these lines so they can be recorded later.
     struct Line: Decodable, Hashable {
         let text: String
         let audio: String
 
+        var hasRecording: Bool { !audio.isEmpty }
         var narration: Narration { Narration(text: text, clip: audio) }
+
+        private enum CodingKeys: String, CodingKey { case text, audio }
+
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            text = try c.decode(String.self, forKey: .text)
+            audio = try c.decodeIfPresent(String.self, forKey: .audio) ?? ""
+        }
     }
 
     struct Lines: Decodable {

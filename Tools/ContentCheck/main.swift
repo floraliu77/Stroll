@@ -15,6 +15,8 @@ func clipExists(_ name: String) -> Bool {
     ["mp3", "m4a"].contains { fm.fileExists(atPath: audioDir.appendingPathComponent("\(name).\($0)").path) }
 }
 
+/// Lines with no recording yet, read by the iPhone voice for now: place id -> number of lines.
+var iPhoneVoice: [String: Int] = [:]
 check(Set(content.pois.map(\.id)).count == content.pois.count, "POI ids must be unique")
 for poi in content.pois {
     check(content.category(poi.category) != nil, "\(poi.id): unknown category '\(poi.category)'")
@@ -24,7 +26,11 @@ for poi in content.pois {
     check(!poi.story.isEmpty, "\(poi.id): needs at least one story line")
     for line in [poi.prompt, poi.reveal] + poi.story {
         check(!line.text.isEmpty, "\(poi.id): empty line")
-        check(clipExists(line.audio), "\(poi.id): missing audio clip '\(line.audio)'")
+        if line.hasRecording {
+            check(clipExists(line.audio), "\(poi.id): missing audio clip '\(line.audio)'")
+        } else {
+            iPhoneVoice[poi.id, default: 0] += 1
+        }
     }
 }
 for line in [content.lines.skip, content.lines.done] { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
@@ -42,6 +48,13 @@ check(demo.firstBuzzSeconds >= 0 && demo.gapSeconds.min >= 0 && demo.gapSeconds.
 
 if problems.isEmpty {
     print("Content OK: \(content.pois.count) points of interest, \(content.categories.count) categories, demo walk of \(demo.order.count).")
+    if !iPhoneVoice.isEmpty {
+        let lines = iPhoneVoice.values.reduce(0, +)
+        print("To record later: \(lines) lines in \(iPhoneVoice.count) places use the iPhone voice as a placeholder:")
+        for id in content.pois.map(\.id) where iPhoneVoice[id] != nil {
+            print("  - \(id): \(iPhoneVoice[id]!) lines")
+        }
+    }
 } else {
     problems.forEach { print("FAIL: \($0)") }
     exit(1)

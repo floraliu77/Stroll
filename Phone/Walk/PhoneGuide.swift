@@ -3,16 +3,28 @@ import UIKit
 import UserNotifications
 
 /// Plays the recorded narration clips (Resources/Audio) through whatever the iPhone is using:
-/// connected headphones of any brand, or the speaker.
+/// connected headphones of any brand, or the speaker. Lines without a recording yet are read
+/// by the iPhone's built-in voice instead (a placeholder until they're recorded; see
+/// docs/content-drafts/README.md).
 @MainActor
-final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
+final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate, AVSpeechSynthesizerDelegate {
     var onInterrupted: (@MainActor () -> Void)?
     private var player: AVAudioPlayer?
+    private let speech = AVSpeechSynthesizer()
+    private var utterance: AVSpeechUtterance?
+    /// The best installed English voice: premium, then enhanced, then the default.
+    private lazy var voice: AVSpeechSynthesisVoice? = {
+        let english = AVSpeechSynthesisVoice.speechVoices().filter { $0.language == "en-US" }
+        return english.first { $0.quality == .premium }
+            ?? english.first { $0.quality == .enhanced }
+            ?? AVSpeechSynthesisVoice(language: "en-US")
+    }()
     private var continuation: CheckedContinuation<Void, Never>?
     private var observers: [NSObjectProtocol] = []
 
     override init() {
         super.init()
+        speech.delegate = self
         let center = NotificationCenter.default
         // A timer, alarm or call takes the audio: iOS pauses the clip, so pause the walk too.
         observers.append(center.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] note in
@@ -30,16 +42,18 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
 
     private func interrupted() {
         player?.pause()
+        if speech.isSpeaking { speech.pauseSpeaking(at: .word) }
         onInterrupted?()
     }
 
     func play(_ line: Narration) async {
         stop()
         activateSession()
-        guard let url = Bundle.main.url(forResource: line.clip, withExtension: "mp3")
+        guard !line.usesIPhoneVoice,
+              let url = Bundle.main.url(forResource: line.clip, withExtension: "mp3")
                 ?? Bundle.main.url(forResource: line.clip, withExtension: "m4a"),
               let next = try? AVAudioPlayer(contentsOf: url) else {
-            assertionFailure("Missing narration clip \(line.clip)")
+            await speak(line.text)   // no recording yet: the iPhone voice reads it
             return
         }
         next.delegate = self
@@ -50,17 +64,38 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
         }
     }
 
+    private func speak(_ text: String) async {
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = voice
+        utterance.rate = AVSpeechUtteranceDefaultSpeechRate
+        utterance.postUtteranceDelay = 0.1
+        self.utterance = utterance
+        await withCheckedContinuation { c in
+            continuation = c
+            speech.speak(utterance)
+        }
+    }
+
     func stop() {
         player?.stop()
         player = nil
+        utterance = nil
+        if speech.isSpeaking || speech.isPaused { speech.stopSpeaking(at: .immediate) }
         finish()
     }
 
-    func pause() { player?.pause() }
+    func pause() {
+        player?.pause()
+        if speech.isSpeaking { speech.pauseSpeaking(at: .word) }
+    }
 
     func resume() {
-        guard let player else { return }
         activateSession()   // after an interruption the audio session has to be reactivated
+        if speech.isPaused {
+            if !speech.continueSpeaking() { finish() }
+            return
+        }
+        guard let player else { return }
         if !player.play() { finish() }   // still can't play: move on rather than stall
     }
 
@@ -88,6 +123,22 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate {
 
     private func clipEnded(_ id: ObjectIdentifier) {
         guard let player, ObjectIdentifier(player) == id else { return }   // an older clip
+        finish()
+    }
+
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        let id = ObjectIdentifier(utterance)
+        Task { @MainActor in self.speechEnded(id) }
+    }
+
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+        let id = ObjectIdentifier(utterance)
+        Task { @MainActor in self.speechEnded(id) }
+    }
+
+    private func speechEnded(_ id: ObjectIdentifier) {
+        guard let utterance, ObjectIdentifier(utterance) == id else { return }   // an older line
+        self.utterance = nil
         finish()
     }
 }
