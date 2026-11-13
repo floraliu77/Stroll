@@ -108,7 +108,9 @@ All work happens in the **GitHub repo `floraliu77/Stroll`**. The old zip and Mar
 
 ```
 Shared/          Content + phone↔watch messages (both apps)
-  Finds.swift          The 4 POIs: text, category, image, clip names (NO coordinates yet)
+  Content/stroll-content.json  All content: POIs, coordinates, text, clips, demo walk, walks
+  StrollContent.swift  Reads the JSON
+  Finds.swift          Builds the watch's walk (Walk.finds) from the JSON
   RemoteMessages.swift Codable messages over WatchConnectivity
 Watch/           watchOS app (SwiftUI)
   WalkModel.swift      State machine. Entry point for a POI: trigger(find:)
@@ -132,7 +134,8 @@ project.yml      XcodeGen spec (iOS 17 / watchOS 10, Swift 5 mode)
 | 3 | "A Song to Nature" fountain | Public art | Schenley Plaza, by the Frick Fine Arts Building |
 | 4 | Forbes Field wall | History | Roberto Clemente Dr, by Mazeroski Field |
 
-Text (prompt, reveal, 3 story lines; plus the now-unused cue) is in `Shared/Finds.swift`.
+Text (prompt, reveal, 3 story lines; plus the cue, unused in round 1) is in
+`Shared/Content/stroll-content.json`.
 Categories (fixed for MVP): **Architecture, Natural history, Public art, History**.
 
 ---
@@ -160,34 +163,15 @@ Thanks to the demo walk, this can proceed in parallel. Suggested deliverables:
 1. **Coordinates for the 4 POIs**: the best viewing spot, plus a suggested trigger radius. Note
    anything that affects triggering (the Forbes Field wall is long; the fountain is in an open
    plaza; tall buildings on Fifth Ave → GPS drift).
-2. **POI data format** shared by both apps, replacing the hard-coded `Walk.finds`, including the
-   demo route. Content is authored in the **Google Sheet** described in
+2. **POI data file:** done. All content lives in **`Shared/Content/stroll-content.json`**, read by
+   both apps through `Shared/StrollContent.swift`: categories, POIs (coordinates, trigger radius,
+   photo + credit, prompt/reveal/story with their audio clips), the skip/done lines, the demo walk
+   (`order`, `firstBuzzSeconds`, `gapSeconds`) and pre-set walks (whose stops hold the direction
+   "cue" lines). Coordinates are marked `"coordinateStatus": "placeholder"` until the location
+   research replaces them. Content is authored in the **Google Sheet** described in
    `docs/location-research-guide.md` (`Stops` tab) and converted into this file; round 1 ignores
-   the `cue` column and the `Nearby` tab. Starting point for the app's file (adjust freely):
-
-   ```json
-   {
-     "pois": [{
-       "id": "dippy",
-       "name": "Dippy the dinosaur",
-       "category": "natural-history",
-       "lat": 0.0, "lon": 0.0,
-       "triggerRadiusMeters": 40,
-       "image": "dippy",
-       "photoCredit": { "author": "", "license": "", "url": "" },
-       "lines": {
-         "prompt": "Spot the dinosaur outside the museum. Look closely: is it bone, or something else?",
-         "reveal": "It's a life-size fiberglass copy.",
-         "story": ["…", "…", "…"]
-       },
-       "audio": { "prompt": "f2-prompt", "reveal": "f2-reveal", "story": ["f2-story1", "f2-story2", "f2-story3"] }
-     }],
-     "demoWalk": { "order": ["dippy", "mellon-columns", "forbes-wall", "song-to-nature"], "firstBuzzSeconds": 20, "gapSeconds": [30, 60] },
-     "walks": []
-   }
-   ```
-
-   If pre-set walks return, direction lines belong to a **walk stop**, not the POI.
+   the `cue` column and the `Nearby` tab. `Tools/check-walk-model.sh` checks the file (every clip,
+   photo and reference must exist) before running the walk checks.
 3. **More POIs + licences.** Candidates: OpenStreetMap (Overpass; ODbL, which requires attribution
    and share-alike), Wikidata (CC0), Wikimedia Commons geotagged photos (per-file licences),
    WPRDC (City of Pittsburgh public art, historic markers; check each dataset), PHLF plaques.
