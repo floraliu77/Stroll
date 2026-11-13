@@ -132,7 +132,7 @@ private struct JournalCard: View {
             .frame(maxWidth: .infinity)
             .frame(height: 180)
             .clipShape(RoundedRectangle(cornerRadius: 14))
-            .accessibilityLabel("Photo of \(poi.name)")
+            .accessibilityLabel(poi.altText.map { "\(poi.name). \($0)" } ?? "Photo of \(poi.name)")
         if found {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(Array(([poi.reveal] + poi.story).enumerated()), id: \.offset) { _, line in
@@ -181,7 +181,7 @@ private struct JournalCard: View {
 @MainActor
 final class JournalPlayer: ObservableObject {
     @Published private(set) var playing: UUID?
-    private let voice = AudioGuide()
+    private let voice = AudioGuide(followsReadOnly: false)   // Listen again is a deliberate tap, so it plays
     private var task: Task<Void, Never>?
 
     func play(_ id: UUID, lines: [Narration]) {
