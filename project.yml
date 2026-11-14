@@ -33,7 +33,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.teamgreen.stroll.remote
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: Stroll Remote
+        INFOPLIST_KEY_CFBundleDisplayName: Stroll
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Stroll shows points of interest near you on the map, and notices when you reach one while you explore.
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         TARGETED_DEVICE_FAMILY: "1"
