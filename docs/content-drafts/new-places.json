@@ -1,0 +1,56 @@
+{
+  "about": "Draft content not yet in the app. MJ's 9 new places were restored from her earlier research (docs/location/poi-locations.json at commit 14c78c2); 8 are now in Shared/Content/stroll-content.json. Only serra-carnegie is left here, waiting for a photo.",
+  "beforeTheyGoLive": [
+    "serra-carnegie: add a photo to the asset catalog, then move it into Shared/Content/stroll-content.json (keep audio null for the iPhone voice) and run Tools/check-walk-model.sh."
+  ],
+  "pois": [
+    {
+      "id": "serra-carnegie",
+      "name": "Richard Serra's Carnegie",
+      "category": "public-art",
+      "coordinate": {
+        "latitude": 40.44405,
+        "longitude": -79.94925
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 35,
+      "image": "serra-carnegie",
+      "photoCredit": {
+        "author": "real00",
+        "license": "CC BY-NC-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/2.0/",
+        "source": "https://www.flickr.com/photos/79855893@N00/11915036673"
+      },
+      "prompt": {
+        "text": "Find the tall rusty steel tower in front of the art museum. Is it one piece of metal, or several?",
+        "audio": null
+      },
+      "reveal": {
+        "text": "Four steel plates, leaning on each other.",
+        "audio": null
+      },
+      "story": [
+        {
+          "text": "This is Carnegie by Richard Serra. It's about 40 feet tall and went up for the 1985 Carnegie International, where it tied for first prize.",
+          "audio": null
+        },
+        {
+          "text": "Only one mill, Lukens Steel in Coatesville, Pennsylvania, could roll plates this big. They were put together on Neville Island, in the Ohio River.",
+          "audio": null
+        },
+        {
+          "text": "The rust is on purpose. This kind of steel forms its own protective coating, so it never needs paint.",
+          "audio": null
+        }
+      ],
+      "reviewStatus": "needs-review",
+      "photoStatus": "keep the current photo for now (Flora's call). It couldn't be downloaded automatically (Flickr blocks scripted downloads): download it from the Flickr page, or use Flora's new photo from the walk. Then add it as serra-carnegie in the asset catalog and switch this place on.",
+      "standingSpot": "Fountain plaza at the Carnegie Museum of Art's Forbes Ave entrance, near S Craig St.",
+      "sources": [
+        "https://carnegiemnh.org/facing-outward-looking-ahead-richard-serras-carnegie-as-part-of-an-125-year-legacy-of-architecture-and-outdoor-sculpture/",
+        "https://carnegieart.org/art/art-around-you/fountain-plaza/"
+      ],
+      "notes": "LOCATION CONFIRMED: a photo of the plaza shows the tower just west of Henry Moore's Reclining Figure. That matches a mapped sculpture 7 m from this point. New text, needs team review."
+    }
+  ]
+}

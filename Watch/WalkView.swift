@@ -4,23 +4,26 @@ extension Color {
     static let strollGreen = Color(red: 0.184, green: 0.420, blue: 0.310) // brand/green #2F6B4F
 }
 
-/// Every watch screen, matching the web prototype.
+/// Every watch screen. The watch mirrors the phone's exploring session: it shows what the
+/// phone shows and sends taps back, so either device's buttons work.
 struct WalkView: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        if walk.paused {
-            PausedScreen()
-        } else {
-            switch walk.screen {
-            case .setup: SetupScreen()
-            case .waiting: WaitingScreen()
-            case .alert: AlertScreen()
-            case .prompt: PromptScreen()
-            case .story: StoryScreen()
-            case .finished: FinishedScreen()
-            case .skipping: StatusScreen(title: "Skipped", detail: "Onward")
-            case .done: DoneScreen()
+        NavigationStack {
+            if mirror.state.paused {
+                PausedScreen()
+            } else {
+                switch mirror.state.phase {
+                case .idle: StartScreen()
+                case .exploring: ExploringScreen()
+                case .preview: PreviewScreen()
+                case .prompt: PromptScreen()
+                case .story: StoryScreen()
+                case .finished: FinishedScreen()
+                case .skipping: SkippingScreen()
+                case .ended: DoneScreen()
+                }
             }
         }
     }
@@ -28,176 +31,233 @@ struct WalkView: View {
 
 // MARK: Screens
 
-private struct SetupScreen: View {
-    @EnvironmentObject private var app: WatchAppState
+private struct StartScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
                 Text("Stroll").font(.title3.bold())
-                Text("Put in your earbuds, then tap Get ready.")
+                Text("Start exploring here or on your iPhone. Your iPhone plays the guide.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                if app.isPreparing {
+                if mirror.isStarting {
                     ProgressView()
+                    Text("Starting…").font(.footnote).foregroundStyle(.secondary)
                 } else {
-                    PrimaryButton("Get ready") { Task { await app.getReady() } }
+                    PrimaryButton("Start Exploring") { mirror.send(.start) }
                 }
-                if let problem = app.setupProblem {
-                    Text(problem)
-                        .font(.footnote)
-                        .foregroundStyle(Color.strollGreen)
-                        .multilineTextAlignment(.center)
-                    Button("Continue without earbuds") { app.continueWithoutEarbuds() }
-                        .font(.footnote)
-                }
+                ProblemText()
             }
         }
     }
 }
 
-private struct WaitingScreen: View {
+private struct ExploringScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
     var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
-            Text("Keep walking").font(.headline)
-            ListeningDots()
-            Spacer(minLength: 0)
-            ControlRow(replay: false)
+        SpotScreen {
+            Text("Keep exploring").font(.headline)
+            if mirror.state.everythingVisited {
+                Text("That's everything nearby")
+                    .font(.footnote).foregroundStyle(.secondary)
+            } else {
+                ListeningDots()
+            }
+            if mirror.state.foundCount > 0 {
+                Text("\(mirror.state.foundCount) found")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Color.strollGreen)
+            }
+            HStack(spacing: 8) {
+                SecondaryButton("Pause") { mirror.send(.pause) }
+                SecondaryButton("End") { mirror.send(.end) }
+            }
         }
     }
 }
 
-private struct AlertScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+// Every screen for a point of interest uses SpotScreen with the photo at the same size, so
+// nothing jumps between them, and the photo stays up so people can compare it with what's in
+// front of them. Replay and Pause sit on the photo's top corners, away from the main buttons.
 
+private struct PreviewScreen: View {
     var body: some View {
-        FindScreen {
-            if let find = walk.find {
-                Image(find.image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 96)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .accessibilityLabel("Preview: \(find.name)")
-            }
-            ControlRow(replay: false)
+        SpotScreen {
+            POIPhoto(controls: [.pause])
         }
     }
 }
 
 private struct PromptScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        FindScreen {
-            PrimaryButton("Tell me more") { walk.tellMeMore() }
-            SecondaryButton("Skip") { walk.skip() }
-            ControlRow(replay: true)
+        SpotScreen {
+            POIPhoto(controls: [.replay, .pause])
+            PrimaryButton("Tell me more") { mirror.send(.tellMeMore) }
+            SecondaryButton("Skip") { mirror.send(.skip) }
         }
     }
 }
 
 private struct StoryScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
+        SpotScreen {
+            POIPhoto(controls: [.replay, .pause])
             ListeningDots()
-            Spacer(minLength: 0)
-            SecondaryButton(walk.isLastFind ? "Finish walk" : "Next stop") { walk.nextStop() }
-            ControlRow(replay: true)
+            SecondaryButton("Keep exploring") { mirror.send(.keepExploring) }
         }
     }
 }
 
 private struct FinishedScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
-            PrimaryButton("Continue walking") { walk.continueWalking() }
-            SmallButton("Replay", symbol: "arrow.counterclockwise") { walk.replay() }
+        SpotScreen {
+            POIPhoto(controls: [.replay])
+            PrimaryButton("Keep exploring") { mirror.send(.keepExploring) }
+        }
+    }
+}
+
+private struct SkippingScreen: View {
+    var body: some View {
+        SpotScreen {
+            POIPhoto()
+            Text("Skipped").font(.headline)
+            Text("Onward").font(.footnote).foregroundStyle(.secondary)
         }
     }
 }
 
 private struct DoneScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
-        VStack(spacing: 8) {
-            Spacer(minLength: 0)
-            Text("Walk complete").font(.headline)
-            Text("Check your phone").font(.footnote).foregroundStyle(.secondary)
-            Spacer(minLength: 0)
-            SmallButton("Replay", symbol: "arrow.counterclockwise") { walk.replay() }
+        ScrollView {
+            VStack(spacing: 8) {
+                Text("Walk complete").font(.headline)
+                Text("Check your phone").font(.footnote).foregroundStyle(.secondary)
+                PrimaryButton("Done") { mirror.send(.reset) }
+                ProblemText()
+            }
         }
     }
 }
 
 private struct PausedScreen: View {
-    @EnvironmentObject private var walk: WalkModel
+    @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         VStack(spacing: 12) {
             Spacer(minLength: 0)
             Text("Paused").font(.headline)
-            PrimaryButton("Resume", symbol: "play.fill") { walk.resume() }
-        }
-    }
-}
-
-private struct StatusScreen: View {
-    let title: String
-    let detail: String
-
-    var body: some View {
-        FindScreen {
-            Spacer(minLength: 0)
-            Text(title).font(.headline)
-            Text(detail).font(.footnote).foregroundStyle(.secondary)
-            Spacer(minLength: 0)
+            PrimaryButton("Resume", symbol: "play.fill") { mirror.send(.resume) }
+            ProblemText()
         }
     }
 }
 
 // MARK: Building blocks
 
-/// "1 of 4" and the category, above the screen's content.
-private struct FindScreen<Content: View>: View {
-    @EnvironmentObject private var walk: WalkModel
+/// The layout for exploring and every point-of-interest screen: the category, then the
+/// content (scrolls if it doesn't fit).
+private struct SpotScreen<Content: View>: View {
+    @EnvironmentObject private var mirror: MirrorModel
     @ViewBuilder let content: Content
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            if let find = walk.find {
-                Text("\(find.number) of \(Walk.finds.count)")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(Color.strollGreen)
-                Label(find.category, systemImage: find.symbol)
-                    .font(.footnote.weight(.semibold))
-                    .labelStyle(GreenIconLabelStyle())
+        ScrollView {
+            VStack(alignment: .leading, spacing: 6) {
+                if let category = mirror.category {
+                    Label(category.name, systemImage: category.symbol)
+                        .font(.footnote.weight(.semibold))
+                        .labelStyle(GreenIconLabelStyle())
+                }
+                VStack(spacing: 6) {
+                    content
+                    ProblemText()
+                }
+                .frame(maxWidth: .infinity)
             }
-            VStack(spacing: 6) { content }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
 
-private struct ControlRow: View {
-    @EnvironmentObject private var walk: WalkModel
-    let replay: Bool
+/// The current point of interest's photo, the same size on every screen, with Replay
+/// (top left) and Pause (top right) on it.
+private struct POIPhoto: View {
+    enum Control { case replay, pause }
+
+    @EnvironmentObject private var mirror: MirrorModel
+    var controls: [Control] = []
 
     var body: some View {
-        HStack(spacing: 4) {
-            if replay { SmallButton("Replay", symbol: "arrow.counterclockwise") { walk.replay() } }
-            SmallButton("Pause", symbol: "pause.fill") { walk.pause() }
+        if let poi = mirror.poi {
+            Image(poi.image)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity)
+                .frame(height: 72)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .accessibilityLabel("Photo of a point of interest")
+                .overlay(alignment: .topLeading) {
+                    if controls.contains(.replay) {
+                        PhotoButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
+                    }
+                }
+                .overlay(alignment: .topTrailing) {
+                    if controls.contains(.pause) {
+                        PhotoButton("Pause", symbol: "pause.fill") { mirror.send(.pause) }
+                    }
+                }
         }
+    }
+}
+
+/// Shown when a tap couldn't reach the phone.
+private struct ProblemText: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
+    var body: some View {
+        if let problem = mirror.problem {
+            Text(problem)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+    }
+}
+
+/// A small round icon button on a corner of the photo.
+private struct PhotoButton: View {
+    let title: String
+    let symbol: String
+    let action: () -> Void
+
+    init(_ title: String, symbol: String, action: @escaping () -> Void) {
+        self.title = title
+        self.symbol = symbol
+        self.action = action
+    }
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: symbol)
+                .font(.system(size: 14, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 34, height: 34)
+                .background(.black.opacity(0.55), in: Circle())
+        }
+        .buttonStyle(.plain)
+        .padding(4)
+        .accessibilityLabel(title)
     }
 }
 
@@ -220,6 +280,7 @@ private struct PrimaryButton: View {
         .foregroundStyle(Color.white)
         .tint(.strollGreen)
         .buttonStyle(.borderedProminent)
+        .controlSize(.small)   // shorter, so Skip shows under Tell me more without scrolling
     }
 }
 
@@ -236,28 +297,7 @@ private struct SecondaryButton: View {
         Button(title, action: action)
             .font(.body.weight(.bold))
             .buttonStyle(.bordered)
-    }
-}
-
-private struct SmallButton: View {
-    let title: String
-    let symbol: String
-    let action: () -> Void
-
-    init(_ title: String, symbol: String, action: @escaping () -> Void) {
-        self.title = title
-        self.symbol = symbol
-        self.action = action
-    }
-
-    var body: some View {
-        Button(action: action) {
-            Label(title, systemImage: symbol)
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(Color.strollGreen)
-                .frame(minHeight: 32)
-        }
-        .buttonStyle(.plain)
+            .controlSize(.small)
     }
 }
 

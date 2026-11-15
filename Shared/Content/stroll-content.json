@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "coordinateSource": "Coordinates and trigger radii: MJ's research (docs/location/poi-locations.json), from OpenStreetMap. © OpenStreetMap contributors, ODbL.",
   "categories": [
     {
       "id": "architecture",
@@ -28,10 +29,10 @@
       "name": "Mellon Institute columns",
       "category": "architecture",
       "coordinate": {
-        "latitude": 40.4462,
-        "longitude": -79.9512
+        "latitude": 40.44663,
+        "longitude": -79.9511
       },
-      "coordinateStatus": "placeholder",
+      "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "mellon-columns",
       "photoCredit": {
@@ -68,11 +69,11 @@
       "name": "Dippy the dinosaur",
       "category": "natural-history",
       "coordinate": {
-        "latitude": 40.4436,
-        "longitude": -79.9497
+        "latitude": 40.443553,
+        "longitude": -79.951498
       },
-      "coordinateStatus": "placeholder",
-      "triggerRadiusMeters": 40,
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
       "image": "dippy",
       "photoCredit": {
         "author": "TheZachMorrisExperience",
@@ -108,11 +109,11 @@
       "name": "“A Song to Nature” fountain",
       "category": "public-art",
       "coordinate": {
-        "latitude": 40.4417,
-        "longitude": -79.952
+        "latitude": 40.441995,
+        "longitude": -79.9519
       },
-      "coordinateStatus": "placeholder",
-      "triggerRadiusMeters": 40,
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 35,
       "image": "song-to-nature",
       "photoCredit": {
         "author": "Daderot",
@@ -148,10 +149,10 @@
       "name": "Forbes Field wall",
       "category": "history",
       "coordinate": {
-        "latitude": 40.4428,
-        "longitude": -79.9566
+        "latitude": 40.44125,
+        "longitude": -79.95266
       },
-      "coordinateStatus": "placeholder",
+      "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "forbes-wall",
       "photoCredit": {
@@ -182,6 +183,432 @@
           "audio": "f4-story3"
         }
       ]
+    },
+    {
+      "id": "st-nicholas-cathedral",
+      "name": "St. Nicholas Greek Orthodox Cathedral",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4446,
+        "longitude": -79.95025
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "st-nicholas-cathedral",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:St._Nicholas_Greek_Orthodox_Cathedral,_Oakland,_2023-08-21,_01.jpg"
+      },
+      "prompt": {
+        "text": "Look at the tops of the columns on the front porch. What shape curls out at the top of each one?",
+        "audio": "st-nicholas-cathedral-prompt"
+      },
+      "reveal": {
+        "text": "Scrolls. These are Ionic columns, a style from ancient Greece.",
+        "audio": "st-nicholas-cathedral-reveal"
+      },
+      "story": [
+        {
+          "text": "This church was built in 1904, but not for a Greek congregation. It was the First Congregational Church.",
+          "audio": "st-nicholas-cathedral-story1"
+        },
+        {
+          "text": "A Greek Orthodox congregation took it over in 1923, and it's been theirs ever since.",
+          "audio": "st-nicholas-cathedral-story2"
+        },
+        {
+          "text": "It became a cathedral in 1955, when Pittsburgh became the seat of a Greek Orthodox diocese.",
+          "audio": "st-nicholas-cathedral-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "ok",
+      "standingSpot": "S Dithridge St sidewalk, in front of the columned porch.",
+      "sources": [
+        "https://www.stnicholascenter.org/gazetteer/468",
+        "https://en.wikipedia.org/wiki/St._Nicholas_Greek_Orthodox_Cathedral_(Pittsburgh)"
+      ],
+      "notes": "PORCH CHECKED IN PHOTO: the columned porch faces S Dithridge St, and the Ionic scrolls are easy to see. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "bellefield-hall",
+      "name": "Bellefield Hall",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.44538,
+        "longitude": -79.95145
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "bellefield-hall",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Young_Men_and_Women%E2%80%99s_Hebrew_Association,_Oakland,_2022-01-11.jpg"
+      },
+      "prompt": {
+        "text": "Look at the words carved above the tall arched doorway. Who was this building made for?",
+        "audio": "bellefield-hall-prompt"
+      },
+      "reveal": {
+        "text": "The Young Men and Women's Hebrew Association.",
+        "audio": "bellefield-hall-reveal"
+      },
+      "story": [
+        {
+          "text": "It was dedicated in 1926 and designed by Benno Janssen, the same architect as the Mellon Institute just up the street.",
+          "audio": "bellefield-hall-story1"
+        },
+        {
+          "text": "Samuel Yellin, one of America's best-known ironworkers, made the lanterns at the main entrance.",
+          "audio": "bellefield-hall-story2"
+        },
+        {
+          "text": "Today it belongs to Pitt. Inside are a swimming pool, a gym, and a music recording studio.",
+          "audio": "bellefield-hall-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "ok",
+      "standingSpot": "S Bellefield Ave sidewalk, across from the tall arched doorway.",
+      "sources": [
+        "https://tour.pitt.edu/node/341",
+        "https://archipediavm.upress.virginia.edu/buildings/PA-01-AL34",
+        "https://commons.wikimedia.org/wiki/File:Young_Men_and_Women%E2%80%99s_Hebrew_Association,_Oakland,_inscription,_2022-05-17.jpg"
+      ],
+      "notes": "DOORWAY CHECKED IN PHOTOS: the arched doorway with the carved name is on the short west side of the building, facing Bellefield Ave, which matches the 315 S Bellefield address. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "heinz-chapel",
+      "name": "Heinz Memorial Chapel",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.44515,
+        "longitude": -79.9523
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 25,
+      "image": "heinz-chapel",
+      "photoCredit": {
+        "author": "Dllu",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Heinz_Memorial_Chapel,_exterior.jpg"
+      },
+      "prompt": {
+        "text": "Look at the shields carved into the chapel's stone walls. What do you think they stand for?",
+        "audio": "heinz-chapel-prompt"
+      },
+      "reveal": {
+        "text": "Schools. They're the seals of old European universities and early American colleges.",
+        "audio": "heinz-chapel-reveal"
+      },
+      "story": [
+        {
+          "text": "The chapel was dedicated in 1938, in memory of H. J. Heinz and his mother, Anna.",
+          "audio": "heinz-chapel-story1"
+        },
+        {
+          "text": "Its tallest stained glass windows are 73 feet high, among the tallest in the world.",
+          "audio": "heinz-chapel-story2"
+        },
+        {
+          "text": "The windows hold nearly 250,000 pieces of glass and show 391 people.",
+          "audio": "heinz-chapel-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "ok",
+      "standingSpot": "West side of the chapel, on the path from the Cathedral of Learning lawn.",
+      "sources": [
+        "https://heinzchapel.pitt.edu/visit-2/architecture",
+        "https://www.chronicle.pitt.edu/story/heinz-memorial-chapel-celebrates-75-years"
+      ],
+      "notes": "The main entrance is on Bellefield Ave, across from Bellefield Hall. To keep the two trigger circles apart, this point is on the chapel's west side. The seals are carved on gables, parapets and buttresses all around the outside, so they show from there too. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "cathedral-of-learning",
+      "name": "Cathedral of Learning",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.444323,
+        "longitude": -79.953191
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 50,
+      "image": "cathedral-of-learning",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Cathedral_of_Learning,_northeast_face,_2022-09-14,_02.jpg"
+      },
+      "prompt": {
+        "text": "Look up at this tower. Guess how many floors it has.",
+        "audio": "cathedral-of-learning-prompt"
+      },
+      "reveal": {
+        "text": "42. It's 535 feet tall.",
+        "audio": "cathedral-of-learning-reveal"
+      },
+      "story": [
+        {
+          "text": "It's the second-tallest university building in the world. Only Moscow State University's main tower is taller.",
+          "audio": "cathedral-of-learning-story1"
+        },
+        {
+          "text": "While it was being built, more than 97,000 schoolchildren each sent in a dime to buy a brick.",
+          "audio": "cathedral-of-learning-story2"
+        },
+        {
+          "text": "Peregrine falcons have nested on a ledge outside the 40th floor since 2002.",
+          "audio": "cathedral-of-learning-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "ok: cropped to landscape",
+      "standingSpot": "Anywhere on the lawn around the tower.",
+      "sources": [
+        "https://www.tour.pitt.edu/node/345",
+        "https://chronicle.pitt.edu/story/cathedral-learning-history"
+      ],
+      "notes": "Big open lawn, so GPS should be good, and the radius is wider. The prompt is a guess, not something you can count from the ground. Photo is portrait, so crop to landscape. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "the-hiker",
+      "name": "The Hiker",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.441852,
+        "longitude": -79.950492
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 25,
+      "image": "the-hiker",
+      "photoCredit": {
+        "author": "Carptrash",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Hiker_Pittsburgh.jpg"
+      },
+      "prompt": {
+        "text": "Read the words on the front of the base. Which war is this soldier from?",
+        "audio": "the-hiker-prompt"
+      },
+      "reveal": {
+        "text": "The War with Spain, in 1898. Today it's called the Spanish-American War.",
+        "audio": "the-hiker-reveal"
+      },
+      "story": [
+        {
+          "text": "This bronze soldier is by sculptor Allen Newman and was put up here in 1925.",
+          "audio": "the-hiker-story1"
+        },
+        {
+          "text": "Allegheny County built it to honor local soldiers and sailors who served in that war.",
+          "audio": "the-hiker-story2"
+        },
+        {
+          "text": "Newman designed the statue in 1904, more than 20 years before this one was cast.",
+          "audio": "the-hiker-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "replaced: the earlier photo was CC BY-NC-SA (non-commercial). This free one is small (806x1199, portrait, 1980s); crop to landscape. A newer photo from the walk would be better.",
+      "standingSpot": "Schenley Dr, by the statue next to the Frick Fine Arts Building.",
+      "sources": [
+        "https://www.hmdb.org/m.asp?m=99164",
+        "https://www.art.pitt.edu/node/375"
+      ],
+      "notes": "CHANGED the prompt: no second source confirms 'Hiker of 98' plaques, so it now asks about the base inscription, which reads 'during the War with Spain'. Coordinates match the Historical Marker Database. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "first-baptist-church",
+      "name": "First Baptist Church",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.447693,
+        "longitude": -79.952977
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 40,
+      "image": "first-baptist-church",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:First_Baptist_Church,_Oakland,_Pittsburgh,_2023-05-20.jpg"
+      },
+      "prompt": {
+        "text": "Look at the tall, thin spire. Why do you think it's green?",
+        "audio": "first-baptist-church-prompt"
+      },
+      "reveal": {
+        "text": "It's copper. Copper turns green as it weathers.",
+        "audio": "first-baptist-church-reveal"
+      },
+      "story": [
+        {
+          "text": "The church was designed by Bertram Goodhue and finished in 1910.",
+          "audio": "first-baptist-church-story1"
+        },
+        {
+          "text": "The copper spire is 182 feet tall.",
+          "audio": "first-baptist-church-story2"
+        },
+        {
+          "text": "The stained glass windows are by Charles Connick, who also made the windows in Heinz Chapel.",
+          "audio": "first-baptist-church-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "ok",
+      "standingSpot": "Corner of Bellefield Ave and Bayard St.",
+      "sources": [
+        "https://archipediavm.upress.virginia.edu/buildings/PA-01-AL34",
+        "https://heinzchapel.pitt.edu/visit-2/architecture"
+      ],
+      "notes": "A 2023 photo shows the green spire. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "st-paul-cathedral",
+      "name": "St. Paul Cathedral",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.44701,
+        "longitude": -79.9498
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 40,
+      "image": "st-paul-cathedral",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:St._Paul%E2%80%99s_Cathedral,_Oakland,_Pittsburgh,_2022-09-14,_02.jpg"
+      },
+      "prompt": {
+        "text": "Count the arched doorways across the front of the cathedral. How many can you find?",
+        "audio": "st-paul-cathedral-prompt"
+      },
+      "reveal": {
+        "text": "Five. Three in the middle, and one at the bottom of each spire.",
+        "audio": "st-paul-cathedral-reveal"
+      },
+      "story": [
+        {
+          "text": "St. Paul Cathedral was finished in 1906. Its twin spires were inspired by Cologne Cathedral in Germany.",
+          "audio": "st-paul-cathedral-story1"
+        },
+        {
+          "text": "This is the third St. Paul Cathedral. The first two stood downtown on Grant Street.",
+          "audio": "st-paul-cathedral-story2"
+        },
+        {
+          "text": "Andrew Carnegie paid for the cathedral's first pipe organ.",
+          "audio": "st-paul-cathedral-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "ok: cropped to landscape",
+      "standingSpot": "Fifth Ave sidewalk in front of the cathedral, between N Dithridge St and N Craig St.",
+      "sources": [
+        "https://archipediavm.upress.virginia.edu/buildings/PA-01-AL36",
+        "https://en.wikipedia.org/wiki/St._Paul_Cathedral_(Pittsburgh)"
+      ],
+      "notes": "DOORS CHECKED IN PHOTO: a 2022 photo of the Fifth Ave front shows five arched doorways. Photo is portrait, so crop to landscape around the doors. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "fairfax-apartments",
+      "name": "Fairfax Apartments",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.447,
+        "longitude": -79.94812
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "fairfax-apartments",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Fairfax_Apartments,_Oakland,_Pittsburgh,_2023-11-20.jpg"
+      },
+      "prompt": {
+        "text": "Look up at the roofline of this tall brick building. How many fancy carved stone tops can you count?",
+        "audio": "fairfax-apartments-prompt"
+      },
+      "reveal": {
+        "text": "Three. Each one crowns a section that sticks out a little from the wall.",
+        "audio": "fairfax-apartments-reveal"
+      },
+      "story": [
+        {
+          "text": "It was built in 1926 and 1927 as the Fifth Avenue Apartments.",
+          "audio": "fairfax-apartments-story1"
+        },
+        {
+          "text": "When it opened in 1927, it was one of the grandest apartment houses in Pittsburgh.",
+          "audio": "fairfax-apartments-story2"
+        },
+        {
+          "text": "Today it's Carnegie Mellon student housing.",
+          "audio": "fairfax-apartments-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "photoStatus": "ok",
+      "standingSpot": "Fifth Ave sidewalk across from the building, just east of S Craig St.",
+      "sources": [
+        "https://fatherpitt.com/2024/10/19/the-fairfax-oakland-2/",
+        "https://www.cmu.edu/housing/our-communities/residences/fairfax.html",
+        "https://en.wikipedia.org/wiki/Fairfax_Apartments"
+      ],
+      "notes": "A 2023 photo shows the three carved tops. Story 1 (the Fifth Avenue Apartments name) is only on Wikipedia. New text, needs team review.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     }
   ],
   "lines": {

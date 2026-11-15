@@ -5,10 +5,11 @@ import SwiftUI
 /// and the Start Exploring panel.
 struct ExploreView: View {
     private let content = StrollContent.shared
+    @EnvironmentObject private var session: ExploreSession
+    @EnvironmentObject private var link: PhoneLink
     @State private var filter: String?          // nil = All
     @State private var position: MapCameraPosition = .region(ExploreView.pilotArea)
     @State private var showingSettings = false
-    @State private var showingNotYet = false
     @State private var location = CLLocationManager()
 
     /// Shows every point of interest (the pilot area in Oakland).
@@ -39,14 +40,11 @@ struct ExploreView: View {
         .mapControls { }
         .tint(.blue)                                              // "you are here" stays system blue, as in Figma
         .safeAreaInset(edge: .top) { topBar }
-        .safeAreaInset(edge: .bottom) { startPanel }
+        .safeAreaInset(edge: .bottom) {
+            if session.phase == .idle { startPanel } else { ExploringPanel() }
+        }
         .onAppear { location.requestWhenInUseAuthorization() }
         .sheet(isPresented: $showingSettings) { DeveloperToolsSheet() }
-        .alert("Exploring comes next", isPresented: $showingNotYet) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text("The \"walk started\" screen is the next task. For now, the watch can still be buzzed from Developer tools in Settings.")
-        }
     }
 
     // MARK: Top: location, settings, filters
@@ -92,12 +90,16 @@ struct ExploreView: View {
                     Text(countText)
                         .font(.title3.bold())
                         .foregroundStyle(Color.strollInk)
-                    Text("Start exploring and wander anywhere. Your watch will buzz when you're near one.")
+                    Text("Start exploring and wander anywhere. You'll feel a buzz when you're near one.")
                         .font(.subheadline)
                         .foregroundStyle(Color.strollMuted)
                         .multilineTextAlignment(.center)
                 }
-                Button { showingNotYet = true } label: {
+                Button {
+                    ExploreNotifications.requestPermission()
+                    session.start()
+                    link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
+                } label: {
                     Text("Start Exploring")
                         .font(.headline)
                         .frame(maxWidth: .infinity, minHeight: 54)
@@ -107,7 +109,12 @@ struct ExploreView: View {
             }
             .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
             .frame(maxWidth: .infinity)
-            .background(.white, in: UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24))
+            // The white card runs down behind the floating tab bar, so the map doesn't show through.
+            .background {
+                UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
+                    .fill(.white)
+                    .ignoresSafeArea(edges: .bottom)
+            }
             .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
         }
     }

@@ -17,29 +17,44 @@ settings:
     CODE_SIGN_STYLE: Automatic
     SWIFT_VERSION: "5.0"
     MARKETING_VERSION: "0.1"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "2"
 
 targets:
-  # The moderator's remote. Installing it also installs the watch app on the paired watch.
+  # The companion app. It leads the exploring session and plays the voice guide.
+  # Installing it also installs the watch app on the paired watch.
   StrollRemote:
     type: application
     platform: iOS
     sources:
-      - Phone
+      - path: Phone
+        excludes: ["Info.plist"]
       - Shared
+      # Narration clips and photos: the phone plays the voice guide too.
+      - Resources/Audio
+      - Resources/Assets.xcassets
     dependencies:
       - target: StrollWatch
+    # HealthKit lets the phone open Stroll on the watch when exploring starts.
+    entitlements:
+      path: Phone/StrollRemote.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.teamgreen.stroll.remote
+        PRODUCT_BUNDLE_IDENTIFIER: com.teamgreen.stroll
+        INFOPLIST_FILE: Phone/Info.plist
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Stroll
-        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Stroll shows points of interest near you on the map, and notices when you reach one while you explore.
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO   # answers TestFlight's encryption question
+        INFOPLIST_KEY_NSHealthShareUsageDescription: Stroll opens on your Apple Watch as a walking session, so it keeps buzzing while your wrist is down.
+        INFOPLIST_KEY_NSHealthUpdateUsageDescription: Stroll opens on your Apple Watch as a walking session, so it keeps buzzing while your wrist is down. Nothing is saved to Health.
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Stroll shows points of interest near you on the map, and notices when you reach one while you explore, even with your phone locked in your pocket.
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         TARGETED_DEVICE_FAMILY: "1"
 
-  # The participant's watch app.
+  # The watch app: mirrors the phone (buzz, photo, buttons).
   StrollWatch:
     type: application
     platform: watchOS
@@ -47,7 +62,7 @@ targets:
       - path: Watch
         excludes: ["Info.plist"]
       - Shared
-      - Resources
+      - Resources/Assets.xcassets   # photos and icon; the phone plays the narration
     entitlements:
       path: Watch/StrollWatch.entitlements
       properties:
@@ -55,13 +70,13 @@ targets:
         com.apple.developer.healthkit.access: []
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.teamgreen.stroll.remote.watchkitapp
+        PRODUCT_BUNDLE_IDENTIFIER: com.teamgreen.stroll.watchkitapp
         INFOPLIST_FILE: Watch/Info.plist
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Stroll
         INFOPLIST_KEY_WKApplication: YES
-        INFOPLIST_KEY_WKCompanionAppBundleIdentifier: com.teamgreen.stroll.remote
-        INFOPLIST_KEY_NSHealthShareUsageDescription: Stroll runs a walking session so narration keeps playing while your wrist is down.
-        INFOPLIST_KEY_NSHealthUpdateUsageDescription: Stroll runs a walking session so narration keeps playing while your wrist is down. Nothing is saved to Health.
+        INFOPLIST_KEY_WKCompanionAppBundleIdentifier: com.teamgreen.stroll
+        INFOPLIST_KEY_NSHealthShareUsageDescription: Stroll runs a walking session so it keeps buzzing while your wrist is down.
+        INFOPLIST_KEY_NSHealthUpdateUsageDescription: Stroll runs a walking session so it keeps buzzing while your wrist is down. Nothing is saved to Health.
         SKIP_INSTALL: YES
         TARGETED_DEVICE_FAMILY: "4"
