@@ -64,6 +64,10 @@ final class ExploreSession: ObservableObject {
         let poiID: String
         let outcome: Outcome
         let at: Date
+        /// On a set walk: which walk, and which time it was walked (the Journal groups a walk's
+        /// finds into one card). Both nil while exploring freely.
+        var walkID: String? = nil
+        var tripID: UUID? = nil
         var id: String { poiID }
     }
 
@@ -90,6 +94,8 @@ final class ExploreSession: ObservableObject {
     @Published private(set) var route: StrollContent.Route?
     /// On a set walk: the stop being walked to, or the one open now (0-based).
     @Published private(set) var stopIndex = 0
+    /// A new id each time a set walk starts, so the Journal can tell two walks of the same route apart.
+    private(set) var tripID: UUID?
     /// Called as each point of interest is explored or skipped (the Journal listens).
     var onVisit: (@MainActor (Visit) -> Void)?
 
@@ -161,6 +167,7 @@ final class ExploreSession: ObservableObject {
         arrived = []
         clearStop()
         route = walk
+        tripID = walk == nil ? nil : UUID()
         stopIndex = 0
         phase = .exploring
         source.follow(walk.map { $0.stops.compactMap { content.poi($0.poi)?.coordinate } })
@@ -468,7 +475,7 @@ final class ExploreSession: ObservableObject {
 
     private func record(_ outcome: Outcome) {
         guard let poi else { return }
-        let visit = Visit(poiID: poi.id, outcome: outcome, at: Date())
+        let visit = Visit(poiID: poi.id, outcome: outcome, at: Date(), walkID: route?.id, tripID: route == nil ? nil : tripID)
         visits.append(visit)
         onVisit?(visit)
     }

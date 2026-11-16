@@ -26,7 +26,7 @@ enum POIDetector {
 /// point of interest in `demoWalk.order`, wherever they really are. The first arrives
 /// `firstBuzzSeconds` after Start Exploring; each next one a random `gapSeconds` after the
 /// participant is free again. Pausing pauses the countdown. On a set walk it visits the walk's
-/// stops instead (`follow`).
+/// stops instead (`follow`), each one exactly `walkGapSeconds` after Continue walk.
 @MainActor
 final class DemoWalk: LocationSource {
     var onLocation: (@MainActor (StrollContent.Coordinate) -> Void)?
@@ -36,23 +36,27 @@ final class DemoWalk: LocationSource {
     private var stops: [StrollContent.Coordinate]
     private let firstSeconds: Double
     private let gapSeconds: ClosedRange<Double>
+    private let walkGapSeconds: Double
+    private var onWalk = false
     private var next = 0
     private var countdown: Task<Void, Never>?
     private var remaining: Double?
     private var paused = false
 
-    init(stops: [StrollContent.Coordinate], firstSeconds: Double, gapSeconds: ClosedRange<Double>) {
+    init(stops: [StrollContent.Coordinate], firstSeconds: Double, gapSeconds: ClosedRange<Double>, walkGapSeconds: Double = 30) {
         self.ownStops = stops
         self.stops = stops
         self.firstSeconds = firstSeconds
         self.gapSeconds = gapSeconds
+        self.walkGapSeconds = walkGapSeconds
     }
 
     convenience init(content: StrollContent) {
         let demo = content.demoWalk
         self.init(stops: demo.order.compactMap { content.poi($0)?.coordinate },
                   firstSeconds: demo.firstBuzzSeconds,
-                  gapSeconds: demo.gapSeconds.min...demo.gapSeconds.max)
+                  gapSeconds: demo.gapSeconds.min...demo.gapSeconds.max,
+                  walkGapSeconds: demo.walkGapSeconds)
     }
 
     var isFinished: Bool { next >= stops.count && countdown == nil }
@@ -72,6 +76,7 @@ final class DemoWalk: LocationSource {
 
     func follow(_ stops: [StrollContent.Coordinate]?) {
         self.stops = stops ?? ownStops
+        onWalk = stops != nil
     }
 
     func pause() { paused = true }
@@ -80,7 +85,7 @@ final class DemoWalk: LocationSource {
 
     func participantIsFree() {
         guard countdown == nil, next < stops.count else { return }   // already counting down, or done
-        remaining = next == 0 ? firstSeconds : Double.random(in: gapSeconds)
+        remaining = next == 0 ? firstSeconds : onWalk ? walkGapSeconds : Double.random(in: gapSeconds)
         countdown = Task { @MainActor [weak self] in
             await self?.countDown()
         }

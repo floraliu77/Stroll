@@ -81,6 +81,9 @@ struct StrollContent: Decodable {
         let order: [String]              // POI ids, in the order they're triggered
         let firstBuzzSeconds: Double
         let gapSeconds: SecondsRange
+        /// On a set walk: seconds from Continue walk to the next stop coming up. Exact, not random,
+        /// so a demo of a walk runs at a steady pace.
+        let walkGapSeconds: Double
     }
 
     struct SecondsRange: Decodable {

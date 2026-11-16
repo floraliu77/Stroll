@@ -392,7 +392,7 @@ func checkJournal(_ content: StrollContent) async {
     let source = ManualSource()
     let session = ExploreSession(content: content, voice: FakeVoice(), alert: FakeAlert(), source: source,
                                  timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
-    session.onVisit = { journal.add(poiID: $0.poiID, outcome: $0.outcome, at: $0.at) }
+    session.onVisit = { journal.add(poiID: $0.poiID, outcome: $0.outcome, at: $0.at, walkID: $0.walkID, tripID: $0.tripID) }
     let a = content.pois[0], b = content.pois[1]
     session.start()
     source.onLocation?(a.coordinate)
@@ -405,7 +405,27 @@ func checkJournal(_ content: StrollContent) async {
     session.skip()
     check(journal.entries.map(\.poiID) == [b.id, a.id], "the journal lists the newest first")
     check(journal.entries.first?.outcome == .skipped, "Skip adds a skipped entry")
+    check(journal.entries.allSatisfy { $0.walkID == nil } && journal.items.count == 2,
+          "finds while exploring freely each get their own journal card")
     session.end()
+
+    // Two walks of the same route, and a free find in between: each walk is one card.
+    let walkFile = FileManager.default.temporaryDirectory.appendingPathComponent("stroll-journal-walks-\(UUID().uuidString).json")
+    defer { try? FileManager.default.removeItem(at: walkFile) }
+    let walks = JournalStore(url: walkFile)
+    let first = UUID(), second = UUID(), t = Date()
+    walks.add(poiID: a.id, outcome: .found, at: t, walkID: "oakland", tripID: first)
+    walks.add(poiID: b.id, outcome: .skipped, at: t + 1, walkID: "oakland", tripID: first)
+    walks.add(poiID: a.id, outcome: .found, at: t + 2)
+    walks.add(poiID: a.id, outcome: .found, at: t + 3, walkID: "oakland", tripID: second)
+    let items = walks.items
+    check(items.count == 3, "the journal shows two walks and one free find (3 cards, not 4)")
+    if case .walk(let trip, _, let found) = items[0] { check(trip == second && found.count == 1, "the newest walk comes first") }
+    else { check(false, "the newest walk comes first") }
+    if case .place = items[1] { check(true, "the free find sits between the walks") } else { check(false, "the free find sits between the walks") }
+    if case .walk(_, _, let found) = items[2] { check(found.map(\.poiID) == [a.id, b.id], "a walk's finds are in the order they were found") }
+    else { check(false, "a walk's finds are in the order they were found") }
+    check(JournalStore(url: walkFile).items == items, "walk cards are still there after reopening the app")
 
     let reopened = JournalStore(url: file)
     check(reopened.entries == journal.entries, "the journal is still there after reopening the app")
@@ -459,6 +479,8 @@ func checkSetWalk(_ content: StrollContent) async {
     await waitFor("last direction") { voice.spoken.last == route.stops[3].cue!.audio }
     check(true, "skipping a stop plays the next direction")
     check(session.visits.count == 1, "a skipped-over stop isn't added to the Journal")
+    check(session.visits.allSatisfy { $0.walkID == route.id && $0.tripID != nil && $0.tripID == session.tripID },
+          "finds on a set walk are tagged with the walk (one journal card per walk)")
 
     source.onLocation?(stops[3].coordinate)
     await waitFor("last prompt") { session.phase == .prompt }
@@ -497,13 +519,25 @@ func checkSetWalk(_ content: StrollContent) async {
 func checkSetWalkDemo(_ content: StrollContent) async {
     let route = content.route("oakland")!
     let alert = FakeAlert()
-    let demo = DemoWalk(stops: content.demoWalk.order.compactMap { content.poi($0)?.coordinate }, firstSeconds: 0.1, gapSeconds: 0.1...0.15)
+    let demo = DemoWalk(stops: content.demoWalk.order.compactMap { content.poi($0)?.coordinate }, firstSeconds: 0.1, gapSeconds: 0.1...0.15,
+                        walkGapSeconds: 0.12)
     let session = ExploreSession(content: content, voice: FakeVoice(), alert: alert, source: demo,
                                  timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 5))
     session.start(walk: route)
     session.skipStop()   // before the first stop comes up
     await waitFor("demo arrival") { alert.arrivals.count == 1 }
     check(alert.arrivals == [route.stops[1].poi], "the demo walk goes on to the next stop after a skip")
+
+    // On a set walk the next stop comes a fixed time after Continue walk, not a random one.
+    let steady = DemoWalk(stops: [], firstSeconds: 1, gapSeconds: 50...60, walkGapSeconds: 30)
+    steady.follow(route.stops.compactMap { content.poi($0.poi)?.coordinate })
+    steady.start()
+    steady.participantIsFree()
+    steady.onLocation = { _ in }
+    try? await Task.sleep(nanoseconds: 1_200_000_000)   // the first stop arrives
+    steady.participantIsFree()
+    check(steady.secondsUntilNext == 30, "demo walk: each next stop on a set walk comes exactly 30 s after Continue walk")
+    steady.stop()
     session.end()
     session.reset()
 }

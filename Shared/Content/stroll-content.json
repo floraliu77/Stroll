@@ -43,7 +43,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Columns_of_the_Mellon_Institute,_2021-12-20,_01.jpg"
       },
       "prompt": {
-        "text": "Look at the giant columns on this building. How many stone pieces make up one column?",
+        "text": "This building has a long row of giant stone columns. How many pieces of stone make up one column?",
         "audio": "mellon-columns-prompt"
       },
       "reveal": {
@@ -89,7 +89,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:DippyStatuteCarnegiePittsburgh.jpg"
       },
       "prompt": {
-        "text": "Spot the dinosaur outside the museum. Look closely: is it bone, or something else?",
+        "text": "A life-size dinosaur stands outside the museum. Is it made of real bone, or something else?",
         "audio": "dippy-prompt"
       },
       "reveal": {
@@ -135,7 +135,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Mary_Schenley_Fountain_-_Pittsburgh_-_IMG_0755.jpg"
       },
       "prompt": {
-        "text": "At the fountain, look along the rim of the basin. Find the animals spouting water.",
+        "text": "Around the rim of this fountain's basin, bronze animals spout water. What kind of animals are they?",
         "audio": "song-to-nature-prompt"
       },
       "reveal": {
@@ -181,7 +181,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Forbes_Field_outfield_walls.jpg"
       },
       "prompt": {
-        "text": "Find the numbers on this brick wall. What do you think they measure?",
+        "text": "This old brick wall has large numbers painted on it. What do you think they measure?",
         "audio": "forbes-wall-prompt"
       },
       "reveal": {
@@ -227,7 +227,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:St._Nicholas_Greek_Orthodox_Cathedral,_Oakland,_2023-08-21,_01.jpg"
       },
       "prompt": {
-        "text": "Look at the tops of the columns on the front porch. What shape curls out at the top of each one?",
+        "text": "The columns on this church's front porch each curl out into a shape at the top. What shape do you think it is?",
         "audio": "st-nicholas-cathedral-prompt"
       },
       "reveal": {
@@ -281,7 +281,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Young_Men_and_Women%E2%80%99s_Hebrew_Association,_Oakland,_2022-01-11.jpg"
       },
       "prompt": {
-        "text": "Look at the words carved above the tall arched doorway. Who was this building made for?",
+        "text": "Words carved above this building's tall arched doorway name who it was built for. Who do you think it was?",
         "audio": "bellefield-hall-prompt"
       },
       "reveal": {
@@ -336,7 +336,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Heinz_Memorial_Chapel,_exterior.jpg"
       },
       "prompt": {
-        "text": "Look at the shields carved into the chapel's stone walls. What do you think they stand for?",
+        "text": "Shields are carved into this chapel's stone walls. What do you think they stand for?",
         "audio": "heinz-chapel-prompt"
       },
       "reveal": {
@@ -390,7 +390,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Cathedral_of_Learning,_northeast_face,_2022-09-14,_02.jpg"
       },
       "prompt": {
-        "text": "Look up at this tower. Guess how many floors it has.",
+        "text": "This stone tower rises high above the campus. How many floors do you think it has?",
         "audio": "cathedral-of-learning-prompt"
       },
       "reveal": {
@@ -444,7 +444,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Hiker_Pittsburgh.jpg"
       },
       "prompt": {
-        "text": "Read the words on the front of the base. Which war is this soldier from?",
+        "text": "Words on the front of this statue's base name the war this soldier fought in. Which war do you think it was?",
         "audio": "the-hiker-prompt"
       },
       "reveal": {
@@ -498,7 +498,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:First_Baptist_Church,_Oakland,_Pittsburgh,_2023-05-20.jpg"
       },
       "prompt": {
-        "text": "Look at the tall, thin spire. Why do you think it's green?",
+        "text": "This church has a tall, thin spire that has turned green. Why do you think it's green?",
         "audio": "first-baptist-church-prompt"
       },
       "reveal": {
@@ -552,7 +552,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:St._Paul%E2%80%99s_Cathedral,_Oakland,_Pittsburgh,_2022-09-14,_02.jpg"
       },
       "prompt": {
-        "text": "Count the arched doorways across the front of the cathedral. How many can you find?",
+        "text": "A row of arched doorways runs across the front of this cathedral. How many do you think there are?",
         "audio": "st-paul-cathedral-prompt"
       },
       "reveal": {
@@ -606,7 +606,7 @@
         "source": "https://commons.wikimedia.org/wiki/File:Fairfax_Apartments,_Oakland,_Pittsburgh,_2023-11-20.jpg"
       },
       "prompt": {
-        "text": "Look up at the roofline of this tall brick building. How many fancy carved stone tops can you count?",
+        "text": "Fancy carved stone tops crown the roofline of this tall brick building. How many do you think there are?",
         "audio": "fairfax-apartments-prompt"
       },
       "reveal": {
@@ -646,11 +646,11 @@
   "lines": {
     "skip": {
       "text": "Okay, onward.",
-      "audio": "skip"
+      "audio": "skip-sky"
     },
     "done": {
       "text": "Walk complete. Check your phone for your field journal.",
-      "audio": "done"
+      "audio": "done-sky"
     }
   },
   "demoWalk": {
@@ -664,7 +664,8 @@
     "gapSeconds": {
       "min": 30,
       "max": 60
-    }
+    },
+    "walkGapSeconds": 30
   },
   "walks": [
     {
@@ -678,40 +679,152 @@
           "longitude": -79.9511
         },
         {
-          "latitude": 40.4458,
-          "longitude": -79.9511
+          "latitude": 40.446769,
+          "longitude": -79.951114
         },
         {
-          "latitude": 40.4449,
-          "longitude": -79.9512
+          "latitude": 40.44674,
+          "longitude": -79.951374
         },
         {
-          "latitude": 40.4441,
-          "longitude": -79.9514
+          "latitude": 40.446703,
+          "longitude": -79.951516
+        },
+        {
+          "latitude": 40.446593,
+          "longitude": -79.951769
+        },
+        {
+          "latitude": 40.446513,
+          "longitude": -79.951894
+        },
+        {
+          "latitude": 40.44632,
+          "longitude": -79.951832
+        },
+        {
+          "latitude": 40.443911,
+          "longitude": -79.950747
+        },
+        {
+          "latitude": 40.443877,
+          "longitude": -79.950898
+        },
+        {
+          "latitude": 40.44368,
+          "longitude": -79.951681
+        },
+        {
+          "latitude": 40.443562,
+          "longitude": -79.951628
         },
         {
           "latitude": 40.443553,
           "longitude": -79.951498
         },
         {
-          "latitude": 40.443,
-          "longitude": -79.9516
+          "latitude": 40.443562,
+          "longitude": -79.951628
         },
         {
-          "latitude": 40.4424,
+          "latitude": 40.443289,
+          "longitude": -79.951933
+        },
+        {
+          "latitude": 40.443277,
+          "longitude": -79.951978
+        },
+        {
+          "latitude": 40.443266,
+          "longitude": -79.952023
+        },
+        {
+          "latitude": 40.44234,
+          "longitude": -79.951608
+        },
+        {
+          "latitude": 40.442319,
+          "longitude": -79.951524
+        },
+        {
+          "latitude": 40.442297,
+          "longitude": -79.95144
+        },
+        {
+          "latitude": 40.442272,
+          "longitude": -79.951452
+        },
+        {
+          "latitude": 40.442089,
+          "longitude": -79.95154
+        },
+        {
+          "latitude": 40.44203,
+          "longitude": -79.951598
+        },
+        {
+          "latitude": 40.442018,
+          "longitude": -79.951676
+        },
+        {
+          "latitude": 40.442006,
+          "longitude": -79.951752
+        },
+        {
+          "latitude": 40.442069,
           "longitude": -79.9518
+        },
+        {
+          "latitude": 40.442092,
+          "longitude": -79.951878
         },
         {
           "latitude": 40.441995,
           "longitude": -79.9519
         },
         {
-          "latitude": 40.4417,
-          "longitude": -79.9522
+          "latitude": 40.441933,
+          "longitude": -79.952006
         },
         {
-          "latitude": 40.4414,
-          "longitude": -79.9525
+          "latitude": 40.441892,
+          "longitude": -79.951945
+        },
+        {
+          "latitude": 40.441885,
+          "longitude": -79.95186
+        },
+        {
+          "latitude": 40.44184,
+          "longitude": -79.951855
+        },
+        {
+          "latitude": 40.441795,
+          "longitude": -79.95185
+        },
+        {
+          "latitude": 40.441832,
+          "longitude": -79.952187
+        },
+        {
+          "latitude": 40.441845,
+          "longitude": -79.952357
+        },
+        {
+          "latitude": 40.441894,
+          "longitude": -79.952594
+        },
+        {
+          "latitude": 40.441854,
+          "longitude": -79.952616
+        },
+        {
+          "latitude": 40.441708,
+          "longitude": -79.952691
+        },
+        {
+          "latitude": 40.441451,
+          "longitude": -79.952863
         },
         {
           "latitude": 40.44125,
@@ -724,7 +837,7 @@
           "street": "Fifth Ave & Bellefield",
           "cue": {
             "text": "Start at Fifth Avenue and Bellefield.",
-            "audio": "f1-cue"
+            "audio": "oakland-cue1-sky"
           }
         },
         {
@@ -732,7 +845,7 @@
           "street": "Forbes Ave",
           "cue": {
             "text": "Head down Bellefield to Forbes Avenue.",
-            "audio": "f2-cue"
+            "audio": "oakland-cue2-sky"
           }
         },
         {
@@ -740,7 +853,7 @@
           "street": "Schenley Plaza",
           "cue": {
             "text": "Cross Forbes toward Schenley Plaza and the Frick Fine Arts Building.",
-            "audio": "f3-cue"
+            "audio": "oakland-cue3-sky"
           }
         },
         {
@@ -748,7 +861,7 @@
           "street": "Roberto Clemente Dr",
           "cue": {
             "text": "Follow Roberto Clemente Drive to the old brick wall by Mazeroski Field.",
-            "audio": "f4-cue"
+            "audio": "oakland-cue4-sky"
           }
         }
       ]
@@ -764,40 +877,132 @@
           "longitude": -79.952977
         },
         {
-          "latitude": 40.4475,
-          "longitude": -79.9518
+          "latitude": 40.447835,
+          "longitude": -79.952997
         },
         {
-          "latitude": 40.4472,
-          "longitude": -79.9508
+          "latitude": 40.447877,
+          "longitude": -79.953091
+        },
+        {
+          "latitude": 40.448001,
+          "longitude": -79.953236
+        },
+        {
+          "latitude": 40.448059,
+          "longitude": -79.953156
+        },
+        {
+          "latitude": 40.448372,
+          "longitude": -79.952725
+        },
+        {
+          "latitude": 40.448274,
+          "longitude": -79.952682
+        },
+        {
+          "latitude": 40.447008,
+          "longitude": -79.952106
+        },
+        {
+          "latitude": 40.446513,
+          "longitude": -79.951894
+        },
+        {
+          "latitude": 40.446661,
+          "longitude": -79.951629
+        },
+        {
+          "latitude": 40.44674,
+          "longitude": -79.951374
+        },
+        {
+          "latitude": 40.446752,
+          "longitude": -79.951278
+        },
+        {
+          "latitude": 40.446848,
+          "longitude": -79.949779
         },
         {
           "latitude": 40.44701,
           "longitude": -79.9498
         },
         {
-          "latitude": 40.4462,
-          "longitude": -79.95
+          "latitude": 40.446848,
+          "longitude": -79.949779
         },
         {
-          "latitude": 40.4454,
-          "longitude": -79.9502
+          "latitude": 40.4468,
+          "longitude": -79.950579
+        },
+        {
+          "latitude": 40.44665,
+          "longitude": -79.950557
+        },
+        {
+          "latitude": 40.445792,
+          "longitude": -79.950445
+        },
+        {
+          "latitude": 40.444596,
+          "longitude": -79.950292
         },
         {
           "latitude": 40.4446,
           "longitude": -79.95025
         },
         {
-          "latitude": 40.4441,
-          "longitude": -79.951
+          "latitude": 40.444596,
+          "longitude": -79.950292
         },
         {
-          "latitude": 40.4442,
-          "longitude": -79.9518
+          "latitude": 40.44404,
+          "longitude": -79.950211
         },
         {
-          "latitude": 40.4447,
-          "longitude": -79.9521
+          "latitude": 40.444007,
+          "longitude": -79.95034
+        },
+        {
+          "latitude": 40.443911,
+          "longitude": -79.950747
+        },
+        {
+          "latitude": 40.444118,
+          "longitude": -79.95084
+        },
+        {
+          "latitude": 40.445049,
+          "longitude": -79.951259
+        },
+        {
+          "latitude": 40.44505,
+          "longitude": -79.951282
+        },
+        {
+          "latitude": 40.445048,
+          "longitude": -79.951626
+        },
+        {
+          "latitude": 40.44505,
+          "longitude": -79.951907
+        },
+        {
+          "latitude": 40.445065,
+          "longitude": -79.952023
+        },
+        {
+          "latitude": 40.445096,
+          "longitude": -79.952091
+        },
+        {
+          "latitude": 40.445149,
+          "longitude": -79.95213
+        },
+        {
+          "latitude": 40.445181,
+          "longitude": -79.95229
         },
         {
           "latitude": 40.44515,
@@ -810,7 +1015,7 @@
           "street": "Bellefield & Bayard",
           "cue": {
             "text": "Start at Bellefield Avenue and Bayard Street.",
-            "audio": null
+            "audio": "steeples-cue1-sky"
           }
         },
         {
@@ -818,7 +1023,7 @@
           "street": "Fifth Ave & Dithridge",
           "cue": {
             "text": "Head east to Fifth Avenue and Dithridge Street.",
-            "audio": null
+            "audio": "steeples-cue2-sky"
           }
         },
         {
@@ -826,7 +1031,7 @@
           "street": "Forbes & Dithridge",
           "cue": {
             "text": "Walk down Dithridge Street to Forbes Avenue.",
-            "audio": null
+            "audio": "steeples-cue3-sky"
           }
         },
         {
@@ -834,7 +1039,7 @@
           "street": "S Bellefield Ave",
           "cue": {
             "text": "Head west along Forbes, then turn right up Bellefield Avenue.",
-            "audio": null
+            "audio": "steeples-cue4-sky"
           }
         }
       ]
