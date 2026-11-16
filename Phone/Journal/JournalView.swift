@@ -132,7 +132,7 @@ private struct JournalCard: View {
             .frame(maxWidth: .infinity)
             .frame(height: 180)
             .clipShape(RoundedRectangle(cornerRadius: 14))
-            .accessibilityLabel("Photo of \(poi.name)")
+            .accessibilityLabel("Photo of \(poi.name)" + (poi.altText.map { ". \($0)" } ?? ""))
         if found {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(Array(([poi.reveal] + poi.story).enumerated()), id: \.offset) { _, line in

@@ -70,6 +70,9 @@ final class ExploreSession: ObservableObject {
     /// Index into `transcript` of the line being spoken.
     @Published private(set) var speaking: Int?
     @Published private(set) var paused = false
+    /// True while the guide is actually saying a line (not in the gaps or waiting for a tap).
+    /// With VoiceOver on, the stop sheet keeps VoiceOver from reading the same words over it.
+    @Published private(set) var narrating = false
     @Published private(set) var visits: [Visit] = []
     /// Called as each point of interest is explored or skipped (the Journal listens).
     var onVisit: (@MainActor (Visit) -> Void)?
@@ -352,7 +355,9 @@ final class ExploreSession: ObservableObject {
         if restart { transcript = [] }
         transcript.append(line)
         speaking = transcript.count - 1
+        narrating = true
         await voice.play(line)
+        narrating = false
         try Task.checkCancellation()
     }
 

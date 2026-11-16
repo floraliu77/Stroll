@@ -95,6 +95,13 @@ struct ExploringPanel: View {
 /// everything said so far.
 struct StopSheet: View {
     @EnvironmentObject private var session: ExploreSession
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverOn
+    @AccessibilityFocusState private var focusedControl: MainControl?
+    private enum MainControl { case tellMeMore, pause, keepExploring }
+
+    /// One voice at a time: while the guide is talking, VoiceOver doesn't read the transcript
+    /// (it's the same words). Paused or finished, everything can be read again.
+    private var guideTalking: Bool { voiceOverOn && session.narrating && !session.paused }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -106,7 +113,7 @@ struct StopSheet: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 200)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .accessibilityLabel("Photo of a point of interest")
+                    .accessibilityLabel(poi.altText.map { "Photo: \($0)" } ?? "Photo of a point of interest")
                 if [.story, .finished].contains(session.phase) {
                     Text(poi.name)
                         .font(.title2.bold())
@@ -114,10 +121,23 @@ struct StopSheet: View {
                 }
             }
             transcript
+                .accessibilityHidden(guideTalking)
             controls
         }
         .padding(24)
         .background(Color.strollPaper)
+        // The buttons change with each phase. Without this, VoiceOver jumps to whatever is
+        // left, often a long line of text, and reads it over the guide. Landing on the main
+        // button only says its short name ("Keep exploring" also signals the story is over).
+        .onChange(of: session.phase) { _, phase in
+            guard voiceOverOn else { return }
+            switch phase {
+            case .prompt: focusedControl = .tellMeMore
+            case .story: focusedControl = .pause   // not Keep exploring: a stray tap would skip the story
+            case .finished: focusedControl = .keepExploring
+            default: break
+            }
+        }
     }
 
     private var header: some View {
@@ -182,6 +202,7 @@ struct StopSheet: View {
                 pauseButton
             case .prompt:
                 PanelButton(title: "Tell me more", symbol: nil, filled: true) { session.tellMeMore() }
+                    .accessibilityFocused($focusedControl, equals: .tellMeMore)
                 PanelButton(title: "Skip", symbol: nil, filled: false) { session.skip() }
                 listeningRow
             case .story:
@@ -189,6 +210,7 @@ struct StopSheet: View {
                 PanelButton(title: "Keep exploring", symbol: nil, filled: false) { session.keepExploring() }
             case .finished:
                 PanelButton(title: "Keep exploring", symbol: nil, filled: true) { session.keepExploring() }
+                    .accessibilityFocused($focusedControl, equals: .keepExploring)
                 PanelButton(title: "Replay", symbol: "arrow.counterclockwise", filled: false) { session.replay() }
             default:
                 EmptyView()
@@ -210,6 +232,7 @@ struct StopSheet: View {
                 PanelButton(title: "Resume", symbol: "play.fill", filled: true) { session.resume() }
             } else {
                 PanelButton(title: "Pause", symbol: "pause.fill", filled: false) { session.pause() }
+                    .accessibilityFocused($focusedControl, equals: .pause)
             }
         }
     }
