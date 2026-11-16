@@ -1,7 +1,7 @@
 """Generate narration clips with Kokoro (free, Apache 2.0) for lines that have no recording yet.
 
-Lines with "audio": null in Shared/Content/stroll-content.json are read by the iPhone voice as a
-placeholder. This script turns them into clips: Kokoro voice -> .m4a in Resources/Audio/, then points
+Lines with "audio": null in Shared/Content/stroll-content.json (place lines, walk directions and
+app lines like "Walk complete…") are read by the iPhone voice as a placeholder. This script turns them into clips: Kokoro voice -> .m4a in Resources/Audio/, then points
 the line at the new clip. Places whose lines all get clips lose their "audioStatus" placeholder mark
 and get "audioVoice" so we know which voice made them. Lines that already have a recording are never
 touched.
@@ -87,6 +87,21 @@ def missing_lines(content):
                 yield poi, line, clip
 
 
+def missing_other_lines(content, voice):
+    """(line dict, clip name) for walk directions and app lines ("Walk complete…") without a
+    recording. Walk directions become e.g. oakland-cue1-sky; app lines e.g. done-sky. The voice is
+    in the name so a new clip never clashes with an older recording of the same line."""
+    tag = voice.split("_")[-1]
+    for walk in content.get("walks", []):
+        for n, stop in enumerate(walk["stops"], start=1):
+            cue = stop.get("cue")
+            if cue and not cue.get("audio"):
+                yield cue, f"{walk['id']}-cue{n}-{tag}"
+    for name, line in content.get("lines", {}).items():
+        if not line.get("audio"):
+            yield line, f"{name}-{tag}"
+
+
 def to_m4a(samples, rate, out_path):
     """Write Kokoro's samples as a mono AAC .m4a with the Mac's built-in afconvert."""
     pcm = (np.clip(samples, -1.0, 1.0) * 32767).astype(np.int16)
@@ -118,8 +133,11 @@ def main():
     todo = list(missing_lines(content))
 
     if args.list:
-        print(f"{len(todo)} lines without a recording:")
+        others = list(missing_other_lines(content, args.voice))
+        print(f"{len(todo) + len(others)} lines without a recording:")
         for poi, line, clip in todo:
+            print(f"  {clip}: {spoken(line['text'])}")
+        for line, clip in others:
             print(f"  {clip}: {spoken(line['text'])}")
         return
 
@@ -153,7 +171,8 @@ def main():
 
     # Per-place "Okay, onward." lines without audio share one clip per voice (e.g. skip-sky).
     skip_places = [poi for poi in content["pois"] if poi.get("skipLine") and not poi["skipLine"].get("audio")]
-    if not todo and not skip_places:
+    others = list(missing_other_lines(content, args.voice))
+    if not todo and not skip_places and not others:
         print("Nothing to generate.")
         return
     if skip_places:
@@ -166,6 +185,11 @@ def main():
         print(f"[{n}/{len(todo)}] {clip}: {spoken(line['text'])}")
         speak(line["text"], AUDIO / f"{clip}.m4a")
         line["audio"] = clip
+    for n, (line, clip) in enumerate(others, start=1):
+        print(f"[walk/app {n}/{len(others)}] {clip}: {spoken(line['text'])}")
+        if not (AUDIO / f"{clip}.m4a").exists():   # e.g. skip-sky is shared with the places
+            speak(line["text"], AUDIO / f"{clip}.m4a")
+        line["audio"] = clip
 
     voice_note = f"kokoro {args.voice} (generated, speed {args.speed}); final voice not decided yet"
     for poi in content["pois"]:
@@ -173,7 +197,7 @@ def main():
             del poi["audioStatus"]
             poi["audioVoice"] = voice_note
     CONTENT.write_text(json.dumps(content, indent=2, ensure_ascii=False) + "\n")
-    print(f"Done: {len(todo) + (1 if skip_places else 0)} clips in Resources/Audio/. "
+    print(f"Done: {len(todo) + len(others) + (1 if skip_places else 0)} clips in Resources/Audio/. "
           "Run Tools/check-walk-model.sh next.")
 
 

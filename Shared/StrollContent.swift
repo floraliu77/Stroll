@@ -27,6 +27,9 @@ struct StrollContent: Decodable {
         let coordinateStatus: String     // "placeholder" until the location research confirms it
         let triggerRadiusMeters: Double
         let image: String                // asset catalog name
+        /// What the photo shows, read by VoiceOver. Describes the photo without naming the place or
+        /// giving away the prompt's answer, since it's read before the reveal. Optional.
+        let altText: String?
         let photoCredit: PhotoCredit
         let prompt: Line
         let reveal: Line
@@ -78,6 +81,9 @@ struct StrollContent: Decodable {
         let order: [String]              // POI ids, in the order they're triggered
         let firstBuzzSeconds: Double
         let gapSeconds: SecondsRange
+        /// On a set walk: seconds from Continue walk to the next stop coming up. Exact, not random,
+        /// so a demo of a walk runs at a steady pace.
+        let walkGapSeconds: Double
     }
 
     struct SecondsRange: Decodable {

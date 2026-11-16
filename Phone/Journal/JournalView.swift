@@ -1,13 +1,15 @@
 import SwiftUI
 
-/// The Journal tab: every point of interest explored or skipped, newest first. Cards expand to
-/// show the photo, the story and when it was found; skipped ones hide the story and Listen
-/// again (docs/round1-plan.md). Always in the light style, also in dark mode.
+/// The Journal tab: every point of interest explored or skipped, newest first. A set walk is one
+/// card that opens to its places; places found while exploring freely each have their own card.
+/// Place cards expand to show the photo, the story and when it was found; skipped ones hide the
+/// story and Listen again (docs/round1-plan.md). Always in the light style, also in dark mode.
 struct JournalView: View {
     @EnvironmentObject private var journal: JournalStore
     @EnvironmentObject private var session: ExploreSession
     @StateObject private var player = JournalPlayer()
     @State private var expanded: UUID?
+    @State private var openWalks: Set<UUID> = []
     @State private var confirmingClear = false
 
     private let content = StrollContent.shared
@@ -22,13 +24,18 @@ struct JournalView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 12) {
-                            ForEach(journal.entries) { entry in
-                                if let poi = content.poi(entry.poiID) {
-                                    JournalCard(entry: entry, poi: poi,
-                                                isExpanded: expanded == entry.id,
-                                                canListen: !isWalking,
-                                                player: player) {
-                                        withAnimation(.snappy) { expanded = expanded == entry.id ? nil : entry.id }
+                            ForEach(journal.items) { item in
+                                switch item {
+                                case .place(let entry):
+                                    placeCard(entry)
+                                case .walk(let trip, let walkID, let entries):
+                                    WalkJournalCard(walk: content.route(walkID), entries: entries,
+                                                    isOpen: openWalks.contains(trip)) {
+                                        withAnimation(.snappy) {
+                                            if openWalks.contains(trip) { openWalks.remove(trip) } else { openWalks.insert(trip) }
+                                        }
+                                    } place: { entry in
+                                        placeCard(entry, nested: true)
                                     }
                                 }
                             }
@@ -63,6 +70,153 @@ struct JournalView: View {
 
     /// While a walk is going, the guide owns the audio, so Listen again waits.
     private var isWalking: Bool { session.phase != .idle && session.phase != .ended }
+
+    @ViewBuilder private func placeCard(_ entry: JournalStore.Entry, nested: Bool = false) -> some View {
+        if let poi = content.poi(entry.poiID) {
+            JournalCard(entry: entry, poi: poi,
+                        isExpanded: expanded == entry.id,
+                        canListen: !isWalking,
+                        nested: nested,
+                        player: player) {
+                withAnimation(.snappy) { expanded = expanded == entry.id ? nil : entry.id }
+            }
+        }
+    }
+}
+
+/// One set walk in the Journal: the walk's photo, name, date and how many places were explored.
+/// Opens to the walk's places, in the order they were found.
+private struct WalkJournalCard<Place: View>: View {
+    let walk: StrollContent.Route?
+    let entries: [JournalStore.Entry]
+    let isOpen: Bool
+    let onToggle: () -> Void
+    @ViewBuilder let place: (JournalStore.Entry) -> Place
+
+    /// One row per stop on the route, in route order: the saved find, or nil for a stop that was
+    /// passed by ("Skip this stop") or never reached (the walk was ended first).
+    private var rows: [(stop: Int, entry: JournalStore.Entry?)] {
+        guard let walk else { return entries.enumerated().map { ($0.offset, $0.element) } }
+        return walk.stops.enumerated().map { index, stop in (index, entries.first { $0.poiID == stop.poi }) }
+    }
+
+    private var explored: Int { entries.filter { $0.outcome == .found }.count }
+    private var skipped: Int { entries.filter { $0.outcome == .skipped }.count }
+    private var notVisited: Int { rows.filter { $0.entry == nil }.count }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Button(action: onToggle) { header }
+                .buttonStyle(.plain)
+                .accessibilityHint(isOpen ? "Hides the places" : "Shows the places")
+            if isOpen {
+                VStack(spacing: 0) {
+                    ForEach(rows, id: \.stop) { row in
+                        Divider().overlay(Color.strollBorder)
+                        if let entry = row.entry {
+                            place(entry)
+                        } else if let walk {
+                            MysteryStopRow(category: StrollContent.shared.poi(walk.stops[row.stop].poi)?.category)
+                        }
+                    }
+                }
+                .padding(.top, 12)
+                .transition(.opacity)
+            }
+        }
+        .padding(14)
+        .background(.white, in: RoundedRectangle(cornerRadius: 18))
+        .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.strollBorder))
+    }
+
+    private var header: some View {
+        HStack(spacing: 12) {
+            Group {
+                if let walk {
+                    Image(walk.cover).resizable().scaledToFill()
+                } else {
+                    Color.strollGreen.opacity(0.15).overlay(Image(systemName: "figure.walk").foregroundStyle(Color.strollGreen))
+                }
+            }
+            .frame(width: 56, height: 56)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(walk?.title ?? "Walk")
+                    .font(JournalFont.title)
+                    .foregroundStyle(Color.strollInk)
+                Text(summary)
+                    .font(JournalFont.category)
+                    .foregroundStyle(Color.strollMuted)
+                if let first = entries.first {
+                    Text(first.at.formatted(date: .abbreviated, time: .shortened))
+                        .font(.caption)
+                        .foregroundStyle(Color.strollMuted)
+                }
+            }
+            Spacer(minLength: 0)
+            Text("Walk")
+                .font(JournalFont.tag).fixedSize()
+                .padding(.horizontal, 8).padding(.vertical, 3)
+                .background(Capsule().fill(Color.strollGreen.opacity(0.15)))
+                .foregroundStyle(Color.strollGreen)
+            Image(systemName: "chevron.down")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Color.strollMuted)
+                .rotationEffect(.degrees(isOpen ? 180 : 0))
+        }
+        .contentShape(Rectangle())
+    }
+
+    private var summary: String {
+        var parts = ["\(explored) explored"]
+        if skipped > 0 { parts.append("\(skipped) skipped") }
+        if notVisited > 0 { parts.append("\(notVisited) not visited") }
+        return parts.joined(separator: " · ")
+    }
+}
+
+/// A walk stop that wasn't visited. Shows nothing about the place (the same grey picture and
+/// "Mystery location" for every one), only its category, so it's still a surprise next time.
+private struct MysteryStopRow: View {
+    let category: String?
+
+    var body: some View {
+        HStack(spacing: 12) {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.strollMuted.opacity(0.15))
+                .frame(width: 56, height: 56)
+                .overlay(Image(systemName: "questionmark").font(.title3.weight(.semibold)).foregroundStyle(Color.strollMuted))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 3) {
+                Text("Mystery location")
+                    .font(JournalFont.title)
+                    .foregroundStyle(Color.strollInk)
+                if let category = category.flatMap({ StrollContent.shared.category($0) }) {
+                    Label(category.name, systemImage: category.symbol)
+                        .font(JournalFont.category)
+                        .foregroundStyle(Color.category(category.id))
+                }
+            }
+            Spacer(minLength: 0)
+            Text("Not visited")
+                .font(JournalFont.tag)
+                .fixedSize()
+                .padding(.horizontal, 8).padding(.vertical, 3)
+                .background(Capsule().fill(Color.strollMuted.opacity(0.15)))
+                .foregroundStyle(Color.strollMuted)
+        }
+        .padding(.vertical, 12)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// Journal card text sizes, a step smaller than the system defaults so names fit on narrow cards.
+/// Still follows the phone's text size setting.
+enum JournalFont {
+    static let title = Font.subheadline.weight(.semibold)      // 15 pt (was 17)
+    static let category = Font.caption2.weight(.semibold)     // 11 pt (was 13)
+    static let tag = Font.caption2.weight(.semibold)          // 11 pt (was 12)
 }
 
 private struct JournalCard: View {
@@ -70,6 +224,8 @@ private struct JournalCard: View {
     let poi: StrollContent.POI
     let isExpanded: Bool
     let canListen: Bool
+    /// Inside a walk card: no card of its own, just a row.
+    var nested = false
     @ObservedObject var player: JournalPlayer
     /// Opens or closes the card. Only the top row does this, so taps on the details (like
     /// Listen again) never close it by accident.
@@ -89,9 +245,9 @@ private struct JournalCard: View {
                     .transition(.opacity)
             }
         }
-        .padding(14)
-        .background(.white, in: RoundedRectangle(cornerRadius: 18))
-        .overlay(RoundedRectangle(cornerRadius: 18).stroke(Color.strollBorder))
+        .padding(nested ? .vertical : .all, nested ? 12 : 14)
+        .background(nested ? .clear : .white, in: RoundedRectangle(cornerRadius: 18))
+        .overlay(RoundedRectangle(cornerRadius: 18).stroke(nested ? .clear : Color.strollBorder))
     }
 
     private var header: some View {
@@ -103,17 +259,17 @@ private struct JournalCard: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading, spacing: 3) {
                 Text(poi.name)
-                    .font(.headline)
+                    .font(JournalFont.title)
                     .foregroundStyle(Color.strollInk)
                 if let category {
                     Label(category.name, systemImage: category.symbol)
-                        .font(.footnote.weight(.semibold))
+                        .font(JournalFont.category)
                         .foregroundStyle(Color.category(category.id))
                 }
             }
             Spacer(minLength: 0)
             Text(found ? "Explored" : "Skipped")
-                .font(.caption.weight(.semibold))
+                .font(JournalFont.tag).fixedSize()
                 .padding(.horizontal, 8).padding(.vertical, 3)
                 .background(Capsule().fill((found ? Color.strollGreen : Color.strollMuted).opacity(0.15)))
                 .foregroundStyle(found ? Color.strollGreen : Color.strollMuted)
@@ -132,7 +288,7 @@ private struct JournalCard: View {
             .frame(maxWidth: .infinity)
             .frame(height: 180)
             .clipShape(RoundedRectangle(cornerRadius: 14))
-            .accessibilityLabel("Photo of \(poi.name)")
+            .accessibilityLabel("Photo of \(poi.name)" + (poi.altText.map { ". \($0)" } ?? ""))
         if found {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(Array(([poi.reveal] + poi.story).enumerated()), id: \.offset) { _, line in

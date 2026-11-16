@@ -81,6 +81,7 @@ check(!demo.order.isEmpty, "demo walk has no POIs")
 check(Set(demo.order).count == demo.order.count, "demo walk repeats a POI")
 for id in demo.order { check(content.poi(id) != nil, "demo walk: unknown POI '\(id)'") }
 check(demo.firstBuzzSeconds >= 0 && demo.gapSeconds.min >= 0 && demo.gapSeconds.min <= demo.gapSeconds.max, "demo walk timings are invalid")
+check(demo.walkGapSeconds >= 0, "demo walk: walkGapSeconds can't be negative")
 
 if problems.isEmpty {
     print("Content OK: \(content.pois.count) points of interest, \(content.categories.count) categories, demo walk of \(demo.order.count).")

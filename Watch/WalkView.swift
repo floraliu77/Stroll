@@ -248,7 +248,7 @@ private struct POIPhoto: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 72)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
-                .accessibilityLabel("Photo of a point of interest")
+                .accessibilityLabel(poi.altText.map { "Photo: \($0)" } ?? "Photo of a point of interest")
                 .overlay(alignment: .topLeading) {
                     if controls.contains(.replay) {
                         PhotoButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }

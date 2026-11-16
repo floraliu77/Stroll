@@ -23,7 +23,8 @@ struct StrollApp: App {
                 link.activate(mirroring: session)
                 // Each point of interest goes into the Journal as soon as it's explored or skipped.
                 session.onVisit = { [journal] visit in
-                    journal.add(poiID: visit.poiID, outcome: visit.outcome, at: visit.at)
+                    journal.add(poiID: visit.poiID, outcome: visit.outcome, at: visit.at,
+                                walkID: visit.walkID, tripID: visit.tripID)
                 }
             }
             .onChange(of: scenePhase) { _, _ in updateReminder() }

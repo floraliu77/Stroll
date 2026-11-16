@@ -18,12 +18,12 @@ review. Check facts and wording, then change `reviewStatus` to `"reviewed"` in
 
 The 40 lines of the 8 new places (5 each: question, answer, 3 story lines) were **generated with
 Kokoro's Sky voice** (`af_sky`, normal speed) on Nov 13. Each of these places has
-`"audioVoice": "kokoro af_sky … final voice not decided yet"`. The original 4 places keep their
-earlier recordings, so **two voices are mixed for now** until the team picks the final voice.
-
-"Okay, onward." after Skip follows the place's voice: the 8 Sky places have their own `skipLine`
-(shared clip `skip-sky`), and the original 4 use the shared `lines.skip`. The end line ("Walk
-complete…") is still the original voice for everyone.
+`"audioVoice": "kokoro af_sky … final voice not decided yet"`. On Nov 15 the original 4 places
+were regenerated in Sky too (with MJ's four fact fixes below), so **all 12 places now use Sky**.
+On Nov 16 the set walks' directions (`oakland-cue1-sky` … `steeples-cue4-sky`) and the app lines
+("Okay, onward." `skip-sky`, "Walk complete…" `done-sky`) were made in Sky too, so **every line in
+the app is now Sky**. The old recordings (`f1-*.mp3` to `f4-*.mp3`, `done.mp3`, `skip.m4a`) are no
+longer used and can be deleted.
 
 **How the voice tool works** (`Tools/voice/generate.py`, free and local, Kokoro is Apache 2.0):
 it generates a clip for every line with `"audio": null` and never touches lines that already have
@@ -49,8 +49,8 @@ voice until the tool is run. `Tools/check-walk-model.sh` lists any such lines.
 **To switch to a different voice later:** set the lines' `"audio"` back to `null`, delete their
 clips, and run the tool with `--voice NAME` (or record them by hand).
 
-**Also re-record 4 existing clips** that MJ found didn't match sources (`textFixes` in
-`docs/location/poi-locations.json`): Mellon columns ×2, Dippy ×1, Forbes Field wall ×1.
+**MJ's 4 fact fixes are done** (`textFixes` in `docs/location/poi-locations.json`): Mellon columns
+×2, Dippy ×1, Forbes Field wall ×1. The text was corrected and the clips regenerated on Nov 15.
 
 ## 3. Photos (`"photoStatus"`)
 

@@ -10,13 +10,15 @@ extension Color {
     static let strollAmber = Color(hex: 0xF2B84B)      // brand/amber (walk progress)
     static let strollNight = Color(hex: 0x0F1714)      // brand/night (walk progress card)
 
-    /// category/* colours, keyed by StrollContent.Category.id.
+    /// category/* colours, keyed by StrollContent.Category.id. From the ethical audit: each passes
+    /// WCAG AA (4.5:1) on paper and white, and the four stay apart with color blindness
+    /// (orange, purple and navy from MJ's audit; a brighter green so it isn't confused with navy).
     static func category(_ id: String) -> Color {
         switch id {
-        case "architecture": return Color(hex: 0xB5652B)
-        case "natural-history": return Color(hex: 0x3F7D4F)
-        case "public-art": return Color(hex: 0x7A55A6)
-        case "history": return Color(hex: 0x2E6A8E)
+        case "architecture": return Color(hex: 0xA15C17)
+        case "natural-history": return Color(hex: 0x007949)
+        case "public-art": return Color(hex: 0x8A4FB0)
+        case "history": return Color(hex: 0x1E4167)
         default: return .strollGreen
         }
     }
