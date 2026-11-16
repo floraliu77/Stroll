@@ -117,7 +117,9 @@ func runChecks() async {
     // Skip
     session.skip()
     check(session.visits.last?.outcome == .skipped, "Skip records the POI as skipped")
-    await waitFor("skip line") { voice.spoken.last == content.lines.skip.audio }
+    let skipped = content.pois.first { $0.id == order[1] }
+    let skipClip = skipped?.skipLine?.audio ?? content.lines.skip.audio   // the place's own voice, if it has one
+    await waitFor("skip line") { voice.spoken.last == skipClip }
     await waitFor("back to exploring") { session.phase == .exploring }
     check(session.poi == nil && session.transcript.isEmpty, "the stop closes after skipping")
 
@@ -279,7 +281,7 @@ func checkQuietGap(_ content: StrollContent) async {
 func checkSkipVoice(_ content: StrollContent) async {
     guard let own = content.pois.first(where: { $0.skipLine != nil }),
           let shared = content.pois.first(where: { $0.skipLine == nil }) else {
-        print("ok  (no place with its own skip line to check)")
+        print("ok  (every place has its own skip line, or none does: nothing to compare)")
         return
     }
     let voice = FakeVoice()

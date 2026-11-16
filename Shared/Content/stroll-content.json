@@ -35,6 +35,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "mellon-columns",
+      "altText": "Front of the Mellon Institute: a long row of tall, smooth stone columns.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
@@ -43,26 +44,31 @@
       },
       "prompt": {
         "text": "Look at the giant columns on this building. How many stone pieces make up one column?",
-        "audio": "f1-prompt"
+        "audio": "mellon-columns-prompt"
       },
       "reveal": {
         "text": "None stacked. Each column is a single piece of stone.",
-        "audio": "f1-reveal"
+        "audio": "mellon-columns-reveal"
       },
       "story": [
         {
-          "text": "Each of the 62 columns here is one solid piece of Indiana limestone, about 60 tons.",
-          "audio": "f1-story1"
+          "text": "Each of the 62 columns here is one solid piece of Indiana limestone, about 62 tons.",
+          "audio": "mellon-columns-story1"
         },
         {
           "text": "When the Mellon Institute opened in 1937, they were the largest monolithic columns in the world.",
-          "audio": "f1-story2"
+          "audio": "mellon-columns-story2"
         },
         {
-          "text": "The building, now part of Carnegie Mellon, reaches six stories underground to bedrock, to keep lab experiments steady.",
-          "audio": "f1-story3"
+          "text": "The building, now part of Carnegie Mellon, reaches three stories underground.",
+          "audio": "mellon-columns-story3"
         }
-      ]
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "dippy",
@@ -75,6 +81,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "dippy",
+      "altText": "A life-size dinosaur with a long curved neck, standing on a lawn beside the museum.",
       "photoCredit": {
         "author": "TheZachMorrisExperience",
         "license": "CC BY-SA 3.0",
@@ -83,26 +90,31 @@
       },
       "prompt": {
         "text": "Spot the dinosaur outside the museum. Look closely: is it bone, or something else?",
-        "audio": "f2-prompt"
+        "audio": "dippy-prompt"
       },
       "reveal": {
         "text": "It's a life-size fiberglass copy.",
-        "audio": "f2-reveal"
+        "audio": "dippy-reveal"
       },
       "story": [
         {
           "text": "This is Dippy, a fiberglass copy of a Diplodocus installed in 1999, 100 years after Andrew Carnegie funded the dig that found the original.",
-          "audio": "f2-story1"
+          "audio": "dippy-story1"
         },
         {
-          "text": "The first bone, a toe, was found in Wyoming on July 4, 1899, earning it the nickname 'the star-spangled dinosaur.'",
-          "audio": "f2-story2"
+          "text": "The first bone, a toe, was found in Wyoming around the Fourth of July, 1899, earning it the nickname 'the star-spangled dinosaur.'",
+          "audio": "dippy-story2"
         },
         {
           "text": "The real skeleton still stands inside, and Carnegie gave casts to museums in London, Paris, and other cities.",
-          "audio": "f2-story3"
+          "audio": "dippy-story3"
         }
-      ]
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "song-to-nature",
@@ -115,6 +127,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 35,
       "image": "song-to-nature",
+      "altText": "A stone fountain with a wide round basin and bronze figures in the center.",
       "photoCredit": {
         "author": "Daderot",
         "license": "Public domain",
@@ -123,26 +136,31 @@
       },
       "prompt": {
         "text": "At the fountain, look along the rim of the basin. Find the animals spouting water.",
-        "audio": "f3-prompt"
+        "audio": "song-to-nature-prompt"
       },
       "reveal": {
         "text": "Turtles. Four bronze turtles spout water into the basin.",
-        "audio": "f3-reveal"
+        "audio": "song-to-nature-reveal"
       },
       "story": [
         {
           "text": "This 1918 fountain honors Mary Schenley, who donated the land for Schenley Park.",
-          "audio": "f3-story1"
+          "audio": "song-to-nature-story1"
         },
         {
           "text": "The figures show Humanity playing a lyre to Pan, the earth god.",
-          "audio": "f3-story2"
+          "audio": "song-to-nature-story2"
         },
         {
           "text": "Its sculptor, Victor David Brenner, also designed the Lincoln penny, so you've probably carried his work in your pocket.",
-          "audio": "f3-story3"
+          "audio": "song-to-nature-story3"
         }
-      ]
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "forbes-wall",
@@ -155,6 +173,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "forbes-wall",
+      "altText": "An old red brick wall with large white numbers painted on it.",
       "photoCredit": {
         "author": "ccbarr",
         "license": "CC BY-SA 2.0",
@@ -163,26 +182,31 @@
       },
       "prompt": {
         "text": "Find the numbers on this brick wall. What do you think they measure?",
-        "audio": "f4-prompt"
+        "audio": "forbes-wall-prompt"
       },
       "reveal": {
         "text": "Distances from home plate: 457 and 436 feet.",
-        "audio": "f4-reveal"
+        "audio": "forbes-wall-reveal"
       },
       "story": [
         {
           "text": "This wall is all that's left of the outfield of Forbes Field, home of the Pittsburgh Pirates from 1909 to 1970, and of the Negro League Homestead Grays.",
-          "audio": "f4-story1"
+          "audio": "forbes-wall-story1"
         },
         {
           "text": "Bill Mazeroski's ninth-inning home run here won the 1960 World Series. Fans still gather at this wall every October 13 to relive it.",
-          "audio": "f4-story2"
+          "audio": "forbes-wall-story2"
         },
         {
-          "text": "Home plate from the last game is preserved in the lobby of Posvar Hall, just across the street.",
-          "audio": "f4-story3"
+          "text": "Home plate from the last game is preserved inside Posvar Hall, just across the street.",
+          "audio": "forbes-wall-story3"
         }
-      ]
+      ],
+      "skipLine": {
+        "text": "Okay, onward.",
+        "audio": "skip-sky"
+      },
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     },
     {
       "id": "st-nicholas-cathedral",
@@ -195,6 +219,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "st-nicholas-cathedral",
+      "altText": "A pale stone church front with six tall columns, a triangular roof above, and wide steps up to the door.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
@@ -248,6 +273,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "bellefield-hall",
+      "altText": "A large red brick building on a street corner, with a tall arched stone doorway at one end.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
@@ -302,6 +328,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 25,
       "image": "heinz-chapel",
+      "altText": "A pale stone chapel with one very tall, thin, pointed spire, standing alone on a wide lawn.",
       "photoCredit": {
         "author": "Dllu",
         "license": "CC BY-SA 4.0",
@@ -355,6 +382,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 50,
       "image": "cathedral-of-learning",
+      "altText": "The top of a very tall, pale stone tower with long, narrow pointed windows, against a blue sky.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
@@ -408,6 +436,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 25,
       "image": "the-hiker",
+      "altText": "A bronze statue of a soldier in a wide-brimmed hat, holding a rifle across his body.",
       "photoCredit": {
         "author": "Carptrash",
         "license": "CC BY-SA 3.0",
@@ -461,6 +490,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "first-baptist-church",
+      "altText": "A pale stone church with tall pointed windows and a thin, green-topped spire.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
@@ -514,6 +544,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "st-paul-cathedral",
+      "altText": "The front of a pale stone cathedral with two tall square towers, a large pointed window between them, and steps up to the doors.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
@@ -567,6 +598,7 @@
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "fairfax-apartments",
+      "altText": "A tall, wide red brick apartment building with rows of windows and pale stone trim along the roofline.",
       "photoCredit": {
         "author": "Cbaile19",
         "license": "CC0",
