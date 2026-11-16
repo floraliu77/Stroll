@@ -23,15 +23,20 @@ struct MirrorState: Codable, Equatable {
     var paused: Bool
     var foundCount: Int
     var everythingVisited: Bool
+    /// On a set walk: the walk (StrollContent.Route.id) and the stop being walked to or at
+    /// (0-based). Both nil while exploring freely.
+    var walkID: String? = nil
+    var stopIndex: Int? = nil
 
     static let idle = MirrorState(phase: .idle, poiID: nil, paused: false, foundCount: 0, everythingVisited: false)
 }
 
 /// Watch → phone: a tap on the watch. The phone does exactly what the same tap does on the phone.
 /// `reset` is Done after the walk (back to the start). `sync` asks the phone to send its current
-/// state (e.g. when the watch reconnects).
+/// state (e.g. when the watch reconnects). `skipStop` moves a set walk on to its next stop
+/// without going there.
 enum WatchAction: String, Codable, Equatable {
-    case start, tellMeMore, skip, keepExploring, replay, pause, resume, end, reset, sync
+    case start, tellMeMore, skip, keepExploring, replay, pause, resume, end, reset, sync, skipStop
 }
 
 enum Outcome: String, Codable, Equatable {

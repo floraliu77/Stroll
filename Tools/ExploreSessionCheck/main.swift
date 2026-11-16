@@ -171,6 +171,8 @@ func runChecks() async {
     await checkSourceSwitch(content)
     await checkWatchMirror(content)
     await checkJournal(content)
+    await checkSetWalk(content)
+    await checkSetWalkDemo(content)
     print("All exploring checks passed.")
 }
 
@@ -409,4 +411,99 @@ func checkJournal(_ content: StrollContent) async {
     check(reopened.entries == journal.entries, "the journal is still there after reopening the app")
     reopened.clear()
     check(JournalStore(url: file).entries.isEmpty, "Clear empties the saved journal")
+}
+
+/// A set walk: only the route's stops come up, in order, with a direction before each. Skipping
+/// a stop or walking to a later one moves on; the walk ends by itself after the last stop.
+@MainActor
+func checkSetWalk(_ content: StrollContent) async {
+    let route = content.route("oakland")!
+    let stops = route.stops.map { content.poi($0.poi)! }
+    let offRoute = content.pois.first { poi in !route.stops.contains { $0.poi == poi.id } }!
+    let voice = FakeVoice()
+    let alert = FakeAlert()
+    let source = ManualSource()
+    let session = ExploreSession(content: content, voice: voice, alert: alert, source: source,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 5))
+
+    session.start(walk: route)
+    check(session.route?.id == route.id && session.stopIndex == 0, "a set walk starts at its first stop")
+    await waitFor("first direction") { voice.spoken.contains(route.stops[0].cue!.audio) }
+    check(true, "the direction to the first stop is spoken")
+    await waitFor("music back after the direction") { !voice.holdingAudio }
+    check(true, "music comes back after a direction")
+    check(session.mirrorState.walkID == route.id && session.mirrorState.stopIndex == 0, "the watch is told the walk and stop")
+
+    source.onLocation?(offRoute.coordinate)
+    source.onLocation?(stops[1].coordinate)
+    try? await Task.sleep(nanoseconds: 50_000_000)
+    // stops[1] is a later stop, so it does come up (jumping ahead); the off-route place never does.
+    await waitFor("arrival") { alert.arrivals.count == 1 }
+    check(!alert.arrivals.contains(offRoute.id), "places off the route don't come up on a set walk")
+    check(alert.arrivals == [stops[1].id] && session.stopIndex == 1, "walking to a later stop first jumps ahead to it")
+    await waitFor("prompt") { session.phase == .prompt }
+    session.tellMeMore()
+    check(session.foundStop(1) && !session.foundStop(0), "the stop heard is marked found, the one passed isn't")
+    await waitFor("story finished") { session.phase == .finished }
+    let spokenBefore = voice.spoken.count
+    session.keepExploring()
+    check(session.phase == .exploring && session.stopIndex == 2, "Continue walk moves on to the next stop")
+    await waitFor("next direction") { voice.spoken.count > spokenBefore }
+    check(voice.spoken.last == route.stops[2].cue!.audio, "the next stop's direction plays straight away (no quiet gap)")
+    source.onLocation?(stops[0].coordinate)
+    try? await Task.sleep(nanoseconds: 100_000_000)
+    check(alert.arrivals.count == 1, "a stop already passed doesn't come up")
+
+    session.skipStop()
+    check(session.stopIndex == 3, "Skip this stop moves on without going there")
+    await waitFor("last direction") { voice.spoken.last == route.stops[3].cue!.audio }
+    check(true, "skipping a stop plays the next direction")
+    check(session.visits.count == 1, "a skipped-over stop isn't added to the Journal")
+
+    source.onLocation?(stops[3].coordinate)
+    await waitFor("last prompt") { session.phase == .prompt }
+    session.skip()
+    await waitFor("walk ended") { session.phase == .ended }
+    check(session.route?.id == route.id, "the walk ends by itself after the last stop")
+    await waitFor("done line") { voice.spoken.last == content.lines.done.audio }
+    check(true, "the walk-complete line plays")
+    session.reset()
+    check(session.route == nil && session.stopIndex == 0 && session.mirrorState.phase == .idle && session.mirrorState.walkID == nil, "Done goes back to the start, out of the set walk")
+
+    // From the watch
+    session.start(walk: route)
+    session.handle(.skipStop)
+    check(session.stopIndex == 1, "Skip this stop on the watch moves the phone on")
+    session.handle(.skipStop); session.handle(.skipStop); session.handle(.skipStop)
+    check(session.phase == .ended, "skipping the last stop ends the walk")
+    session.reset()
+    session.start()
+    check(session.route == nil, "exploring freely after a set walk isn't on a route")
+    source.onLocation?(offRoute.coordinate)
+    await waitFor("free arrival") { alert.arrivals.last == offRoute.id }
+    check(true, "exploring freely still brings up any place")
+    session.end()
+    let data = RemoteCoding.encode(MirrorState(phase: .exploring, poiID: nil, paused: false, foundCount: 0, everythingVisited: false, walkID: route.id, stopIndex: 2))!
+    check(RemoteCoding.decode(MirrorState.self, from: data)?.stopIndex == 2, "the walk progress survives a JSON round trip")
+
+    // Distance and time
+    check(route.meters > 0 && route.minutes > 0, "a set walk has a distance and a time")
+    check(route.minutesLeft(from: 0, in: content) <= route.minutes, "time left at the start is no more than the whole walk")
+    check(route.minutesLeft(from: 3, in: content) < route.minutesLeft(from: 1, in: content), "time left goes down as the walk goes on")
+}
+
+/// The demo walk follows a set walk's stops, and keeps going after a skipped stop.
+@MainActor
+func checkSetWalkDemo(_ content: StrollContent) async {
+    let route = content.route("oakland")!
+    let alert = FakeAlert()
+    let demo = DemoWalk(stops: content.demoWalk.order.compactMap { content.poi($0)?.coordinate }, firstSeconds: 0.1, gapSeconds: 0.1...0.15)
+    let session = ExploreSession(content: content, voice: FakeVoice(), alert: alert, source: demo,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 5))
+    session.start(walk: route)
+    session.skipStop()   // before the first stop comes up
+    await waitFor("demo arrival") { alert.arrivals.count == 1 }
+    check(alert.arrivals == [route.stops[1].poi], "the demo walk goes on to the next stop after a skip")
+    session.end()
+    session.reset()
 }

@@ -20,7 +20,8 @@ The 40 lines of the 8 new places (5 each: question, answer, 3 story lines) were 
 Kokoro's Sky voice** (`af_sky`, normal speed) on Nov 13. Each of these places has
 `"audioVoice": "kokoro af_sky … final voice not decided yet"`. On Nov 15 the original 4 places
 were regenerated in Sky too (with MJ's four fact fixes below), so **all 12 places now use Sky**.
-Their old recordings (`f1-*.mp3` to `f4-*.mp3`) are no longer used and can be deleted.
+Their old recordings are no longer used for the places and can be deleted, **except the
+direction clips `f1-cue.mp3` to `f4-cue.mp3`**, which the Oakland set walk still plays (old voice).
 
 "Okay, onward." after Skip follows the place's voice: every place now has its own `skipLine`
 (shared clip `skip-sky`). The end line ("Walk complete…") is still the original voice.

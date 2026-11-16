@@ -88,15 +88,23 @@ struct StrollContent: Decodable {
         let max: Double
     }
 
-    /// A pre-set walk. Route directions ("cues") belong to stops, not to POIs.
+    /// A set walk: a route past chosen points of interest, in order (the Walks tab).
+    /// Route directions ("cues") belong to stops, not to POIs: the cue is said on the way *to* that stop.
     struct Route: Decodable, Identifiable {
         let id: String
         let title: String
+        let summary: String
+        let cover: String                // asset catalog name of the card and detail photo
+        /// The line drawn on the map, from the first stop to the last. Distance and time come from it.
+        let path: [Coordinate]
         let stops: [Stop]
     }
 
     struct Stop: Decodable {
         let poi: String                  // POI.id
+        /// Where the stop is, for the stops list ("Fifth Ave & Bellefield"). Never the place's name:
+        /// what's at each stop stays a surprise.
+        let street: String
         let cue: Line?
     }
 
@@ -128,5 +136,61 @@ struct StrollContent: Decodable {
         if let url = Bundle.main.url(forResource: fileName, withExtension: "json") { return url }
         if let path = ProcessInfo.processInfo.environment["STROLL_CONTENT"] { return URL(fileURLWithPath: path) }
         throw CocoaError(.fileNoSuchFile)
+    }
+}
+
+// MARK: Set walk distances
+
+extension StrollContent.Route {
+    /// Walking pace for time estimates: about 3 mph.
+    static let metersPerMinute = 80.0
+    /// Rough time spent at each stop (buzz, question, story).
+    static let minutesPerStop = 2.0
+
+    /// Length of the route line, in meters.
+    var meters: Double { Self.length(path) }
+
+    /// Walking plus listening time, rounded up to the minute.
+    var minutes: Int { Self.minutes(meters: meters, stops: stops.count) }
+
+    var miles: Double { meters / 1609.344 }
+
+    /// For each stop, its position along `path` (index of the closest path point).
+    func pathIndex(of stop: Int, in content: StrollContent) -> Int {
+        guard let poi = content.poi(stops[stop].poi), !path.isEmpty else { return 0 }
+        return path.indices.min { Self.distance(path[$0], poi.coordinate) < Self.distance(path[$1], poi.coordinate) } ?? 0
+    }
+
+    /// Meters along the route from the stop before `stop` to `stop` (0 for the first stop:
+    /// the walk starts there).
+    func legMeters(to stop: Int, in content: StrollContent) -> Double {
+        guard stop > 0, stop < stops.count else { return 0 }
+        let from = pathIndex(of: stop - 1, in: content), to = pathIndex(of: stop, in: content)
+        guard to > from else { return 0 }
+        return Self.length(Array(path[from...to]))
+    }
+
+    /// Time left, with `next` the stop being walked to (or at). Stops already passed don't count.
+    func minutesLeft(from next: Int, in content: StrollContent) -> Int {
+        guard next < stops.count else { return 0 }
+        let meters = (next..<stops.count).map { legMeters(to: $0, in: content) }.reduce(0, +)
+        return Self.minutes(meters: meters, stops: stops.count - next)
+    }
+
+    static func minutes(meters: Double, stops: Int) -> Int {
+        Int((meters / metersPerMinute + Double(stops) * minutesPerStop).rounded(.up))
+    }
+
+    static func length(_ points: [StrollContent.Coordinate]) -> Double {
+        zip(points, points.dropFirst()).map { distance($0, $1) }.reduce(0, +)
+    }
+
+    /// Great-circle distance in meters (the same formula as POIDetector, which the watch doesn't build).
+    static func distance(_ a: StrollContent.Coordinate, _ b: StrollContent.Coordinate) -> Double {
+        let r = 6_371_000.0
+        let lat1 = a.latitude * .pi / 180, lat2 = b.latitude * .pi / 180
+        let dLat = lat2 - lat1, dLon = (b.longitude - a.longitude) * .pi / 180
+        let h = sin(dLat / 2) * sin(dLat / 2) + cos(lat1) * cos(lat2) * sin(dLon / 2) * sin(dLon / 2)
+        return 2 * r * asin(min(1, sqrt(h)))
     }
 }

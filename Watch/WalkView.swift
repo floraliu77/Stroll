@@ -16,7 +16,8 @@ struct WalkView: View {
             } else {
                 switch mirror.state.phase {
                 case .idle: StartScreen()
-                case .exploring: ExploringScreen()
+                case .exploring:
+                    if mirror.route != nil { NextStopScreen() } else { ExploringScreen() }
                 case .preview: PreviewScreen()
                 case .prompt: PromptScreen()
                 case .story: StoryScreen()
@@ -79,6 +80,47 @@ private struct ExploringScreen: View {
     }
 }
 
+/// A set walk between stops: which stop is next, its category and the direction the phone
+/// just said, with Pause, End and Skip this stop.
+private struct NextStopScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 6) {
+                if let route = mirror.route, let index = mirror.state.stopIndex {
+                    Text("\(route.title) · Stop \(min(index + 1, route.stops.count)) of \(route.stops.count)")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+                if let stop = mirror.currentStop, let poi = mirror.content.poi(stop.poi),
+                   let category = mirror.content.category(poi.category) {
+                    Text(mirror.isLastStop ? "Last stop" : "Next stop")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Color.strollGreen)
+                    Label(category.name, systemImage: category.symbol)
+                        .font(.headline)
+                    if let cue = stop.cue {
+                        Text(cue.text)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                VStack(spacing: 6) {
+                    HStack(spacing: 8) {
+                        SecondaryButton("Pause") { mirror.send(.pause) }
+                        SecondaryButton("End") { mirror.send(.end) }
+                    }
+                    SecondaryButton("Skip this stop") { mirror.send(.skipStop) }
+                    ProblemText()
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+}
+
 // Every screen for a point of interest uses SpotScreen with the photo at the same size, so
 // nothing jumps between them, and the photo stays up so people can compare it with what's in
 // front of them. Replay and Pause sit on the photo's top corners, away from the main buttons.
@@ -110,7 +152,7 @@ private struct StoryScreen: View {
         SpotScreen {
             POIPhoto(controls: [.replay, .pause])
             ListeningDots()
-            SecondaryButton("Keep exploring") { mirror.send(.keepExploring) }
+            SecondaryButton(mirror.continueTitle) { mirror.send(.keepExploring) }
         }
     }
 }
@@ -121,7 +163,7 @@ private struct FinishedScreen: View {
     var body: some View {
         SpotScreen {
             POIPhoto(controls: [.replay])
-            PrimaryButton("Keep exploring") { mirror.send(.keepExploring) }
+            PrimaryButton(mirror.continueTitle) { mirror.send(.keepExploring) }
         }
     }
 }

@@ -670,9 +670,58 @@
     {
       "id": "oakland",
       "title": "Oakland",
+      "summary": "A short walk through Oakland past four things most people walk right by. Your watch buzzes at each stop and tells you what to look for.",
+      "cover": "mellon-columns",
+      "path": [
+        {
+          "latitude": 40.44663,
+          "longitude": -79.9511
+        },
+        {
+          "latitude": 40.4458,
+          "longitude": -79.9511
+        },
+        {
+          "latitude": 40.4449,
+          "longitude": -79.9512
+        },
+        {
+          "latitude": 40.4441,
+          "longitude": -79.9514
+        },
+        {
+          "latitude": 40.443553,
+          "longitude": -79.951498
+        },
+        {
+          "latitude": 40.443,
+          "longitude": -79.9516
+        },
+        {
+          "latitude": 40.4424,
+          "longitude": -79.9518
+        },
+        {
+          "latitude": 40.441995,
+          "longitude": -79.9519
+        },
+        {
+          "latitude": 40.4417,
+          "longitude": -79.9522
+        },
+        {
+          "latitude": 40.4414,
+          "longitude": -79.9525
+        },
+        {
+          "latitude": 40.44125,
+          "longitude": -79.95266
+        }
+      ],
       "stops": [
         {
           "poi": "mellon-columns",
+          "street": "Fifth Ave & Bellefield",
           "cue": {
             "text": "Start at Fifth Avenue and Bellefield.",
             "audio": "f1-cue"
@@ -680,6 +729,7 @@
         },
         {
           "poi": "dippy",
+          "street": "Forbes Ave",
           "cue": {
             "text": "Head down Bellefield to Forbes Avenue.",
             "audio": "f2-cue"
@@ -687,6 +737,7 @@
         },
         {
           "poi": "song-to-nature",
+          "street": "Schenley Plaza",
           "cue": {
             "text": "Cross Forbes toward Schenley Plaza and the Frick Fine Arts Building.",
             "audio": "f3-cue"
@@ -694,9 +745,96 @@
         },
         {
           "poi": "forbes-wall",
+          "street": "Roberto Clemente Dr",
           "cue": {
             "text": "Follow Roberto Clemente Drive to the old brick wall by Mazeroski Field.",
             "audio": "f4-cue"
+          }
+        }
+      ]
+    },
+    {
+      "id": "steeples",
+      "title": "Steeples and Spires",
+      "summary": "A loop of Oakland's churches, from a grand cathedral to a quiet chapel. Look up: each stop has something most people miss.",
+      "cover": "st-paul-cathedral",
+      "path": [
+        {
+          "latitude": 40.447693,
+          "longitude": -79.952977
+        },
+        {
+          "latitude": 40.4475,
+          "longitude": -79.9518
+        },
+        {
+          "latitude": 40.4472,
+          "longitude": -79.9508
+        },
+        {
+          "latitude": 40.44701,
+          "longitude": -79.9498
+        },
+        {
+          "latitude": 40.4462,
+          "longitude": -79.95
+        },
+        {
+          "latitude": 40.4454,
+          "longitude": -79.9502
+        },
+        {
+          "latitude": 40.4446,
+          "longitude": -79.95025
+        },
+        {
+          "latitude": 40.4441,
+          "longitude": -79.951
+        },
+        {
+          "latitude": 40.4442,
+          "longitude": -79.9518
+        },
+        {
+          "latitude": 40.4447,
+          "longitude": -79.9521
+        },
+        {
+          "latitude": 40.44515,
+          "longitude": -79.9523
+        }
+      ],
+      "stops": [
+        {
+          "poi": "first-baptist-church",
+          "street": "Bellefield & Bayard",
+          "cue": {
+            "text": "Start at Bellefield Avenue and Bayard Street.",
+            "audio": null
+          }
+        },
+        {
+          "poi": "st-paul-cathedral",
+          "street": "Fifth Ave & Dithridge",
+          "cue": {
+            "text": "Head east to Fifth Avenue and Dithridge Street.",
+            "audio": null
+          }
+        },
+        {
+          "poi": "st-nicholas-cathedral",
+          "street": "Forbes & Dithridge",
+          "cue": {
+            "text": "Walk down Dithridge Street to Forbes Avenue.",
+            "audio": null
+          }
+        },
+        {
+          "poi": "heinz-chapel",
+          "street": "S Bellefield Ave",
+          "cue": {
+            "text": "Head west along Forbes, then turn right up Bellefield Avenue.",
+            "audio": null
           }
         }
       ]

@@ -38,10 +38,22 @@ protocol LocationSource: AnyObject {
     /// The participant is free for the next point of interest. The demo walk starts its
     /// countdown; live location doesn't need it (the session's quiet gap covers it).
     func participantIsFree()
+    /// A set walk's stops, in order, or nil for exploring freely. Called before `start()`.
+    /// The demo walk visits these instead of its own list; real location doesn't need them.
+    func follow(_ stops: [StrollContent.Coordinate]?)
+}
+
+extension LocationSource {
+    func follow(_ stops: [StrollContent.Coordinate]?) {}
 }
 
 /// An exploring session on the phone: the phone leads, playing narration through whatever
 /// headphones are connected to it, and shows the transcript.
+///
+/// Two kinds of walk share it: exploring freely (any point of interest comes up when you're
+/// near it) and a set walk (`route`), where only the route's stops come up, in order, with a
+/// spoken direction ("cue") on the way to each. Both go through the same `POIDetector` check
+/// and the same buzz → photo → question → story flow.
 /// Platform-free so it can be checked on a Mac (see Tools/check-walk-model.sh).
 @MainActor
 final class ExploreSession: ObservableObject {
@@ -74,6 +86,10 @@ final class ExploreSession: ObservableObject {
     /// With VoiceOver on, the stop sheet keeps VoiceOver from reading the same words over it.
     @Published private(set) var narrating = false
     @Published private(set) var visits: [Visit] = []
+    /// The set walk being followed, or nil while exploring freely.
+    @Published private(set) var route: StrollContent.Route?
+    /// On a set walk: the stop being walked to, or the one open now (0-based).
+    @Published private(set) var stopIndex = 0
     /// Called as each point of interest is explored or skipped (the Journal listens).
     var onVisit: (@MainActor (Visit) -> Void)?
 
@@ -82,11 +98,23 @@ final class ExploreSession: ObservableObject {
     var showsStop: Bool { [.preview, .prompt, .story, .finished, .skipping].contains(phase) }
     var foundCount: Int { visits.filter { $0.outcome == .found }.count }
     /// Nothing more will come up this session.
-    var everythingVisited: Bool { source.isFinished || arrived.count == content.pois.count }
+    /// Exploring freely only: a set walk ends by itself after its last stop.
+    var everythingVisited: Bool { route == nil && (source.isFinished || arrived.count == content.pois.count) }
+    /// On a set walk, the stop being walked to or at.
+    var currentStop: StrollContent.Stop? {
+        guard let route, stopIndex < route.stops.count else { return nil }
+        return route.stops[stopIndex]
+    }
+    /// On a set walk: whether the participant heard the story at stop `index`.
+    func foundStop(_ index: Int) -> Bool {
+        guard let route, index < route.stops.count else { return false }
+        return visits.contains { $0.poiID == route.stops[index].poi && $0.outcome == .found }
+    }
     var secondsUntilNext: Double? { phase == .exploring && !paused ? source.secondsUntilNext : nil }
     /// What the watch shows.
     var mirrorState: MirrorState {
-        MirrorState(phase: phase, poiID: poi?.id, paused: paused, foundCount: foundCount, everythingVisited: everythingVisited)
+        MirrorState(phase: phase, poiID: poi?.id, paused: paused, foundCount: foundCount, everythingVisited: everythingVisited,
+                    walkID: route?.id, stopIndex: route == nil ? nil : stopIndex)
     }
 
     private let voice: GuideVoice
@@ -125,15 +153,32 @@ final class ExploreSession: ObservableObject {
 
     // MARK: Participant
 
-    func start() {
+    /// Starts exploring freely, or the set walk `walk`.
+    func start(walk: StrollContent.Route? = nil) {
         guard phase == .idle else { return }
         cancelQuiet()
         visits = []
         arrived = []
         clearStop()
+        route = walk
+        stopIndex = 0
         phase = .exploring
+        source.follow(walk.map { $0.stops.compactMap { content.poi($0.poi)?.coordinate } })
         source.start()
         source.participantIsFree()
+        sayCue()
+    }
+
+    /// Set walk: move on to the next stop without going to this one (it isn't in the Journal).
+    /// After the last stop, the walk ends.
+    func skipStop() {
+        guard phase == .exploring, let route, stopIndex < route.stops.count else { return }
+        stopIndex += 1
+        if stopIndex >= route.stops.count {
+            end()
+        } else {
+            sayCue()
+        }
     }
 
     func tellMeMore() {
@@ -210,6 +255,8 @@ final class ExploreSession: ObservableObject {
         source.stop()
         clearStop()
         voice.placeDone()
+        route = nil
+        stopIndex = 0
         phase = .idle
     }
 
@@ -225,6 +272,7 @@ final class ExploreSession: ObservableObject {
         case .resume: resume()
         case .end: end()
         case .reset: if phase == .ended { reset() }
+        case .skipStop: skipStop()
         case .sync: break   // answered by PhoneLink
         }
     }
@@ -232,6 +280,7 @@ final class ExploreSession: ObservableObject {
     /// Developer tools: bring up a point of interest now, wherever the participant is.
     func arriveNow(_ poiID: String) {
         guard phase != .idle, phase != .ended, let next = content.poi(poiID) else { return }
+        reachStop(next)
         arrive(at: next)
     }
 
@@ -249,8 +298,37 @@ final class ExploreSession: ObservableObject {
             pending = coordinate
             return
         }
-        guard let next = POIDetector.poi(near: coordinate, in: content.pois, excluding: arrived) else { return }
+        guard let next = POIDetector.poi(near: coordinate, in: candidates, excluding: arrived) else {
+            // Demo walk on a set walk: that was a stop already skipped; go on to the next one.
+            if route != nil { source.participantIsFree() }
+            return
+        }
+        reachStop(next)
         arrive(at: next)
+    }
+
+    /// What can come up now: on a set walk, the stops not reached yet (so walking to a later
+    /// stop first jumps ahead to it); otherwise every point of interest.
+    private var candidates: [StrollContent.POI] {
+        guard let route else { return content.pois }
+        return route.stops.dropFirst(stopIndex).compactMap { content.poi($0.poi) }
+    }
+
+    /// Set walk: arriving at a later stop skips the ones in between.
+    private func reachStop(_ poi: StrollContent.POI) {
+        guard let route, let k = route.stops.firstIndex(where: { $0.poi == poi.id }), k >= stopIndex else { return }
+        stopIndex = k
+    }
+
+    /// Set walk: the direction to the current stop, then the music can come back.
+    private func sayCue() {
+        guard let cue = currentStop?.cue else { return }
+        run { [self] in
+            try await say(cue.narration)
+            transcript = []
+            speaking = nil
+            voice.placeDone()
+        }
     }
 
     private func arrive(at next: StrollContent.POI) {
@@ -285,12 +363,26 @@ final class ExploreSession: ObservableObject {
 
     private func backToExploring() {
         let waiting = pending
+        let leftStop = currentStop.map { $0.poi == poi?.id } ?? false
         clearStop()
         pending = waiting
         voice.placeDone()
         phase = .exploring
+        guard let route else {
+            source.participantIsFree()
+            startQuiet()
+            return
+        }
+        // Set walk: on to the next stop, or the end of the walk. No quiet gap: only the next
+        // stop can come up, and its direction plays first.
+        if leftStop { stopIndex += 1 }
+        if stopIndex >= route.stops.count {
+            end()
+            return
+        }
         source.participantIsFree()
-        startQuiet()
+        sayCue()
+        arrivePending()
     }
 
     /// The quiet gap after a stop. When it ends, the latest position is checked again.

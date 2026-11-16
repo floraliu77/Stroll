@@ -41,7 +41,8 @@ struct ExploreView: View {
         .tint(.blue)                                              // "you are here" stays system blue, as in Figma
         .safeAreaInset(edge: .top) { topBar }
         .safeAreaInset(edge: .bottom) {
-            if session.phase == .idle { startPanel } else { ExploringPanel() }
+            // A set walk has its own full-screen view (WalkInProgressView), over this one.
+            if session.phase == .idle || session.route != nil { startPanel } else { ExploringPanel() }
         }
         .onAppear { location.requestWhenInUseAuthorization() }
         .sheet(isPresented: $showingSettings) { DeveloperToolsSheet() }

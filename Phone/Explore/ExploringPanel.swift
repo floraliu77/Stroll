@@ -207,15 +207,21 @@ struct StopSheet: View {
                 listeningRow
             case .story:
                 listeningRow
-                PanelButton(title: "Keep exploring", symbol: nil, filled: false) { session.keepExploring() }
+                PanelButton(title: continueTitle, symbol: nil, filled: false) { session.keepExploring() }
             case .finished:
-                PanelButton(title: "Keep exploring", symbol: nil, filled: true) { session.keepExploring() }
+                PanelButton(title: continueTitle, symbol: nil, filled: true) { session.keepExploring() }
                     .accessibilityFocused($focusedControl, equals: .keepExploring)
                 PanelButton(title: "Replay", symbol: "arrow.counterclockwise", filled: false) { session.replay() }
             default:
                 EmptyView()
             }
         }
+    }
+
+    /// Keep exploring, or on a set walk Continue walk (Finish walk at the last stop).
+    private var continueTitle: String {
+        guard let route = session.route else { return "Keep exploring" }
+        return session.stopIndex >= route.stops.count - 1 ? "Finish walk" : "Continue walk"
     }
 
     /// Replay and Pause side by side, while narration is playing.
@@ -256,7 +262,7 @@ private struct TranscriptLine: View {
     }
 }
 
-private struct PanelButton: View {
+struct PanelButton: View {
     let title: String
     let symbol: String?
     let filled: Bool
