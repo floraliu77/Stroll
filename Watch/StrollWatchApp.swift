@@ -44,6 +44,16 @@ final class MirrorModel: ObservableObject {
     let content = StrollContent.shared
     var poi: StrollContent.POI? { state.poiID.flatMap { content.poi($0) } }
     var category: StrollContent.Category? { poi.flatMap { content.category($0.category) } }
+    /// The set walk the phone is on, if any.
+    var route: StrollContent.Route? { state.walkID.flatMap { content.route($0) } }
+    /// On a set walk: the stop being walked to or at.
+    var currentStop: StrollContent.Stop? {
+        guard let route, let index = state.stopIndex, index < route.stops.count else { return nil }
+        return route.stops[index]
+    }
+    var isLastStop: Bool { route.map { (state.stopIndex ?? 0) >= $0.stops.count - 1 } ?? false }
+    /// Keep exploring, or on a set walk Continue walk / Finish walk.
+    var continueTitle: String { route == nil ? "Keep exploring" : (isLastStop ? "Finish walk" : "Continue walk") }
 
     private let link = WatchLink()
     private let workout = WorkoutKeeper()

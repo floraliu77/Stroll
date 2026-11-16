@@ -25,12 +25,15 @@ enum POIDetector {
 /// The scripted demo walk (docs/round1-plan.md): pretends the participant walks up to each
 /// point of interest in `demoWalk.order`, wherever they really are. The first arrives
 /// `firstBuzzSeconds` after Start Exploring; each next one a random `gapSeconds` after the
-/// participant is free again. Pausing pauses the countdown.
+/// participant is free again. Pausing pauses the countdown. On a set walk it visits the walk's
+/// stops instead (`follow`).
 @MainActor
 final class DemoWalk: LocationSource {
     var onLocation: (@MainActor (StrollContent.Coordinate) -> Void)?
 
-    private let stops: [StrollContent.Coordinate]
+    /// Its own list, for exploring freely.
+    private let ownStops: [StrollContent.Coordinate]
+    private var stops: [StrollContent.Coordinate]
     private let firstSeconds: Double
     private let gapSeconds: ClosedRange<Double>
     private var next = 0
@@ -39,6 +42,7 @@ final class DemoWalk: LocationSource {
     private var paused = false
 
     init(stops: [StrollContent.Coordinate], firstSeconds: Double, gapSeconds: ClosedRange<Double>) {
+        self.ownStops = stops
         self.stops = stops
         self.firstSeconds = firstSeconds
         self.gapSeconds = gapSeconds
@@ -64,6 +68,10 @@ final class DemoWalk: LocationSource {
         countdown = nil
         remaining = nil
         paused = false
+    }
+
+    func follow(_ stops: [StrollContent.Coordinate]?) {
+        self.stops = stops ?? ownStops
     }
 
     func pause() { paused = true }
