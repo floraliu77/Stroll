@@ -10,7 +10,6 @@ struct ExploreView: View {
     @State private var filter: String?          // nil = All
     @State private var position: MapCameraPosition = .region(ExploreView.pilotArea)
     @State private var showingSettings = false
-    @State private var location = CLLocationManager()
 
     /// Shows every point of interest (the pilot area in Oakland).
     static var pilotArea: MKCoordinateRegion {
@@ -43,7 +42,6 @@ struct ExploreView: View {
         .safeAreaInset(edge: .bottom) {
             if session.phase == .idle { startPanel } else { ExploringPanel() }
         }
-        .onAppear { location.requestWhenInUseAuthorization() }
         .sheet(isPresented: $showingSettings) { DeveloperToolsSheet() }
     }
 
@@ -96,7 +94,6 @@ struct ExploreView: View {
                         .multilineTextAlignment(.center)
                 }
                 Button {
-                    ExploreNotifications.requestPermission()
                     session.start()
                     link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
                 } label: {

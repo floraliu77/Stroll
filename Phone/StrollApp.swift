@@ -8,12 +8,23 @@ struct StrollApp: App {
     @StateObject private var journal = JournalStore()
     /// The phone's real position, used when Developer tools is set to Real location.
     @StateObject private var liveLocation = LiveLocationSource()
+    /// The first-launch welcome screen and its permission prompts.
+    @StateObject private var setup = SetupFlow()
     @AppStorage(WalkMode.storageKey) private var walkMode: WalkMode = .demo
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
-            RootTabs()
+            Group {
+                if setup.needsWelcome {
+                    WelcomeView()
+                        .transition(.opacity)
+                } else {
+                    RootTabs()
+                }
+            }
+            .animation(.easeInOut(duration: 0.3), value: setup.needsWelcome)
+            .environmentObject(setup)
             .environmentObject(link)
             .environmentObject(session)
             .environmentObject(journal)
