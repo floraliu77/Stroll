@@ -61,13 +61,18 @@ struct StrollApp: App {
     }
 }
 
-/// The two tabs, with Stroll's own tab bar: a white floating bar with the selected tab in green,
+/// The three tabs (Explore, Walks, Journal), with Stroll's own tab bar: a white floating bar with the selected tab in green,
 /// the same in light and dark mode. (The system tab bar takes its style from the screen behind
 /// it, so over the dark-mode map it couldn't stay light with a green selected tab.)
 struct RootTabs: View {
-    enum Tab: Hashable { case explore, journal }
+    enum Tab: Hashable { case explore, walks, journal }
 
+    @EnvironmentObject private var session: ExploreSession
+    @EnvironmentObject private var link: PhoneLink
+    @EnvironmentObject private var liveLocation: LiveLocationSource
     @State private var tab = Tab.explore
+    /// The Walks tab's navigation: a walk's detail has its own Start walk bar instead of the tab bar (Figma 06).
+    @State private var walkPath: [String] = []
 
     var body: some View {
         ZStack {
@@ -76,14 +81,27 @@ struct RootTabs: View {
             // text over the dark-mode map.
             ExploreView()
                 .accessibilityHidden(tab != .explore)
+            if tab == .walks {
+                WalksView(path: $walkPath)
+            }
             if tab == .journal {
                 JournalView()
             }
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            StrollTabBar(selection: $tab)
+            if tab != .walks || walkPath.isEmpty {
+                StrollTabBar(selection: $tab)
+            }
         }
         .tint(.strollGreen)
+        // A set walk takes the whole screen while it runs (Figma 07, no tab bar), whether it
+        // was started here or the session was already on one.
+        .fullScreenCover(isPresented: .constant(session.route != nil)) {
+            WalkInProgressView()
+                .environmentObject(session)
+                .environmentObject(link)
+                .environmentObject(liveLocation)
+        }
     }
 }
 
@@ -92,8 +110,10 @@ private struct StrollTabBar: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            item(.explore, title: "Explore", symbol: "map")
-            item(.journal, title: "Journal", symbol: "book.closed")
+            item(.explore, title: "Explore", symbol: "map", selectedSymbol: "map.fill")
+            item(.walks, title: "Walks", symbol: "point.topleft.down.to.point.bottomright.curvepath",
+                 selectedSymbol: "point.topleft.down.to.point.bottomright.curvepath.fill")
+            item(.journal, title: "Journal", symbol: "book.closed", selectedSymbol: "book.closed.fill")
         }
         .padding(5)
         .background(.white, in: Capsule())
@@ -102,17 +122,17 @@ private struct StrollTabBar: View {
         .padding(.bottom, 4)
     }
 
-    private func item(_ tab: RootTabs.Tab, title: String, symbol: String) -> some View {
+    private func item(_ tab: RootTabs.Tab, title: String, symbol: String, selectedSymbol: String) -> some View {
         let isSelected = selection == tab
         return Button { selection = tab } label: {
             VStack(spacing: 2) {
-                Image(systemName: isSelected ? symbol + ".fill" : symbol)
+                Image(systemName: isSelected ? selectedSymbol : symbol)
                     .font(.system(size: 20, weight: .semibold))
                 Text(title)
                     .font(.caption.weight(.semibold))
             }
             .foregroundStyle(isSelected ? Color.strollGreen : Color.strollInk)
-            .frame(width: 96, height: 52)
+            .frame(width: 92, height: 52)
             .background(isSelected ? Color.strollGreen.opacity(0.12) : .clear, in: Capsule())
             .contentShape(Capsule())
         }

@@ -7,9 +7,9 @@ extension Color {
     static let strollInk = Color(hex: 0x1B2420)        // text/ink
     static let strollMuted = Color(hex: 0x5B6A63)      // text/muted
     static let strollBorder = Color(hex: 0xE3DDD0)     // border/subtle
-    static let strollNight = Color(hex: 0x0F1714)      // brand/night (welcome screen)
-    static let strollAmber = Color(hex: 0xF2B84B)      // brand/amber
+    static let strollAmber = Color(hex: 0xF2B84B)      // brand/amber (walk progress, setup screens)
     static let strollAmberInk = Color(hex: 0x241A05)   // brand/amber-ink: text on amber
+    static let strollNight = Color(hex: 0x0F1714)      // brand/night (walk progress card, setup screens)
 
     /// category/* colours, keyed by StrollContent.Category.id.
     static func category(_ id: String) -> Color {

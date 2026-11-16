@@ -39,11 +39,42 @@ for poi in content.pois {
     }
 }
 for line in [content.lines.skip, content.lines.done] { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
+// Set walks (the Walks tab)
+/// Set-walk directions with no recording yet: walk id -> number of lines.
+var iPhoneVoiceCues: [String: Int] = [:]
+/// A stop must lie on its walk's route line: within this many meters of a path point.
+let maxStopOffPath = 60.0
+check(Set(content.walks.map(\.id)).count == content.walks.count, "walk ids must be unique")
 for route in content.walks {
-    for stop in route.stops {
-        check(content.poi(stop.poi) != nil, "walk '\(route.id)': unknown POI '\(stop.poi)'")
-        if let cue = stop.cue { check(clipExists(cue.audio), "walk '\(route.id)': missing audio clip '\(cue.audio)'") }
+    let w = "walk '\(route.id)'"
+    check(!route.title.isEmpty && !route.summary.isEmpty, "\(w): needs a title and a summary")
+    check(fm.fileExists(atPath: assets.appendingPathComponent("\(route.cover).imageset").path), "\(w): no cover image '\(route.cover)' in the asset catalog")
+    check(route.stops.count >= 2, "\(w): needs at least two stops")
+    check(Set(route.stops.map(\.poi)).count == route.stops.count, "\(w): repeats a stop")
+    check(route.path.count >= 2, "\(w): its route line needs at least two points")
+    for point in route.path {
+        check(abs(point.latitude) <= 90 && abs(point.longitude) <= 180, "\(w): route point out of range")
     }
+    var lastPathIndex = -1
+    for (k, stop) in route.stops.enumerated() {
+        guard let poi = content.poi(stop.poi) else {
+            check(false, "\(w): unknown POI '\(stop.poi)'")
+            continue
+        }
+        check(!stop.street.isEmpty, "\(w): stop \(k + 1) needs a street")
+        check(!stop.street.localizedCaseInsensitiveContains(poi.name), "\(w): stop \(k + 1)'s street gives away its name")
+        let nearest = route.path.map { StrollContent.Route.distance($0, poi.coordinate) }.min() ?? .infinity
+        check(nearest <= maxStopOffPath, "\(w): stop \(k + 1) (\(poi.id)) is \(Int(nearest)) m from the route line")
+        let index = route.pathIndex(of: k, in: content)
+        check(index > lastPathIndex, "\(w): stop \(k + 1) comes before the stop ahead of it along the route line")
+        lastPathIndex = index
+        if let cue = stop.cue {
+            check(!cue.text.isEmpty, "\(w): stop \(k + 1) has an empty direction")
+            if cue.hasRecording { check(clipExists(cue.audio), "\(w): missing audio clip '\(cue.audio)'") }
+            else { iPhoneVoiceCues[route.id, default: 0] += 1 }
+        }
+    }
+    check(route.minutes > 0, "\(w): time estimate must be positive")
 }
 let demo = content.demoWalk
 check(!demo.order.isEmpty, "demo walk has no POIs")
@@ -53,12 +84,18 @@ check(demo.firstBuzzSeconds >= 0 && demo.gapSeconds.min >= 0 && demo.gapSeconds.
 
 if problems.isEmpty {
     print("Content OK: \(content.pois.count) points of interest, \(content.categories.count) categories, demo walk of \(demo.order.count).")
+    for route in content.walks {
+        print("Set walk '\(route.id)': \(route.stops.count) stops, \(String(format: "%.1f", route.miles)) mi, about \(route.minutes) min.")
+    }
     if !iPhoneVoice.isEmpty {
         let lines = iPhoneVoice.values.reduce(0, +)
         print("To record later: \(lines) lines in \(iPhoneVoice.count) places use the iPhone voice as a placeholder:")
         for id in content.pois.map(\.id) where iPhoneVoice[id] != nil {
             print("  - \(id): \(iPhoneVoice[id]!) lines")
         }
+    }
+    for (id, n) in iPhoneVoiceCues.sorted(by: { $0.key < $1.key }) {
+        print("To record later: walk '\(id)' has \(n) directions read by the iPhone voice.")
     }
 } else {
     problems.forEach { print("FAIL: \($0)") }

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Checks the content file, then compiles the phone's exploring session for this Mac and runs it
-# through a scripted demo walk, then checks the first-launch welcome flow. Needs only the Swift
-# command-line tools, not Xcode.
+# through a scripted demo walk and the set walks (Walks tab), then checks the first-launch setup
+# screens. Needs only the Swift command-line tools, not Xcode.
 set -e
 cd "$(dirname "$0")/.."
 export STROLL_CONTENT="$PWD/Shared/Content/stroll-content.json"

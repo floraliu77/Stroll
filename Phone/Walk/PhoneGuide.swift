@@ -199,6 +199,12 @@ enum ExploreNotifications {
     static let arrivalID = "stroll.arrival"
     static let upcomingID = "stroll.upcoming"
 
+    /// Setup asks for this on its Notifications screen. Starting a set walk asks again, which only
+    /// shows the iOS prompt if the participant tapped "Not now" there.
+    static func requestPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
+    }
+
     /// Call when the app moves to the background.
     @MainActor
     static func scheduleReminder(for session: ExploreSession) {
