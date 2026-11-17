@@ -142,7 +142,6 @@ struct ExploreView: View {
             }
             .padding(.trailing, 16)
             VStack(spacing: 14) {
-                Capsule().fill(Color.strollBorder).frame(width: 36, height: 5)
                 VStack(spacing: 4) {
                     Text(countText)
                         .font(.title3.bold())
@@ -163,7 +162,7 @@ struct ExploreView: View {
                         .background(Color.strollGreen, in: Capsule())
                 }
             }
-            .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
+            .padding(.horizontal, 24).padding(.top, 24).padding(.bottom, 20)   // no grabber: these panels can't be dragged
             .frame(maxWidth: .infinity)
             // The card runs down behind the floating tab bar, so the map doesn't show through.
             .background {

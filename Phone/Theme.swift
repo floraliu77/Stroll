@@ -7,9 +7,8 @@ extension Color {
     static let strollInk = Color(hex: 0x1B2420)        // text/ink
     static let strollMuted = Color(hex: 0x5B6A63)      // text/muted
     static let strollBorder = Color(hex: 0xE3DDD0)     // border/subtle
-    static let strollAmber = Color(hex: 0xF2B84B)      // brand/amber (walk progress, setup screens)
-    static let strollAmberInk = Color(hex: 0x241A05)   // brand/amber-ink: text on amber
-    static let strollNight = Color(hex: 0x0F1714)      // brand/night (walk progress card, setup screens)
+    static let strollAmber = Color(hex: 0xF2B84B)      // brand/amber (walk progress)
+    static let strollNight = Color(hex: 0x0F1714)      // brand/night (walk progress card)
 
     /// category/* colours, keyed by StrollContent.Category.id. From the ethical audit: each passes
     /// WCAG AA (4.5:1) on paper and white, and the four stay apart with color blindness

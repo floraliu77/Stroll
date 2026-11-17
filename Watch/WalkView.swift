@@ -45,7 +45,7 @@ private struct StartScreen: View {
         ScrollView {
             VStack(spacing: 10) {
                 Text("Stroll").font(.title3.bold())
-                Text("Start exploring here or on your iPhone. Your iPhone plays the guide.")
+                Text("Start exploring here or on your iPhone.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)

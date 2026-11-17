@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// First-launch setup, shown once. Started from Figma 01 "Welcome – setup" and split into
-/// screens: an intro that explains Stroll with the watch and earbuds, then one screen for each
+/// screens: an intro that explains Stroll (wording assumes no particular sense or device), then one screen for each
 /// iOS permission (SetupFlow decides which and in what order). The Explore map opens after the
 /// last one, whatever the answers. The per-permission screens aren't in Figma yet.
 struct WelcomeView: View {
@@ -9,7 +9,7 @@ struct WelcomeView: View {
 
     var body: some View {
         ZStack {
-            Color.strollNight.ignoresSafeArea()
+            Color.strollPaper.ignoresSafeArea()
             switch setup.step {
             case .intro:
                 IntroScreen()
@@ -21,7 +21,7 @@ struct WelcomeView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: setup.step)
-        .preferredColorScheme(.dark)   // white status bar over the night background
+        .preferredColorScheme(.light)   // dark status bar over the beige background, also in dark mode
     }
 }
 
@@ -34,27 +34,27 @@ private struct IntroScreen: View {
         SetupPage {
             Text("Stroll")
                 .font(.title3.weight(.bold))
-                .foregroundStyle(Color.strollAmber)
+                .foregroundStyle(Color.strollGreen)
                 .accessibilityAddTraits(.isHeader)
             Text("Discover points of interest you've been walking past.")
                 .font(.system(size: 30, weight: .bold))
-                .foregroundStyle(.white)
+                .foregroundStyle(Color.strollInk)
                 .padding(.top, 22)
                 .fixedSize(horizontal: false, vertical: true)
-            Text("Stroll works through your Apple Watch and earbuds, so your phone can stay in your pocket.")
+            Text("Stroll lets you know when something interesting is nearby, so your phone can stay in your pocket.")
                 .font(.subheadline)
-                .foregroundStyle(.white)
+                .foregroundStyle(Color.strollInk)
                 .padding(.top, 22)
                 .fixedSize(horizontal: false, vertical: true)
             Text("How a stroll works")
                 .font(.headline)
-                .foregroundStyle(.white)
+                .foregroundStyle(Color.strollInk)
                 .padding(.top, 30)
                 .accessibilityAddTraits(.isHeader)
             VStack(alignment: .leading, spacing: 20) {
                 step("figure.walk", "Start exploring", "Tap Start Exploring on the map, put your phone away and wander anywhere.")
-                step("applewatch", "Feel a tap", "Your Apple Watch taps your wrist when you're near a point of interest.")
-                step("headphones", "Listen and look", "Your earbuds tell you what to look for, so you can spot it yourself.")
+                step("applewatch", "Get notified", "Stroll notifies you when you're near a point of interest, with a tap on your wrist or a buzz from your phone.")
+                step("sparkles", "Discover it", "Stroll describes what's around you as audio or text, so you can find it yourself.")
             }
             .padding(.top, 16)
         } footer: {
@@ -68,10 +68,10 @@ private struct IntroScreen: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.body.weight(.semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.strollInk)
                 Text(detail)
                     .font(.footnote)
-                    .foregroundStyle(.white.opacity(0.9))
+                    .foregroundStyle(Color.strollMuted)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -94,17 +94,17 @@ private struct PermissionScreen: View {
                 .padding(.bottom, 28)
             Text(text.title)
                 .font(.system(size: 30, weight: .bold))
-                .foregroundStyle(.white)
+                .foregroundStyle(Color.strollInk)
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityAddTraits(.isHeader)
             Text(text.why)
                 .font(.body)
-                .foregroundStyle(.white)
+                .foregroundStyle(Color.strollInk)
                 .padding(.top, 16)
                 .fixedSize(horizontal: false, vertical: true)
             Text(text.note)
                 .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.75))
+                .foregroundStyle(Color.strollMuted)
                 .padding(.top, 14)
                 .fixedSize(horizontal: false, vertical: true)
         } footer: {
@@ -113,7 +113,7 @@ private struct PermissionScreen: View {
             }
             Button("Not now") { setup.notNow() }
                 .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(Color.strollGreen)
                 .frame(minHeight: 44)
                 .disabled(setup.isAsking)
         }
@@ -140,7 +140,7 @@ private struct PermissionScreen: View {
              "Allow walking sessions")
         case .notifications:
             ("bell.fill",
-             "Hear about it with your phone locked",
+             "Get notified with your phone locked",
              "Stroll sends a notification when you're near a point of interest and your phone is in your pocket.",
              "You can change this anytime in Settings.",
              "Allow notifications")
@@ -181,7 +181,7 @@ private struct SetupPage<Content: View, Footer: View>: View {
         return HStack(spacing: 8) {
             ForEach(steps.indices, id: \.self) { i in
                 Capsule()
-                    .fill(i == current ? Color.strollAmber : Color.white.opacity(0.25))
+                    .fill(i == current ? Color.strollGreen : Color.strollMuted.opacity(0.3))
                     .frame(width: i == current ? 22 : 8, height: 8)
             }
         }
@@ -197,9 +197,9 @@ private struct SetupIcon: View {
     var body: some View {
         Image(systemName: symbol)
             .font(.system(size: size * 0.47, weight: .medium))
-            .foregroundStyle(Color.strollAmber)
+            .foregroundStyle(Color.strollGreen)
             .frame(width: size, height: size)
-            .background(Color.white.opacity(0.14), in: Circle())
+            .background(Color.white, in: Circle())
             .accessibilityHidden(true)
     }
 }
@@ -213,15 +213,15 @@ private struct SetupButton: View {
         Button(action: action) {
             Group {
                 if busy {
-                    ProgressView().tint(Color.strollAmberInk)
+                    ProgressView().tint(.white)
                 } else {
                     Text(title)
                 }
             }
             .font(.headline)
             .frame(maxWidth: .infinity, minHeight: 54)
-            .foregroundStyle(Color.strollAmberInk)
-            .background(Color.strollAmber, in: Capsule())
+            .foregroundStyle(.white)
+            .background(Color.strollGreen, in: Capsule())
         }
         .buttonStyle(.plain)
         .disabled(busy)

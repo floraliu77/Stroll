@@ -68,8 +68,23 @@ def year_words(year):
     return two_digits(high) + " " + ("oh " + ONES[low] if low < 10 else two_digits(low))
 
 
+# Initials in names ("Y. A. Tittle", "H. J. Heinz", "John P. Bindley"): Kokoro takes each full
+# stop as the end of a sentence and pauses, so the name falls apart. Read them as letters with no
+# stops. A alone reads as "uh", so it's written "Eigh" (said like the letter).
+INITIALS = re.compile(r"\b((?:[A-Z]\.\s?){1,3})(?=[A-Z][a-z])")
+LETTER = {"A": "Eigh", "I": "Eye"}
+
+
+def say_initials(match):
+    letters = re.findall(r"[A-Z]", match.group(1))
+    return " ".join(LETTER.get(c, c) for c in letters) + " "
+
+
 def spoken(text):
     """The text as Sky should say it. Only the audio uses this; the app shows the original."""
+    text = INITIALS.sub(say_initials, text)
+    text = re.sub(r"\bU\.\s?S\.", "U S", text)        # "U.S." without two full stops
+    text = re.sub(r"\bSt\. (?=[A-Z])", "Saint ", text)   # "St. Paul" is Saint Paul, not "sint."
     return YEAR.sub(lambda m: year_words(int(m.group(1))), text)
 
 

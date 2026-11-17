@@ -17,17 +17,19 @@ struct DeveloperToolsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Watch") {
+                Section {
                     HStack(spacing: 10) {
                         Circle()
-                            .fill(link.isReachable ? Color.green : Color.orange)
+                            .fill(link.isReachable ? Color.devGreen : Color.devOrange)
                             .frame(width: 10, height: 10)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(link.isReachable ? "Connected" : "Not reachable").font(.headline)
-                            Text(watchDetail).font(.subheadline).foregroundStyle(.secondary)
+                            Text(watchDetail).font(.subheadline).foregroundStyle(Color.devSecondary)
                         }
                     }
                     .accessibilityElement(children: .combine)
+                } header: {
+                    Text("Watch").foregroundStyle(Color.devSecondary)
                 }
                 Section {
                     Picker("Walk mode", selection: $walkMode) {
@@ -36,35 +38,44 @@ struct DeveloperToolsView: View {
                     .pickerStyle(.segmented)
                     .disabled(session.phase != .idle)
                 } header: {
-                    Text("Walk mode")
+                    Text("Walk mode").foregroundStyle(Color.devSecondary)
                 } footer: {
-                    Text(walkModeFooter)
+                    Text(walkModeFooter).foregroundStyle(Color.devSecondary)
                 }
                 if walkMode == .real {
-                    Section("GPS") {
+                    Section {
                         TimelineView(.periodic(from: .now, by: 1)) { context in
                             gpsRows(now: context.date)
                         }
+                    } header: {
+                        Text("GPS").foregroundStyle(Color.devSecondary)
                     }
                 }
                 Section {
-                    Button("Show welcome screen again") {
+                    Button {
                         dismiss()
                         setup.reset()
+                    } label: {
+                        Text("Show welcome screen again")
+                            .foregroundStyle(session.phase == .idle ? Color.devGreen : Color.devSecondary)
                     }
                     .disabled(session.phase != .idle)
                 } header: {
-                    Text("Welcome screen")
+                    Text("Welcome screen").foregroundStyle(Color.devSecondary)
                 } footer: {
                     Text("For testing first launch. iOS remembers earlier answers, so its prompts only appear again after deleting and reinstalling Stroll.")
+                        .foregroundStyle(Color.devSecondary)
                 }
                 Section {
-                    Button("Restart walk", role: .destructive) { confirmingRestart = true }
-                        .disabled(!canRestart)
+                    Button(role: .destructive) { confirmingRestart = true } label: {
+                        Text("Restart walk").foregroundStyle(canRestart ? Color.devRed : Color.devSecondary)
+                    }
+                    .disabled(!canRestart)
                 } header: {
-                    Text("Restart")
+                    Text("Restart").foregroundStyle(Color.devSecondary)
                 } footer: {
                     Text("Stops the guide and takes the phone and watch back to Start Exploring.")
+                        .foregroundStyle(Color.devSecondary)
                 }
                 Section {
                     ForEach(session.content.pois) { poi in
@@ -78,19 +89,21 @@ struct DeveloperToolsView: View {
                                     // A fixed colour, not .secondary: the rows are disabled until exploring
                                     // starts, which dimmed grey text to nearly invisible. ~7:1 contrast in
                                     // light and dark mode.
-                                    .font(.footnote).foregroundStyle(Color.primary.opacity(0.65))
+                                    .font(.footnote).foregroundStyle(Color.devSecondary)
                             }
                         }
                         .disabled(!canArrive)
                     }
                 } header: {
-                    Text("Bring up a point of interest now")
+                    Text("Bring up a point of interest now").foregroundStyle(Color.devSecondary)
                 } footer: {
                     Text(canArrive
                          ? "Starts it straight away, even mid-story. The demo walk carries on afterwards."
                          : "Tap Start Exploring first.")
+                        .foregroundStyle(Color.devSecondary)
                 }
             }
+            .tint(Color.devGreen)   // buttons; the app's green is too dark on the dark-mode sheet
             .navigationTitle("Developer tools")
             .navigationBarTitleDisplayMode(.inline)
             .confirmationDialog("Restart the walk?", isPresented: $confirmingRestart, titleVisibility: .visible) {
@@ -127,20 +140,20 @@ struct DeveloperToolsView: View {
 
     @ViewBuilder
     private func gpsRows(now: Date) -> some View {
-        LabeledContent("Status", value: statusText)
+        LabeledContent("Status") { Text(statusText).foregroundStyle(Color.devSecondary) }   // the default grey is too faint
         if let fix = liveLocation.lastFix {
             LabeledContent("Accuracy") {
                 Text("±\(Int(fix.accuracy.rounded())) m")
-                    .foregroundStyle(fix.accuracy <= liveLocation.maxAccuracyMeters ? Color.green : Color.orange)
+                    .foregroundStyle(fix.accuracy <= liveLocation.maxAccuracyMeters ? Color.devGreen : Color.devOrange)
             }
-            LabeledContent("Updated", value: "\(max(0, Int(now.timeIntervalSince(fix.at)))) s ago")
+            LabeledContent("Updated") { Text("\(max(0, Int(now.timeIntervalSince(fix.at)))) s ago").foregroundStyle(Color.devSecondary) }
             if let nearest = nearestPlace(to: fix.coordinate) {
                 LabeledContent("Nearest place") {
                     VStack(alignment: .trailing, spacing: 2) {
-                        Text(nearest.poi.name)
+                        Text(nearest.poi.name).foregroundStyle(Color.primary)
                         Text("\(Int(nearest.meters.rounded())) m away · triggers within \(Int(nearest.poi.triggerRadiusMeters)) m")
                             .font(.caption)
-                            .foregroundStyle(nearest.meters <= nearest.poi.triggerRadiusMeters ? Color.green : Color.secondary)
+                            .foregroundStyle(nearest.meters <= nearest.poi.triggerRadiusMeters ? Color.devGreen : Color.devSecondary)
                     }
                 }
             }
@@ -167,5 +180,25 @@ struct DeveloperToolsView: View {
         if link.isReachable { return "Mirrors the phone: buzz, photo and buttons." }
         if link.isWatchAppInstalled { return "Open Stroll on the watch, or tap Start Exploring." }
         return "Install Stroll on the paired Apple Watch."
+    }
+}
+
+/// Developer tools colours: readable first (looks don't matter here). Each passes WCAG AA
+/// (4.5:1) on the sheet's backgrounds in light mode (#FFFFFF, #F2F2F7) and dark mode
+/// (#000000, #1C1C1E, #2C2C2E). Checked Nov 16, 2026: green 4.9 / 7.7, red 5.4 / 4.9,
+/// orange 5.0 / 7.8, secondary 7.9 / 8.3. The system's grey (3.1) and red (3.2) fail in light
+/// mode, and the app's green fails in dark mode (2.5), so they aren't used here.
+private extension Color {
+    static let devGreen = Color(light: 0x007949, dark: 0x5ED69A)
+    static let devRed = Color(light: 0xC4141B, dark: 0xFF6961)
+    static let devOrange = Color(light: 0xA35200, dark: 0xFFB340)
+    static let devSecondary = Color(light: 0x4A4A50, dark: 0xC7C7CC)
+
+    init(light: UInt32, dark: UInt32) {
+        func ui(_ hex: UInt32) -> UIColor {
+            UIColor(red: CGFloat((hex >> 16) & 0xFF) / 255, green: CGFloat((hex >> 8) & 0xFF) / 255,
+                    blue: CGFloat(hex & 0xFF) / 255, alpha: 1)
+        }
+        self.init(uiColor: UIColor { $0.userInterfaceStyle == .dark ? ui(dark) : ui(light) })
     }
 }

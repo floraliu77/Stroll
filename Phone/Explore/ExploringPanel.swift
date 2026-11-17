@@ -9,14 +9,13 @@ struct ExploringPanel: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            Capsule().fill(Color.strollBorder).frame(width: 36, height: 5)
             if session.phase == .ended {
                 ended
             } else {
                 exploring
             }
         }
-        .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
+        .padding(.horizontal, 24).padding(.top, 24).padding(.bottom, 20)   // no grabber: these panels can't be dragged
         .frame(maxWidth: .infinity)
         // The card runs down behind the floating tab bar, so the map doesn't show through.
         .background {

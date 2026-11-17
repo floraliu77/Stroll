@@ -88,14 +88,13 @@ struct WalkInProgressView: View {
 
     private func panel(_ walk: StrollContent.Route) -> some View {
         VStack(spacing: 14) {
-            Capsule().fill(Color.strollBorder).frame(width: 36, height: 5)
             if session.phase == .ended {
                 ended(walk)
             } else if let stop = session.currentStop {
                 nextStop(walk, stop)
             }
         }
-        .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
+        .padding(.horizontal, 24).padding(.top, 24).padding(.bottom, 20)   // no grabber: these panels can't be dragged
         .frame(maxWidth: .infinity)
         .background {
             UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)

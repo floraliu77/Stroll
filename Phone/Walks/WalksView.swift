@@ -169,7 +169,7 @@ struct WalkDetailView: View {
             }
             .disabled(session.phase != .idle)
             Text(session.phase == .idle
-                 ? "Put your phone away. Stroll guides you through your watch and earbuds."
+                 ? "Put your phone away. Stroll guides you from stop to stop."
                  : "You're exploring on the Explore tab. End that first to start this walk.")
                 .font(.caption)
                 .foregroundStyle(Color.strollMuted)
