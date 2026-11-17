@@ -52,6 +52,18 @@ struct DeveloperToolsView: View {
                     }
                 }
                 Section {
+                    NavigationLink {
+                        PhotoCreditsView(pois: session.content.pois)
+                    } label: {
+                        Text("Photo credits").foregroundStyle(Color.primary)
+                    }
+                } header: {
+                    Text("About").foregroundStyle(Color.devSecondary)
+                } footer: {
+                    Text("Who took each photo and its licence. Lists the places by name.")
+                        .foregroundStyle(Color.devSecondary)
+                }
+                Section {
                     Button {
                         dismiss()
                         setup.reset()
@@ -180,6 +192,44 @@ struct DeveloperToolsView: View {
         if link.isReachable { return "Mirrors the phone: buzz, photo and buttons." }
         if link.isWatchAppInstalled { return "Open Stroll on the watch, or tap Start Exploring." }
         return "Install Stroll on the paired Apple Watch."
+    }
+}
+
+/// Every place's photo with its photographer, licence and source (Wikimedia Commons). CC BY and
+/// CC BY-SA photos must be credited wherever the app is shared, e.g. TestFlight beta testers.
+struct PhotoCreditsView: View {
+    let pois: [StrollContent.POI]
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(pois.sorted { $0.name < $1.name }) { poi in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(poi.name).font(.headline).foregroundStyle(Color.primary)
+                        Text("Photo: \(poi.photoCredit.author)").font(.subheadline).foregroundStyle(Color.devSecondary)
+                        HStack(spacing: 16) {
+                            if let licence = URL(string: poi.photoCredit.licenseUrl), !poi.photoCredit.licenseUrl.isEmpty {
+                                Link(poi.photoCredit.license, destination: licence)
+                            } else {
+                                Text(poi.photoCredit.license).foregroundStyle(Color.devSecondary)
+                            }
+                            if let source = URL(string: poi.photoCredit.source) {
+                                Link("Source", destination: source)
+                            }
+                        }
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Color.devGreen)
+                    }
+                    .padding(.vertical, 2)
+                }
+            } footer: {
+                Text("Photos from Wikimedia Commons. Each is used under the licence shown; tap it to read the licence, or Source for the original photo. Photos may be cropped or resized.")
+                    .foregroundStyle(Color.devSecondary)
+            }
+        }
+        .tint(Color.devGreen)
+        .navigationTitle("Photo credits")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
