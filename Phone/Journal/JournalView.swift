@@ -308,7 +308,7 @@ private struct JournalCard: View {
         }
         VStack(alignment: .leading, spacing: 2) {
             Text("\(found ? "Found" : "Skipped") \(entry.at.formatted(date: .abbreviated, time: .shortened))")
-            Text("Photo: \(poi.photoCredit.author), \(poi.photoCredit.license)")
+            PhotoCreditLine(credit: poi.photoCredit)
         }
         .font(.caption)
         .foregroundStyle(Color.strollMuted)
@@ -359,5 +359,22 @@ final class JournalPlayer: ObservableObject {
         task = nil
         voice.stop()
         playing = nil
+    }
+}
+
+/// "Photo: author, licence" under a photo, linking to the photo's page (Wikimedia Commons), which
+/// is what CC BY and CC BY-SA licences ask for. All photos are also listed in Settings → Photo credits.
+struct PhotoCreditLine: View {
+    let credit: StrollContent.PhotoCredit
+
+    var body: some View {
+        if let url = URL(string: credit.source) {
+            Link(destination: url) {
+                Text("Photo: \(credit.author), \(credit.license)") + Text(" · Source").underline()
+            }
+            .accessibilityHint("Opens the photo's page")
+        } else {
+            Text("Photo: \(credit.author), \(credit.license)")
+        }
     }
 }
