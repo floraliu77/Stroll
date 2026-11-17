@@ -9,13 +9,24 @@ struct StrollApp: App {
     /// The phone's real position, used when Developer tools is set to Real location.
     @StateObject private var liveLocation = LiveLocationSource()
     @State private var headphones = HeadphoneWatcher()
+    /// The first-launch setup: an intro screen, then one screen per permission.
+    @StateObject private var setup = SetupFlow(asker: SystemPermissions())
     @AppStorage(WalkMode.storageKey) private var walkMode: WalkMode = .demo
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
-            RootTabs()
-            .modifier(ListeningPrompts())   // inside the environment objects below, so it can read the session
+            Group {
+                if setup.needsWelcome {
+                    WelcomeView()
+                        .transition(.opacity)
+                } else {
+                    RootTabs()
+                        .modifier(ListeningPrompts())   // inside the environment objects below, so it can read the session
+                }
+            }
+            .animation(.easeInOut(duration: 0.3), value: setup.needsWelcome)
+            .environmentObject(setup)
             .environmentObject(link)
             .environmentObject(session)
             .environmentObject(journal)

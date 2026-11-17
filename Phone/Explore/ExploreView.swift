@@ -11,6 +11,7 @@ struct ExploreView: View {
     /// Starts on the participant's location; until it's known (or without permission), central Oakland.
     @State private var position: MapCameraPosition = .userLocation(fallback: .region(ExploreView.oakland))
     @State private var showingSettings = false
+    /// Only reads the last known position (Setup asks for location permission).
     @State private var location = CLLocationManager()
     /// The map has been set to street level around the participant (once per "show my location").
     @State private var centeredOnUser = false
@@ -81,7 +82,6 @@ struct ExploreView: View {
             .onChange(of: filter) { _, _ in countVisible(proxy) }
             .onChange(of: panelTop) { _, _ in countVisible(proxy) }
         }
-        .onAppear { location.requestWhenInUseAuthorization() }
         .sheet(isPresented: $showingSettings) { DeveloperToolsSheet() }
     }
 
@@ -153,7 +153,6 @@ struct ExploreView: View {
                         .multilineTextAlignment(.center)
                 }
                 Button {
-                    ExploreNotifications.requestPermission()
                     session.requestStart()   // asks how to listen first if there are no headphones
                     link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
                 } label: {

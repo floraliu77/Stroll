@@ -9,6 +9,7 @@ struct DeveloperToolsView: View {
     @EnvironmentObject private var session: ExploreSession
     @EnvironmentObject private var journal: JournalStore
     @EnvironmentObject private var liveLocation: LiveLocationSource
+    @EnvironmentObject private var setup: SetupFlow
     @AppStorage(WalkMode.storageKey) private var walkMode: WalkMode = .demo
     @Environment(\.dismiss) private var dismiss
     @State private var confirmingRestart = false
@@ -45,6 +46,17 @@ struct DeveloperToolsView: View {
                             gpsRows(now: context.date)
                         }
                     }
+                }
+                Section {
+                    Button("Show welcome screen again") {
+                        dismiss()
+                        setup.reset()
+                    }
+                    .disabled(session.phase != .idle)
+                } header: {
+                    Text("Welcome screen")
+                } footer: {
+                    Text("For testing first launch. iOS remembers earlier answers, so its prompts only appear again after deleting and reinstalling Stroll.")
                 }
                 Section {
                     Button("Restart walk", role: .destructive) { confirmingRestart = true }
