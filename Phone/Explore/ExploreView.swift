@@ -8,16 +8,41 @@ struct ExploreView: View {
     @EnvironmentObject private var session: ExploreSession
     @EnvironmentObject private var link: PhoneLink
     @State private var filter: String?          // nil = All
-    @State private var position: MapCameraPosition = .region(ExploreView.pilotArea)
+    /// Starts on the participant's location; until it's known (or without permission), central Oakland.
+    @State private var position: MapCameraPosition = .userLocation(fallback: .region(ExploreView.oakland))
     @State private var showingSettings = false
+    /// Only reads the last known position (Setup asks for location permission).
+    @State private var location = CLLocationManager()
+    /// The map has been set to street level around the participant (once per "show my location").
+    @State private var centeredOnUser = false
+    /// Pins visible on screen (between the top bar and the bottom panel), or nil before the map has drawn.
+    @State private var visibleCount: Int?
+    /// Where the map shows between the top bar and the bottom panel, on screen (global coordinates).
+    @State private var mapWidth: CGFloat = 0
+    @State private var topBarBottom: CGFloat = 0
+    @State private var panelTop: CGFloat = 0
 
-    /// Shows every point of interest (the pilot area in Oakland).
-    static var pilotArea: MKCoordinateRegion {
-        let coords = StrollContent.shared.pois.map(\.coordinate)
-        let lats = coords.map(\.latitude), lons = coords.map(\.longitude)
-        let center = CLLocationCoordinate2D(latitude: (lats.min()! + lats.max()!) / 2, longitude: (lons.min()! + lons.max()!) / 2)
-        let span = MKCoordinateSpan(latitudeDelta: (lats.max()! - lats.min()!) * 2.2 + 0.002, longitudeDelta: (lons.max()! - lons.min()!) * 1.6 + 0.002)
-        return MKCoordinateRegion(center: center, span: span)
+    /// Street level: about a 5–10 minute walk across the visible map.
+    static let streetSpan = MKCoordinateSpan(latitudeDelta: 0.008, longitudeDelta: 0.008)
+    /// Central Oakland (by the Cathedral of Learning) at street level: where the map starts
+    /// until the participant's location is known.
+    static let oakland = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 40.4443, longitude: -79.9532), span: streetSpan)
+
+    /// Street level around `center`. If no point of interest would be in view, zooms out (still
+    /// centred on `center`) just far enough to show the nearest one.
+    static func startRegion(around center: CLLocationCoordinate2D, pois: [StrollContent.POI]) -> MKCoordinateRegion {
+        let nearest = pois.map(\.coordinate).min { a, b in
+            hypot(a.latitude - center.latitude, (a.longitude - center.longitude) * 0.76)
+                < hypot(b.latitude - center.latitude, (b.longitude - center.longitude) * 0.76)
+        }
+        guard let nearest else { return MKCoordinateRegion(center: center, span: streetSpan) }
+        // The top bar and bottom panel cover part of the map, so keep the pin well inside the
+        // middle (margin 2.6×). 0.76 ≈ cos(latitude) in Pittsburgh: a degree of longitude is shorter.
+        let needLat = abs(nearest.latitude - center.latitude) * 2.6
+        let needLon = abs(nearest.longitude - center.longitude) * 2.6
+        let scale = max(1, needLat / streetSpan.latitudeDelta, needLon / streetSpan.longitudeDelta)
+        return MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: streetSpan.latitudeDelta * scale,
+                                                                         longitudeDelta: streetSpan.longitudeDelta * scale))
     }
 
     private var visiblePOIs: [StrollContent.POI] {
@@ -25,25 +50,57 @@ struct ExploreView: View {
     }
 
     var body: some View {
-        Map(position: $position) {
-            ForEach(visiblePOIs) { poi in
-                // Category only: the name and photo stay a surprise until it's found.
-                Annotation(content.category(poi.category)?.name ?? "", coordinate: poi.coordinate.location, anchor: .center) {
-                    CategoryPin(category: poi.category, symbol: content.category(poi.category)?.symbol ?? "mappin")
+        MapReader { proxy in
+            Map(position: $position) {
+                ForEach(visiblePOIs) { poi in
+                    // Category only: the name and photo stay a surprise until it's found.
+                    Annotation(content.category(poi.category)?.name ?? "", coordinate: poi.coordinate.location, anchor: .center) {
+                        CategoryPin(category: poi.category, symbol: content.category(poi.category)?.symbol ?? "mappin")
+                    }
+                    .annotationTitles(.hidden)
                 }
-                .annotationTitles(.hidden)
+                UserAnnotation()
             }
-            UserAnnotation()
-        }
-        .mapStyle(.standard(pointsOfInterest: .excludingAll))   // keep Apple's own places out of the way
-        .mapControls { }
-        .tint(.blue)                                              // "you are here" stays system blue, as in Figma
-        .safeAreaInset(edge: .top) { topBar }
-        .safeAreaInset(edge: .bottom) {
-            // A set walk has its own full-screen view (WalkInProgressView), over this one.
-            if session.phase == .idle || session.route != nil { startPanel } else { ExploringPanel() }
+            .mapStyle(.standard(pointsOfInterest: .excludingAll))   // keep Apple's own places out of the way
+            .mapControls { }
+            .tint(.blue)                                              // "you are here" stays system blue, as in Figma
+            .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).width } action: { mapWidth = $0 }
+            .safeAreaInset(edge: .top) {
+                topBar.onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).maxY } action: { topBarBottom = $0 }
+            }
+            .safeAreaInset(edge: .bottom) {
+                Group {
+                    // A set walk has its own full-screen view (WalkInProgressView), over this one.
+                    if session.phase == .idle || session.route != nil { startPanel } else { ExploringPanel() }
+                }
+                .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).minY } action: { panelTop = $0 }
+            }
+            .onMapCameraChange(frequency: .onEnd) { context in
+                centerOnUserIfNeeded(context.camera.centerCoordinate)
+                countVisible(proxy)
+            }
+            .onChange(of: filter) { _, _ in countVisible(proxy) }
+            .onChange(of: panelTop) { _, _ in countVisible(proxy) }
         }
         .sheet(isPresented: $showingSettings) { DeveloperToolsSheet() }
+    }
+
+    /// The first time the map finds the participant (or after Show my location), set street level
+    /// around them, zoomed out just enough to show the nearest point of interest if none is close.
+    /// Once they pan or zoom themselves, the map is theirs.
+    private func centerOnUserIfNeeded(_ center: CLLocationCoordinate2D) {
+        guard !centeredOnUser, position.followsUserLocation, let user = location.location?.coordinate else { return }
+        centeredOnUser = true
+        withAnimation { position = .region(Self.startRegion(around: user, pois: content.pois)) }
+    }
+
+    /// Counts the pins the participant can see: inside the map, not under the top bar or the panel.
+    private func countVisible(_ proxy: MapProxy) {
+        guard mapWidth > 0, panelTop > topBarBottom else { return }
+        let visible = CGRect(x: 0, y: topBarBottom, width: mapWidth, height: panelTop - topBarBottom)
+        visibleCount = visiblePOIs.filter { poi in
+            proxy.convert(poi.coordinate.location, to: .global).map { visible.contains($0) } ?? false
+        }.count
     }
 
     // MARK: Top: location, settings, filters
@@ -80,11 +137,11 @@ struct ExploreView: View {
     private var startPanel: some View {
         VStack(alignment: .trailing, spacing: 12) {
             RoundButton(symbol: "location.fill", label: "Show my location", tint: .blue) {
-                withAnimation { position = .userLocation(fallback: .region(Self.pilotArea)) }
+                centeredOnUser = false   // street level around them again, as at the start
+                withAnimation { position = .userLocation(fallback: .region(Self.oakland)) }
             }
             .padding(.trailing, 16)
             VStack(spacing: 14) {
-                Capsule().fill(Color.strollBorder).frame(width: 36, height: 5)
                 VStack(spacing: 4) {
                     Text(countText)
                         .font(.title3.bold())
@@ -95,7 +152,7 @@ struct ExploreView: View {
                         .multilineTextAlignment(.center)
                 }
                 Button {
-                    session.start()
+                    session.requestStart()   // asks how to listen first if there are no headphones
                     link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
                 } label: {
                     Text("Start Exploring")
@@ -105,21 +162,26 @@ struct ExploreView: View {
                         .background(Color.strollGreen, in: Capsule())
                 }
             }
-            .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
+            .padding(.horizontal, 24).padding(.top, 24).padding(.bottom, 20)   // no grabber: these panels can't be dragged
             .frame(maxWidth: .infinity)
-            // The white card runs down behind the floating tab bar, so the map doesn't show through.
+            // The card runs down behind the floating tab bar, so the map doesn't show through.
             .background {
                 UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
-                    .fill(.white)
+                    .fill(Color.strollPaper)   // light beige, like the Walks and Journal tabs
                     .ignoresSafeArea(edges: .bottom)
             }
             .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
         }
     }
 
+    /// The pins on screen now (it changes as the map moves).
     private var countText: String {
-        let n = visiblePOIs.count
-        return n == 1 ? "1 point of interest nearby" : "\(n) points of interest nearby"
+        switch visibleCount {
+        case nil: return "Points of interest nearby"
+        case 0: return "No points of interest here. Zoom out to see more."
+        case 1: return "1 point of interest nearby"
+        case let n?: return "\(n) points of interest nearby"
+        }
     }
 }
 

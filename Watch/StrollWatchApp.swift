@@ -52,6 +52,8 @@ final class MirrorModel: ObservableObject {
         return route.stops[index]
     }
     var isLastStop: Bool { route.map { (state.stopIndex ?? 0) >= $0.stops.count - 1 } ?? false }
+    /// Read mode: the answer and story, in order.
+    var storyText: [String] { poi.map { [$0.reveal.text] + $0.story.map(\.text) } ?? [] }
     /// Keep exploring, or on a set walk Continue walk / Finish walk.
     var continueTitle: String { route == nil ? "Keep exploring" : (isLastStop ? "Finish walk" : "Continue walk") }
 
@@ -148,7 +150,7 @@ final class MirrorModel: ObservableObject {
             StrollLog.link.log("watch: screen switched to \(new.phase.rawValue, privacy: .public), \(StrollLog.ms(since: tapped)) ms after Start was tapped")
             startTappedAt = nil
         }
-        if new.phase != .idle { isStarting = false }
+        if new.phase != .idle || new.askingHowToListen || new.waitingForHeadphones { isStarting = false }
         state = new   // update the screen first; starting the walking session can take a moment
         switch new.phase {
         case .idle:

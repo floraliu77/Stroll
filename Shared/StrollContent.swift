@@ -34,7 +34,7 @@ struct StrollContent: Decodable {
         let prompt: Line
         let reveal: Line
         let story: [Line]
-        /// "Okay, onward." after Skip, when this place uses a different voice from the shared
+        /// "Alright, got it. Moving on." after Skip, when this place uses a different voice from the shared
         /// `lines.skip` (e.g. the generated Sky voice). Optional.
         let skipLine: Line?
     }

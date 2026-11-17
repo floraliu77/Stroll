@@ -17,7 +17,7 @@ enum SetupPermission: String, CaseIterable {
 
 /// One screen of the setup.
 enum SetupStep: Equatable {
-    /// What Stroll is and how a walk works with the watch and earbuds.
+    /// What Stroll is and how a walk works.
     case intro
     /// One iOS permission: why Stroll needs it, then "Allow" (the system prompt) or "Not now".
     case permission(SetupPermission)

@@ -158,7 +158,7 @@ struct WalkDetailView: View {
         VStack(spacing: 8) {
             Button {
                 ExploreNotifications.requestPermission()
-                session.start(walk: walk)
+                session.requestStart(walk: walk)   // asks how to listen first if there are no headphones
                 link.launchWatchApp()
             } label: {
                 Text("Start walk")
@@ -169,7 +169,7 @@ struct WalkDetailView: View {
             }
             .disabled(session.phase != .idle)
             Text(session.phase == .idle
-                 ? "Put your phone away. Stroll guides you through your watch and earbuds."
+                 ? "Put your phone away. Stroll guides you from stop to stop."
                  : "You're exploring on the Explore tab. End that first to start this walk.")
                 .font(.caption)
                 .foregroundStyle(Color.strollMuted)

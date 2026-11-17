@@ -65,7 +65,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
@@ -111,7 +111,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
@@ -157,7 +157,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
@@ -203,7 +203,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
@@ -249,7 +249,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -303,7 +303,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -358,7 +358,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -412,7 +412,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -466,7 +466,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -520,7 +520,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -574,7 +574,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -628,7 +628,7 @@
         }
       ],
       "skipLine": {
-        "text": "Okay, onward.",
+        "text": "Alright, got it. Moving on.",
         "audio": "skip-sky"
       },
       "reviewStatus": "needs-review",
@@ -641,15 +641,1584 @@
       ],
       "notes": "A 2023 photo shows the three carved tops. Story 1 (the Fifth Avenue Apartments name) is only on Wikipedia. New text, needs team review.",
       "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "allen-hall",
+      "name": "Allen Hall",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.444589,
+        "longitude": -79.958328
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "allen-hall",
+      "altText": "A six-story stone building with four tall columns across the middle and a triangular roof above them.",
+      "photoCredit": {
+        "author": "Crazypaco at English Wikipedia",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
+        "source": "https://commons.wikimedia.org/wiki/File:Allen_Hall_(University_of_Pittsburgh).jpg"
+      },
+      "prompt": {
+        "text": "A bronze plaque by the entrance honors a famous scientist. Who do you think it is?",
+        "audio": "allen-hall-prompt"
+      },
+      "reveal": {
+        "text": "Marie Curie, who received an honorary degree from Pitt in 1921.",
+        "audio": "allen-hall-reveal"
+      },
+      "story": [
+        {
+          "text": "The plaque was unveiled in 1969 by a cardinal from Poland, Karol Wojtyła, who nine years later became Pope John Paul the Second.",
+          "audio": "allen-hall-story1"
+        },
+        {
+          "text": "This was the first home of the Mellon Institute, finished in 1914. The institute later moved to the building with the giant columns, just up the street.",
+          "audio": "allen-hall-story2"
+        },
+        {
+          "text": "Its designers decided a science building didn't need women's bathrooms, so most floors still have just one bathroom, alternating men's and women's.",
+          "audio": "allen-hall-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Allen_Hall_(University_of_Pittsburgh"
+      ],
+      "notes": "Story 2 links to the Mellon Institute columns stop. ⚠ check that the plaque is still by the entrance. Imported from Mara's 40-place drafts (#1), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "carnegie-institute-and-library",
+      "name": "Carnegie Institute and Library",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.443056,
+        "longitude": -79.949722
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "carnegie-institute-and-library",
+      "altText": "A long, grand stone building with a row of arched windows and a columned entrance.",
+      "photoCredit": {
+        "author": "Dllu",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Carnegie_Museum_of_Natural_History_as_seen_from_Cathedral_of_Learning.jpg"
+      },
+      "prompt": {
+        "text": "Four bronze figures sit along the Forbes Avenue front, two by the concert hall and two by the museum doors. What do they have in common?",
+        "audio": "carnegie-institute-and-library-prompt"
+      },
+      "reveal": {
+        "text": "Each is a giant of a different field: Shakespeare for writing, Bach for music, Michelangelo for art and Galileo for science.",
+        "audio": "carnegie-institute-and-library-reveal"
+      },
+      "story": [
+        {
+          "text": "One building holds two museums, a concert hall and the city's main library, all paid for by Andrew Carnegie.",
+          "audio": "carnegie-institute-and-library-story1"
+        },
+        {
+          "text": "Inside, the Hall of Sculpture copies the inside of the Parthenon in white marble.",
+          "audio": "carnegie-institute-and-library-story2"
+        },
+        {
+          "text": "The Hall of Architecture holds the largest collection of plaster casts of famous buildings in America.",
+          "audio": "carnegie-institute-and-library-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Carnegie_Institute_and_Library"
+      ],
+      "notes": "Same building as stop 4. The photo is an aerial view, so it doesn't show the statues. Imported from Mara's 40-place drafts (#2), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "main-branch-of-the-carnegie-library-of-pittsburgh",
+      "name": "Main Branch of the Carnegie Library of Pittsburgh",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.443402,
+        "longitude": -79.95033
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "main-branch-of-the-carnegie-library-of-pittsburgh",
+      "altText": "A stone library with a wide stairway, three arched doors and a row of columns above them.",
+      "photoCredit": {
+        "author": "Daderot",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Carnegie_Library_of_Pittsburgh_-_IMG_0789.jpg"
+      },
+      "prompt": {
+        "text": "Words are carved in stone above the three arched doors. What do they promise?",
+        "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-prompt"
+      },
+      "reveal": {
+        "text": "\"Free to the people.\"",
+        "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-reveal"
+      },
+      "story": [
+        {
+          "text": "Andrew Carnegie paid for the building, but only if the city promised to pay to run it.",
+          "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-story1"
+        },
+        {
+          "text": "Carnegie Museum of Art opened its very first gallery inside this library, on November 5, 1895.",
+          "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-story2"
+        },
+        {
+          "text": "Today the same building also holds the natural history museum and a concert hall.",
+          "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [],
+      "notes": "There's no Wikipedia article of its own, so the facts come from the two related articles. Imported from Mara's 40-place drafts (#4), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "panther-hollow-bridge",
+      "name": "Panther Hollow Bridge",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.4369,
+        "longitude": -79.9467
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "panther-hollow-bridge",
+      "altText": "A steel arch bridge with a bronze panther statue on a stone base at its corner.",
+      "photoCredit": {
+        "author": "KitAy",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Panther_Hollow_Bridge.jpg"
+      },
+      "prompt": {
+        "text": "A big bronze animal crouches on each corner of this bridge. What animal is it?",
+        "audio": "panther-hollow-bridge-prompt"
+      },
+      "reveal": {
+        "text": "A panther. Four of them guard the bridge, sculpted by Giuseppe Moretti.",
+        "audio": "panther-hollow-bridge-reveal"
+      },
+      "story": [
+        {
+          "text": "Only two panthers were ready for the bridge's dedication on July 4, 1897. The other two arrived late.",
+          "audio": "panther-hollow-bridge-story1"
+        },
+        {
+          "text": "The steel arch rises 120 feet above the hollow below.",
+          "audio": "panther-hollow-bridge-story2"
+        },
+        {
+          "text": "The bridge closed in 2024 after damage was found in its steel. It reopened in August 2026 after repairs.",
+          "audio": "panther-hollow-bridge-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Panther_Hollow_Bridge"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#5), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "pittsburgh-athletic-association",
+      "name": "Pittsburgh Athletic Association",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.445,
+        "longitude": -79.954722
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "pittsburgh-athletic-association",
+      "altText": "An eight-story stone building with tall arched windows and carved decoration.",
+      "photoCredit": {
+        "author": "Tim Engleman from Saxonburg, PA",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:PittsburghAthleticAssociation2012.jpg"
+      },
+      "prompt": {
+        "text": "This stone clubhouse was modeled on palaces in an Italian city. Which city do you think?",
+        "audio": "pittsburgh-athletic-association-prompt"
+      },
+      "reveal": {
+        "text": "Venice. The architect, Benno Janssen, based it on palaces along its canals.",
+        "audio": "pittsburgh-athletic-association-reveal"
+      },
+      "story": [
+        {
+          "text": "Fred Rogers, from Mister Rogers' Neighborhood, swam laps in the pool here every day.",
+          "audio": "pittsburgh-athletic-association-story1"
+        },
+        {
+          "text": "The club had a pool on the third floor, basketball and squash courts, and a 16-lane bowling alley.",
+          "audio": "pittsburgh-athletic-association-story2"
+        },
+        {
+          "text": "When ice hockey joined the Olympics in 1920, four players on the silver-medal American team came from this club's team.",
+          "audio": "pittsburgh-athletic-association-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Pittsburgh_Athletic_Association"
+      ],
+      "notes": "\"Palaces along its canals\" is a gloss. The source names three specific Venetian buildings. Imported from Mara's 40-place drafts (#6), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "pittsburgh-chinese-church",
+      "name": "Pittsburgh Chinese Church",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.447857,
+        "longitude": -79.950474
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "pittsburgh-chinese-church",
+      "altText": "A brick church tower with a cross and Chinese characters running down it, above the words Oakland International Fellowship.",
+      "photoCredit": {
+        "author": "Varun Punnam",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Pittsburgh_Chinese_Church.jpg"
+      },
+      "prompt": {
+        "text": "Words run down the front of the brick tower in two languages. Which two?",
+        "audio": "pittsburgh-chinese-church-prompt"
+      },
+      "reveal": {
+        "text": "Chinese and English. The Chinese characters name the church's Oakland congregation.",
+        "audio": "pittsburgh-chinese-church-reveal"
+      },
+      "story": [
+        {
+          "text": "The church began in 1937, when Lizzie Shaw gathered 13 children in Pittsburgh's old Chinatown, downtown.",
+          "audio": "pittsburgh-chinese-church-story1"
+        },
+        {
+          "text": "Its Oakland services started in 1995 in the basement of First Baptist Church, a few blocks away.",
+          "audio": "pittsburgh-chinese-church-story2"
+        },
+        {
+          "text": "It bought this building in 2005, right next door to St. Paul Cathedral.",
+          "audio": "pittsburgh-chinese-church-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Pittsburgh_Chinese_Church"
+      ],
+      "notes": "Stories 2 and 3 link to the First Baptist and St. Paul stops. The photo is portrait and needs a landscape crop. Imported from Mara's 40-place drafts (#7), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "schenley-bridge",
+      "name": "Schenley Bridge",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.4413,
+        "longitude": -79.9492
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "schenley-bridge",
+      "altText": "A long steel arch bridge spanning a wooded valley, with a road on top.",
+      "photoCredit": {
+        "author": "Phone jack",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Schenley_Bridge_from_South_Oakland_3.jpg"
+      },
+      "prompt": {
+        "text": "Small metal objects are clipped all along this bridge's railings. What are they?",
+        "audio": "schenley-bridge-prompt"
+      },
+      "reveal": {
+        "text": "Love locks, padlocks left by couples since the 2010s.",
+        "audio": "schenley-bridge-reveal"
+      },
+      "story": [
+        {
+          "text": "The wooden bridge here before this one was so shaky that holiday crowds panicked, sure it was collapsing.",
+          "audio": "schenley-bridge-story1"
+        },
+        {
+          "text": "The newspaper promised this steel arch would never tremble, \"even should they be piled layer upon layer.\"",
+          "audio": "schenley-bridge-story2"
+        },
+        {
+          "text": "The bridge and the boiler plant beside it appear in Michael Chabon's first novel, The Mysteries of Pittsburgh.",
+          "audio": "schenley-bridge-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Schenley_Bridge"
+      ],
+      "notes": "⚠ check the locks are still there. If they've been cleared, use the 120-foot arch instead. Imported from Mara's 40-place drafts (#8), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "main-building-u-s-bureau-of-mines",
+      "name": "Main Building, U.S. Bureau of Mines",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.444167,
+        "longitude": -79.945833
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "main-building-u-s-bureau-of-mines",
+      "altText": "A long, pale brick building with a row of tall arched windows on its lower floor.",
+      "photoCredit": {
+        "author": "Nyttend",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Main_Building,_U.S._Bureau_of_Mines.jpg"
+      },
+      "prompt": {
+        "text": "Tall arched windows line this pale brick building. It was built for the U.S. government. What do you think it studied?",
+        "audio": "main-building-u-s-bureau-of-mines-prompt"
+      },
+      "reveal": {
+        "text": "Mining, and how to make it safer. It was the main building of the Bureau of Mines research station.",
+        "audio": "main-building-u-s-bureau-of-mines-reveal"
+      },
+      "story": [
+        {
+          "text": "It was built between 1915 and 1917 and dedicated in 1919.",
+          "audio": "main-building-u-s-bureau-of-mines-story1"
+        },
+        {
+          "text": "It was designed by Henry Hornbostel, who also designed much of Carnegie Mellon's campus.",
+          "audio": "main-building-u-s-bureau-of-mines-story2"
+        },
+        {
+          "text": "Carnegie Mellon bought it in 1985. Today it's Hamburg Hall, home of Heinz College.",
+          "audio": "main-building-u-s-bureau-of-mines-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Main_Building,_U.S._Bureau_of_Mines"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#10), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "wightman-school",
+      "name": "Wightman School",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.4425,
+        "longitude": -79.926944
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "wightman-school",
+      "altText": "A three-story red brick school with arched windows and a black iron fire escape.",
+      "photoCredit": {
+        "author": "Lee Paxton",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:WightmanSchool.jpg"
+      },
+      "prompt": {
+        "text": "This big brick school hasn't had pupils since 1980. What do you think it's used for now?",
+        "audio": "wightman-school-prompt"
+      },
+      "reveal": {
+        "text": "It's a community building, home to small businesses and nonprofits since 1981.",
+        "audio": "wightman-school-reveal"
+      },
+      "story": [
+        {
+          "text": "It opened in 1897 under a plainer name: Colfax Number 5.",
+          "audio": "wightman-school-story1"
+        },
+        {
+          "text": "It was later renamed for Thomas Wightman, who owned a glass company.",
+          "audio": "wightman-school-story2"
+        },
+        {
+          "text": "The building has about 40,000 square feet, which is a lot of room for a neighborhood.",
+          "audio": "wightman-school-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Wightman_School"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#12), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "bindley-hardware-company-building",
+      "name": "Bindley Hardware Company Building",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.4536,
+        "longitude": -79.9411
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "bindley-hardware-company-building",
+      "altText": "A large three-story red brick warehouse on a street corner, with arched windows along the ground floor.",
+      "photoCredit": {
+        "author": "Eli Pousson",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Bindley_Hardware_Co._Building.jpg"
+      },
+      "prompt": {
+        "text": "This brick warehouse sits right beside the railroad tracks. Why do you think it was built here?",
+        "audio": "bindley-hardware-company-building-prompt"
+      },
+      "reveal": {
+        "text": "To ship by train. It was the main warehouse of a big hardware wholesaler, next to the old Shadyside station.",
+        "audio": "bindley-hardware-company-building-reveal"
+      },
+      "story": [
+        {
+          "text": "It was built in 1903 for John P. Bindley by his brother Albion.",
+          "audio": "bindley-hardware-company-building-story1"
+        },
+        {
+          "text": "Bindley tried to join the whole American hardware trade into one giant company, but the government opposed it.",
+          "audio": "bindley-hardware-company-building-story2"
+        },
+        {
+          "text": "So he built the leading hardware wholesaler in the region instead, right here in Pittsburgh.",
+          "audio": "bindley-hardware-company-building-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bindley_Hardware_Company_Building"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#13), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "church-of-the-ascension",
+      "name": "Church of the Ascension",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.4487,
+        "longitude": -79.9473
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "church-of-the-ascension",
+      "altText": "A dark gray stone church with a tall square tower, a red door and a lawn with a church sign.",
+      "photoCredit": {
+        "author": "Piotrus",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Church_of_the_Ascension_Pittsburgh_01.JPG"
+      },
+      "prompt": {
+        "text": "This dark stone church has a tall square tower. Its first stone was laid on a famous holiday. Which one?",
+        "audio": "church-of-the-ascension-prompt"
+      },
+      "reveal": {
+        "text": "The Fourth of July, in 1897.",
+        "audio": "church-of-the-ascension-reveal"
+      },
+      "story": [
+        {
+          "text": "It was designed by architect William Halsey Wood and finished in 1898.",
+          "audio": "church-of-the-ascension-story1"
+        },
+        {
+          "text": "For decades it was known for its choir of men and boys, the heart of its Sunday services.",
+          "audio": "church-of-the-ascension-story2"
+        },
+        {
+          "text": "Today it's an Anglican church, and it has been a city historic landmark since 1971.",
+          "audio": "church-of-the-ascension-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Church_of_the_Ascension_(Pittsburgh"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#14), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "mccook-family-estate",
+      "name": "McCook Family Estate",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.448017,
+        "longitude": -79.938319
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "mccook-family-estate",
+      "altText": "A large gray stone mansion with tall chimneys, many-paned windows and a stone stair with a balustrade.",
+      "photoCredit": {
+        "author": "Daderot",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:McCook_Mansion_-_Pittsburgh,_PA_-_DSC05088-001.JPG"
+      },
+      "prompt": {
+        "text": "This stone mansion has tall chimneys, bay windows and a stone balustrade. What do you think it is today?",
+        "audio": "mccook-family-estate-prompt"
+      },
+      "reveal": {
+        "text": "A hotel called Mansions on Fifth, open since 2012.",
+        "audio": "mccook-family-estate-reveal"
+      },
+      "story": [
+        {
+          "text": "It was built in 1906 and 1907 for Willis McCook, a lawyer who represented Henry Clay Frick.",
+          "audio": "mccook-family-estate-story1"
+        },
+        {
+          "text": "The house and its eight acres were added to the National Register of Historic Places in 2011.",
+          "audio": "mccook-family-estate-story2"
+        },
+        {
+          "text": "It's now one of the Historic Hotels of America, a program of the National Trust for Historic Preservation.",
+          "audio": "mccook-family-estate-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/McCook_Family_Estate"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#15), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "moreland-hoffstot-house",
+      "name": "Moreland-Hoffstot House",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.447778,
+        "longitude": -79.940278
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "moreland-hoffstot-house",
+      "altText": "A white two-story mansion with arched windows and doors, behind two clipped hedges and a lawn.",
+      "photoCredit": {
+        "author": "Nyttend",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Moreland-Hoffstot_House.jpg"
+      },
+      "prompt": {
+        "text": "The ground floor of this white house has a row of arched openings, front door included. How many do you think there are?",
+        "audio": "moreland-hoffstot-house-prompt"
+      },
+      "reveal": {
+        "text": "Five: the door in the middle, with two arched windows on each side.",
+        "audio": "moreland-hoffstot-house-reveal"
+      },
+      "story": [
+        {
+          "text": "The house was built in 1914.",
+          "audio": "moreland-hoffstot-house-story1"
+        },
+        {
+          "text": "It was added to the National Register of Historic Places in 1978.",
+          "audio": "moreland-hoffstot-house-story2"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Moreland-Hoffstot_House"
+      ],
+      "notes": "⚠ check the count on site, since the photo may not show the whole front. Imported from Mara's 40-place drafts (#16), Nov 16, 2026. App prompt rewritten as a description (no \"Count\").",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "shadyside-presbyterian-church",
+      "name": "Shadyside Presbyterian Church",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 40.449167,
+        "longitude": -79.939167
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "shadyside-presbyterian-church",
+      "altText": "A large stone church with a broad, steep pyramid roof topped by a central tower.",
+      "photoCredit": {
+        "author": "Tim Engleman from Saxonburg, PA",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:ShadysidePresbyterianChurchPHLF.jpg"
+      },
+      "prompt": {
+        "text": "The big roof over the middle rises to a point, with a small window poking out on each side. What does it remind you of?",
+        "audio": "shadyside-presbyterian-church-prompt"
+      },
+      "reveal": {
+        "text": "A witch's hat. That's what this kind of pointed roof with dormer windows is called.",
+        "audio": "shadyside-presbyterian-church-reveal"
+      },
+      "story": [
+        {
+          "text": "World Communion Sunday started here in 1933. Churches around the world now mark it on the first Sunday in October.",
+          "audio": "shadyside-presbyterian-church-story1"
+        },
+        {
+          "text": "It was the first church anywhere to broadcast its services regularly on the radio, on KDKA.",
+          "audio": "shadyside-presbyterian-church-story2"
+        },
+        {
+          "text": "Members of this church founded Chatham University and Shady Side Academy.",
+          "audio": "shadyside-presbyterian-church-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Shadyside_Presbyterian_Church"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#17), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "bellefield-boiler-plant",
+      "name": "Bellefield Boiler Plant",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4422,
+        "longitude": -79.949
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "bellefield-boiler-plant",
+      "altText": "A brick industrial building in a wooded valley, with a very tall, thin concrete smokestack.",
+      "photoCredit": {
+        "author": "TheZachMorrisExperience",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:BellefieldBoilerPlantCarnegie.jpg"
+      },
+      "prompt": {
+        "text": "A tall concrete smokestack rises out of the hollow. What do you think this plant heats?",
+        "audio": "bellefield-boiler-plant-prompt"
+      },
+      "reveal": {
+        "text": "Most of Oakland. Its steam warms most of the big buildings around here, including the Cathedral of Learning.",
+        "audio": "bellefield-boiler-plant-reveal"
+      },
+      "story": [
+        {
+          "text": "Michael Chabon nicknamed it \"the Cloud Factory\" in his first novel, The Mysteries of Pittsburgh.",
+          "audio": "bellefield-boiler-plant-story1"
+        },
+        {
+          "text": "It was built in 1907 to heat the Carnegie Museum. The concrete stack, from 1966, is 255 feet tall.",
+          "audio": "bellefield-boiler-plant-story2"
+        },
+        {
+          "text": "In its coal days, it could burn a whole 70-ton railroad car of coal in a day. It stopped burning coal in 2009.",
+          "audio": "bellefield-boiler-plant-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bellefield_Boiler_Plant"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#18), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "log-cabin",
+      "name": "Log Cabin",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4439,
+        "longitude": -79.952
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "log-cabin",
+      "altText": "A small log cabin with a stone chimney and a porch, on a lawn below a tall stone tower.",
+      "photoCredit": {
+        "author": "myself (User:Piotrus)",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Pitt_-_first_building.jpg"
+      },
+      "prompt": {
+        "text": "A small log cabin sits in the shadow of the Cathedral of Learning's tall stone tower. What do you think it's used for now?",
+        "audio": "log-cabin-prompt"
+      },
+      "reveal": {
+        "text": "Storing salt for icy winter paths.",
+        "audio": "log-cabin-reveal"
+      },
+      "story": [
+        {
+          "text": "It stands for how Pitt began in 1787, when classes were said to be held in a log cabin.",
+          "audio": "log-cabin-story1"
+        },
+        {
+          "text": "This cabin dates from the 1820s or 1830s. It was bought at auction for $1,000 and moved here in 1986 for Pitt's 200th birthday.",
+          "audio": "log-cabin-story2"
+        },
+        {
+          "text": "No one knows for sure that Pitt began in a cabin. Fires in 1845 and 1849 destroyed most of its early records.",
+          "audio": "log-cabin-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Log_Cabin_(University_of_Pittsburgh"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#19), Nov 16, 2026. App prompt drops \"42-story\" (gave away the Cathedral of Learning answer).",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "oakland-square-historic-district",
+      "name": "Oakland Square Historic District",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4372,
+        "longitude": -79.9522
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "oakland-square-historic-district",
+      "altText": "A row of tall brick houses with porches and bay windows facing a small tree-filled park.",
+      "photoCredit": {
+        "author": "Lee Paxton",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:OaklandSquarePittsburgh.jpg"
+      },
+      "prompt": {
+        "text": "These houses circle a small park, like the squares of London and Dublin. What do most of them have on the front?",
+        "audio": "oakland-square-historic-district-prompt"
+      },
+      "reveal": {
+        "text": "Porches and bay windows.",
+        "audio": "oakland-square-historic-district-reveal"
+      },
+      "story": [
+        {
+          "text": "The first 26 houses went up in 1889 and 1890. They were advertised at $6,500 each and sold within months.",
+          "audio": "oakland-square-historic-district-story1"
+        },
+        {
+          "text": "The developer, Eugene O'Neill, not the famous playwright, grew up in Ireland and probably modeled the square on Dublin's.",
+          "audio": "oakland-square-historic-district-story2"
+        },
+        {
+          "text": "All 67 houses from the original development are still standing, though many have been changed.",
+          "audio": "oakland-square-historic-district-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Oakland_Square_Historic_District"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#20), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "pitt-stadium",
+      "name": "Pitt Stadium",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.44365,
+        "longitude": -79.96215
+      },
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "pitt-stadium",
+      "altText": "An old photo of a large oval football stadium packed with fans.",
+      "photoCredit": {
+        "author": "Crazypaco at English Wikipedia",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
+        "source": "https://commons.wikimedia.org/wiki/File:InsidePittStadium.jpg"
+      },
+      "prompt": {
+        "text": "A huge football stadium stood here for 75 years. What do you think was built on this spot after it?",
+        "audio": "pitt-stadium-prompt"
+      },
+      "reveal": {
+        "text": "The Petersen Events Center and student housing, built partly with the old stadium's ground-up concrete.",
+        "audio": "pitt-stadium-reveal"
+      },
+      "story": [
+        {
+          "text": "It opened in 1925 with room for 69,400 fans. The Steelers played here too, until 1970.",
+          "audio": "pitt-stadium-story1"
+        },
+        {
+          "text": "The famous photo of a bloodied Y. A. Tittle kneeling on the field was taken here in 1964. It hangs in the Pro Football Hall of Fame.",
+          "audio": "pitt-stadium-story2"
+        },
+        {
+          "text": "At the last game, in 1999, fans rushed the field with nine seconds left and tore down both goalposts.",
+          "audio": "pitt-stadium-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Pitt_Stadium"
+      ],
+      "notes": "Pin: By the Petersen Events Center. Imported from Mara's 40-place drafts (#21), Nov 16, 2026. Pin moved Nov 16, 2026 (By the Petersen Events Center); estimated, confirm on site.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "salk-hall",
+      "name": "Salk Hall",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4427,
+        "longitude": -79.9629
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "salk-hall",
+      "altText": "A tall tan brick building in steps, with narrow vertical rows of windows.",
+      "photoCredit": {
+        "author": "TheZachMorrisExperience",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:SalkHallSidePitt.jpg"
+      },
+      "prompt": {
+        "text": "This tan brick building was built in 1941 for something very different from teaching. What do you think it was?",
+        "audio": "salk-hall-prompt"
+      },
+      "reveal": {
+        "text": "A city hospital for contagious diseases.",
+        "audio": "salk-hall-reveal"
+      },
+      "story": [
+        {
+          "text": "It's named for Jonas Salk, who developed the polio vaccine in a lab right here, in this building's basement.",
+          "audio": "salk-hall-story1"
+        },
+        {
+          "text": "Once antibiotics meant patients no longer had to be kept apart, the hospital lost money, and Pitt bought it in 1957.",
+          "audio": "salk-hall-story2"
+        },
+        {
+          "text": "Today it houses Pitt's dental and pharmacy schools, with small museums of old dental chairs and pharmacy tools.",
+          "audio": "salk-hall-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Salk_Hall"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#22), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "schenley-farms-historic-district",
+      "name": "Schenley Farms Historic District",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.447,
+        "longitude": -79.9558
+      },
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "schenley-farms-historic-district",
+      "altText": "A view of Oakland with large classical stone buildings and the Cathedral of Learning.",
+      "photoCredit": {
+        "author": "Pittsburgh7",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Oakland.jpg"
+      },
+      "prompt": {
+        "text": "Many big buildings around you resemble Greek temples or Italian palaces. Why do you think they match?",
+        "audio": "schenley-farms-historic-district-prompt"
+      },
+      "reveal": {
+        "text": "They were part of a 1905 plan by developer Franklin Nicola to build a grand civic center here.",
+        "audio": "schenley-farms-historic-district-reveal"
+      },
+      "story": [
+        {
+          "text": "His plan followed the City Beautiful movement, which favored wide boulevards, parks and stately public buildings.",
+          "audio": "schenley-farms-historic-district-story1"
+        },
+        {
+          "text": "It gave us Soldiers and Sailors Memorial Hall and the Pittsburgh Athletic Association. A planned Oakland town hall was never built.",
+          "audio": "schenley-farms-historic-district-story2"
+        },
+        {
+          "text": "The district has 154 historic buildings, including 123 homes.",
+          "audio": "schenley-farms-historic-district-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Schenley_Farms_Historic_District"
+      ],
+      "notes": "Pin: A corner with a clear view of the houses, away from stops 6 and 25. Imported from Mara's 40-place drafts (#23), Nov 16, 2026. Pin moved Nov 16, 2026 (Lytton Ave and Bayard St, among the houses, away from stops 6 and 25); estimated, confirm on site.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "schenley-park-casino",
+      "name": "Schenley Park Casino",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4416,
+        "longitude": -79.9515
+      },
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "schenley-park-casino",
+      "altText": "An old photo of a large, ornate arena building with towers.",
+      "photoCredit": {
+        "author": "Unknown author",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Public_skating_at_the_casino.png"
+      },
+      "prompt": {
+        "text": "Where this art building stands, there used to be an ice rink. What do you think made it special?",
+        "audio": "schenley-park-casino-prompt"
+      },
+      "reveal": {
+        "text": "It had the first artificial ice in North America.",
+        "audio": "schenley-park-casino-reveal"
+      },
+      "story": [
+        {
+          "text": "It opened in 1895. That December, the first hockey game in Pittsburgh was played here.",
+          "audio": "schenley-park-casino-story1"
+        },
+        {
+          "text": "Skating cost five cents, including steel skates you strapped over your own shoes.",
+          "audio": "schenley-park-casino-story2"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Schenley_Park_Casino"
+      ],
+      "notes": "Pin: At the Frick Fine Arts Building. Imported from Mara's 40-place drafts (#24), Nov 16, 2026. Pin moved Nov 16, 2026 (At the Frick Fine Arts Building); estimated, confirm on site.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "soldiers-and-sailors-memorial-hall-and-museum",
+      "name": "Soldiers and Sailors Memorial Hall and Museum",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4451,
+        "longitude": -79.9564
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "soldiers-and-sailors-memorial-hall-and-museum",
+      "altText": "A large, square stone memorial hall with columns, set back behind a wide lawn.",
+      "photoCredit": {
+        "author": "The original uploader was Willjay at English Wikipedia.",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:SoldiersMemorial_Pittsburgh.jpg"
+      },
+      "prompt": {
+        "text": "Cannons sit on the lawn in front of this huge memorial. Which war was it first built to honor?",
+        "audio": "soldiers-and-sailors-memorial-hall-and-museum-prompt"
+      },
+      "reveal": {
+        "text": "The Civil War. Union veterans planned it in the 1890s, on ground where soldiers had once gathered to enlist.",
+        "audio": "soldiers-and-sailors-memorial-hall-and-museum-reveal"
+      },
+      "story": [
+        {
+          "text": "It's the largest memorial in the United States honoring veterans of every branch of the military.",
+          "audio": "soldiers-and-sailors-memorial-hall-and-museum-story1"
+        },
+        {
+          "text": "In The Silence of the Lambs, it played the Memphis courthouse where Hannibal Lecter is held.",
+          "audio": "soldiers-and-sailors-memorial-hall-and-museum-story2"
+        },
+        {
+          "text": "Nelson Mandela spoke here in 1991.",
+          "audio": "soldiers-and-sailors-memorial-hall-and-museum-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Soldiers_and_Sailors_Memorial_Hall_and_Museum"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#25), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "stephen-foster-memorial",
+      "name": "Stephen Foster Memorial",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.443775,
+        "longitude": -79.952689
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "stephen-foster-memorial",
+      "altText": "A Gothic-style stone building with a tall arched window and red double doors.",
+      "photoCredit": {
+        "author": "Crazypaco at English Wikipedia",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
+        "source": "https://commons.wikimedia.org/wiki/File:StephenFosterMemorial.jpg"
+      },
+      "prompt": {
+        "text": "On the grounds near the shrine is a stone sundial. Something important is missing from it. What?",
+        "audio": "stephen-foster-memorial-prompt"
+      },
+      "reveal": {
+        "text": "The pointer that casts the shadow, called the gnomon.",
+        "audio": "stephen-foster-memorial-reveal"
+      },
+      "story": [
+        {
+          "text": "The memorial opened in 1937, built from the same Indiana limestone as the Cathedral of Learning, by the same architect.",
+          "audio": "stephen-foster-memorial-story1"
+        },
+        {
+          "text": "It honors songwriter Stephen Foster, and it holds one of his own pianos.",
+          "audio": "stephen-foster-memorial-story2"
+        },
+        {
+          "text": "A stained glass window in the lobby misspells Shakespeare's name.",
+          "audio": "stephen-foster-memorial-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Stephen_Foster_Memorial"
+      ],
+      "notes": "⚠ check the sundial is still missing its pointer. Adding a hometown line needs a source. Imported from Mara's 40-place drafts (#26), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "syria-mosque",
+      "name": "Syria Mosque",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4455,
+        "longitude": -79.9551
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "syria-mosque",
+      "altText": "An old photo of a large hall with horseshoe arches and bands of decorative brick.",
+      "photoCredit": {
+        "author": "Edward J. Shourek",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Syria_Mosque,_Oakland_Neighborhood,_Pittsburgh,_PA.jpg"
+      },
+      "prompt": {
+        "text": "A grand concert hall with 3,700 seats stood here until 1991. What do you think replaced it?",
+        "audio": "syria-mosque-prompt"
+      },
+      "reveal": {
+        "text": "A parking lot.",
+        "audio": "syria-mosque-reveal"
+      },
+      "story": [
+        {
+          "text": "Despite its name, it was never a place of worship. It was a meeting hall and theater built by the Shriners, a fraternal club.",
+          "audio": "syria-mosque-story1"
+        },
+        {
+          "text": "On January 11, 1949, a TV broadcast from here helped launch a network linking Pittsburgh with 13 other cities.",
+          "audio": "syria-mosque-story2"
+        },
+        {
+          "text": "Rachmaninoff, Buddy Holly, Bob Dylan, Bob Marley and Bruce Springsteen all played here.",
+          "audio": "syria-mosque-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Syria_Mosque"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#27), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "neill-log-house",
+      "name": "Neill Log House",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.4358,
+        "longitude": -79.9356
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "neill-log-house",
+      "altText": "A small one-story log house of dark hewn logs on a stone foundation, with a stone chimney.",
+      "photoCredit": {
+        "author": "Lee Paxton (Leepaxton at en.wikipedia)",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:NeillLogHouse.jpg"
+      },
+      "prompt": {
+        "text": "On the east side of this log house is a tiny window, about one foot high and two feet wide. Why do you think it's so small?",
+        "audio": "neill-log-house-prompt"
+      },
+      "reveal": {
+        "text": "It was built small for defense, and it's rare now, because most log houses around here later had their windows made bigger.",
+        "audio": "neill-log-house-reveal"
+      },
+      "story": [
+        {
+          "text": "It's Pittsburgh's oldest house, probably built by Robert Neal between 1779 and 1795.",
+          "audio": "neill-log-house-story1"
+        },
+        {
+          "text": "In 2024, a tree-ring study dated the beam above the fireplace to 1795.",
+          "audio": "neill-log-house-story2"
+        },
+        {
+          "text": "It was rebuilt log by log in 1969. A dig on the site found 19,000 objects, now at Carnegie Museum.",
+          "audio": "neill-log-house-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Neill_Log_House"
+      ],
+      "notes": "The prompt now uses the \"loophole\" window on the east side. The defense explanation comes from an early-1900s Craftsman magazine article quoted in the source, which put it in the dated terms of its time; the reveal keeps it neutral. ⚠ check on site that the window is visible from outside the fence. Imported from Mara's 40-place drafts (#28), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "rodef-shalom-temple",
+      "name": "Rodef Shalom Temple",
+      "category": "history",
+      "coordinate": {
+        "latitude": 40.448056,
+        "longitude": -79.943611
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "rodef-shalom-temple",
+      "altText": "A wide yellow brick building with a broad arched entrance and colorful terra cotta trim.",
+      "photoCredit": {
+        "author": "Shizzy9989 (talk)",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:RodefShalomPittsburgh.jpg"
+      },
+      "prompt": {
+        "text": "This yellow brick temple is trimmed with colorful terra cotta. A huge dome covers the main hall. What holds it up?",
+        "audio": "rodef-shalom-temple-prompt"
+      },
+      "reveal": {
+        "text": "No steel at all. The 90-foot dome is made of thin interlocking tiles, a Spanish building method.",
+        "audio": "rodef-shalom-temple-reveal"
+      },
+      "story": [
+        {
+          "text": "In 1909, President Taft spoke here. It's the first recorded time a sitting president spoke in a synagogue.",
+          "audio": "rodef-shalom-temple-story1"
+        },
+        {
+          "text": "The congregation was founded in 1856 and is the oldest Jewish congregation in Western Pennsylvania.",
+          "audio": "rodef-shalom-temple-story2"
+        },
+        {
+          "text": "Jonas Salk, who developed the polio vaccine, was a member here.",
+          "audio": "rodef-shalom-temple-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Rodef_Shalom_Congregation"
+      ],
+      "notes": "Story 3 links to Salk Hall. Imported from Mara's 40-place drafts (#29), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "phipps-conservatory-and-botanical-gardens",
+      "name": "Phipps Conservatory and Botanical Gardens",
+      "category": "natural-history",
+      "coordinate": {
+        "latitude": 40.4389,
+        "longitude": -79.9477
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "phipps-conservatory-and-botanical-gardens",
+      "altText": "A Victorian glasshouse with a large glass dome, surrounded by gardens.",
+      "photoCredit": {
+        "author": "Dllu",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Phipps_Conservatory_winter_2015_welcome_center.jpg"
+      },
+      "prompt": {
+        "text": "This glass and iron greenhouse opened in 1893. Where do you think its very first plants came from?",
+        "audio": "phipps-conservatory-and-botanical-gardens-prompt"
+      },
+      "reveal": {
+        "text": "The 1893 World's Fair in Chicago.",
+        "audio": "phipps-conservatory-and-botanical-gardens-reveal"
+      },
+      "story": [
+        {
+          "text": "Steel and real estate businessman Henry Phipps gave it to the city as a gift.",
+          "audio": "phipps-conservatory-and-botanical-gardens-story1"
+        },
+        {
+          "text": "Its Center for Sustainable Landscapes produces all of its own energy.",
+          "audio": "phipps-conservatory-and-botanical-gardens-story2"
+        },
+        {
+          "text": "In 1896, a fire across the road was so hot it melted some of the conservatory's glass.",
+          "audio": "phipps-conservatory-and-botanical-gardens-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [],
+      "notes": "Story 3 is the fire that destroyed the Schenley Park Casino (stop 24). It's now told only here. Imported from Mara's 40-place drafts (#32), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "flagstaff-hill",
+      "name": "Flagstaff Hill",
+      "category": "natural-history",
+      "coordinate": {
+        "latitude": 40.4405,
+        "longitude": -79.9457
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "flagstaff-hill",
+      "altText": "A wide, gently sloping grassy hill with trees and a path, and people sitting on the grass.",
+      "photoCredit": {
+        "author": "Ajblanck",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Oakland_Viewed_From_Flagstaff_Hill.jpg"
+      },
+      "prompt": {
+        "text": "This grassy slope fills up with picnics, frisbees and sleds. What do you think once stood on it?",
+        "audio": "flagstaff-hill-prompt"
+      },
+      "reveal": {
+        "text": "A giant round electric fountain that put on light shows at night.",
+        "audio": "flagstaff-hill-reveal"
+      },
+      "story": [
+        {
+          "text": "Mary Schenley gave the city 300 acres in 1889 to make Schenley Park, including this hill.",
+          "audio": "flagstaff-hill-story1"
+        },
+        {
+          "text": "Ultimate frisbee players have met here every Sunday and Wednesday for years, in almost any weather.",
+          "audio": "flagstaff-hill-story2"
+        },
+        {
+          "text": "In summer, the city shows free outdoor movies here.",
+          "audio": "flagstaff-hill-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Flagstaff_Hill,_Pennsylvania"
+      ],
+      "notes": "The source says the fountain was \"120-foot\" without saying whether that's its height or its width, so the draft leaves the number out. Imported from Mara's 40-place drafts (#34), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "junction-hollow",
+      "name": "Junction Hollow",
+      "category": "natural-history",
+      "coordinate": {
+        "latitude": 40.4429,
+        "longitude": -79.9475
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "junction-hollow",
+      "altText": "A deep, wooded valley with a trail and railroad tracks along the bottom.",
+      "photoCredit": {
+        "author": "HoboJones",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Panther_Hollow_Pano.jpg"
+      },
+      "prompt": {
+        "text": "This deep wooded valley is named after something that runs along its floor. What do you think it is?",
+        "audio": "junction-hollow-prompt"
+      },
+      "reveal": {
+        "text": "A railroad. The Pittsburgh Junction Railroad laid tracks here in the 1880s.",
+        "audio": "junction-hollow-reveal"
+      },
+      "story": [
+        {
+          "text": "Before that, it was called Four Mile Run Valley, after a stream four miles from the Point. The stream now runs in a pipe underground.",
+          "audio": "junction-hollow-story1"
+        },
+        {
+          "text": "In the 1950s and 1960s, planners wanted to fill the whole hollow with a research complex. It was never built.",
+          "audio": "junction-hollow-story2"
+        },
+        {
+          "text": "Four big bridges cross it, including the Schenley and Anderson bridges.",
+          "audio": "junction-hollow-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Junction_Hollow"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#35), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "christopher-lyman-magee-memorial",
+      "name": "Christopher Lyman Magee Memorial",
+      "category": "public-art",
+      "coordinate": {
+        "latitude": 40.4425,
+        "longitude": -79.951389
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "christopher-lyman-magee-memorial",
+      "altText": "A tall granite slab with a bronze relief of a robed woman holding a horn of fruit, above a curved stone bench.",
+      "photoCredit": {
+        "author": "Augustus Saint-Gaudens",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Christopher_Lyman_Magee_memorial_-_IMG_0783.jpg"
+      },
+      "prompt": {
+        "text": "At the bottom of this tall stone memorial, water once poured from a bronze animal's mouth. Which animal?",
+        "audio": "christopher-lyman-magee-memorial-prompt"
+      },
+      "reveal": {
+        "text": "A lion.",
+        "audio": "christopher-lyman-magee-memorial-reveal"
+      },
+      "story": [
+        {
+          "text": "It's one of the last works by sculptor Augustus Saint-Gaudens, who died months before it was dedicated in 1908.",
+          "audio": "christopher-lyman-magee-memorial-story1"
+        },
+        {
+          "text": "The bronze woman stands for Charity. Above her are Shakespeare's words: \"The quality of mercy is not strained.\"",
+          "audio": "christopher-lyman-magee-memorial-story2"
+        },
+        {
+          "text": "Saint-Gaudens planned to carve it in stone, then switched to bronze because of Pittsburgh's smoky air.",
+          "audio": "christopher-lyman-magee-memorial-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Christopher_Lyman_Magee_Memorial"
+      ],
+      "notes": "The photo is portrait and needs a landscape crop. Imported from Mara's 40-place drafts (#37), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "westinghouse-memorial",
+      "name": "Westinghouse Memorial",
+      "category": "public-art",
+      "coordinate": {
+        "latitude": 40.4395,
+        "longitude": -79.9427
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "westinghouse-memorial",
+      "altText": "Three bronze panels in a semicircle beside a lily pond, with a statue of a boy facing them.",
+      "photoCredit": {
+        "author": "HoboJones",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Westinghouse_Memorial_Schenley_Park_2.jpg"
+      },
+      "prompt": {
+        "text": "Small bronze animals hold up each of the picture panels here. What animal are they?",
+        "audio": "westinghouse-memorial-prompt"
+      },
+      "reveal": {
+        "text": "Turtles, a pair under each of the six panels.",
+        "audio": "westinghouse-memorial-reveal"
+      },
+      "story": [
+        {
+          "text": "More than 50,000 Westinghouse workers chipped in to pay for it.",
+          "audio": "westinghouse-memorial-story1"
+        },
+        {
+          "text": "It was first covered in gold leaf, but people scratched their names into it, so the gold was removed in 1941.",
+          "audio": "westinghouse-memorial-story2"
+        },
+        {
+          "text": "The sculptor, Daniel Chester French, also made the giant statue of Lincoln in the Lincoln Memorial.",
+          "audio": "westinghouse-memorial-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Westinghouse_Memorial"
+      ],
+      "notes": "Imported from Mara's 40-place drafts (#38), Nov 16, 2026.",
+      "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
     }
   ],
   "lines": {
     "skip": {
-      "text": "Okay, onward.",
+      "text": "Alright, got it. Moving on.",
       "audio": "skip-sky"
     },
     "done": {
-      "text": "Walk complete. Check your phone for your field journal.",
+      "text": "Your walk is complete. Check your phone for your field journal.",
       "audio": "done-sky"
     }
   },

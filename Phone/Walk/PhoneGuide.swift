@@ -182,6 +182,25 @@ final class AudioGuide: NSObject, GuideVoice, AVAudioPlayerDelegate, AVSpeechSyn
     }
 }
 
+/// Watches whether headphones (wired, AirPods or any Bluetooth earbuds) are connected to the
+/// phone and tells the session, so Start can ask how to listen when they aren't.
+@MainActor
+final class HeadphoneWatcher {
+    private var observer: NSObjectProtocol?
+
+    static var connected: Bool {
+        let headphones: Set<AVAudioSession.Port> = [.headphones, .bluetoothA2DP, .bluetoothLE, .bluetoothHFP, .usbAudio]
+        return AVAudioSession.sharedInstance().currentRoute.outputs.contains { headphones.contains($0.portType) }
+    }
+
+    func watch(_ session: ExploreSession) {
+        session.headphonesChanged(connected: Self.connected)
+        observer = NotificationCenter.default.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: .main) { [weak session] _ in
+            Task { @MainActor in session?.headphonesChanged(connected: HeadphoneWatcher.connected) }
+        }
+    }
+}
+
 /// The phone's buzz, plus a notification when Stroll isn't on screen.
 @MainActor
 struct PhoneArrivalAlert: ArrivalAlert {

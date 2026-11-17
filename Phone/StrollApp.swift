@@ -8,6 +8,7 @@ struct StrollApp: App {
     @StateObject private var journal = JournalStore()
     /// The phone's real position, used when Developer tools is set to Real location.
     @StateObject private var liveLocation = LiveLocationSource()
+    @State private var headphones = HeadphoneWatcher()
     /// The first-launch setup: an intro screen, then one screen per permission.
     @StateObject private var setup = SetupFlow(asker: SystemPermissions())
     @AppStorage(WalkMode.storageKey) private var walkMode: WalkMode = .demo
@@ -21,6 +22,7 @@ struct StrollApp: App {
                         .transition(.opacity)
                 } else {
                     RootTabs()
+                        .modifier(ListeningPrompts())   // inside the environment objects below, so it can read the session
                 }
             }
             .animation(.easeInOut(duration: 0.3), value: setup.needsWelcome)
@@ -32,6 +34,7 @@ struct StrollApp: App {
             .onAppear {
                 useWalkMode()
                 link.activate(mirroring: session)
+                headphones.watch(session)
                 // Each point of interest goes into the Journal as soon as it's explored or skipped.
                 session.onVisit = { [journal] visit in
                     journal.add(poiID: visit.poiID, outcome: visit.outcome, at: visit.at,
@@ -147,5 +150,62 @@ struct DeveloperToolsSheet: View {
     var body: some View {
         DeveloperToolsView()
             .presentationDragIndicator(.visible)
+    }
+}
+
+/// How to listen, asked on the phone (the watch shows the same choices):
+/// - Start without headphones: "Headphones aren't connected" (connect / Read mode / out loud / Cancel)
+/// - "I'll connect them": waits, and starts by itself when they connect
+/// - Read mode and headphones connect: "Turn on voice?"
+/// Only one screen can show an alert at a time, so each place it's attached to shows what
+/// belongs there: `.app` over the tabs, `.walk` over a set walk, `.stop` over a set walk's stop.
+struct ListeningPrompts: ViewModifier {
+    enum Place { case app, walk, stop }
+    var place: Place = .app
+    @EnvironmentObject private var session: ExploreSession
+
+    private var here: Bool {
+        switch place {
+        case .app: session.route == nil
+        case .walk: session.route != nil && !session.showsStop
+        case .stop: session.route != nil
+        }
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .alert("Headphones aren't connected", isPresented: shown(session.listenQuestion != nil && place == .app)) {
+                Button("I'll connect them") { session.answer(.connectHeadphones) }
+                Button("Read mode") { session.answer(.read) }
+                Button("Play out loud") { session.answer(.outLoud) }
+                Button("Cancel", role: .cancel) { session.answer(.cancel) }
+            } message: {
+                Text("Stroll tells you about each place out loud. Read mode shows it as text instead, with no sound.")
+            }
+            .alert("Connect your headphones", isPresented: shown(session.waitingForHeadphones != nil && place == .app)) {
+                Button("Read mode instead") { restartWaiting(.read) }
+                Button("Play out loud instead") { restartWaiting(.outLoud) }
+                Button("Cancel", role: .cancel) { session.cancelWaiting() }
+            } message: {
+                Text("Stroll starts as soon as they're connected.")
+            }
+            .alert("Headphones connected", isPresented: shown(session.offeringVoice && here)) {
+                Button("Turn on voice") { session.turnOnVoice() }
+                Button("Keep reading", role: .cancel) { session.keepReading() }
+            } message: {
+                Text("Listen instead of reading?")
+            }
+    }
+
+    /// The alerts close through their buttons, which update the session.
+    private func shown(_ value: Bool) -> Binding<Bool> {
+        Binding(get: { value }, set: { _ in })
+    }
+
+    /// Waiting for headphones, then chose Read mode or out loud after all.
+    private func restartWaiting(_ choice: ListenChoice) {
+        guard let pending = session.waitingForHeadphones else { return }
+        session.cancelWaiting()
+        session.start(walk: pending.walk, reading: choice == .read)
     }
 }

@@ -9,19 +9,18 @@ struct ExploringPanel: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            Capsule().fill(Color.strollBorder).frame(width: 36, height: 5)
             if session.phase == .ended {
                 ended
             } else {
                 exploring
             }
         }
-        .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
+        .padding(.horizontal, 24).padding(.top, 24).padding(.bottom, 20)   // no grabber: these panels can't be dragged
         .frame(maxWidth: .infinity)
-        // The white card runs down behind the floating tab bar, so the map doesn't show through.
+        // The card runs down behind the floating tab bar, so the map doesn't show through.
         .background {
             UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
-                .fill(.white)
+                .fill(Color.strollPaper)
                 .ignoresSafeArea(edges: .bottom)
         }
         .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
@@ -170,7 +169,7 @@ struct StopSheet: View {
                     ForEach(Array(lines.enumerated()), id: \.offset) { index, line in
                         TranscriptLine(text: line.text,
                                        isSpeaking: index == session.speaking,
-                                       isDark: index == session.speaking || session.phase == .finished)
+                                       isDark: index == session.speaking || session.phase == .finished || session.reading)
                             .id(index)
                     }
                 }

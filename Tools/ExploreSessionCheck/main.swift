@@ -173,6 +173,7 @@ func runChecks() async {
     await checkJournal(content)
     await checkSetWalk(content)
     await checkSetWalkDemo(content)
+    await checkListening(content)
     print("All exploring checks passed.")
 }
 
@@ -278,7 +279,7 @@ func checkQuietGap(_ content: StrollContent) async {
     session.end()
 }
 
-/// "Okay, onward." after Skip uses the place's own line (its voice) when it has one.
+/// "Alright, got it. Moving on." after Skip uses the place's own line (its voice) when it has one.
 @MainActor
 func checkSkipVoice(_ content: StrollContent) async {
     guard let own = content.pois.first(where: { $0.skipLine != nil }),
@@ -427,6 +428,30 @@ func checkJournal(_ content: StrollContent) async {
     else { check(false, "a walk's finds are in the order they were found") }
     check(JournalStore(url: walkFile).items == items, "walk cards are still there after reopening the app")
 
+    // One entry per place outside walks; inside walks a place can show again.
+    let onceFile = FileManager.default.temporaryDirectory.appendingPathComponent("stroll-journal-once-\(UUID().uuidString).json")
+    defer { try? FileManager.default.removeItem(at: onceFile) }
+    let once = JournalStore(url: onceFile)
+    once.add(poiID: a.id, outcome: .found, at: t)
+    once.add(poiID: b.id, outcome: .found, at: t + 1)
+    once.add(poiID: a.id, outcome: .skipped, at: t + 2)   // came up again in a later session
+    check(once.entries.filter { $0.tripID == nil && $0.poiID == a.id }.count == 1, "a place found twice outside walks has one journal entry")
+    check(once.entries.first?.poiID == a.id, "finding it again moves it to the top")
+    check(once.entries.first?.outcome == .found, "explored once stays explored, even if skipped later")
+    once.add(poiID: a.id, outcome: .found, at: t + 3, walkID: "oakland", tripID: first)
+    once.add(poiID: a.id, outcome: .found, at: t + 4, walkID: "oakland", tripID: second)
+    check(once.entries.filter { $0.poiID == a.id }.count == 3, "inside walks the same place can appear again (one per walk)")
+
+    // A journal saved with duplicates (before this fix) is cleaned up when the app opens.
+    let oldFile = FileManager.default.temporaryDirectory.appendingPathComponent("stroll-journal-old-\(UUID().uuidString).json")
+    defer { try? FileManager.default.removeItem(at: oldFile) }
+    let dupes = [JournalStore.Entry(id: UUID(), poiID: a.id, outcome: .skipped, at: t + 2),
+                 JournalStore.Entry(id: UUID(), poiID: b.id, outcome: .found, at: t + 1),
+                 JournalStore.Entry(id: UUID(), poiID: a.id, outcome: .found, at: t)]
+    try? JSONEncoder().encode(dupes).write(to: oldFile)
+    let cleaned = JournalStore(url: oldFile).entries
+    check(cleaned.map(\.poiID) == [a.id, b.id] && cleaned[0].outcome == .found, "duplicates saved before the fix are merged when the app opens")
+
     let reopened = JournalStore(url: file)
     check(reopened.entries == journal.entries, "the journal is still there after reopening the app")
     reopened.clear()
@@ -540,4 +565,71 @@ func checkSetWalkDemo(_ content: StrollContent) async {
     steady.stop()
     session.end()
     session.reset()
+}
+
+/// No headphones: Start asks how to listen (MJ's ethics audit). Read mode shows the story as
+/// text with no sound; headphones connecting offers the voice; the watch can answer too.
+@MainActor
+func checkListening(_ content: StrollContent) async {
+    let voice = FakeVoice()
+    let source = ManualSource()
+    let alert = FakeAlert()
+    let session = ExploreSession(content: content, voice: voice, alert: alert, source: source,
+                                 timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
+    let poi = content.pois[0]
+
+    // With headphones, Start starts straight away.
+    session.requestStart()
+    check(session.phase == .exploring && session.listenQuestion == nil, "with headphones, Start starts without asking")
+    session.end(); session.reset()
+
+    // Without: it asks, and Cancel leaves everything as it was.
+    session.headphonesChanged(connected: false)
+    session.requestStart()
+    check(session.phase == .idle && session.listenQuestion != nil, "without headphones, Start asks how to listen first")
+    check(session.mirrorState.askingHowToListen, "the watch shows the question too")
+    session.answer(.cancel)
+    check(session.phase == .idle && session.listenQuestion == nil, "Cancel doesn't start")
+
+    // "I'll connect them": waits, then starts by itself (with the voice).
+    session.requestStart()
+    session.answer(.connectHeadphones)
+    check(session.phase == .idle && session.waitingForHeadphones != nil, "I'll connect them waits for headphones")
+    session.headphonesChanged(connected: true)
+    check(session.phase == .exploring && !session.reading, "connecting the headphones starts exploring by itself")
+    session.end(); session.reset()
+
+    // Play out loud: starts with the voice.
+    session.headphonesChanged(connected: false)
+    session.requestStart()
+    session.answer(.outLoud)
+    check(session.phase == .exploring && !session.reading, "Play out loud starts with the voice")
+    session.end(); session.reset()
+
+    // Read mode, chosen on the watch: no sound, lines shown one at a time.
+    let spokenBefore = voice.spoken.count
+    session.requestStart()
+    session.handle(.listenByReading)
+    check(session.phase == .exploring && session.reading, "Read mode (from the watch) starts with no sound")
+    source.onLocation?(poi.coordinate)
+    await waitFor("prompt shown") { session.phase == .prompt }
+    check(session.transcript.map(\.text) == [poi.prompt.text], "Read mode shows the question")
+    check(alert.arrivals.last == poi.id, "Read mode still buzzes")
+    check(session.mirrorState.reading, "the watch knows it's Read mode")
+    session.tellMeMore()
+    await waitFor("whole story shown", timeout: 1) { session.phase == .finished }
+    check(session.transcript.count == 2 + poi.story.count, "Read mode shows the whole story at once, with no timing")
+    check(session.speaking == nil, "nothing is highlighted as being read")
+    check(voice.spoken.count == spokenBefore, "nothing is played in Read mode")
+
+    // Headphones connect: offer the voice; yes turns it on (Replay now plays out loud).
+    session.headphonesChanged(connected: true)
+    check(session.offeringVoice && session.mirrorState.offeringVoice, "headphones connecting in Read mode offers the voice")
+    session.handle(.voiceOn)
+    check(!session.reading && !session.offeringVoice, "Turn on voice leaves Read mode")
+    session.replay()
+    await waitFor("voice back on") { voice.spoken.count > spokenBefore }
+    check(true, "after Turn on voice, the guide speaks")
+    session.end(); session.reset()
+    check(!session.reading, "Read mode ends with the walk")
 }
