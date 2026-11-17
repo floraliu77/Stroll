@@ -21,7 +21,7 @@ Kokoro's Sky voice** (`af_sky`, normal speed) on Nov 13. Each of these places ha
 `"audioVoice": "kokoro af_sky … final voice not decided yet"`. On Nov 15 the original 4 places
 were regenerated in Sky too (with MJ's four fact fixes below), so **all 12 places now use Sky**.
 On Nov 16 the set walks' directions (`oakland-cue1-sky` … `steeples-cue4-sky`) and the app lines
-("Okay, onward." `skip-sky`, "Walk complete…" `done-sky`) were made in Sky too, so **every line in
+("Alright, got it. Moving on." `skip-sky`, "Your walk is complete…" `done-sky`) were made in Sky too, so **every line in
 the app is now Sky**. The old recordings (`f1-*.mp3` to `f4-*.mp3`, `done.mp3`, `skip.m4a`) are no
 longer used and can be deleted.
 
@@ -65,3 +65,5 @@ clips, and run the tool with `--voice NAME` (or record them by hand).
 
 - Photo credits are in each place's `photoCredit`.
 - Coordinates: © OpenStreetMap contributors, ODbL (see `coordinateSource` in the content file).
+
+**Nov 16:** `skip-sky` and `done-sky` were remade by hand for a more natural tone. `skip-sky` is "Alright, got it." and "Moving on." said as two separate sentences and joined (so "it" falls instead of rising); `done-sky` became "Your walk is complete…". Don't regenerate them with `generate.py --redo`, which would lose the joined take.

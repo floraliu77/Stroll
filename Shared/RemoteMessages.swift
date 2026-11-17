@@ -12,7 +12,7 @@ enum ExplorePhase: String, Codable, Equatable {
     case prompt      // Tell me more / Skip
     case story       // reveal + story playing
     case finished    // story done: Keep exploring
-    case skipping    // "Okay, onward."
+    case skipping    // "Alright, got it. Moving on."
     case ended       // the participant tapped End
 }
 

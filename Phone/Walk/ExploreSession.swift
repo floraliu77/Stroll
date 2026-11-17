@@ -290,7 +290,7 @@ final class ExploreSession: ObservableObject {
     func skip() {
         guard phase == .prompt else { return }
         record(.skipped)
-        // "Okay, onward." in the same voice as this place (its own line), else the shared one.
+        // "Alright, got it. Moving on." in the same voice as this place (its own line), else the shared one.
         let line = poi?.skipLine ?? content.lines.skip
         run { [self] in
             phase = .skipping

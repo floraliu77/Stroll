@@ -63,7 +63,10 @@ struct DeveloperToolsView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(poi.name).foregroundStyle(Color.primary)
                                 Text(session.content.category(poi.category)?.name ?? "")
-                                    .font(.footnote).foregroundStyle(.secondary)
+                                    // A fixed colour, not .secondary: the rows are disabled until exploring
+                                    // starts, which dimmed grey text to nearly invisible. ~7:1 contrast in
+                                    // light and dark mode.
+                                    .font(.footnote).foregroundStyle(Color.primary.opacity(0.65))
                             }
                         }
                         .disabled(!canArrive)

@@ -169,7 +169,7 @@ def main():
         print(f"Sample: {out}\nText: {poi['prompt']['text']}")
         return
 
-    # Per-place "Okay, onward." lines without audio share one clip per voice (e.g. skip-sky).
+    # Per-place "Alright, got it. Moving on." lines without audio share one clip per voice (e.g. skip-sky).
     skip_places = [poi for poi in content["pois"] if poi.get("skipLine") and not poi["skipLine"].get("audio")]
     others = list(missing_other_lines(content, args.voice))
     if not todo and not skip_places and not others:

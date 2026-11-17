@@ -279,7 +279,7 @@ func checkQuietGap(_ content: StrollContent) async {
     session.end()
 }
 
-/// "Okay, onward." after Skip uses the place's own line (its voice) when it has one.
+/// "Alright, got it. Moving on." after Skip uses the place's own line (its voice) when it has one.
 @MainActor
 func checkSkipVoice(_ content: StrollContent) async {
     guard let own = content.pois.first(where: { $0.skipLine != nil }),
