@@ -98,7 +98,7 @@ struct ExploreView: View {
                 }
                 Button {
                     ExploreNotifications.requestPermission()
-                    session.start()
+                    session.requestStart()   // asks how to listen first if there are no headphones
                     link.launchWatchApp()   // only when started on the phone: the watch is already open otherwise
                 } label: {
                     Text("Start Exploring")
@@ -110,10 +110,10 @@ struct ExploreView: View {
             }
             .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
             .frame(maxWidth: .infinity)
-            // The white card runs down behind the floating tab bar, so the map doesn't show through.
+            // The card runs down behind the floating tab bar, so the map doesn't show through.
             .background {
                 UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
-                    .fill(.white)
+                    .fill(Color.strollPaper)   // light beige, like the Walks and Journal tabs
                     .ignoresSafeArea(edges: .bottom)
             }
             .shadow(color: .black.opacity(0.12), radius: 10, y: -4)

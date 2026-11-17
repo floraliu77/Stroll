@@ -26,8 +26,10 @@ struct WalkInProgressView: View {
                         panel(walk)
                     }
                 }
+                .modifier(ListeningPrompts(place: .walk))
                 .sheet(isPresented: .constant(session.showsStop)) {
                     StopSheet()
+                        .modifier(ListeningPrompts(place: .stop))
                         .interactiveDismissDisabled()
                         .presentationDragIndicator(.hidden)
                 }
@@ -133,7 +135,7 @@ struct WalkInProgressView: View {
             .accessibilityElement(children: .combine)
             if let cue = stop.cue {
                 HStack(alignment: .top, spacing: 10) {
-                    Image(systemName: "headphones")
+                    Image(systemName: session.reading ? "text.quote" : "headphones")
                         .foregroundStyle(Color.strollGreen)
                         .accessibilityHidden(true)
                     Text("“\(cue.text)”")

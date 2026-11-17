@@ -158,7 +158,7 @@ struct WalkDetailView: View {
         VStack(spacing: 8) {
             Button {
                 ExploreNotifications.requestPermission()
-                session.start(walk: walk)
+                session.requestStart(walk: walk)   // asks how to listen first if there are no headphones
                 link.launchWatchApp()
             } label: {
                 Text("Start walk")

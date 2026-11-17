@@ -27,6 +27,14 @@ struct MirrorState: Codable, Equatable {
     /// (0-based). Both nil while exploring freely.
     var walkID: String? = nil
     var stopIndex: Int? = nil
+    /// Read mode (no headphones, no sound): the watch shows the whole text instead of the dots.
+    var reading = false
+    /// Start was tapped without headphones: the phone asks how to listen (the watch can answer).
+    var askingHowToListen = false
+    /// "I'll connect them": waiting for headphones, then exploring starts by itself.
+    var waitingForHeadphones = false
+    /// Read mode and headphones just connected: "Turn on voice?"
+    var offeringVoice = false
 
     static let idle = MirrorState(phase: .idle, poiID: nil, paused: false, foundCount: 0, everythingVisited: false)
 }
@@ -34,9 +42,20 @@ struct MirrorState: Codable, Equatable {
 /// Watch → phone: a tap on the watch. The phone does exactly what the same tap does on the phone.
 /// `reset` is Done after the walk (back to the start). `sync` asks the phone to send its current
 /// state (e.g. when the watch reconnects). `skipStop` moves a set walk on to its next stop
-/// without going there.
+/// without going there. The `listen…` actions answer "Headphones aren't connected";
+/// `voiceOn` / `keepReading` answer "Turn on voice?".
 enum WatchAction: String, Codable, Equatable {
     case start, tellMeMore, skip, keepExploring, replay, pause, resume, end, reset, sync, skipStop
+    case listenWithHeadphones, listenByReading, listenOutLoud, cancelStart
+    case voiceOn, keepReading
+}
+
+/// The answer to "Headphones aren't connected" when starting.
+enum ListenChoice: Equatable {
+    case connectHeadphones   // wait; start by itself when they connect
+    case read                // no sound: the story as text
+    case outLoud             // the phone's speaker (plays even with the ringer on silent)
+    case cancel
 }
 
 enum Outcome: String, Codable, Equatable {

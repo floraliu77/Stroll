@@ -96,6 +96,28 @@ final class ExploreSession: ObservableObject {
     @Published private(set) var stopIndex = 0
     /// A new id each time a set walk starts, so the Journal can tell two walks of the same route apart.
     private(set) var tripID: UUID?
+
+    // Listening: headphones, out loud, or Read mode (MJ's ethics audit: never play out loud in
+    // public without asking).
+
+    /// Read mode: no sound, the whole text shows at once (buzz still on). No timing: people read
+    /// at their own speed and tap on when they're ready.
+    @Published private(set) var reading = false
+    /// Whether headphones are connected to the phone. Set by the app (`headphonesChanged`).
+    @Published private(set) var headphonesConnected = true
+    /// Start was tapped without headphones: which start is waiting for an answer.
+    @Published private(set) var listenQuestion: PendingStart?
+    /// "I'll connect them": this start goes ahead by itself once headphones connect.
+    @Published private(set) var waitingForHeadphones: PendingStart?
+    /// Read mode and headphones just connected: ask "Turn on voice?".
+    @Published private(set) var offeringVoice = false
+
+    /// A start waiting on how to listen: exploring freely (`walk` nil) or a set walk.
+    struct PendingStart: Equatable, Identifiable {
+        let walk: StrollContent.Route?
+        let id = UUID()
+        static func == (a: PendingStart, b: PendingStart) -> Bool { a.id == b.id }
+    }
     /// Called as each point of interest is explored or skipped (the Journal listens).
     var onVisit: (@MainActor (Visit) -> Void)?
 
@@ -120,7 +142,10 @@ final class ExploreSession: ObservableObject {
     /// What the watch shows.
     var mirrorState: MirrorState {
         MirrorState(phase: phase, poiID: poi?.id, paused: paused, foundCount: foundCount, everythingVisited: everythingVisited,
-                    walkID: route?.id, stopIndex: route == nil ? nil : stopIndex)
+                    walkID: route?.id, stopIndex: route == nil ? nil : stopIndex,
+                    reading: reading,
+                    askingHowToListen: listenQuestion != nil, waitingForHeadphones: waitingForHeadphones != nil,
+                    offeringVoice: offeringVoice)
     }
 
     private let voice: GuideVoice
@@ -159,9 +184,75 @@ final class ExploreSession: ObservableObject {
 
     // MARK: Participant
 
-    /// Starts exploring freely, or the set walk `walk`.
-    func start(walk: StrollContent.Route? = nil) {
+    /// Start Exploring / Start walk. With headphones connected it starts straight away; without,
+    /// it asks how to listen first (`listenQuestion`, answered with `answer(_:)`).
+    func requestStart(walk: StrollContent.Route? = nil) {
+        guard phase == .idle, listenQuestion == nil else { return }
+        waitingForHeadphones = nil
+        if headphonesConnected {
+            start(walk: walk)
+        } else {
+            listenQuestion = PendingStart(walk: walk)
+        }
+    }
+
+    /// The answer to "Headphones aren't connected".
+    func answer(_ choice: ListenChoice) {
+        guard let pending = listenQuestion else { return }
+        listenQuestion = nil
+        switch choice {
+        case .connectHeadphones:
+            if headphonesConnected { start(walk: pending.walk) } else { waitingForHeadphones = pending }
+        case .read: start(walk: pending.walk, reading: true)
+        case .outLoud: start(walk: pending.walk)
+        case .cancel: break
+        }
+    }
+
+    /// Stop waiting for headphones ("I'll connect them" changed their mind).
+    func cancelWaiting() {
+        waitingForHeadphones = nil
+    }
+
+    /// The app tells the session when headphones connect or disconnect.
+    func headphonesChanged(connected: Bool) {
+        guard connected != headphonesConnected else { return }
+        headphonesConnected = connected
+        guard connected else {
+            offeringVoice = false
+            return
+        }
+        if let pending = waitingForHeadphones {
+            waitingForHeadphones = nil
+            start(walk: pending.walk)
+        } else if listenQuestion != nil {
+            let pending = listenQuestion
+            listenQuestion = nil
+            start(walk: pending?.walk)   // they connected while the question was up
+        } else if reading, phase != .idle, phase != .ended {
+            offeringVoice = true
+        }
+    }
+
+    /// "Turn on voice?" → yes. The guide speaks from now on (what's already on screen isn't
+    /// read out again; Replay reads it).
+    func turnOnVoice() {
+        offeringVoice = false
+        reading = false
+    }
+
+    /// "Turn on voice?" → no, keep reading.
+    func keepReading() {
+        offeringVoice = false
+    }
+
+    /// Starts exploring freely, or the set walk `walk`, straight away. `reading`: Read mode.
+    func start(walk: StrollContent.Route? = nil, reading: Bool = false) {
         guard phase == .idle else { return }
+        listenQuestion = nil
+        waitingForHeadphones = nil
+        offeringVoice = false
+        self.reading = reading
         cancelQuiet()
         visits = []
         arrived = []
@@ -264,13 +355,21 @@ final class ExploreSession: ObservableObject {
         voice.placeDone()
         route = nil
         stopIndex = 0
+        reading = false
+        offeringVoice = false
         phase = .idle
     }
 
     /// A tap on the watch.
     func handle(_ action: WatchAction) {
         switch action {
-        case .start: start()
+        case .start: requestStart()
+        case .listenWithHeadphones: answer(.connectHeadphones)
+        case .listenByReading: answer(.read)
+        case .listenOutLoud: answer(.outLoud)
+        case .cancelStart: if listenQuestion != nil { answer(.cancel) } else { cancelWaiting() }
+        case .voiceOn: turnOnVoice()
+        case .keepReading: keepReading()
         case .tellMeMore: tellMeMore()
         case .skip: skip()
         case .keepExploring: keepExploring()
@@ -360,7 +459,7 @@ final class ExploreSession: ObservableObject {
         phase = .story
         if let prompt = poi?.prompt.narration { transcript = [prompt] }
         for (k, line) in lines.enumerated() {
-            if k > 0 { try await pausableSleep(timing.betweenLines) }
+            if k > 0, !reading { try await pausableSleep(timing.betweenLines) }
             try await say(line)
         }
         speaking = nil
@@ -453,12 +552,17 @@ final class ExploreSession: ObservableObject {
         try Task.checkCancellation()
         if restart { transcript = [] }
         transcript.append(line)
+        if reading {   // Read mode: shown at once, nothing highlighted, no waiting
+            speaking = nil
+            return
+        }
         speaking = transcript.count - 1
         narrating = true
         await voice.play(line)
         narrating = false
         try Task.checkCancellation()
     }
+
 
     /// Sleeps for `seconds` of un-paused time. Measured by the clock, so time spent with the
     /// app suspended counts too.

@@ -11,7 +11,13 @@ struct WalkView: View {
 
     var body: some View {
         NavigationStack {
-            if mirror.state.paused {
+            if mirror.state.askingHowToListen {
+                ListenQuestionScreen()
+            } else if mirror.state.waitingForHeadphones {
+                WaitingForHeadphonesScreen()
+            } else if mirror.state.offeringVoice {
+                VoiceOfferScreen()
+            } else if mirror.state.paused {
                 PausedScreen()
             } else {
                 switch mirror.state.phase {
@@ -49,6 +55,64 @@ private struct StartScreen: View {
                 } else {
                     PrimaryButton("Start Exploring") { mirror.send(.start) }
                 }
+                ProblemText()
+            }
+        }
+    }
+}
+
+/// Start without headphones: the same choices as on the phone.
+private struct ListenQuestionScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 8) {
+                Image(systemName: "headphones").font(.title3).foregroundStyle(Color.strollGreen)
+                Text("Headphones aren't connected")
+                    .font(.headline)
+                    .multilineTextAlignment(.center)
+                PrimaryButton("I'll connect them") { mirror.send(.listenWithHeadphones) }
+                SecondaryButton("Read mode") { mirror.send(.listenByReading) }
+                SecondaryButton("Play out loud") { mirror.send(.listenOutLoud) }
+                SecondaryButton("Cancel") { mirror.send(.cancelStart) }
+                ProblemText()
+            }
+        }
+    }
+}
+
+private struct WaitingForHeadphonesScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 8) {
+                Image(systemName: "headphones").font(.title3).foregroundStyle(Color.strollGreen)
+                Text("Connect your headphones").font(.headline).multilineTextAlignment(.center)
+                Text("Stroll starts as soon as they're connected.")
+                    .font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                ListeningDots()
+                SecondaryButton("Cancel") { mirror.send(.cancelStart) }
+                ProblemText()
+            }
+        }
+    }
+}
+
+/// Read mode, and headphones just connected.
+private struct VoiceOfferScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 8) {
+                Image(systemName: "headphones").font(.title3).foregroundStyle(Color.strollGreen)
+                Text("Headphones connected").font(.headline)
+                Text("Hear the rest instead of reading it?")
+                    .font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                PrimaryButton("Turn on voice") { mirror.send(.voiceOn) }
+                SecondaryButton("Keep reading") { mirror.send(.keepReading) }
                 ProblemText()
             }
         }
@@ -139,6 +203,7 @@ private struct PromptScreen: View {
     var body: some View {
         SpotScreen {
             POIPhoto(controls: [.replay, .pause])
+            ReadText(lines: mirror.poi.map { [$0.prompt.text] } ?? [])
             PrimaryButton("Tell me more") { mirror.send(.tellMeMore) }
             SecondaryButton("Skip") { mirror.send(.skip) }
         }
@@ -151,7 +216,7 @@ private struct StoryScreen: View {
     var body: some View {
         SpotScreen {
             POIPhoto(controls: [.replay, .pause])
-            ListeningDots()
+            if mirror.state.reading { ReadText(lines: mirror.storyText) } else { ListeningDots() }
             SecondaryButton(mirror.continueTitle) { mirror.send(.keepExploring) }
         }
     }
@@ -163,6 +228,7 @@ private struct FinishedScreen: View {
     var body: some View {
         SpotScreen {
             POIPhoto(controls: [.replay])
+            ReadText(lines: mirror.storyText)
             PrimaryButton(mirror.continueTitle) { mirror.send(.keepExploring) }
         }
     }
@@ -250,15 +316,35 @@ private struct POIPhoto: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .accessibilityLabel(poi.altText.map { "Photo: \($0)" } ?? "Photo of a point of interest")
                 .overlay(alignment: .topLeading) {
-                    if controls.contains(.replay) {
+                    if controls.contains(.replay), !mirror.state.reading {
                         PhotoButton("Replay", symbol: "arrow.counterclockwise") { mirror.send(.replay) }
                     }
                 }
                 .overlay(alignment: .topTrailing) {
-                    if controls.contains(.pause) {
+                    if controls.contains(.pause), !mirror.state.reading {
                         PhotoButton("Pause", symbol: "pause.fill") { mirror.send(.pause) }
                     }
                 }
+        }
+    }
+}
+
+/// Read mode: the whole text at once, under the photo. The screen scrolls (photo included),
+/// so people read at their own speed. Shows nothing with the voice on.
+private struct ReadText: View {
+    @EnvironmentObject private var mirror: MirrorModel
+    let lines: [String]
+
+    var body: some View {
+        if mirror.state.reading, !lines.isEmpty {
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(Array(lines.enumerated()), id: \.offset) { _, line in
+                    Text(line)
+                        .font(.footnote)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

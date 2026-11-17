@@ -41,6 +41,8 @@ struct JournalView: View {
                             }
                         }
                         .padding(16)
+                        // Room under the last card so it can scroll up past the floating tab bar.
+                        .padding(.bottom, 100)
                     }
                 }
             }

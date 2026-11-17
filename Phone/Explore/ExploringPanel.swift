@@ -18,10 +18,10 @@ struct ExploringPanel: View {
         }
         .padding(.horizontal, 24).padding(.top, 10).padding(.bottom, 20)
         .frame(maxWidth: .infinity)
-        // The white card runs down behind the floating tab bar, so the map doesn't show through.
+        // The card runs down behind the floating tab bar, so the map doesn't show through.
         .background {
             UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
-                .fill(.white)
+                .fill(Color.strollPaper)
                 .ignoresSafeArea(edges: .bottom)
         }
         .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
@@ -170,7 +170,7 @@ struct StopSheet: View {
                     ForEach(Array(lines.enumerated()), id: \.offset) { index, line in
                         TranscriptLine(text: line.text,
                                        isSpeaking: index == session.speaking,
-                                       isDark: index == session.speaking || session.phase == .finished)
+                                       isDark: index == session.speaking || session.phase == .finished || session.reading)
                             .id(index)
                     }
                 }

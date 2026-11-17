@@ -1,7 +1,9 @@
 import Foundation
 
 /// The participant's journal: every point of interest they explored or skipped, newest first.
-/// Finds from one set walk are grouped (`items`).
+/// Finds from one set walk are grouped (`items`). Outside walks, each place has one entry: finding
+/// it again (another session) moves it to the top instead of adding a second card. Inside a
+/// walk's card, a place shows every time that walk is walked.
 /// Filled live as they tap Tell me more or Skip, and saved on the phone so it's still there
 /// after the walk and after closing the app.
 /// Platform-free so it can be checked on a Mac (see Tools/check-walk-model.sh).
@@ -60,8 +62,27 @@ final class JournalStore: ObservableObject {
     }
 
     func add(poiID: String, outcome: Outcome, at date: Date, walkID: String? = nil, tripID: UUID? = nil) {
+        var outcome = outcome
+        if tripID == nil, let old = entries.firstIndex(where: { $0.tripID == nil && $0.poiID == poiID }) {
+            // Explored before counts, even if it was skipped this time.
+            if entries[old].outcome == .found { outcome = .found }
+            entries.remove(at: old)
+        }
         entries.insert(Entry(id: UUID(), poiID: poiID, outcome: outcome, at: date, walkID: walkID, tripID: tripID), at: 0)
         save()
+    }
+
+    /// Journals saved before one-entry-per-place: keep the newest entry for each place found
+    /// outside a walk (marked explored if any of them was).
+    private static func oneEntryPerPlace(_ saved: [Entry]) -> [Entry] {
+        let foundOnce = Set(saved.filter { $0.tripID == nil && $0.outcome == .found }.map(\.poiID))
+        var seen: Set<String> = []
+        return saved.compactMap { entry in   // newest first
+            guard entry.tripID == nil else { return entry }
+            guard seen.insert(entry.poiID).inserted else { return nil }
+            guard entry.outcome != .found, foundOnce.contains(entry.poiID) else { return entry }
+            return Entry(id: entry.id, poiID: entry.poiID, outcome: .found, at: entry.at)
+        }
     }
 
     /// Empties the journal, e.g. before the next participant.
@@ -78,7 +99,8 @@ final class JournalStore: ObservableObject {
     private func load() {
         guard let data = try? Data(contentsOf: url),
               let saved = try? JSONDecoder().decode([Entry].self, from: data) else { return }
-        entries = saved
+        entries = Self.oneEntryPerPlace(saved)
+        if entries.count != saved.count { save() }
     }
 
     private func save() {
