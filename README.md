@@ -1,102 +1,125 @@
 # Stroll
 
-Audio-first walking guide for Apple Watch and earbuds. The watch buzzes when you reach
-something worth noticing, shows a photo of it, and tells you what to look for.
+An audio-first walking guide for iPhone, Apple Watch and earbuds. Walk around Oakland,
+Pittsburgh with your phone in your pocket. When you're near a point of interest, Stroll taps
+your wrist (or buzzes your phone), shows a photo, and describes what to look for. Tap
+**Tell me more** for the story, or **Skip** to keep walking. Everything you find is saved in
+your **Journal**.
 
-This repo has two apps for moderated field tests:
+There are two ways to walk:
 
-- **Stroll (watch)**: what the participant wears. Same flow as the web prototype:
-  buzz → photo preview → directions → *Tell me more* / *Skip* → story (with *Next stop*) →
-  *Continue walking*. Real wrist haptics and narration in Bluetooth earbuds.
-- **Stroll Remote (iPhone)**: what the moderator holds. Tap a find as the participant
-  reaches it to buzz their watch. A live status shows what they're seeing, and the session
-  log records each tap with a timestamp. You can export the log.
+- **Explore (freeform):** wander anywhere. Any point of interest can come up.
+- **Walks (set routes):** follow a short route past a few chosen stops, in order, with spoken
+  directions between them.
 
-The participant's watch must be **paired to the moderator's iPhone**, because the two apps
-talk over WatchConnectivity. Use a team-owned watch and give it to each participant.
+Current build: **version 0.1, build 3** on TestFlight. What changed since our v1 submission is
+in [CHANGELOG.md](CHANGELOG.md).
+
+## Try it
+
+### On an iPhone (TestFlight)
+
+1. Accept the TestFlight invitation sent to your Apple ID email, then install **Stroll Walks**
+   from TestFlight.
+2. You need an **iPhone with iOS 17 or later**. An **Apple Watch** (watchOS 10+) paired to that
+   iPhone and **earbuds** are optional but recommended. Without a watch, the phone buzzes
+   instead. Without earbuds, Stroll asks whether to read the text instead or play out loud.
+3. Open **Stroll**. The first time, a short setup explains how it works and asks for
+   location, walking sessions on the watch (Health) and notifications. Each one can be
+   skipped with **Not now**.
+4. To explore, tap **Start Exploring** on the map, then put your phone away. To take a set
+   walk, open the **Walks** tab, pick a walk and tap **Start walk**. Afterwards, open the
+   **Journal** tab to see what you found.
+
+**Demo walk vs. real location.** The app starts in **Demo walk** mode, so it works anywhere
+(at a desk, or outside Oakland). Places come up on a timer, wherever you are: the first
+after about 20 seconds, then one every 30–60 seconds (every 30 seconds on a set walk). To use your real position instead, tap the settings button (top right of
+the map) → **Developer tools** → **Real location**, then walk to the places on the map.
+
+### In a browser (backup demo)
+
+If you can't install from TestFlight, open the web demo on any device (it's designed for an
+iPhone screen): **[add Vercel demo link]**. In the web demo, location is simulated, you tap a
+place to "arrive" at it, and no Apple Watch is needed.
+
+## What's real and what's faked
+
+| | Status |
+|---|---|
+| Location | **Real** with Real location turned on: places trigger when you walk within their radius (25–50 m, usually 30 m). **Faked** by default: the Demo walk plays places on a timer, wherever you are. |
+| Watch haptics | **Real**: the Apple Watch taps your wrist and mirrors the phone. Tapping a button on either device updates both. |
+| Narration | **Real** audio through earbuds or the phone, which pauses your music and resumes it afterwards. **Read mode** shows the text without sound. |
+| Voice | **AI-generated**: every line uses the Kokoro "Sky" voice, generated free on our own Mac. The final voice isn't decided yet. |
+| Places | **43 places** in North Oakland and 2 set walks. 39 places are marked *needs review*: their facts and coordinates come from research (Wikidata, OpenStreetMap, Wikimedia Commons) and haven't all been checked on site yet. |
+| Photos | Real photos from Wikimedia Commons, credited under each Journal entry and in the settings button on the map → **About** → **Photo credits**. |
+
+## Repository
 
 ```
-Shared/          Walk content (text matches the prototype) and iPhone↔watch messages
-Watch/           Watch app: walk logic, screens, narration, haptics, workout session
-Phone/           iPhone remote
-Resources/       26 narration clips (Carolyn, ElevenLabs) and photos, for the watch
-Tools/           check-walk-model.sh: runs the walk logic through a scripted walk on a Mac
-web-prototype/   The browser prototype used in the first round of interviews
+Phone/           iPhone app: Explore map, Walks, Journal, first-launch setup, voice guide
+Watch/           Apple Watch app: mirrors the phone, wrist taps, walking session
+Shared/          Content file (places, walks, lines) and phone↔watch messages
+Resources/       Narration clips and photos
+Tools/           Checks and content tools (see below)
+docs/            Plans, place research, content drafts
+web-prototype/   Browser demo (also deployed on Vercel)
+CHANGELOG.md     What changed since the v1 submission
 ```
 
-## Set up (one time)
+All the place content is in one file, `Shared/Content/stroll-content.json`. To add or edit a
+place, change that file. No Swift code needs to change.
 
-Needs a Mac with **Xcode 15 or later**, an iPhone (iOS 17+) and an Apple Watch
-(watchOS 10+) paired to it, plus AirPods or other Bluetooth earbuds.
+## For the team
 
-1. **Generate the Xcode project.**
-   ```bash
-   brew install xcodegen
-   xcodegen
-   open Stroll.xcodeproj
-   ```
-   If XcodeGen isn't an option, see [Without XcodeGen](#without-xcodegen) below.
-2. **Sign both apps with your team.** In Xcode, select the **Stroll** project, then for
-   both the *StrollRemote* and *StrollWatch* targets, open *Signing & Capabilities*:
-   - set **Team** to your developer team;
-   - change the bundle identifiers from `org.example.stroll.remote` and
-     `org.example.stroll.remote.watchkitapp` to your own prefix. The watch ID must stay the
-     iPhone ID plus `.watchkitapp`. Update `WKCompanionAppBundleIdentifier` in the
-     StrollWatch build settings to match.
+### Build and run from source
 
-   To skip this step on future regenerations, put your Team ID and prefix in `project.yml`.
-3. **Check the watch target's capabilities** (*StrollWatch → Signing & Capabilities*):
-   **HealthKit**, and **Background Modes** with *Workout processing* and *Audio* turned on.
-   They come from `project.yml`; with automatic signing, Xcode registers them on the App ID.
-4. **Turn on Developer Mode** on the iPhone and the watch (Settings → Privacy & Security →
-   Developer Mode), then connect the iPhone to the Mac.
-5. **Run.** Choose the *StrollRemote* scheme and your iPhone, and press Run. This installs
-   the watch app too. The first install to the watch can take several minutes. To debug the
-   watch directly, choose the *StrollWatch* scheme and the watch as the destination.
-
-## Running a session
-
-1. Give the participant the watch and earbuds. On the watch, open **Stroll** and tap
-   **Get ready**. The first time, watchOS asks for Health access (needed to keep the app
-   running with the wrist down) and to pick the earbuds.
-2. On the iPhone, open **Stroll Remote**. The status should say *Connected* and
-   *Keep walking: ready for the next find*.
-3. Walk the route. When the participant reaches each spot, tap that find in **Buzz a find**.
-   The next find is highlighted. Tapping a find mid-story interrupts the story, so you can
-   recover if someone lingers.
-4. After find 4, the watch says *Walk complete*. Use **Export** in the session log to save
-   or share the log, then **Reset** for the next participant.
-
-Nothing is saved to the Health app: the watch runs a walking session only to stay awake.
-
-## Testing without the watch
-
-`Tools/check-walk-model.sh` compiles the walk logic for a Mac and runs it through a
-scripted walk with a fake narrator: buzz, Tell me more, Next stop, Skip, Pause, Reset, and
-a trigger mid-story. It needs only the Swift command-line tools, not Xcode.
+Needs a Mac with **Xcode 15 or later**.
 
 ```bash
-Tools/check-walk-model.sh
+brew install xcodegen
 ```
 
-## Without XcodeGen
+```bash
+xcodegen
+```
 
-1. In Xcode: *File → New → Project → watchOS → App*, product name **Stroll**, interface
-   SwiftUI, and choose **Watch App with New Companion iOS App**.
-2. Delete the template's Swift files and asset catalogs. Then drag in:
-   - `Watch/` (except `Info.plist`), `Resources/` and `Shared/` → the watch app target
-   - `Phone/` and `Shared/` → the iOS app target
-3. In the watch target, add the **HealthKit** capability and **Background Modes**
-   (*Workout processing*, *Audio*). Under *Info*, add the two Health usage descriptions
-   from `project.yml`.
-4. Set the deployment targets to iOS 17 and watchOS 10, and the Swift language version to 5.
+```bash
+open Stroll.xcodeproj
+```
 
-## Next steps
+The team ID and bundle IDs (`com.teamgreen.stroll`) are already set in `project.yml`. Choose the
+**StrollRemote** scheme and your iPhone, and press Run. This also installs the watch app on
+the paired watch. Turn on Developer Mode on both devices first (Settings → Privacy &
+Security → Developer Mode).
 
-- **Location triggers**: fire each find from Core Location near its coordinates, with the
-  remote kept as an override. Tune the distances on the real route, because GPS drifts near
-  tall buildings.
-- **Field journal**: the participant-facing iPhone screens from the web prototype.
-- **App icon**: `Resources/Assets.xcassets` and `Phone/Assets.xcassets` hold a placeholder.
-- **TestFlight**: archive the *StrollRemote* scheme (*Product → Archive*) and upload it.
-  Team members in App Store Connect can install builds without App Review.
+To upload a TestFlight build, raise `CURRENT_PROJECT_VERSION` in `project.yml`, run
+`xcodegen`, then choose **Product → Archive** in Xcode and upload it.
+
+### Tools
+
+| Command | What it does |
+|---|---|
+| `Tools/check-walk-model.sh` | Checks the content file (every clip, photo and category exists), then runs the exploring session, the set walks and the setup screens through scripted tests. Needs only the Swift command-line tools. Run it before every pull request. |
+| `Tools/voice/generate.py` | Generates Sky-voice clips for any line without audio. Setup is in `docs/content-drafts/README.md`. |
+| `Tools/walk-routes.sh` | Redraws a set walk's map line along the streets using Apple Maps walking directions. |
+
+### How we work in Git
+
+- Never push to `main`.
+- One branch per task, named `yourname/task` (for example `mara/set-walks`).
+- Open a pull request for every change, and run `Tools/check-walk-model.sh` first.
+- Add a line to [CHANGELOG.md](CHANGELOG.md) under **Unreleased** in the same pull request.
+
+### Design
+
+The Figma file **AxD-Stroll** has the v1 screens on the "iPhone app – MVP" page and the
+current components on the "v2 – Design system (from code)" page. Colors in
+`Phone/Theme.swift` match the Figma variables.
+
+## Credits
+
+- Photos: Wikimedia Commons contributors, under CC0, CC BY and CC BY-SA licenses (full list
+  in the app).
+- Voice: [Kokoro](https://github.com/hexgrad/kokoro) (Apache 2.0), Sky voice.
+- Built with help from Claude Code. Place research cross-checked against OpenStreetMap,
+  Wikidata and Google Maps.
