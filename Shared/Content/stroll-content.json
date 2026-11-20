@@ -2210,6 +2210,376 @@
       ],
       "notes": "Imported from Mara's 40-place drafts (#38), Nov 16, 2026.",
       "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "niles-depot",
+      "name": "Niles Depot and Town Plaza",
+      "category": "history",
+      "coordinate": {
+        "latitude": 37.5775,
+        "longitude": -121.97842
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-depot",
+      "altText": "A long, low yellow wooden train station with a wide grey roof held up by tan columns, and a red caboose at the far end.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_Depot_from_the_southwest,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "When this yellow station came back to downtown Niles in 2009, movers changed one thing about the way it sits. What do you think they changed?",
+        "audio": "niles-depot-prompt"
+      },
+      "reveal": {
+        "text": "They turned it all the way around, 180 degrees, so it faces this plaza.",
+        "audio": "niles-depot-reveal"
+      },
+      "story": [
+        {
+          "text": "Southern Pacific built this depot in 1901. It replaced an 1870 station that had its own restaurant and saloon.",
+          "audio": "niles-depot-story1"
+        },
+        {
+          "text": "In 1981 the railroad planned to tear it down. Volunteers saved it, and in 1982 it was moved to Mission Boulevard.",
+          "audio": "niles-depot-story2"
+        },
+        {
+          "text": "The town grew up around the railroad's freight terminal here, and was named after Addison C. Niles, a judge and former railroad lawyer.",
+          "audio": "niles-depot-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://www.nilesdepotmuseum.org/niles-depot-history",
+        "https://www.ncry.org/about/",
+        "https://en.wikipedia.org/wiki/Niles_Depot_Museum"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Merged with the Town Plaza and caboose 467: their pins were about 30 m apart, inside each other's 30 m trigger. Keep other Niles stops 60 m+ away.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-transcontinental-marker",
+      "name": "Transcontinental Railroad marker",
+      "category": "history",
+      "coordinate": {
+        "latitude": 37.57663,
+        "longitude": -121.97666
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-transcontinental-marker",
+      "altText": "A short pillar of rough grey stones with a bronze plaque on its front, in front of an old green passenger car.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Transcontinental_Railroad_marker_and_Niles_Merchants_Association_train_car,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "Most people think the Transcontinental Railroad was finished with a golden spike in Utah. How long after that do you think the last link through this canyon opened?",
+        "audio": "niles-transcontinental-marker-prompt"
+      },
+      "reveal": {
+        "text": "About four months later, on September 6, 1869.",
+        "audio": "niles-transcontinental-marker-reveal"
+      },
+      "story": [
+        {
+          "text": "The golden spike was driven in Utah on May 10, 1869. But the tracks ended in Sacramento, and passengers had to finish the trip by boat.",
+          "audio": "niles-transcontinental-marker-story1"
+        },
+        {
+          "text": "The line through Niles Canyon finally carried trains all the way to Oakland, linking the Atlantic and the Pacific by rail.",
+          "audio": "niles-transcontinental-marker-story2"
+        },
+        {
+          "text": "The Niles Canyon Railway still runs heritage trains on this stretch, the best-preserved part of the original route.",
+          "audio": "niles-transcontinental-marker-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://www.acgov.org/board/bos_calendar/documents/DocsAgendaReg_09_17_19/PROCLAMATIONS_COMMENDATIONS/Supervisor%20Haggerty_285260.pdf",
+        "https://www.ncry.org/about/"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Pin from the photo's location; the marker is a few metres away. Photo cropped from portrait to landscape.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-hillside-sign",
+      "name": "Hillside NILES sign",
+      "category": "history",
+      "coordinate": {
+        "latitude": 37.57672,
+        "longitude": -121.97886
+      },
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "niles-hillside-sign",
+      "altText": "Giant white letters spelling NILES on a dry golden hillside under a clear blue sky.",
+      "photoCredit": {
+        "author": "Pedro Xing",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_hillside_sign_2655_02.JPG"
+      },
+      "prompt": {
+        "text": "Giant white letters on the hillside above town spell out its name. When the sign first went up, who do you think it was meant to help?",
+        "audio": "niles-hillside-sign-prompt"
+      },
+      "reveal": {
+        "text": "Pilots. It was a landmark for planes flying overhead, and a way to show off the town.",
+        "audio": "niles-hillside-sign-reveal"
+      },
+      "story": [
+        {
+          "text": "The letters went up about a century ago. Locals say they were covered during World War Two, so enemy pilots couldn't use them to find their way.",
+          "audio": "niles-hillside-sign-story1"
+        },
+        {
+          "text": "Today many read the sign as a wink at Hollywood. Niles was making movies while Hollywood was just getting started.",
+          "audio": "niles-hillside-sign-story2"
+        },
+        {
+          "text": "In the late 1980s, volunteers spent their Saturday mornings rebuilding the letters in reinforced concrete and white rock.",
+          "audio": "niles-hillside-sign-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://voicemap.me/tour/fremont-california/lights-camera-locomotive-a-walking-tour-of-niles/sites/niles-sign",
+        "Personal blog (Flora has the link): 1926, boosterism and a landmark for pilots",
+        "Facebook group Fremont & Niles California Memories, post 'NILES SIGN RE CREATED', Dec 3, 2025: local recollections (WWII cover, late-1980s volunteer rebuild)"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Pin is a viewpoint on Niles Blvd, about 20 m west of 37565 Niles Blvd (60 m+ from the plaza), not the sign itself. Year left vague on purpose: sources say 1918 or 1926. Don't name private people from the Facebook thread. Photo cropped toward the letters.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-essanay-museum",
+      "name": "Niles Essanay Silent Film Museum",
+      "category": "history",
+      "coordinate": {
+        "latitude": 37.57707,
+        "longitude": -121.98013
+      },
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "niles-essanay-museum",
+      "altText": "A two-storey white building with dark green trim and a row of shopfronts, with the museum's sign over the middle door.",
+      "photoCredit": {
+        "author": "Pedro Xing",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_Essanay_Silent_Film_Museum_2657.JPG"
+      },
+      "prompt": {
+        "text": "Under the museum's sign hangs a second sign with the building's name from 1913. What do you think it says?",
+        "audio": "niles-essanay-museum-prompt"
+      },
+      "reveal": {
+        "text": "Edison Theater. It opened in 1913 as a nickelodeon, one of the first small neighbourhood movie theatres.",
+        "audio": "niles-essanay-museum-reveal"
+      },
+      "story": [
+        {
+          "text": "Today it's a museum that keeps silent films and the old equipment used to show them.",
+          "audio": "niles-essanay-museum-story1"
+        },
+        {
+          "text": "It's half a block from the site of Essanay Studios, where cowboy pictures and Charlie Chaplin comedies were made.",
+          "audio": "niles-essanay-museum-story2"
+        },
+        {
+          "text": "Essanay's name comes from its founders' initials, S and A: George Spoor and Gilbert Anderson, better known as the cowboy star Broncho Billy.",
+          "audio": "niles-essanay-museum-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Niles_Essanay_Silent_Film_Museum",
+        "https://timesofsandiego.com/arts/2024/11/23/essanay-studios-silent-film-innovators-the-handsomest-man-in-the-world-and-the-san-diego-tie/"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. S and A initials: Flora OK'd.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-essanay-studio-site",
+      "name": "Essanay Studio site",
+      "category": "history",
+      "coordinate": {
+        "latitude": 37.57747,
+        "longitude": -121.98115
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-essanay-studio-site",
+      "altText": "A two-storey red brick fire station on a street corner, with tan trim, a band of diamond tiles along the base and arched garage doors.",
+      "photoCredit": {
+        "author": "Pedro Xing",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_Station_Number_2_2659.JPG"
+      },
+      "prompt": {
+        "text": "A plaque at this fire station marks where a film studio once stood, in what it calls America's first Hollywood. Which famous comedian do you think made movies here?",
+        "audio": "niles-essanay-studio-site-prompt"
+      },
+      "reveal": {
+        "text": "Charlie Chaplin. He filmed The Tramp in Niles in 1915.",
+        "audio": "niles-essanay-studio-site-reveal"
+      },
+      "story": [
+        {
+          "text": "In the 1910s, the Chicago film company Essanay made hundreds of Westerns here, many starring Broncho Billy, one of the first cowboy movie heroes.",
+          "audio": "niles-essanay-studio-site-story1"
+        },
+        {
+          "text": "Niles hardly needed a film set. It was a rough railroad town that, people say, once had a dozen or more saloons.",
+          "audio": "niles-essanay-studio-site-story2"
+        },
+        {
+          "text": "Essanay closed in 1918. In 2007 this downtown, with its 86 old buildings, was added to the National Register of Historic Places.",
+          "audio": "niles-essanay-studio-site-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://timesofsandiego.com/arts/2024/11/23/essanay-studios-silent-film-innovators-the-handsomest-man-in-the-world-and-the-san-diego-tie/",
+        "https://en.wikipedia.org/wiki/Niles_Downtown_Historic_District",
+        "https://voicemap.me/tour/fremont-california/lights-camera-locomotive-a-walking-tour-of-niles",
+        "https://www.hmdb.org/m.asp?m=64009"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Plaque at Fire Station No. 2, 37299 Niles Blvd (Flora confirmed). Also carries the storefronts stop's facts (saloons, historic district), which had no room on this block. Saloon count is from the VoiceMap tour.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "vallejo-flour-mill",
+      "name": "Vallejo Flour Mill",
+      "category": "history",
+      "coordinate": {
+        "latitude": 37.57863,
+        "longitude": -121.97742
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "vallejo-flour-mill",
+      "altText": "The roofless stone and brick walls of an old foundation behind a chain-link fence, overgrown with grass and young trees.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Foundation_of_1852_Vallejo_Flour_Mill,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "A plaque here remembers a flour mill that José de Jesús Vallejo built just up the road. Before this town was called Niles, what do you think it was named?",
+        "audio": "vallejo-flour-mill-prompt"
+      },
+      "reveal": {
+        "text": "Vallejo Mills, after his mill.",
+        "audio": "vallejo-flour-mill-reveal"
+      },
+      "story": [
+        {
+          "text": "Vallejo, brother of General Mariano Vallejo, built the mill on his ranch, Rancho Arroyo de la Alameda. Its stone walls still stand at the mouth of Niles Canyon.",
+          "audio": "vallejo-flour-mill-story1"
+        },
+        {
+          "text": "When the railroad came through in 1869, the town grew up around the station and took the name Niles.",
+          "audio": "vallejo-flour-mill-story2"
+        },
+        {
+          "text": "The stone aqueduct built to carry water to the mill still runs alongside Niles Canyon Road.",
+          "audio": "vallejo-flour-mill-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://noehill.com/alameda/cal0046.asp",
+        "https://en.wikipedia.org/wiki/Vallejo_Flour_Mill",
+        "https://en.wikipedia.org/wiki/Fremont,_California",
+        "Plaque on site says 1853 (Flora)"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. No year on purpose: Flora read 1853 on the plaque, NoeHill's California Historical Landmark #46 text says 1856, Commons says 1852. Pin is at the plaque (Flora); the ruins are about 590 m east, too far for the walk. The photo shows the ruins, not the plaque.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-library",
+      "name": "Jane R. Clouch Memorial Library",
+      "category": "architecture",
+      "coordinate": {
+        "latitude": 37.57607,
+        "longitude": -121.97815
+      },
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-library",
+      "altText": "A white single-storey building with a red tile roof and tall many-paned windows, on a street corner with a flowering tree in front.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Jane_R._Clouch_Memorial_Library,_Niles,_California,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "This small library is older than the city it stands in. Who do you think still owns it?",
+        "audio": "niles-library-prompt"
+      },
+      "reveal": {
+        "text": "Alameda County. It opened in 1928, long before the city of Fremont was formed in 1956.",
+        "audio": "niles-library-reveal"
+      },
+      "story": [
+        {
+          "text": "It's named in memory of a local woman, Jane R. Clouch.",
+          "audio": "niles-library-story1"
+        },
+        {
+          "text": "Niles has had a library since 1890, when townspeople bought a collection of 145 books to lend.",
+          "audio": "niles-library-story2"
+        },
+        {
+          "text": "Fremont was formed by joining five towns: Niles, Centerville, Irvington, Mission San Jose and Warm Springs.",
+          "audio": "niles-library-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://aclibrary.org/about-niles/",
+        "https://en.wikipedia.org/wiki/Fremont,_California"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. 150 I St. Sources disagree on who paid for it (the Fords or a rancher husband) and on the spelling (Clouch or Clough), so neither is in the story. The 1890 library fact is from Fremont library history; find the page.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
     }
   ],
   "lines": {

@@ -80,8 +80,19 @@ def say_initials(match):
     return " ".join(LETTER.get(c, c) for c in letters) + " "
 
 
+# Names Sky says wrong, spelled the way they should sound (picked by ear, Nov 20, 2026). Longest
+# first, so the full name wins over its parts.
+SAY_AS = [
+    ("José de Jesús Vallejo", "Ho-say day Hay-soos Vah-yay-ho"),
+    ("Vallejo", "Vah-yay-ho"),
+    ("Clouch", "Clowch"),   # rhymes with couch
+]
+
+
 def spoken(text):
     """The text as Sky should say it. Only the audio uses this; the app shows the original."""
+    for written, said in SAY_AS:
+        text = text.replace(written, said)
     text = INITIALS.sub(say_initials, text)
     text = re.sub(r"\bU\.\s?S\.", "U S", text)        # "U.S." without two full stops
     text = re.sub(r"\bSt\. (?=[A-Z])", "Saint ", text)   # "St. Paul" is Saint Paul, not "sint."

@@ -1,102 +1,110 @@
 # Stroll
 
-Audio-first walking guide for Apple Watch and earbuds. The watch buzzes when you reach
-something worth noticing, shows a photo of it, and tells you what to look for.
+Stroll is a walking companion that helps you notice the places you walk past every day. It's
+currently available in **Oakland, Pittsburgh**. Wander anywhere: when you're near a point of
+interest, Stroll lets you know with a tap on your wrist or a buzz from your phone. It asks a short
+question about the place, then shares the story behind it, as audio or text. Everything you
+explore is saved in your field journal.
 
-This repo has two apps for moderated field tests:
+**Prototype v2** · iPhone app with an optional Apple Watch companion · Team: Flora, Mara, MJ
 
-- **Stroll (watch)**: what the participant wears. Same flow as the web prototype:
-  buzz → photo preview → directions → *Tell me more* / *Skip* → story (with *Next stop*) →
-  *Continue walking*. Real wrist haptics and narration in Bluetooth earbuds.
-- **Stroll Remote (iPhone)**: what the moderator holds. Tap a find as the participant
-  reaches it to buzz their watch. A live status shows what they're seeing, and the session
-  log records each tap with a timestamp. You can export the log.
+---
 
-The participant's watch must be **paired to the moderator's iPhone**, because the two apps
-talk over WatchConnectivity. Use a team-owned watch and give it to each participant.
+## How to open it
 
-```
-Shared/          Walk content (text matches the prototype) and iPhone↔watch messages
-Watch/           Watch app: walk logic, screens, narration, haptics, workout session
-Phone/           iPhone remote
-Resources/       26 narration clips (Carolyn, ElevenLabs) and photos, for the watch
-Tools/           check-walk-model.sh: runs the walk logic through a scripted walk on a Mac
-web-prototype/   The browser prototype used in the first round of interviews
-```
+### Option A: TestFlight (easiest, no Mac needed)
+1. On your iPhone, install **TestFlight** from the App Store.
+2. Open the invite link from the team, then tap **Accept** and **Install**.
+3. Open **Stroll**. The first launch shows a short intro and asks for location, notifications
+   and (if you have a watch) Health. You can say "Not now" to any of them.
+4. If your iPhone is paired with an Apple Watch, the watch app installs with it.
 
-## Set up (one time)
-
-Needs a Mac with **Xcode 15 or later**, an iPhone (iOS 17+) and an Apple Watch
-(watchOS 10+) paired to it, plus AirPods or other Bluetooth earbuds.
-
-1. **Generate the Xcode project.**
+### Option B: Build from source (Mac with Xcode)
+1. Install [XcodeGen](https://github.com/yonaskolb/XcodeGen), then in this folder run:
    ```bash
-   brew install xcodegen
-   xcodegen
+   xcodegen generate
    open Stroll.xcodeproj
    ```
-   If XcodeGen isn't an option, see [Without XcodeGen](#without-xcodegen) below.
-2. **Sign both apps with your team.** In Xcode, select the **Stroll** project, then for
-   both the *StrollRemote* and *StrollWatch* targets, open *Signing & Capabilities*:
-   - set **Team** to your developer team;
-   - change the bundle identifiers from `org.example.stroll.remote` and
-     `org.example.stroll.remote.watchkitapp` to your own prefix. The watch ID must stay the
-     iPhone ID plus `.watchkitapp`. Update `WKCompanionAppBundleIdentifier` in the
-     StrollWatch build settings to match.
+2. Pick the **StrollRemote** scheme and your iPhone, and press Run. The watch app installs with it.
+   (Signing team and bundle ID `com.teamgreen.stroll` are already set in `project.yml`.)
+3. The project file is generated, so run `xcodegen generate` again after pulling new files.
 
-   To skip this step on future regenerations, put your Team ID and prefix in `project.yml`.
-3. **Check the watch target's capabilities** (*StrollWatch → Signing & Capabilities*):
-   **HealthKit**, and **Background Modes** with *Workout processing* and *Audio* turned on.
-   They come from `project.yml`; with automatic signing, Xcode registers them on the App ID.
-4. **Turn on Developer Mode** on the iPhone and the watch (Settings → Privacy & Security →
-   Developer Mode), then connect the iPhone to the Mac.
-5. **Run.** Choose the *StrollRemote* scheme and your iPhone, and press Run. This installs
-   the watch app too. The first install to the watch can take several minutes. To debug the
-   watch directly, choose the *StrollWatch* scheme and the watch as the destination.
+### Trying it
+- **You don't need to be in Oakland.** Stroll starts in **Demo mode**: points of interest come up
+  on a timer wherever you are. Switch to **Real location** in Settings (the slider button on the
+  map) → Walk mode.
+- **Explore tab:** tap **Start Exploring**. The first place comes up after about 20 seconds.
+- **Walks tab:** pick a set walk and tap **Start walk**.
+- **No headphones?** Stroll asks first: connect them, **Read mode** (text only, no sound), or
+  **Play out loud**.
+- **Journal tab:** everything you explored or skipped, with walks grouped into one card.
 
-## Running a session
+## Which device
 
-1. Give the participant the watch and earbuds. On the watch, open **Stroll** and tap
-   **Get ready**. The first time, watchOS asks for Health access (needed to keep the app
-   running with the wrist down) and to pick the earbuds.
-2. On the iPhone, open **Stroll Remote**. The status should say *Connected* and
-   *Keep walking: ready for the next find*.
-3. Walk the route. When the participant reaches each spot, tap that find in **Buzz a find**.
-   The next find is highlighted. Tapping a find mid-story interrupts the story, so you can
-   recover if someone lingers.
-4. After find 4, the watch says *Walk complete*. Use **Export** in the session log to save
-   or share the log, then **Reset** for the next participant.
+| | Needed? | Version |
+|---|---|---|
+| **iPhone** | Yes. The phone runs the walk, plays the audio and shows the text. | iOS 17 or later |
+| **Apple Watch** | Optional. It buzzes, shows the photo and mirrors the buttons. | watchOS 10 or later, paired to the iPhone |
+| **Headphones** | Optional. Any wired or Bluetooth headphones; or use Read mode or the speaker. | |
 
-Nothing is saved to the Health app: the watch runs a walking session only to stay awake.
+Building from source needs a Mac with Xcode 15 or later.
 
-## Testing without the watch
+## What's still faked or unfinished
 
-`Tools/check-walk-model.sh` compiles the walk logic for a Mac and runs it through a
-scripted walk with a fake narrator: buzz, Tell me more, Next stop, Skip, Pause, Reset, and
-a trigger mid-story. It needs only the Swift command-line tools, not Xcode.
+| Area | What's faked | Why |
+|---|---|---|
+| **Location** | **Demo mode is the default.** It feeds made-up positions on a timer into the same detection code that real GPS uses. Real location works (Settings → Walk mode) and was tested on an outdoor walk in Oakland: places triggered promptly as intended. | Lets anyone test anywhere, and lets us run sessions without walking the route each time. |
+| **Content** | 39 of the 43 places are marked "needs review": facts come from Wikipedia and haven't all been checked on site. 3 map pins are estimated. | We drafted 31 places quickly from open sources to have enough to walk. |
+| **Voice** | Every line is an AI voice (Kokoro, "Sky") generated on our Macs, a stand-in until the team picks a final voice. | Free, offline, and quick to regenerate when text changes. |
+| **Photos** | From Wikimedia Commons, not our own. A few are low quality or don't quite show the detail asked about. Credited in Settings → Photo credits. | Free licences let us show every place now; our own photos come later. |
+| **Area** | Oakland only. The "Oakland, Pittsburgh" pill at the top of the map looks like a search bar but does nothing yet. | Other cities are future work. |
+| **Walks** | 2 set walks (Oakland, Steeples and Spires), 4 stops each. Routes are precomputed. | Enough to test the set-walk flow. |
+| **Journal** | Saved on the phone only. No account, no sync, no sharing. | Privacy and scope: nothing leaves the device. |
+| **Watch** | Starting from the watch can lag a moment before both devices update. | Known issue, parked. |
 
-```bash
-Tools/check-walk-model.sh
-```
+---
 
-## Without XcodeGen
+## Change log: since v1
 
-1. In Xcode: *File → New → Project → watchOS → App*, product name **Stroll**, interface
-   SwiftUI, and choose **Watch App with New Companion iOS App**.
-2. Delete the template's Swift files and asset catalogs. Then drag in:
-   - `Watch/` (except `Info.plist`), `Resources/` and `Shared/` → the watch app target
-   - `Phone/` and `Shared/` → the iOS app target
-3. In the watch target, add the **HealthKit** capability and **Background Modes**
-   (*Workout processing*, *Audio*). Under *Info*, add the two Health usage descriptions
-   from `project.yml`.
-4. Set the deployment targets to iOS 17 and watchOS 10, and the Swift language version to 5.
+**v1 (Nov 7)** was a watch-first prototype for moderated tests: the participant wore a team watch,
+and a moderator on an iPhone "remote" tapped each of 4 places to buzz their watch. Narration
+was pre-recorded in a different voice, and there was no map, journal or real location.
 
-## Next steps
+### v2 (Nov 7–16)
 
-- **Location triggers**: fire each find from Core Location near its coordinates, with the
-  remote kept as an override. Tune the distances on the real route, because GPS drifts near
-  tall buildings.
-- **Field journal**: the participant-facing iPhone screens from the web prototype.
-- **App icon**: `Resources/Assets.xcassets` and `Phone/Assets.xcassets` hold a placeholder.
-- **TestFlight**: archive the *StrollRemote* scheme (*Product → Archive*) and upload it.
-  Team members in App Store Connect can install builds without App Review.
+| What changed | Why |
+|---|---|
+| **The phone leads; the watch is optional.** The moderator remote is gone. Your own iPhone runs the walk, speaks the guide and shows the transcript; the watch mirrors it and either device's buttons work. | Most people don't own a watch, and a moderator tapping a remote doesn't scale beyond lab tests. |
+| **Explore map and real location.** A map of places by category (names stay a surprise), a Demo/Real switch, and a quiet 30-second gap after each stop. The map opens on you at street level and counts only the places on screen. | Our users explore their own neighbourhood; a zoomed-out city map wasn't useful. |
+| **Set walks** (Walks tab): routes along the streets, spoken directions between stops, and a walk demo mode. | Some people want a ready-made route rather than wandering. |
+| **Field journal.** Every place appears the moment it's explored or skipped. Walks show as one card, with unvisited stops as "Mystery location". One entry per place outside walks. | People wanted to look back at what they found. |
+| **43 places instead of 4**, in four categories, with photos, credits and alt text. | 4 places weren't enough for a real walk. |
+| **One voice for everything** (Sky), with natural reading of years and initials. | The old recordings and the new lines didn't match. |
+| **First-launch intro** and one screen per permission, in our beige, green and dark palette, with wording that doesn't assume any sense or device. | Asking for permissions with no context felt abrupt. |
+| **Accessibility and ethics fixes** (see below). | From our ethical audit and critique. |
+| **Developer tools** (slider button on the map): Demo/Real switch, GPS readout, bring up any place now, restart, photo credits. All text passes contrast in light and dark mode. | Needed to run test sessions smoothly. |
+
+### What critique told us, and what we changed
+
+**Ethical audit (P3.4, MJ).** We reviewed v2 against Universal Design and Design Justice:
+
+| Finding | Who it harmed | What we changed |
+|---|---|---|
+| Category colours (architecture orange, natural history green) failed WCAG AA contrast. | People with low vision or reading in bright sun, which matters for an outdoor app. | New category colours that all pass 4.5:1 and differ in lightness, so they stay distinct with red-green colour blindness. |
+| Questions said "look", "spot" or "find", and photos had no real description for VoiceOver. | Blind and low-vision walkers, and anyone walking in the dark. It assumed an "unmarked", sighted user. | Every question now **describes** the detail; every photo has alt text that doesn't give away the answer; VoiceOver stays quiet while the guide is speaking. |
+| With no headphones, audio played out loud, even on silent, without asking. | Anyone in a quiet place; it overrode a choice they'd made. | Start now asks: connect headphones (starts by itself when they connect), **Read mode** (all text, no sound), or Play out loud. Headphones unplugged mid-walk pause the walk. |
+
+**Our outdoor walk in Oakland** with Real location showed places triggering promptly, as
+intended. The one problem was background music competing with the voice; now Stroll pauses other
+music for each place and lets it resume afterwards.
+
+**Our own testing on the phone and watch** also led to: removing grabber bars from panels that
+can't be dragged (they looked interactive), Read mode showing the whole text at once instead of
+timing it to an assumed reading speed, and dropping "earbuds" from the app's wording.
+
+**Class team-to-team critique.** _MJ to update: what the other team found and how it shaped
+these changes._
+
+---
+
+Building or editing the app? See [docs/DEVELOPING.md](docs/DEVELOPING.md).
