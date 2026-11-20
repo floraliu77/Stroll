@@ -86,6 +86,7 @@ SAY_AS = [
     ("José de Jesús Vallejo", "Ho-say day Hay-soos Vah-yay-ho"),
     ("Vallejo", "Vah-yay-ho"),
     ("Clouch", "Clowch"),   # rhymes with couch
+    ("Alameda", "Al-uh-may-duh"),   # /aləˈmādə/
 ]
 
 
