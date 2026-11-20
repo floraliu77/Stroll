@@ -1,110 +1,125 @@
 # Stroll
 
-Stroll is a walking companion that helps you notice the places you walk past every day. It's
-currently available in **Oakland, Pittsburgh**. Wander anywhere: when you're near a point of
-interest, Stroll lets you know with a tap on your wrist or a buzz from your phone. It asks a short
-question about the place, then shares the story behind it, as audio or text. Everything you
-explore is saved in your field journal.
+An audio-first walking guide for iPhone, Apple Watch and earbuds. Walk around Oakland,
+Pittsburgh with your phone in your pocket. When you're near a point of interest, Stroll taps
+your wrist (or buzzes your phone), shows a photo, and describes what to look for. Tap
+**Tell me more** for the story, or **Skip** to keep walking. Everything you find is saved in
+your **Journal**.
 
-**Prototype v2** · iPhone app with an optional Apple Watch companion · Team: Flora, Mara, MJ
+There are two ways to walk:
 
----
+- **Explore (freeform):** wander anywhere. Any point of interest can come up.
+- **Walks (set routes):** follow a short route past a few chosen stops, in order, with spoken
+  directions between them.
 
-## How to open it
+Current build: **version 0.1, build 3** on TestFlight. What changed since our v1 submission is
+in [CHANGELOG.md](CHANGELOG.md).
 
-### Option A: TestFlight (easiest, no Mac needed)
-1. On your iPhone, install **TestFlight** from the App Store.
-2. Open the invite link from the team, then tap **Accept** and **Install**.
-3. Open **Stroll**. The first launch shows a short intro and asks for location, notifications
-   and (if you have a watch) Health. You can say "Not now" to any of them.
-4. If your iPhone is paired with an Apple Watch, the watch app installs with it.
+## Try it
 
-### Option B: Build from source (Mac with Xcode)
-1. Install [XcodeGen](https://github.com/yonaskolb/XcodeGen), then in this folder run:
-   ```bash
-   xcodegen generate
-   open Stroll.xcodeproj
-   ```
-2. Pick the **StrollRemote** scheme and your iPhone, and press Run. The watch app installs with it.
-   (Signing team and bundle ID `com.teamgreen.stroll` are already set in `project.yml`.)
-3. The project file is generated, so run `xcodegen generate` again after pulling new files.
+### On an iPhone (TestFlight)
 
-### Trying it
-- **You don't need to be in Oakland.** Stroll starts in **Demo mode**: points of interest come up
-  on a timer wherever you are. Switch to **Real location** in Settings (the slider button on the
-  map) → Walk mode.
-- **Explore tab:** tap **Start Exploring**. The first place comes up after about 20 seconds.
-- **Walks tab:** pick a set walk and tap **Start walk**.
-- **No headphones?** Stroll asks first: connect them, **Read mode** (text only, no sound), or
-  **Play out loud**.
-- **Journal tab:** everything you explored or skipped, with walks grouped into one card.
+1. Accept the TestFlight invitation sent to your Apple ID email, then install **Stroll Walks**
+   from TestFlight.
+2. You need an **iPhone with iOS 17 or later**. An **Apple Watch** (watchOS 10+) paired to that
+   iPhone and **earbuds** are optional but recommended. Without a watch, the phone buzzes
+   instead. Without earbuds, Stroll asks whether to read the text instead or play out loud.
+3. Open **Stroll**. The first time, a short setup explains how it works and asks for
+   location, walking sessions on the watch (Health) and notifications. Each one can be
+   skipped with **Not now**.
+4. To explore, tap **Start Exploring** on the map, then put your phone away. To take a set
+   walk, open the **Walks** tab, pick a walk and tap **Start walk**. Afterwards, open the
+   **Journal** tab to see what you found.
 
-## Which device
+**Demo walk vs. real location.** The app starts in **Demo walk** mode, so it works anywhere
+(at a desk, or outside Oakland). Places come up on a timer, wherever you are: the first
+after about 20 seconds, then one every 30–60 seconds (every 30 seconds on a set walk). To use your real position instead, tap the settings button (top right of
+the map) → **Developer tools** → **Real location**, then walk to the places on the map.
 
-| | Needed? | Version |
-|---|---|---|
-| **iPhone** | Yes. The phone runs the walk, plays the audio and shows the text. | iOS 17 or later |
-| **Apple Watch** | Optional. It buzzes, shows the photo and mirrors the buttons. | watchOS 10 or later, paired to the iPhone |
-| **Headphones** | Optional. Any wired or Bluetooth headphones; or use Read mode or the speaker. | |
+### In a browser (backup demo)
 
-Building from source needs a Mac with Xcode 15 or later.
+If you can't install from TestFlight, open the web demo on any device (it's designed for an
+iPhone screen): **[add Vercel demo link]**. In the web demo, location is simulated, you tap a
+place to "arrive" at it, and no Apple Watch is needed.
 
-## What's still faked or unfinished
+## What's real and what's faked
 
-| Area | What's faked | Why |
-|---|---|---|
-| **Location** | **Demo mode is the default.** It feeds made-up positions on a timer into the same detection code that real GPS uses. Real location works (Settings → Walk mode) and was tested on an outdoor walk in Oakland: places triggered promptly as intended. | Lets anyone test anywhere, and lets us run sessions without walking the route each time. |
-| **Content** | 39 of the 43 places are marked "needs review": facts come from Wikipedia and haven't all been checked on site. 3 map pins are estimated. | We drafted 31 places quickly from open sources to have enough to walk. |
-| **Voice** | Every line is an AI voice (Kokoro, "Sky") generated on our Macs, a stand-in until the team picks a final voice. | Free, offline, and quick to regenerate when text changes. |
-| **Photos** | From Wikimedia Commons, not our own. A few are low quality or don't quite show the detail asked about. Credited in Settings → Photo credits. | Free licences let us show every place now; our own photos come later. |
-| **Area** | Oakland only. The "Oakland, Pittsburgh" pill at the top of the map looks like a search bar but does nothing yet. | Other cities are future work. |
-| **Walks** | 2 set walks (Oakland, Steeples and Spires), 4 stops each. Routes are precomputed. | Enough to test the set-walk flow. |
-| **Journal** | Saved on the phone only. No account, no sync, no sharing. | Privacy and scope: nothing leaves the device. |
-| **Watch** | Starting from the watch can lag a moment before both devices update. | Known issue, parked. |
-
----
-
-## Change log: since v1
-
-**v1 (Nov 7)** was a watch-first prototype for moderated tests: the participant wore a team watch,
-and a moderator on an iPhone "remote" tapped each of 4 places to buzz their watch. Narration
-was pre-recorded in a different voice, and there was no map, journal or real location.
-
-### v2 (Nov 7–16)
-
-| What changed | Why |
+| | Status |
 |---|---|
-| **The phone leads; the watch is optional.** The moderator remote is gone. Your own iPhone runs the walk, speaks the guide and shows the transcript; the watch mirrors it and either device's buttons work. | Most people don't own a watch, and a moderator tapping a remote doesn't scale beyond lab tests. |
-| **Explore map and real location.** A map of places by category (names stay a surprise), a Demo/Real switch, and a quiet 30-second gap after each stop. The map opens on you at street level and counts only the places on screen. | Our users explore their own neighbourhood; a zoomed-out city map wasn't useful. |
-| **Set walks** (Walks tab): routes along the streets, spoken directions between stops, and a walk demo mode. | Some people want a ready-made route rather than wandering. |
-| **Field journal.** Every place appears the moment it's explored or skipped. Walks show as one card, with unvisited stops as "Mystery location". One entry per place outside walks. | People wanted to look back at what they found. |
-| **43 places instead of 4**, in four categories, with photos, credits and alt text. | 4 places weren't enough for a real walk. |
-| **One voice for everything** (Sky), with natural reading of years and initials. | The old recordings and the new lines didn't match. |
-| **First-launch intro** and one screen per permission, in our beige, green and dark palette, with wording that doesn't assume any sense or device. | Asking for permissions with no context felt abrupt. |
-| **Accessibility and ethics fixes** (see below). | From our ethical audit and critique. |
-| **Developer tools** (slider button on the map): Demo/Real switch, GPS readout, bring up any place now, restart, photo credits. All text passes contrast in light and dark mode. | Needed to run test sessions smoothly. |
+| Location | **Real** with Real location turned on: places trigger when you walk within their radius (25–50 m, usually 30 m). **Faked** by default: the Demo walk plays places on a timer, wherever you are. |
+| Watch haptics | **Real**: the Apple Watch taps your wrist and mirrors the phone. Tapping a button on either device updates both. |
+| Narration | **Real** audio through earbuds or the phone, which pauses your music and resumes it afterwards. **Read mode** shows the text without sound. |
+| Voice | **AI-generated**: every line uses the Kokoro "Sky" voice, generated free on our own Mac. The final voice isn't decided yet. |
+| Places | **43 places** in North Oakland and 2 set walks. 39 places are marked *needs review*: their facts and coordinates come from research (Wikidata, OpenStreetMap, Wikimedia Commons) and haven't all been checked on site yet. |
+| Photos | Real photos from Wikimedia Commons, credited under each Journal entry and in the settings button on the map → **About** → **Photo credits**. |
 
-### What critique told us, and what we changed
+## Repository
 
-**Ethical audit (P3.4, MJ).** We reviewed v2 against Universal Design and Design Justice:
+```
+Phone/           iPhone app: Explore map, Walks, Journal, first-launch setup, voice guide
+Watch/           Apple Watch app: mirrors the phone, wrist taps, walking session
+Shared/          Content file (places, walks, lines) and phone↔watch messages
+Resources/       Narration clips and photos
+Tools/           Checks and content tools (see below)
+docs/            Plans, place research, content drafts
+web-prototype/   Browser demo (also deployed on Vercel)
+CHANGELOG.md     What changed since the v1 submission
+```
 
-| Finding | Who it harmed | What we changed |
-|---|---|---|
-| Category colours (architecture orange, natural history green) failed WCAG AA contrast. | People with low vision or reading in bright sun, which matters for an outdoor app. | New category colours that all pass 4.5:1 and differ in lightness, so they stay distinct with red-green colour blindness. |
-| Questions said "look", "spot" or "find", and photos had no real description for VoiceOver. | Blind and low-vision walkers, and anyone walking in the dark. It assumed an "unmarked", sighted user. | Every question now **describes** the detail; every photo has alt text that doesn't give away the answer; VoiceOver stays quiet while the guide is speaking. |
-| With no headphones, audio played out loud, even on silent, without asking. | Anyone in a quiet place; it overrode a choice they'd made. | Start now asks: connect headphones (starts by itself when they connect), **Read mode** (all text, no sound), or Play out loud. Headphones unplugged mid-walk pause the walk. |
+All the place content is in one file, `Shared/Content/stroll-content.json`. To add or edit a
+place, change that file. No Swift code needs to change.
 
-**Our outdoor walk in Oakland** with Real location showed places triggering promptly, as
-intended. The one problem was background music competing with the voice; now Stroll pauses other
-music for each place and lets it resume afterwards.
+## For the team
 
-**Our own testing on the phone and watch** also led to: removing grabber bars from panels that
-can't be dragged (they looked interactive), Read mode showing the whole text at once instead of
-timing it to an assumed reading speed, and dropping "earbuds" from the app's wording.
+### Build and run from source
 
-**Class team-to-team critique.** _MJ to update: what the other team found and how it shaped
-these changes._
+Needs a Mac with **Xcode 15 or later**.
 
----
+```bash
+brew install xcodegen
+```
 
-Building or editing the app? See [docs/DEVELOPING.md](docs/DEVELOPING.md).
+```bash
+xcodegen
+```
+
+```bash
+open Stroll.xcodeproj
+```
+
+The team ID and bundle IDs (`com.teamgreen.stroll`) are already set in `project.yml`. Choose the
+**StrollRemote** scheme and your iPhone, and press Run. This also installs the watch app on
+the paired watch. Turn on Developer Mode on both devices first (Settings → Privacy &
+Security → Developer Mode).
+
+To upload a TestFlight build, raise `CURRENT_PROJECT_VERSION` in `project.yml`, run
+`xcodegen`, then choose **Product → Archive** in Xcode and upload it.
+
+### Tools
+
+| Command | What it does |
+|---|---|
+| `Tools/check-walk-model.sh` | Checks the content file (every clip, photo and category exists), then runs the exploring session, the set walks and the setup screens through scripted tests. Needs only the Swift command-line tools. Run it before every pull request. |
+| `Tools/voice/generate.py` | Generates Sky-voice clips for any line without audio. Setup is in `docs/content-drafts/README.md`. |
+| `Tools/walk-routes.sh` | Redraws a set walk's map line along the streets using Apple Maps walking directions. |
+
+### How we work in Git
+
+- Never push to `main`.
+- One branch per task, named `yourname/task` (for example `mara/set-walks`).
+- Open a pull request for every change, and run `Tools/check-walk-model.sh` first.
+- Add a line to [CHANGELOG.md](CHANGELOG.md) under **Unreleased** in the same pull request.
+
+### Design
+
+The Figma file **AxD-Stroll** has the v1 screens on the "iPhone app – MVP" page and the
+current components on the "v2 – Design system (from code)" page. Colors in
+`Phone/Theme.swift` match the Figma variables.
+
+## Credits
+
+- Photos: Wikimedia Commons contributors, under CC0, CC BY and CC BY-SA licenses (full list
+  in the app).
+- Voice: [Kokoro](https://github.com/hexgrad/kokoro) (Apache 2.0), Sky voice.
+- Built with help from Claude Code. Place research cross-checked against OpenStreetMap,
+  Wikidata and Google Maps.
