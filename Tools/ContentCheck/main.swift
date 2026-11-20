@@ -46,6 +46,7 @@ for poi in content.pois {
     let inAreas = content.areas.filter { content.pois(in: $0).contains(poi) }
     check(inAreas.count == 1, "\(poi.id): must be in exactly one area, is in \(inAreas.count)")
     check(content.area(near: poi.coordinate) == inAreas.first, "\(poi.id): the map would name the wrong area there")
+    check(!(poi.address ?? "").isEmpty, "\(poi.id): needs an address, so the team can find it (Developer tools)")
 }
 // Set walks (the Walks tab)
 /// Set-walk directions with no recording yet: walk id -> number of lines.

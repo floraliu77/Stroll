@@ -35,7 +35,10 @@ struct StrollContent: Decodable {
         let name: String
         let category: String             // Category.id
         let coordinate: Coordinate
-        let coordinateStatus: String     // "placeholder" until the location research confirms it
+        /// A street address or landmark for the team to find the place (Developer tools), e.g.
+        /// "37592 Niles Blvd". From OpenStreetMap, checked by hand. Not shown to participants.
+        let address: String?
+        let coordinateStatus: String    // "placeholder" until the location research confirms it
         let triggerRadiusMeters: Double
         let image: String                // asset catalog name
         /// What the photo shows, read by VoiceOver. Describes the photo without naming the place or

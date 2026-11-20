@@ -32,6 +32,7 @@
         "latitude": 40.44663,
         "longitude": -79.9511
       },
+      "address": "4400 Fifth Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "mellon-columns",
@@ -78,6 +79,7 @@
         "latitude": 40.443553,
         "longitude": -79.951498
       },
+      "address": "4400 Forbes Ave, outside the Carnegie Museum",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "dippy",
@@ -124,6 +126,7 @@
         "latitude": 40.441995,
         "longitude": -79.9519
       },
+      "address": "Schenley Dr, by Schenley Plaza",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 35,
       "image": "song-to-nature",
@@ -170,6 +173,7 @@
         "latitude": 40.44125,
         "longitude": -79.95266
       },
+      "address": "Roberto Clemente Dr",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "forbes-wall",
@@ -216,6 +220,7 @@
         "latitude": 40.4446,
         "longitude": -79.95025
       },
+      "address": "419 S Dithridge St",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "st-nicholas-cathedral",
@@ -270,6 +275,7 @@
         "latitude": 40.44538,
         "longitude": -79.95145
       },
+      "address": "315 S Bellefield Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "bellefield-hall",
@@ -325,6 +331,7 @@
         "latitude": 40.44515,
         "longitude": -79.9523
       },
+      "address": "4200 Fifth Ave, Pitt campus",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 25,
       "image": "heinz-chapel",
@@ -379,6 +386,7 @@
         "latitude": 40.444323,
         "longitude": -79.953191
       },
+      "address": "4200 Fifth Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 50,
       "image": "cathedral-of-learning",
@@ -433,6 +441,7 @@
         "latitude": 40.441852,
         "longitude": -79.950492
       },
+      "address": "Schenley Dr, Schenley Park",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 25,
       "image": "the-hiker",
@@ -487,6 +496,7 @@
         "latitude": 40.447693,
         "longitude": -79.952977
       },
+      "address": "Bellefield Ave at Bayard St",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "first-baptist-church",
@@ -541,6 +551,7 @@
         "latitude": 40.44701,
         "longitude": -79.9498
       },
+      "address": "108 N Dithridge St",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "st-paul-cathedral",
@@ -595,6 +606,7 @@
         "latitude": 40.447,
         "longitude": -79.94812
       },
+      "address": "4625 Fifth Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "fairfax-apartments",
@@ -650,6 +662,7 @@
         "latitude": 40.444589,
         "longitude": -79.958328
       },
+      "address": "3941 O'Hara St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "allen-hall",
@@ -701,6 +714,7 @@
         "latitude": 40.443056,
         "longitude": -79.949722
       },
+      "address": "4400 Forbes Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "carnegie-institute-and-library",
@@ -752,6 +766,7 @@
         "latitude": 40.443402,
         "longitude": -79.95033
       },
+      "address": "4400 Forbes Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "main-branch-of-the-carnegie-library-of-pittsburgh",
@@ -801,6 +816,7 @@
         "latitude": 40.4369,
         "longitude": -79.9467
       },
+      "address": "Panther Hollow, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "panther-hollow-bridge",
@@ -852,6 +868,7 @@
         "latitude": 40.445,
         "longitude": -79.954722
       },
+      "address": "4215 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "pittsburgh-athletic-association",
@@ -903,6 +920,7 @@
         "latitude": 40.447857,
         "longitude": -79.950474
       },
+      "address": "134 N Dithridge St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "pittsburgh-chinese-church",
@@ -954,6 +972,7 @@
         "latitude": 40.4413,
         "longitude": -79.9492
       },
+      "address": "near S Neville St, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "schenley-bridge",
@@ -1005,6 +1024,7 @@
         "latitude": 40.444167,
         "longitude": -79.945833
       },
+      "address": "Forbes Ave, CMU campus",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "main-building-u-s-bureau-of-mines",
@@ -1056,6 +1076,7 @@
         "latitude": 40.4425,
         "longitude": -79.926944
       },
+      "address": "near Beck Way, Squirrel Hill",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "wightman-school",
@@ -1107,6 +1128,7 @@
         "latitude": 40.4536,
         "longitude": -79.9411
       },
+      "address": "401 Amberson Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "bindley-hardware-company-building",
@@ -1158,6 +1180,7 @@
         "latitude": 40.4487,
         "longitude": -79.9473
       },
+      "address": "Ellsworth Ave at N Neville St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "church-of-the-ascension",
@@ -1209,6 +1232,7 @@
         "latitude": 40.448017,
         "longitude": -79.938319
       },
+      "address": "5105 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "mccook-family-estate",
@@ -1260,6 +1284,7 @@
         "latitude": 40.447778,
         "longitude": -79.940278
       },
+      "address": "near 5048 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "moreland-hoffstot-house",
@@ -1307,6 +1332,7 @@
         "latitude": 40.449167,
         "longitude": -79.939167
       },
+      "address": "Westminster Pl, Shadyside",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "shadyside-presbyterian-church",
@@ -1358,6 +1384,7 @@
         "latitude": 40.4422,
         "longitude": -79.949
       },
+      "address": "near S Neville St, behind the Carnegie Museum",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "bellefield-boiler-plant",
@@ -1409,6 +1436,7 @@
         "latitude": 40.4439,
         "longitude": -79.952
       },
+      "address": "Pitt campus, beside the Cathedral of Learning",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "log-cabin",
@@ -1460,6 +1488,7 @@
         "latitude": 40.4372,
         "longitude": -79.9522
       },
+      "address": "Oakland Square",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "oakland-square-historic-district",
@@ -1511,6 +1540,7 @@
         "latitude": 40.44365,
         "longitude": -79.96215
       },
+      "address": "Pitt upper campus, near Terrace St",
       "coordinateStatus": "estimated",
       "triggerRadiusMeters": 30,
       "image": "pitt-stadium",
@@ -1562,6 +1592,7 @@
         "latitude": 40.4427,
         "longitude": -79.9629
       },
+      "address": "3501 Terrace St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "salk-hall",
@@ -1613,6 +1644,7 @@
         "latitude": 40.447,
         "longitude": -79.9558
       },
+      "address": "Tennyson Ave and nearby streets",
       "coordinateStatus": "estimated",
       "triggerRadiusMeters": 30,
       "image": "schenley-farms-historic-district",
@@ -1664,6 +1696,7 @@
         "latitude": 40.4416,
         "longitude": -79.9515
       },
+      "address": "650 Schenley Dr, by Frick Fine Arts",
       "coordinateStatus": "estimated",
       "triggerRadiusMeters": 30,
       "image": "schenley-park-casino",
@@ -1711,6 +1744,7 @@
         "latitude": 40.4451,
         "longitude": -79.9564
       },
+      "address": "4141 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "soldiers-and-sailors-memorial-hall-and-museum",
@@ -1762,6 +1796,7 @@
         "latitude": 40.443775,
         "longitude": -79.952689
       },
+      "address": "4301 Forbes Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "stephen-foster-memorial",
@@ -1813,6 +1848,7 @@
         "latitude": 40.4455,
         "longitude": -79.9551
       },
+      "address": "Bigelow Blvd, site now a parking lot",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "syria-mosque",
@@ -1864,6 +1900,7 @@
         "latitude": 40.4358,
         "longitude": -79.9356
       },
+      "address": "near Schenley Rd, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "neill-log-house",
@@ -1915,6 +1952,7 @@
         "latitude": 40.448056,
         "longitude": -79.943611
       },
+      "address": "4905 Fifth Ave, at Morewood Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "rodef-shalom-temple",
@@ -1966,6 +2004,7 @@
         "latitude": 40.4389,
         "longitude": -79.9477
       },
+      "address": "1 Schenley Dr",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "phipps-conservatory-and-botanical-gardens",
@@ -2015,6 +2054,7 @@
         "latitude": 40.4405,
         "longitude": -79.9457
       },
+      "address": "Schenley Dr, across from CMU",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "flagstaff-hill",
@@ -2066,6 +2106,7 @@
         "latitude": 40.4429,
         "longitude": -79.9475
       },
+      "address": "below Hamerschlag Dr, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "junction-hollow",
@@ -2117,6 +2158,7 @@
         "latitude": 40.4425,
         "longitude": -79.951389
       },
+      "address": "Schenley Dr, by the Carnegie Museum",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "christopher-lyman-magee-memorial",
@@ -2168,6 +2210,7 @@
         "latitude": 40.4395,
         "longitude": -79.9427
       },
+      "address": "Westinghouse Trail, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "westinghouse-memorial",
@@ -2219,6 +2262,7 @@
         "latitude": 37.5775,
         "longitude": -121.97842
       },
+      "address": "37592 Niles Blvd",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "niles-depot",
@@ -2272,6 +2316,7 @@
         "latitude": 37.57663,
         "longitude": -121.97666
       },
+      "address": "near 37482 Niles Blvd",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "niles-transcontinental-marker",
@@ -2324,6 +2369,7 @@
         "latitude": 37.57672,
         "longitude": -121.97886
       },
+      "address": "near 37565 Niles Blvd, looking up at the hill",
       "coordinateStatus": "estimated",
       "triggerRadiusMeters": 30,
       "image": "niles-hillside-sign",
@@ -2377,6 +2423,7 @@
         "latitude": 37.57707,
         "longitude": -121.98013
       },
+      "address": "37417 Niles Blvd",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "niles-essanay-museum",
@@ -2429,6 +2476,7 @@
         "latitude": 37.57747,
         "longitude": -121.98115
       },
+      "address": "37299 Niles Blvd, Fire Station No. 2",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "niles-essanay-studio-site",
@@ -2483,6 +2531,7 @@
         "latitude": 37.57863,
         "longitude": -121.97742
       },
+      "address": "near 37527 Mission Blvd",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "vallejo-flour-mill",
@@ -2537,6 +2586,7 @@
         "latitude": 37.57607,
         "longitude": -121.97815
       },
+      "address": "150 I St",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "niles-library",
