@@ -12,6 +12,17 @@ struct StrollContent: Decodable {
     let lines: Lines
     let demoWalk: DemoWalk
     let walks: [Route]
+    /// The places Stroll covers, for the map's area picker (the pill at the top of Explore).
+    let areas: [Area]
+
+    /// A city area, e.g. "Oakland, Pittsburgh". Its points of interest are the ones within
+    /// `radiusMeters` of `center`.
+    struct Area: Decodable, Identifiable, Hashable {
+        let id: String
+        let name: String
+        let center: Coordinate
+        let radiusMeters: Double
+    }
 
     struct Category: Decodable, Identifiable, Hashable {
         let id: String       // e.g. "natural-history"
@@ -114,6 +125,21 @@ struct StrollContent: Decodable {
     func poi(_ id: String) -> POI? { pois.first { $0.id == id } }
     func category(_ id: String) -> Category? { categories.first { $0.id == id } }
     func route(_ id: String) -> Route? { walks.first { $0.id == id } }
+
+    // MARK: Areas
+
+    /// How far from an area's places the map can be and still count as looking at that area.
+    static let areaReachMeters = 15_000.0
+
+    func pois(in area: Area) -> [POI] {
+        pois.filter { Route.distance($0.coordinate, area.center) <= area.radiusMeters }
+    }
+
+    /// The area around `point` (e.g. the middle of the map), or nil far from all of them.
+    func area(near point: Coordinate) -> Area? {
+        areas.filter { Route.distance(point, $0.center) <= $0.radiusMeters + Self.areaReachMeters }
+            .min { Route.distance(point, $0.center) < Route.distance(point, $1.center) }
+    }
 
     // MARK: Loading
 

@@ -2983,5 +2983,25 @@
         }
       ]
     }
+  ],
+  "areas": [
+    {
+      "id": "oakland-pittsburgh",
+      "name": "Oakland, Pittsburgh",
+      "center": {
+        "latitude": 40.4443,
+        "longitude": -79.9532
+      },
+      "radiusMeters": 3000
+    },
+    {
+      "id": "niles-fremont",
+      "name": "Niles, Fremont",
+      "center": {
+        "latitude": 37.5773,
+        "longitude": -121.9786
+      },
+      "radiusMeters": 1500
+    }
   ]
 }

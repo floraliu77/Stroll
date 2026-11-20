@@ -39,6 +39,14 @@ for poi in content.pois {
     }
 }
 for line in [content.lines.skip, content.lines.done] { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
+// Areas (the map's area picker): every place in exactly one area, and the map finds it there.
+check(!content.areas.isEmpty, "there must be at least one area")
+check(Set(content.areas.map(\.id)).count == content.areas.count, "area ids must be unique")
+for poi in content.pois {
+    let inAreas = content.areas.filter { content.pois(in: $0).contains(poi) }
+    check(inAreas.count == 1, "\(poi.id): must be in exactly one area, is in \(inAreas.count)")
+    check(content.area(near: poi.coordinate) == inAreas.first, "\(poi.id): the map would name the wrong area there")
+}
 // Set walks (the Walks tab)
 /// Set-walk directions with no recording yet: walk id -> number of lines.
 var iPhoneVoiceCues: [String: Int] = [:]
