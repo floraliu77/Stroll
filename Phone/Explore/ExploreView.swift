@@ -21,6 +21,8 @@ struct ExploreView: View {
     @State private var mapWidth: CGFloat = 0
     @State private var topBarBottom: CGFloat = 0
     @State private var panelTop: CGFloat = 0
+    /// The area the map is showing, named in the pill at the top. nil when the map is far from all of them.
+    @State private var shownArea: StrollContent.Area? = StrollContent.shared.area(near: ExploreView.oakland.center.coordinate)
 
     /// Street level: about a 5–10 minute walk across the visible map.
     static let streetSpan = MKCoordinateSpan(latitudeDelta: 0.008, longitudeDelta: 0.008)
@@ -43,6 +45,20 @@ struct ExploreView: View {
         let scale = max(1, needLat / streetSpan.latitudeDelta, needLon / streetSpan.longitudeDelta)
         return MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: streetSpan.latitudeDelta * scale,
                                                                          longitudeDelta: streetSpan.longitudeDelta * scale))
+    }
+
+    /// The whole area, with all its points of interest in the open part of the map.
+    static func region(showing pois: [StrollContent.POI], around center: CLLocationCoordinate2D) -> MKCoordinateRegion {
+        let lats = pois.map(\.coordinate.latitude), lons = pois.map(\.coordinate.longitude)
+        guard let minLat = lats.min(), let maxLat = lats.max(), let minLon = lons.min(), let maxLon = lons.max() else {
+            return MKCoordinateRegion(center: center, span: streetSpan)
+        }
+        // The top bar and the taller bottom panel cover part of the map: leave extra height, and
+        // put the map's middle a little south so the places sit in the open part.
+        let latSpan = max((maxLat - minLat) * 2.2, streetSpan.latitudeDelta)
+        let lonSpan = max((maxLon - minLon) * 1.3, streetSpan.longitudeDelta)
+        let middle = CLLocationCoordinate2D(latitude: (minLat + maxLat) / 2 - latSpan * 0.08, longitude: (minLon + maxLon) / 2)
+        return MKCoordinateRegion(center: middle, span: MKCoordinateSpan(latitudeDelta: latSpan, longitudeDelta: lonSpan))
     }
 
     private var visiblePOIs: [StrollContent.POI] {
@@ -78,6 +94,7 @@ struct ExploreView: View {
             .onMapCameraChange(frequency: .onEnd) { context in
                 centerOnUserIfNeeded(context.camera.centerCoordinate)
                 countVisible(proxy)
+                shownArea = content.area(near: context.camera.centerCoordinate.coordinate)
             }
             .onChange(of: filter) { _, _ in countVisible(proxy) }
             .onChange(of: panelTop) { _, _ in countVisible(proxy) }
@@ -103,17 +120,26 @@ struct ExploreView: View {
         }.count
     }
 
-    // MARK: Top: location, settings, filters
+    /// Back to the participant, at street level, as when the map first opens.
+    private func showNearMe() {
+        centeredOnUser = false
+        withAnimation { position = .userLocation(fallback: .region(Self.oakland)) }
+    }
+
+    private func show(_ area: StrollContent.Area) {
+        centeredOnUser = true   // the map stays on the area, not back on the participant
+        shownArea = area
+        let places = content.pois(in: area)
+        guard let first = places.first else { return }
+        withAnimation { position = .region(Self.region(showing: places, around: first.coordinate.location)) }
+    }
+
+    // MARK: Top: area, settings, filters
 
     private var topBar: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Label("Oakland, Pittsburgh", systemImage: "location")
-                    .font(.subheadline.weight(.semibold))
-                    .labelStyle(GreenIconLabel())
-                    .padding(.horizontal, 14).frame(height: 40)
-                    .background(.white, in: Capsule())
-                    .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+                areaPicker
                 Spacer()
                 RoundButton(symbol: "slider.horizontal.3", label: "Settings") { showingSettings = true }
             }
@@ -132,14 +158,40 @@ struct ExploreView: View {
         .padding(.top, 4)
     }
 
+    /// The pill names the area on the map; tapping it lists the areas Stroll covers. A list rather
+    /// than a search field while there are only a few.
+    private var areaPicker: some View {
+        Menu {
+            Button { showNearMe() } label: { Label("Near me", systemImage: "location.fill") }
+            Section("Areas") {
+                ForEach(content.areas) { area in
+                    Button { show(area) } label: {
+                        if area == shownArea { Label(area.name, systemImage: "checkmark") } else { Text(area.name) }
+                    }
+                }
+            }
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "location").foregroundStyle(Color.strollGreen)
+                Text(shownArea?.name ?? "Choose an area").foregroundStyle(Color.strollInk)
+                Image(systemName: "chevron.down")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(Color.strollInk)
+            }
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 14).frame(height: 40)
+            .background(.white, in: Capsule())
+            .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+        }
+        .accessibilityLabel("Area: \(shownArea?.name ?? "none")")
+        .accessibilityHint("Shows the areas you can explore")
+    }
+
     // MARK: Bottom: locate button and Start Exploring panel
 
     private var startPanel: some View {
         VStack(alignment: .trailing, spacing: 12) {
-            RoundButton(symbol: "location.fill", label: "Show my location", tint: .blue) {
-                centeredOnUser = false   // street level around them again, as at the start
-                withAnimation { position = .userLocation(fallback: .region(Self.oakland)) }
-            }
+            RoundButton(symbol: "location.fill", label: "Show my location", tint: .blue) { showNearMe() }
             .padding(.trailing, 16)
             VStack(spacing: 14) {
                 VStack(spacing: 4) {
@@ -254,4 +306,8 @@ struct GreenIconLabel: LabelStyle {
 
 extension StrollContent.Coordinate {
     var location: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: latitude, longitude: longitude) }
+}
+
+extension CLLocationCoordinate2D {
+    var coordinate: StrollContent.Coordinate { StrollContent.Coordinate(latitude: latitude, longitude: longitude) }
 }

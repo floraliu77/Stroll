@@ -28,10 +28,12 @@
       "id": "mellon-columns",
       "name": "Mellon Institute columns",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44663,
         "longitude": -79.9511
       },
+      "address": "4400 Fifth Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "mellon-columns",
@@ -74,10 +76,12 @@
       "id": "dippy",
       "name": "Dippy the dinosaur",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443553,
         "longitude": -79.951498
       },
+      "address": "4400 Forbes Ave, outside the Carnegie Museum",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "dippy",
@@ -120,10 +124,12 @@
       "id": "song-to-nature",
       "name": "“A Song to Nature” fountain",
       "category": "public-art",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.441995,
         "longitude": -79.9519
       },
+      "address": "Schenley Dr, by Schenley Plaza",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 35,
       "image": "song-to-nature",
@@ -166,10 +172,12 @@
       "id": "forbes-wall",
       "name": "Forbes Field wall",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44125,
         "longitude": -79.95266
       },
+      "address": "Roberto Clemente Dr",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "forbes-wall",
@@ -212,10 +220,12 @@
       "id": "st-nicholas-cathedral",
       "name": "St. Nicholas Greek Orthodox Cathedral",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4446,
         "longitude": -79.95025
       },
+      "address": "419 S Dithridge St",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "st-nicholas-cathedral",
@@ -266,10 +276,12 @@
       "id": "bellefield-hall",
       "name": "Bellefield Hall",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44538,
         "longitude": -79.95145
       },
+      "address": "315 S Bellefield Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "bellefield-hall",
@@ -321,10 +333,12 @@
       "id": "heinz-chapel",
       "name": "Heinz Memorial Chapel",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44515,
         "longitude": -79.9523
       },
+      "address": "4200 Fifth Ave, Pitt campus",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 25,
       "image": "heinz-chapel",
@@ -375,10 +389,12 @@
       "id": "cathedral-of-learning",
       "name": "Cathedral of Learning",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.444323,
         "longitude": -79.953191
       },
+      "address": "4200 Fifth Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 50,
       "image": "cathedral-of-learning",
@@ -429,10 +445,12 @@
       "id": "the-hiker",
       "name": "The Hiker",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.441852,
         "longitude": -79.950492
       },
+      "address": "Schenley Dr, Schenley Park",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 25,
       "image": "the-hiker",
@@ -483,10 +501,12 @@
       "id": "first-baptist-church",
       "name": "First Baptist Church",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447693,
         "longitude": -79.952977
       },
+      "address": "Bellefield Ave at Bayard St",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "first-baptist-church",
@@ -537,10 +557,12 @@
       "id": "st-paul-cathedral",
       "name": "St. Paul Cathedral",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44701,
         "longitude": -79.9498
       },
+      "address": "108 N Dithridge St",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 40,
       "image": "st-paul-cathedral",
@@ -591,10 +613,12 @@
       "id": "fairfax-apartments",
       "name": "Fairfax Apartments",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447,
         "longitude": -79.94812
       },
+      "address": "4625 Fifth Ave",
       "coordinateStatus": "researched",
       "triggerRadiusMeters": 30,
       "image": "fairfax-apartments",
@@ -646,10 +670,12 @@
       "id": "allen-hall",
       "name": "Allen Hall",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.444589,
         "longitude": -79.958328
       },
+      "address": "3941 O'Hara St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "allen-hall",
@@ -697,10 +723,12 @@
       "id": "carnegie-institute-and-library",
       "name": "Carnegie Institute and Library",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443056,
         "longitude": -79.949722
       },
+      "address": "4400 Forbes Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "carnegie-institute-and-library",
@@ -748,10 +776,12 @@
       "id": "main-branch-of-the-carnegie-library-of-pittsburgh",
       "name": "Main Branch of the Carnegie Library of Pittsburgh",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443402,
         "longitude": -79.95033
       },
+      "address": "4400 Forbes Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "main-branch-of-the-carnegie-library-of-pittsburgh",
@@ -797,10 +827,12 @@
       "id": "panther-hollow-bridge",
       "name": "Panther Hollow Bridge",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4369,
         "longitude": -79.9467
       },
+      "address": "Panther Hollow, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "panther-hollow-bridge",
@@ -848,10 +880,12 @@
       "id": "pittsburgh-athletic-association",
       "name": "Pittsburgh Athletic Association",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.445,
         "longitude": -79.954722
       },
+      "address": "4215 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "pittsburgh-athletic-association",
@@ -899,10 +933,12 @@
       "id": "pittsburgh-chinese-church",
       "name": "Pittsburgh Chinese Church",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447857,
         "longitude": -79.950474
       },
+      "address": "134 N Dithridge St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "pittsburgh-chinese-church",
@@ -950,10 +986,12 @@
       "id": "schenley-bridge",
       "name": "Schenley Bridge",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4413,
         "longitude": -79.9492
       },
+      "address": "near S Neville St, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "schenley-bridge",
@@ -1001,10 +1039,12 @@
       "id": "main-building-u-s-bureau-of-mines",
       "name": "Main Building, U.S. Bureau of Mines",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.444167,
         "longitude": -79.945833
       },
+      "address": "Forbes Ave, CMU campus",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "main-building-u-s-bureau-of-mines",
@@ -1052,10 +1092,12 @@
       "id": "wightman-school",
       "name": "Wightman School",
       "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
       "coordinate": {
         "latitude": 40.4425,
         "longitude": -79.926944
       },
+      "address": "near Beck Way, Squirrel Hill",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "wightman-school",
@@ -1103,10 +1145,12 @@
       "id": "bindley-hardware-company-building",
       "name": "Bindley Hardware Company Building",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4536,
         "longitude": -79.9411
       },
+      "address": "401 Amberson Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "bindley-hardware-company-building",
@@ -1154,10 +1198,12 @@
       "id": "church-of-the-ascension",
       "name": "Church of the Ascension",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4487,
         "longitude": -79.9473
       },
+      "address": "Ellsworth Ave at N Neville St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "church-of-the-ascension",
@@ -1205,10 +1251,12 @@
       "id": "mccook-family-estate",
       "name": "McCook Family Estate",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.448017,
         "longitude": -79.938319
       },
+      "address": "5105 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "mccook-family-estate",
@@ -1256,10 +1304,12 @@
       "id": "moreland-hoffstot-house",
       "name": "Moreland-Hoffstot House",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447778,
         "longitude": -79.940278
       },
+      "address": "near 5048 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "moreland-hoffstot-house",
@@ -1303,10 +1353,12 @@
       "id": "shadyside-presbyterian-church",
       "name": "Shadyside Presbyterian Church",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.449167,
         "longitude": -79.939167
       },
+      "address": "Westminster Pl, Shadyside",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "shadyside-presbyterian-church",
@@ -1354,10 +1406,12 @@
       "id": "bellefield-boiler-plant",
       "name": "Bellefield Boiler Plant",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4422,
         "longitude": -79.949
       },
+      "address": "near S Neville St, behind the Carnegie Museum",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "bellefield-boiler-plant",
@@ -1405,10 +1459,12 @@
       "id": "log-cabin",
       "name": "Log Cabin",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4439,
         "longitude": -79.952
       },
+      "address": "Pitt campus, beside the Cathedral of Learning",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "log-cabin",
@@ -1456,10 +1512,12 @@
       "id": "oakland-square-historic-district",
       "name": "Oakland Square Historic District",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4372,
         "longitude": -79.9522
       },
+      "address": "Oakland Square",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "oakland-square-historic-district",
@@ -1507,10 +1565,12 @@
       "id": "pitt-stadium",
       "name": "Pitt Stadium",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44365,
         "longitude": -79.96215
       },
+      "address": "Pitt upper campus, near Terrace St",
       "coordinateStatus": "estimated",
       "triggerRadiusMeters": 30,
       "image": "pitt-stadium",
@@ -1558,10 +1618,12 @@
       "id": "salk-hall",
       "name": "Salk Hall",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4427,
         "longitude": -79.9629
       },
+      "address": "3501 Terrace St",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "salk-hall",
@@ -1609,10 +1671,12 @@
       "id": "schenley-farms-historic-district",
       "name": "Schenley Farms Historic District",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447,
         "longitude": -79.9558
       },
+      "address": "Tennyson Ave and nearby streets",
       "coordinateStatus": "estimated",
       "triggerRadiusMeters": 30,
       "image": "schenley-farms-historic-district",
@@ -1660,10 +1724,12 @@
       "id": "schenley-park-casino",
       "name": "Schenley Park Casino",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4416,
         "longitude": -79.9515
       },
+      "address": "650 Schenley Dr, by Frick Fine Arts",
       "coordinateStatus": "estimated",
       "triggerRadiusMeters": 30,
       "image": "schenley-park-casino",
@@ -1707,10 +1773,12 @@
       "id": "soldiers-and-sailors-memorial-hall-and-museum",
       "name": "Soldiers and Sailors Memorial Hall and Museum",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4451,
         "longitude": -79.9564
       },
+      "address": "4141 Fifth Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "soldiers-and-sailors-memorial-hall-and-museum",
@@ -1758,10 +1826,12 @@
       "id": "stephen-foster-memorial",
       "name": "Stephen Foster Memorial",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443775,
         "longitude": -79.952689
       },
+      "address": "4301 Forbes Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "stephen-foster-memorial",
@@ -1809,10 +1879,12 @@
       "id": "syria-mosque",
       "name": "Syria Mosque",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4455,
         "longitude": -79.9551
       },
+      "address": "Bigelow Blvd, site now a parking lot",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "syria-mosque",
@@ -1860,10 +1932,12 @@
       "id": "neill-log-house",
       "name": "Neill Log House",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4358,
         "longitude": -79.9356
       },
+      "address": "near Schenley Rd, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "neill-log-house",
@@ -1911,10 +1985,12 @@
       "id": "rodef-shalom-temple",
       "name": "Rodef Shalom Temple",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.448056,
         "longitude": -79.943611
       },
+      "address": "4905 Fifth Ave, at Morewood Ave",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "rodef-shalom-temple",
@@ -1962,10 +2038,12 @@
       "id": "phipps-conservatory-and-botanical-gardens",
       "name": "Phipps Conservatory and Botanical Gardens",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4389,
         "longitude": -79.9477
       },
+      "address": "1 Schenley Dr",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "phipps-conservatory-and-botanical-gardens",
@@ -2011,10 +2089,12 @@
       "id": "flagstaff-hill",
       "name": "Flagstaff Hill",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4405,
         "longitude": -79.9457
       },
+      "address": "Schenley Dr, across from CMU",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "flagstaff-hill",
@@ -2062,10 +2142,12 @@
       "id": "junction-hollow",
       "name": "Junction Hollow",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4429,
         "longitude": -79.9475
       },
+      "address": "below Hamerschlag Dr, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "junction-hollow",
@@ -2113,10 +2195,12 @@
       "id": "christopher-lyman-magee-memorial",
       "name": "Christopher Lyman Magee Memorial",
       "category": "public-art",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4425,
         "longitude": -79.951389
       },
+      "address": "Schenley Dr, by the Carnegie Museum",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "christopher-lyman-magee-memorial",
@@ -2164,10 +2248,12 @@
       "id": "westinghouse-memorial",
       "name": "Westinghouse Memorial",
       "category": "public-art",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4395,
         "longitude": -79.9427
       },
+      "address": "Westinghouse Trail, Schenley Park",
       "coordinateStatus": "wikidata",
       "triggerRadiusMeters": 30,
       "image": "westinghouse-memorial",
@@ -2210,6 +2296,716 @@
       ],
       "notes": "Imported from Mara's 40-place drafts (#38), Nov 16, 2026.",
       "audioVoice": "kokoro af_sky (generated, speed 1.0); final voice not decided yet"
+    },
+    {
+      "id": "niles-depot",
+      "name": "Niles Depot and Town Plaza",
+      "category": "history",
+      "area": "niles-fremont",
+      "coordinate": {
+        "latitude": 37.5775,
+        "longitude": -121.97842
+      },
+      "address": "37592 Niles Blvd",
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-depot",
+      "altText": "A long, low yellow wooden train station with a wide grey roof held up by tan columns, and a red caboose at the far end.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_Depot_from_the_southwest,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "When this yellow station came back to downtown Niles in 2009, movers changed one thing about the way it sits. What do you think they changed?",
+        "audio": "niles-depot-prompt"
+      },
+      "reveal": {
+        "text": "They turned it all the way around, 180 degrees, so it faces this plaza.",
+        "audio": "niles-depot-reveal"
+      },
+      "story": [
+        {
+          "text": "Southern Pacific built this depot in 1901. It replaced an 1870 station that had its own restaurant and saloon.",
+          "audio": "niles-depot-story1"
+        },
+        {
+          "text": "In 1981 the railroad planned to tear it down. Volunteers saved it, and in 1982 it was moved to Mission Boulevard.",
+          "audio": "niles-depot-story2"
+        },
+        {
+          "text": "The town grew up around the railroad's freight terminal here, and was named after Addison C. Niles, a judge and former railroad lawyer.",
+          "audio": "niles-depot-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://www.nilesdepotmuseum.org/niles-depot-history",
+        "https://www.ncry.org/about/",
+        "https://en.wikipedia.org/wiki/Niles_Depot_Museum"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Merged with the Town Plaza and caboose 467: their pins were about 30 m apart, inside each other's 30 m trigger. Keep other Niles stops 60 m+ away.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-transcontinental-marker",
+      "name": "Transcontinental Railroad marker",
+      "category": "history",
+      "area": "niles-fremont",
+      "coordinate": {
+        "latitude": 37.57663,
+        "longitude": -121.97666
+      },
+      "address": "near 37482 Niles Blvd",
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-transcontinental-marker",
+      "altText": "A short pillar of rough grey stones with a bronze plaque on its front, in front of an old green passenger car.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Transcontinental_Railroad_marker_and_Niles_Merchants_Association_train_car,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "Most people think the Transcontinental Railroad was finished with a golden spike in Utah. How long after that do you think the last link through this canyon opened?",
+        "audio": "niles-transcontinental-marker-prompt"
+      },
+      "reveal": {
+        "text": "About four months later, on September 6, 1869.",
+        "audio": "niles-transcontinental-marker-reveal"
+      },
+      "story": [
+        {
+          "text": "The golden spike was driven in Utah on May 10, 1869. But the tracks ended in Sacramento, and passengers had to finish the trip by boat.",
+          "audio": "niles-transcontinental-marker-story1"
+        },
+        {
+          "text": "The line through Niles Canyon finally carried trains all the way to Oakland, linking the Atlantic and the Pacific by rail.",
+          "audio": "niles-transcontinental-marker-story2"
+        },
+        {
+          "text": "The Niles Canyon Railway still runs heritage trains on this stretch, the best-preserved part of the original route.",
+          "audio": "niles-transcontinental-marker-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://www.acgov.org/board/bos_calendar/documents/DocsAgendaReg_09_17_19/PROCLAMATIONS_COMMENDATIONS/Supervisor%20Haggerty_285260.pdf",
+        "https://www.ncry.org/about/"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Pin from the photo's location; the marker is a few metres away. Photo cropped from portrait to landscape.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-hillside-sign",
+      "name": "Hillside NILES sign",
+      "category": "history",
+      "area": "niles-fremont",
+      "coordinate": {
+        "latitude": 37.57672,
+        "longitude": -121.97886
+      },
+      "address": "near 37565 Niles Blvd, looking up at the hill",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "niles-hillside-sign",
+      "altText": "Giant white letters spelling NILES on a dry golden hillside under a clear blue sky.",
+      "photoCredit": {
+        "author": "Pedro Xing",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_hillside_sign_2655_02.JPG"
+      },
+      "prompt": {
+        "text": "Giant white letters on the hillside above town spell out its name. When the sign first went up, who do you think it was meant to help?",
+        "audio": "niles-hillside-sign-prompt"
+      },
+      "reveal": {
+        "text": "Pilots. It was a landmark for planes flying overhead, and a way to show off the town.",
+        "audio": "niles-hillside-sign-reveal"
+      },
+      "story": [
+        {
+          "text": "The letters went up about a century ago. Locals say they were covered during World War Two, so enemy pilots couldn't use them to find their way.",
+          "audio": "niles-hillside-sign-story1"
+        },
+        {
+          "text": "Today many read the sign as a wink at Hollywood. Niles was making movies while Hollywood was just getting started.",
+          "audio": "niles-hillside-sign-story2"
+        },
+        {
+          "text": "In the late 1980s, volunteers spent their Saturday mornings rebuilding the letters in reinforced concrete and white rock.",
+          "audio": "niles-hillside-sign-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://voicemap.me/tour/fremont-california/lights-camera-locomotive-a-walking-tour-of-niles/sites/niles-sign",
+        "Personal blog (Flora has the link): 1926, boosterism and a landmark for pilots",
+        "Facebook group Fremont & Niles California Memories, post 'NILES SIGN RE CREATED', Dec 3, 2025: local recollections (WWII cover, late-1980s volunteer rebuild)"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Pin is a viewpoint on Niles Blvd, about 20 m west of 37565 Niles Blvd (60 m+ from the plaza), not the sign itself. Year left vague on purpose: sources say 1918 or 1926. Don't name private people from the Facebook thread. Photo cropped toward the letters.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-essanay-museum",
+      "name": "Niles Essanay Silent Film Museum",
+      "category": "history",
+      "area": "niles-fremont",
+      "coordinate": {
+        "latitude": 37.57707,
+        "longitude": -121.98013
+      },
+      "address": "37417 Niles Blvd",
+      "coordinateStatus": "wikidata",
+      "triggerRadiusMeters": 30,
+      "image": "niles-essanay-museum",
+      "altText": "A two-storey white building with dark green trim and a row of shopfronts, with the museum's sign over the middle door.",
+      "photoCredit": {
+        "author": "Pedro Xing",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_Essanay_Silent_Film_Museum_2657.JPG"
+      },
+      "prompt": {
+        "text": "Under the museum's sign hangs a second sign with the building's name from 1913. What do you think it says?",
+        "audio": "niles-essanay-museum-prompt"
+      },
+      "reveal": {
+        "text": "Edison Theater. It opened in 1913 as a nickelodeon, one of the first small neighbourhood movie theatres.",
+        "audio": "niles-essanay-museum-reveal"
+      },
+      "story": [
+        {
+          "text": "Today it's a museum that keeps silent films and the old equipment used to show them.",
+          "audio": "niles-essanay-museum-story1"
+        },
+        {
+          "text": "It's half a block from the site of Essanay Studios, where cowboy pictures and Charlie Chaplin comedies were made.",
+          "audio": "niles-essanay-museum-story2"
+        },
+        {
+          "text": "Essanay's name comes from its founders' initials, S and A: George Spoor and Gilbert Anderson, better known as the cowboy star Broncho Billy.",
+          "audio": "niles-essanay-museum-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Niles_Essanay_Silent_Film_Museum",
+        "https://timesofsandiego.com/arts/2024/11/23/essanay-studios-silent-film-innovators-the-handsomest-man-in-the-world-and-the-san-diego-tie/"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. S and A initials: Flora OK'd.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-essanay-studio-site",
+      "name": "Essanay Studio site",
+      "category": "history",
+      "area": "niles-fremont",
+      "coordinate": {
+        "latitude": 37.57747,
+        "longitude": -121.98115
+      },
+      "address": "37299 Niles Blvd, Fire Station No. 2",
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-essanay-studio-site",
+      "altText": "A two-storey red brick fire station on a street corner, with tan trim, a band of diamond tiles along the base and arched garage doors.",
+      "photoCredit": {
+        "author": "Pedro Xing",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Niles_Station_Number_2_2659.JPG"
+      },
+      "prompt": {
+        "text": "A plaque at this fire station marks where a film studio once stood, in what it calls America's first Hollywood. Which famous comedian do you think made movies here?",
+        "audio": "niles-essanay-studio-site-prompt"
+      },
+      "reveal": {
+        "text": "Charlie Chaplin. He filmed The Tramp in Niles in 1915.",
+        "audio": "niles-essanay-studio-site-reveal"
+      },
+      "story": [
+        {
+          "text": "In the 1910s, the Chicago film company Essanay made hundreds of Westerns here, many starring Broncho Billy, one of the first cowboy movie heroes.",
+          "audio": "niles-essanay-studio-site-story1"
+        },
+        {
+          "text": "Niles hardly needed a film set. It was a rough railroad town that, people say, once had a dozen or more saloons.",
+          "audio": "niles-essanay-studio-site-story2"
+        },
+        {
+          "text": "Essanay closed in 1918. In 2007 this downtown, with its 86 old buildings, was added to the National Register of Historic Places.",
+          "audio": "niles-essanay-studio-site-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://timesofsandiego.com/arts/2024/11/23/essanay-studios-silent-film-innovators-the-handsomest-man-in-the-world-and-the-san-diego-tie/",
+        "https://en.wikipedia.org/wiki/Niles_Downtown_Historic_District",
+        "https://voicemap.me/tour/fremont-california/lights-camera-locomotive-a-walking-tour-of-niles",
+        "https://www.hmdb.org/m.asp?m=64009"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. Plaque at Fire Station No. 2, 37299 Niles Blvd (Flora confirmed). Also carries the storefronts stop's facts (saloons, historic district), which had no room on this block. Saloon count is from the VoiceMap tour.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "vallejo-flour-mill",
+      "name": "Vallejo Flour Mill",
+      "category": "history",
+      "area": "niles-fremont",
+      "coordinate": {
+        "latitude": 37.57863,
+        "longitude": -121.97742
+      },
+      "address": "near 37527 Mission Blvd",
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "vallejo-flour-mill",
+      "altText": "The roofless stone and brick walls of an old foundation behind a chain-link fence, overgrown with grass and young trees.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Foundation_of_1852_Vallejo_Flour_Mill,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "A plaque here remembers a flour mill that José de Jesús Vallejo built just up the road. Before this town was called Niles, what do you think it was named?",
+        "audio": "vallejo-flour-mill-prompt"
+      },
+      "reveal": {
+        "text": "Vallejo Mills, after his mill.",
+        "audio": "vallejo-flour-mill-reveal"
+      },
+      "story": [
+        {
+          "text": "Vallejo, brother of General Mariano Vallejo, built the mill on his ranch, Rancho Arroyo de la Alameda. Its stone walls still stand at the mouth of Niles Canyon.",
+          "audio": "vallejo-flour-mill-story1"
+        },
+        {
+          "text": "When the railroad came through in 1869, the town grew up around the station and took the name Niles.",
+          "audio": "vallejo-flour-mill-story2"
+        },
+        {
+          "text": "The stone aqueduct built to carry water to the mill still runs alongside Niles Canyon Road.",
+          "audio": "vallejo-flour-mill-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://noehill.com/alameda/cal0046.asp",
+        "https://en.wikipedia.org/wiki/Vallejo_Flour_Mill",
+        "https://en.wikipedia.org/wiki/Fremont,_California",
+        "Plaque on site says 1853 (Flora)"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. No year on purpose: Flora read 1853 on the plaque, NoeHill's California Historical Landmark #46 text says 1856, Commons says 1852. Pin is at the plaque (Flora); the ruins are about 590 m east, too far for the walk. The photo shows the ruins, not the plaque.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "niles-library",
+      "name": "Jane R. Clouch Memorial Library",
+      "category": "architecture",
+      "area": "niles-fremont",
+      "coordinate": {
+        "latitude": 37.57607,
+        "longitude": -121.97815
+      },
+      "address": "150 I St",
+      "coordinateStatus": "researched",
+      "triggerRadiusMeters": 30,
+      "image": "niles-library",
+      "altText": "A white single-storey building with a red tile roof and tall many-paned windows, on a street corner with a flowering tree in front.",
+      "photoCredit": {
+        "author": "Pi.1415926535",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Jane_R._Clouch_Memorial_Library,_Niles,_California,_April_2024.jpg"
+      },
+      "prompt": {
+        "text": "This small library is older than the city it stands in. Who do you think still owns it?",
+        "audio": "niles-library-prompt"
+      },
+      "reveal": {
+        "text": "Alameda County. It opened in 1928, long before the city of Fremont was formed in 1956.",
+        "audio": "niles-library-reveal"
+      },
+      "story": [
+        {
+          "text": "It's named in memory of a local woman, Jane R. Clouch.",
+          "audio": "niles-library-story1"
+        },
+        {
+          "text": "Niles has had a library since 1890, when townspeople bought a collection of 145 books to lend.",
+          "audio": "niles-library-story2"
+        },
+        {
+          "text": "Fremont was formed by joining five towns: Niles, Centerville, Irvington, Mission San Jose and Warm Springs.",
+          "audio": "niles-library-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://aclibrary.org/about-niles/",
+        "https://en.wikipedia.org/wiki/Fremont,_California"
+      ],
+      "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. 150 I St. Sources disagree on who paid for it (the Fords or a rancher husband) and on the spelling (Clouch or Clough), so neither is in the story. The 1890 library fact is from Fremont library history; find the page.",
+      "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "manor-theatre",
+      "name": "Manor Theatre",
+      "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.43726,
+        "longitude": -79.92268
+      },
+      "address": "1729 Murray Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "manor-theatre",
+      "altText": "A two-story corner building with timber beams set into pale walls and steep brown roofs, and a large sign over the entrance.",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Manor_Theatre,_Squirrel_Hill,_2024-12-06.jpg"
+      },
+      "prompt": {
+        "text": "This building on Murray Avenue has timber beams set into its walls, like an old English cottage. What do you think has been inside it for over a hundred years?",
+        "audio": "manor-theatre-prompt"
+      },
+      "reveal": {
+        "text": "A movie theater: the Manor has shown films here since 1922.",
+        "audio": "manor-theatre-reveal"
+      },
+      "story": [
+        {
+          "text": "It opened on May 15, 1922, with a silent film called Hail the Woman.",
+          "audio": "manor-theatre-story1"
+        },
+        {
+          "text": "The Tudor look was chosen to blend in with the houses nearby, so a movie theater could pass for a manor house.",
+          "audio": "manor-theatre-story2"
+        },
+        {
+          "text": "From the 1930s on, Squirrel Hill had at least three movie theaters for forty years. Today the Manor is the one that's left.",
+          "audio": "manor-theatre-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://wesa.fm/arts-sports-culture/2022-05-11/marquee-name-pittsburghs-oldest-movie-theater-celebrates-a-century-of-film-with-a-festival",
+        "https://triblive.com/aande/movies-tv/manor-theatre-celebrates-a-century-in-squirrel-hill",
+        "https://squirrelhillhistory.org/wp-content/uploads/2018/08/squirrel-hill-goes-to-the-movies.pdf",
+        "https://fatherpitt.com/2024/12/07/squirrel-hills-manor-has-the-atmosphere-of-a-country-club/"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check on site that the timber beams are still visible. The photo shows the MANOR sign and marquee, which hint at the answer; alt text leaves them out. Photo cropped from 16:9 to 4:3.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "forbes-and-murray",
+      "name": "Forbes and Murray",
+      "category": "history",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4382,
+        "longitude": -79.9226
+      },
+      "address": "Forbes Ave at Murray Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "forbes-and-murray",
+      "altText": "A modern library with a tall glass front on a busy street corner, with cars parked along the curb and a bus going by.",
+      "photoCredit": {
+        "author": "Salim Virji",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+        "source": "https://www.flickr.com/photos/44124427152@N01/60677048"
+      },
+      "prompt": {
+        "text": "Two busy streets cross here, lined with bakeries, delis and shops. Locals have a nickname for this shopping strip. What do you think they call it?",
+        "audio": "forbes-and-murray-prompt"
+      },
+      "reveal": {
+        "text": "\"Upstreet\", short for \"up the street\", because this corner is the heart of Squirrel Hill.",
+        "audio": "forbes-and-murray-reveal"
+      },
+      "story": [
+        {
+          "text": "It took off after electric trolleys came up Forbes and Murray in 1893. The first shops on record opened around 1911.",
+          "audio": "forbes-and-murray-story1"
+        },
+        {
+          "text": "Jewish merchants were here from the very first store listings. By the 1950s, the strip was known for its fashion shops.",
+          "audio": "forbes-and-murray-story2"
+        },
+        {
+          "text": "And the name Squirrel Hill? It most likely comes from the many black squirrels that once lived here.",
+          "audio": "forbes-and-murray-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://squirrelhillhistory.org/wp-content/uploads/2019/05/the-development-of-squirrel-hille28099s-business-district.pdf",
+        "https://en.wikipedia.org/wiki/Squirrel_Hill",
+        "https://rauhjewisharchives.org/entry/squirrel-hill",
+        "https://witf.org/2022/07/29/how-did-pittsburghs-squirrel-hill-neighborhood-get-its-name"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Pin at the Carnegie Library branch on the northwest corner. Photo is from Flickr and about 20 years old; swap for our own.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "temple-sinai",
+      "name": "Temple Sinai (Worthington Mansion)",
+      "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4386,
+        "longitude": -79.93
+      },
+      "address": "5505 Forbes Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "temple-sinai",
+      "altText": "A stone mansion with tall chimneys and leaded windows, behind a curving path, old trees and autumn leaves.",
+      "photoCredit": {
+        "author": "Sdkb",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Worthington_Mansion_exterior_2.jpg"
+      },
+      "prompt": {
+        "text": "This big mansion on Forbes Avenue was built in 1914 for an oil company executive. What do you think it has been since the 1940s?",
+        "audio": "temple-sinai-prompt"
+      },
+      "reveal": {
+        "text": "A synagogue: Temple Sinai, a Reform congregation founded in 1946, made the mansion its home.",
+        "audio": "temple-sinai-reveal"
+      },
+      "story": [
+        {
+          "text": "It was built for John Worthington, who died in 1918, just a few years after it was finished.",
+          "audio": "temple-sinai-story1"
+        },
+        {
+          "text": "The house is about 23,000 square feet. Even so, the congregation added more space over the years.",
+          "audio": "temple-sinai-story2"
+        },
+        {
+          "text": "It was named a Pittsburgh historic landmark in 1976.",
+          "audio": "temple-sinai-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://www.hmdb.org/m.asp?m=263625",
+        "https://www.templesinaipgh.org/about-us/our-history",
+        "https://rauhjewisharchives.org/photos/john-worthington-estate-photograph/"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check the building's current use before recording (possible merger with Rodef Shalom, 2025) and what can be seen from the sidewalk. Address from memory; check.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "sunnyledge",
+      "name": "Sunnyledge",
+      "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4485,
+        "longitude": -79.9365
+      },
+      "address": "5124 Fifth Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "sunnyledge",
+      "altText": "A large red brick house with a round corner tower under a cone-shaped slate roof, a tall chimney, and a lawn sloping down to the street.",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Sunnyledge,_Squirrel_Hill,_Pittsburgh,_2021-10-07.jpg"
+      },
+      "prompt": {
+        "text": "At one corner of this house, the wall curves out into a big round tower with a cone-shaped roof. What do you think that room was used for?",
+        "audio": "sunnyledge-prompt"
+      },
+      "reveal": {
+        "text": "It was a doctor's office: Dr. James McClelland saw patients there, and they came in through their own porch.",
+        "audio": "sunnyledge-reveal"
+      },
+      "story": [
+        {
+          "text": "McClelland was a homeopathic doctor to Andrew Carnegie and the Frick and Mellon families, and he founded nearby Shadyside Hospital.",
+          "audio": "sunnyledge-story1"
+        },
+        {
+          "text": "Boston architects designed it in 1886, while they were also finishing a famous house in Chicago. The wooden spindles for both houses were made at the same time.",
+          "audio": "sunnyledge-story2"
+        },
+        {
+          "text": "His younger daughter lived here for 94 years. Today it's a small hotel and tea room.",
+          "audio": "sunnyledge-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sunnyledge",
+        "https://sah-archipedia.org/node/16963"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check that the tower is on the corner seen from the sidewalk (Archipedia: northeast corner).",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "andrew-mellon-hall",
+      "name": "Andrew Mellon Hall",
+      "category": "history",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4466,
+        "longitude": -79.9257
+      },
+      "address": "Woodland Rd, Chatham University",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "andrew-mellon-hall",
+      "altText": "A large red brick Tudor-style mansion with three pointed gables, tall chimneys and a carved stone doorway, behind trimmed shrubs.",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Mellon_Hall,_Chatham_University,_2023-04-20,_01.jpg"
+      },
+      "prompt": {
+        "text": "In 1917, banker Andrew Mellon bought this mansion and more than doubled its size. One addition was rare in a home back then. What do you think it was?",
+        "audio": "andrew-mellon-hall-prompt"
+      },
+      "reveal": {
+        "text": "An indoor swimming pool, 60 feet long and lined with Guastavino tile.",
+        "audio": "andrew-mellon-hall-reveal"
+      },
+      "story": [
+        {
+          "text": "The house was first built for George Laughlin, of the Jones and Laughlin steel family.",
+          "audio": "andrew-mellon-hall-story1"
+        },
+        {
+          "text": "Mellon also added a bowling alley, tennis courts and gardens. Around 1940, his family gave the house to the women's college that became Chatham University.",
+          "audio": "andrew-mellon-hall-story2"
+        },
+        {
+          "text": "The pool closed in 2004 and is now a board room. The university president's office is in this building.",
+          "audio": "andrew-mellon-hall-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://phlf.org/college-eyes-pool/",
+        "https://events.chatham.edu/mellon-board-room",
+        "https://en.wikipedia.org/wiki/Chatham_University"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check whether walkers may enter campus here, or whether the stop should be heard from Woodland Road.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "chatham-university-arboretum",
+      "name": "Chatham University Arboretum",
+      "category": "natural-history",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4476,
+        "longitude": -79.9234
+      },
+      "address": "Woodland Rd, Chatham University",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "chatham-university-arboretum",
+      "altText": "Sunlight through the branches of tall old trees over a wide, shady lawn, with a house roof in the distance.",
+      "photoCredit": {
+        "author": "Daderot",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Chatham_University_Arboretum_-_IMG_7655.JPG"
+      },
+      "prompt": {
+        "text": "The old trees and lawns around you were once one man's private estate. Today the whole campus counts as something special. What do you think it is?",
+        "audio": "chatham-university-arboretum-prompt"
+      },
+      "reveal": {
+        "text": "An arboretum: 32 acres of campus recognized as a living collection of trees.",
+        "audio": "chatham-university-arboretum-reveal"
+      },
+      "story": [
+        {
+          "text": "It was Andrew Mellon's estate. Parts of the grounds were designed in the 1930s by the Olmsted Brothers, the firm run by the sons of Central Park's designer.",
+          "audio": "chatham-university-arboretum-story1"
+        },
+        {
+          "text": "The campus was named an arboretum in 1998.",
+          "audio": "chatham-university-arboretum-story2"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Chatham_University_Arboretum",
+        "https://chatham.edu/locations/shadyside-campus/arboretum.html"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Close to Andrew Mellon Hall; keep one if both feel like too much Chatham.",
+      "audioVoice": "not generated yet"
     }
   ],
   "lines": {
@@ -2612,6 +3408,20 @@
           }
         }
       ]
+    }
+  ],
+  "areas": [
+    {
+      "id": "oakland-pittsburgh",
+      "name": "Oakland, Pittsburgh"
+    },
+    {
+      "id": "squirrel-hill-pittsburgh",
+      "name": "Squirrel Hill, Pittsburgh"
+    },
+    {
+      "id": "niles-fremont",
+      "name": "Niles, Fremont"
     }
   ]
 }

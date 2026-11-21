@@ -12,6 +12,10 @@ Groups: **Added** (new features), **Changed** (works differently now), **Fixed**
 
 ## Unreleased
 
+### Content
+- **North Squirrel Hill drafts.** Prompts, reveals, stories and alt text for 8 places in north
+  Squirrel Hill, with sources and on-site checks, plus photos for 6 of them. Not in the app yet.
+
 ### Design
 - New Figma page **"v2 – Design system (from code)"** in AxD-Stroll. It matches the app as
   built, with 21 documented components, 16 text styles, corner radius, spacing and shadow
