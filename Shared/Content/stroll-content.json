@@ -28,6 +28,7 @@
       "id": "mellon-columns",
       "name": "Mellon Institute columns",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44663,
         "longitude": -79.9511
@@ -75,6 +76,7 @@
       "id": "dippy",
       "name": "Dippy the dinosaur",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443553,
         "longitude": -79.951498
@@ -122,6 +124,7 @@
       "id": "song-to-nature",
       "name": "“A Song to Nature” fountain",
       "category": "public-art",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.441995,
         "longitude": -79.9519
@@ -169,6 +172,7 @@
       "id": "forbes-wall",
       "name": "Forbes Field wall",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44125,
         "longitude": -79.95266
@@ -216,6 +220,7 @@
       "id": "st-nicholas-cathedral",
       "name": "St. Nicholas Greek Orthodox Cathedral",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4446,
         "longitude": -79.95025
@@ -271,6 +276,7 @@
       "id": "bellefield-hall",
       "name": "Bellefield Hall",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44538,
         "longitude": -79.95145
@@ -327,6 +333,7 @@
       "id": "heinz-chapel",
       "name": "Heinz Memorial Chapel",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44515,
         "longitude": -79.9523
@@ -382,6 +389,7 @@
       "id": "cathedral-of-learning",
       "name": "Cathedral of Learning",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.444323,
         "longitude": -79.953191
@@ -437,6 +445,7 @@
       "id": "the-hiker",
       "name": "The Hiker",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.441852,
         "longitude": -79.950492
@@ -492,6 +501,7 @@
       "id": "first-baptist-church",
       "name": "First Baptist Church",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447693,
         "longitude": -79.952977
@@ -547,6 +557,7 @@
       "id": "st-paul-cathedral",
       "name": "St. Paul Cathedral",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44701,
         "longitude": -79.9498
@@ -602,6 +613,7 @@
       "id": "fairfax-apartments",
       "name": "Fairfax Apartments",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447,
         "longitude": -79.94812
@@ -658,6 +670,7 @@
       "id": "allen-hall",
       "name": "Allen Hall",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.444589,
         "longitude": -79.958328
@@ -710,6 +723,7 @@
       "id": "carnegie-institute-and-library",
       "name": "Carnegie Institute and Library",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443056,
         "longitude": -79.949722
@@ -762,6 +776,7 @@
       "id": "main-branch-of-the-carnegie-library-of-pittsburgh",
       "name": "Main Branch of the Carnegie Library of Pittsburgh",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443402,
         "longitude": -79.95033
@@ -812,6 +827,7 @@
       "id": "panther-hollow-bridge",
       "name": "Panther Hollow Bridge",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4369,
         "longitude": -79.9467
@@ -864,6 +880,7 @@
       "id": "pittsburgh-athletic-association",
       "name": "Pittsburgh Athletic Association",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.445,
         "longitude": -79.954722
@@ -916,6 +933,7 @@
       "id": "pittsburgh-chinese-church",
       "name": "Pittsburgh Chinese Church",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447857,
         "longitude": -79.950474
@@ -968,6 +986,7 @@
       "id": "schenley-bridge",
       "name": "Schenley Bridge",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4413,
         "longitude": -79.9492
@@ -1020,6 +1039,7 @@
       "id": "main-building-u-s-bureau-of-mines",
       "name": "Main Building, U.S. Bureau of Mines",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.444167,
         "longitude": -79.945833
@@ -1072,6 +1092,7 @@
       "id": "wightman-school",
       "name": "Wightman School",
       "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
       "coordinate": {
         "latitude": 40.4425,
         "longitude": -79.926944
@@ -1124,6 +1145,7 @@
       "id": "bindley-hardware-company-building",
       "name": "Bindley Hardware Company Building",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4536,
         "longitude": -79.9411
@@ -1176,6 +1198,7 @@
       "id": "church-of-the-ascension",
       "name": "Church of the Ascension",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4487,
         "longitude": -79.9473
@@ -1228,6 +1251,7 @@
       "id": "mccook-family-estate",
       "name": "McCook Family Estate",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.448017,
         "longitude": -79.938319
@@ -1280,6 +1304,7 @@
       "id": "moreland-hoffstot-house",
       "name": "Moreland-Hoffstot House",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447778,
         "longitude": -79.940278
@@ -1328,6 +1353,7 @@
       "id": "shadyside-presbyterian-church",
       "name": "Shadyside Presbyterian Church",
       "category": "architecture",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.449167,
         "longitude": -79.939167
@@ -1380,6 +1406,7 @@
       "id": "bellefield-boiler-plant",
       "name": "Bellefield Boiler Plant",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4422,
         "longitude": -79.949
@@ -1432,6 +1459,7 @@
       "id": "log-cabin",
       "name": "Log Cabin",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4439,
         "longitude": -79.952
@@ -1484,6 +1512,7 @@
       "id": "oakland-square-historic-district",
       "name": "Oakland Square Historic District",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4372,
         "longitude": -79.9522
@@ -1536,6 +1565,7 @@
       "id": "pitt-stadium",
       "name": "Pitt Stadium",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.44365,
         "longitude": -79.96215
@@ -1588,6 +1618,7 @@
       "id": "salk-hall",
       "name": "Salk Hall",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4427,
         "longitude": -79.9629
@@ -1640,6 +1671,7 @@
       "id": "schenley-farms-historic-district",
       "name": "Schenley Farms Historic District",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.447,
         "longitude": -79.9558
@@ -1692,6 +1724,7 @@
       "id": "schenley-park-casino",
       "name": "Schenley Park Casino",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4416,
         "longitude": -79.9515
@@ -1740,6 +1773,7 @@
       "id": "soldiers-and-sailors-memorial-hall-and-museum",
       "name": "Soldiers and Sailors Memorial Hall and Museum",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4451,
         "longitude": -79.9564
@@ -1792,6 +1826,7 @@
       "id": "stephen-foster-memorial",
       "name": "Stephen Foster Memorial",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.443775,
         "longitude": -79.952689
@@ -1844,6 +1879,7 @@
       "id": "syria-mosque",
       "name": "Syria Mosque",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4455,
         "longitude": -79.9551
@@ -1896,6 +1932,7 @@
       "id": "neill-log-house",
       "name": "Neill Log House",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4358,
         "longitude": -79.9356
@@ -1948,6 +1985,7 @@
       "id": "rodef-shalom-temple",
       "name": "Rodef Shalom Temple",
       "category": "history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.448056,
         "longitude": -79.943611
@@ -2000,6 +2038,7 @@
       "id": "phipps-conservatory-and-botanical-gardens",
       "name": "Phipps Conservatory and Botanical Gardens",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4389,
         "longitude": -79.9477
@@ -2050,6 +2089,7 @@
       "id": "flagstaff-hill",
       "name": "Flagstaff Hill",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4405,
         "longitude": -79.9457
@@ -2102,6 +2142,7 @@
       "id": "junction-hollow",
       "name": "Junction Hollow",
       "category": "natural-history",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4429,
         "longitude": -79.9475
@@ -2154,6 +2195,7 @@
       "id": "christopher-lyman-magee-memorial",
       "name": "Christopher Lyman Magee Memorial",
       "category": "public-art",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4425,
         "longitude": -79.951389
@@ -2206,6 +2248,7 @@
       "id": "westinghouse-memorial",
       "name": "Westinghouse Memorial",
       "category": "public-art",
+      "area": "oakland-pittsburgh",
       "coordinate": {
         "latitude": 40.4395,
         "longitude": -79.9427
@@ -2258,6 +2301,7 @@
       "id": "niles-depot",
       "name": "Niles Depot and Town Plaza",
       "category": "history",
+      "area": "niles-fremont",
       "coordinate": {
         "latitude": 37.5775,
         "longitude": -121.97842
@@ -2312,6 +2356,7 @@
       "id": "niles-transcontinental-marker",
       "name": "Transcontinental Railroad marker",
       "category": "history",
+      "area": "niles-fremont",
       "coordinate": {
         "latitude": 37.57663,
         "longitude": -121.97666
@@ -2365,6 +2410,7 @@
       "id": "niles-hillside-sign",
       "name": "Hillside NILES sign",
       "category": "history",
+      "area": "niles-fremont",
       "coordinate": {
         "latitude": 37.57672,
         "longitude": -121.97886
@@ -2419,6 +2465,7 @@
       "id": "niles-essanay-museum",
       "name": "Niles Essanay Silent Film Museum",
       "category": "history",
+      "area": "niles-fremont",
       "coordinate": {
         "latitude": 37.57707,
         "longitude": -121.98013
@@ -2472,6 +2519,7 @@
       "id": "niles-essanay-studio-site",
       "name": "Essanay Studio site",
       "category": "history",
+      "area": "niles-fremont",
       "coordinate": {
         "latitude": 37.57747,
         "longitude": -121.98115
@@ -2527,6 +2575,7 @@
       "id": "vallejo-flour-mill",
       "name": "Vallejo Flour Mill",
       "category": "history",
+      "area": "niles-fremont",
       "coordinate": {
         "latitude": 37.57863,
         "longitude": -121.97742
@@ -2582,6 +2631,7 @@
       "id": "niles-library",
       "name": "Jane R. Clouch Memorial Library",
       "category": "architecture",
+      "area": "niles-fremont",
       "coordinate": {
         "latitude": 37.57607,
         "longitude": -121.97815
@@ -2630,6 +2680,332 @@
       ],
       "notes": "Niles walk draft for a test in Fremont, CA, Nov 20, 2026. 150 I St. Sources disagree on who paid for it (the Fords or a rancher husband) and on the spelling (Clouch or Clough), so neither is in the story. The 1890 library fact is from Fremont library history; find the page.",
       "audioVoice": "not generated yet (iPhone voice until generate.py is run)"
+    },
+    {
+      "id": "manor-theatre",
+      "name": "Manor Theatre",
+      "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.43726,
+        "longitude": -79.92268
+      },
+      "address": "1729 Murray Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "manor-theatre",
+      "altText": "A two-story corner building with timber beams set into pale walls and steep brown roofs, and a large sign over the entrance.",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Manor_Theatre,_Squirrel_Hill,_2024-12-06.jpg"
+      },
+      "prompt": {
+        "text": "This building on Murray Avenue has timber beams set into its walls, like an old English cottage. What do you think has been inside it for over a hundred years?",
+        "audio": "manor-theatre-prompt"
+      },
+      "reveal": {
+        "text": "A movie theater: the Manor has shown films here since 1922.",
+        "audio": "manor-theatre-reveal"
+      },
+      "story": [
+        {
+          "text": "It opened on May 15, 1922, with a silent film called Hail the Woman.",
+          "audio": "manor-theatre-story1"
+        },
+        {
+          "text": "The Tudor look was chosen to blend in with the houses nearby, so a movie theater could pass for a manor house.",
+          "audio": "manor-theatre-story2"
+        },
+        {
+          "text": "From the 1930s on, Squirrel Hill had at least three movie theaters for forty years. Today the Manor is the one that's left.",
+          "audio": "manor-theatre-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://wesa.fm/arts-sports-culture/2022-05-11/marquee-name-pittsburghs-oldest-movie-theater-celebrates-a-century-of-film-with-a-festival",
+        "https://triblive.com/aande/movies-tv/manor-theatre-celebrates-a-century-in-squirrel-hill",
+        "https://squirrelhillhistory.org/wp-content/uploads/2018/08/squirrel-hill-goes-to-the-movies.pdf",
+        "https://fatherpitt.com/2024/12/07/squirrel-hills-manor-has-the-atmosphere-of-a-country-club/"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check on site that the timber beams are still visible. The photo shows the MANOR sign and marquee, which hint at the answer; alt text leaves them out. Photo cropped from 16:9 to 4:3.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "forbes-and-murray",
+      "name": "Forbes and Murray",
+      "category": "history",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4382,
+        "longitude": -79.9226
+      },
+      "address": "Forbes Ave at Murray Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "forbes-and-murray",
+      "altText": "A modern library with a tall glass front on a busy street corner, with cars parked along the curb and a bus going by.",
+      "photoCredit": {
+        "author": "Salim Virji",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
+        "source": "https://www.flickr.com/photos/44124427152@N01/60677048"
+      },
+      "prompt": {
+        "text": "Two busy streets cross here, lined with bakeries, delis and shops. Locals have a nickname for this shopping strip. What do you think they call it?",
+        "audio": "forbes-and-murray-prompt"
+      },
+      "reveal": {
+        "text": "\"Upstreet\", short for \"up the street\", because this corner is the heart of Squirrel Hill.",
+        "audio": "forbes-and-murray-reveal"
+      },
+      "story": [
+        {
+          "text": "It took off after electric trolleys came up Forbes and Murray in 1893. The first shops on record opened around 1911.",
+          "audio": "forbes-and-murray-story1"
+        },
+        {
+          "text": "Jewish merchants were here from the very first store listings. By the 1950s, the strip was known for its fashion shops.",
+          "audio": "forbes-and-murray-story2"
+        },
+        {
+          "text": "And the name Squirrel Hill? It most likely comes from the many black squirrels that once lived here.",
+          "audio": "forbes-and-murray-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://squirrelhillhistory.org/wp-content/uploads/2019/05/the-development-of-squirrel-hille28099s-business-district.pdf",
+        "https://en.wikipedia.org/wiki/Squirrel_Hill",
+        "https://rauhjewisharchives.org/entry/squirrel-hill",
+        "https://witf.org/2022/07/29/how-did-pittsburghs-squirrel-hill-neighborhood-get-its-name"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Pin at the Carnegie Library branch on the northwest corner. Photo is from Flickr and about 20 years old; swap for our own.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "temple-sinai",
+      "name": "Temple Sinai (Worthington Mansion)",
+      "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4386,
+        "longitude": -79.93
+      },
+      "address": "5505 Forbes Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "temple-sinai",
+      "altText": "A stone mansion with tall chimneys and leaded windows, behind a curving path, old trees and autumn leaves.",
+      "photoCredit": {
+        "author": "Sdkb",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Worthington_Mansion_exterior_2.jpg"
+      },
+      "prompt": {
+        "text": "This big mansion on Forbes Avenue was built in 1914 for an oil company executive. What do you think it has been since the 1940s?",
+        "audio": "temple-sinai-prompt"
+      },
+      "reveal": {
+        "text": "A synagogue: Temple Sinai, a Reform congregation founded in 1946, made the mansion its home.",
+        "audio": "temple-sinai-reveal"
+      },
+      "story": [
+        {
+          "text": "It was built for John Worthington, who died in 1918, just a few years after it was finished.",
+          "audio": "temple-sinai-story1"
+        },
+        {
+          "text": "The house is about 23,000 square feet. Even so, the congregation added more space over the years.",
+          "audio": "temple-sinai-story2"
+        },
+        {
+          "text": "It was named a Pittsburgh historic landmark in 1976.",
+          "audio": "temple-sinai-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://www.hmdb.org/m.asp?m=263625",
+        "https://www.templesinaipgh.org/about-us/our-history",
+        "https://rauhjewisharchives.org/photos/john-worthington-estate-photograph/"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check the building's current use before recording (possible merger with Rodef Shalom, 2025) and what can be seen from the sidewalk. Address from memory; check.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "sunnyledge",
+      "name": "Sunnyledge",
+      "category": "architecture",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4485,
+        "longitude": -79.9365
+      },
+      "address": "5124 Fifth Ave",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "sunnyledge",
+      "altText": "A large red brick house with a round corner tower under a cone-shaped slate roof, a tall chimney, and a lawn sloping down to the street.",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Sunnyledge,_Squirrel_Hill,_Pittsburgh,_2021-10-07.jpg"
+      },
+      "prompt": {
+        "text": "At one corner of this house, the wall curves out into a big round tower with a cone-shaped roof. What do you think that room was used for?",
+        "audio": "sunnyledge-prompt"
+      },
+      "reveal": {
+        "text": "It was a doctor's office: Dr. James McClelland saw patients there, and they came in through their own porch.",
+        "audio": "sunnyledge-reveal"
+      },
+      "story": [
+        {
+          "text": "McClelland was a homeopathic doctor to Andrew Carnegie and the Frick and Mellon families, and he founded nearby Shadyside Hospital.",
+          "audio": "sunnyledge-story1"
+        },
+        {
+          "text": "Boston architects designed it in 1886, while they were also finishing a famous house in Chicago. The wooden spindles for both houses were made at the same time.",
+          "audio": "sunnyledge-story2"
+        },
+        {
+          "text": "His younger daughter lived here for 94 years. Today it's a small hotel and tea room.",
+          "audio": "sunnyledge-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sunnyledge",
+        "https://sah-archipedia.org/node/16963"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check that the tower is on the corner seen from the sidewalk (Archipedia: northeast corner).",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "andrew-mellon-hall",
+      "name": "Andrew Mellon Hall",
+      "category": "history",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4466,
+        "longitude": -79.9257
+      },
+      "address": "Woodland Rd, Chatham University",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "andrew-mellon-hall",
+      "altText": "A large red brick Tudor-style mansion with three pointed gables, tall chimneys and a carved stone doorway, behind trimmed shrubs.",
+      "photoCredit": {
+        "author": "Cbaile19",
+        "license": "CC0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Mellon_Hall,_Chatham_University,_2023-04-20,_01.jpg"
+      },
+      "prompt": {
+        "text": "In 1917, banker Andrew Mellon bought this mansion and more than doubled its size. One addition was rare in a home back then. What do you think it was?",
+        "audio": "andrew-mellon-hall-prompt"
+      },
+      "reveal": {
+        "text": "An indoor swimming pool, 60 feet long and lined with Guastavino tile.",
+        "audio": "andrew-mellon-hall-reveal"
+      },
+      "story": [
+        {
+          "text": "The house was first built for George Laughlin, of the Jones and Laughlin steel family.",
+          "audio": "andrew-mellon-hall-story1"
+        },
+        {
+          "text": "Mellon also added a bowling alley, tennis courts and gardens. Around 1940, his family gave the house to the women's college that became Chatham University.",
+          "audio": "andrew-mellon-hall-story2"
+        },
+        {
+          "text": "The pool closed in 2004 and is now a board room. The university president's office is in this building.",
+          "audio": "andrew-mellon-hall-story3"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://phlf.org/college-eyes-pool/",
+        "https://events.chatham.edu/mellon-board-room",
+        "https://en.wikipedia.org/wiki/Chatham_University"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Check whether walkers may enter campus here, or whether the stop should be heard from Woodland Road.",
+      "audioVoice": "not generated yet"
+    },
+    {
+      "id": "chatham-university-arboretum",
+      "name": "Chatham University Arboretum",
+      "category": "natural-history",
+      "area": "squirrel-hill-pittsburgh",
+      "coordinate": {
+        "latitude": 40.4476,
+        "longitude": -79.9234
+      },
+      "address": "Woodland Rd, Chatham University",
+      "coordinateStatus": "estimated",
+      "triggerRadiusMeters": 30,
+      "image": "chatham-university-arboretum",
+      "altText": "Sunlight through the branches of tall old trees over a wide, shady lawn, with a house roof in the distance.",
+      "photoCredit": {
+        "author": "Daderot",
+        "license": "Public domain",
+        "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
+        "source": "https://commons.wikimedia.org/wiki/File:Chatham_University_Arboretum_-_IMG_7655.JPG"
+      },
+      "prompt": {
+        "text": "The old trees and lawns around you were once one man's private estate. Today the whole campus counts as something special. What do you think it is?",
+        "audio": "chatham-university-arboretum-prompt"
+      },
+      "reveal": {
+        "text": "An arboretum: 32 acres of campus recognized as a living collection of trees.",
+        "audio": "chatham-university-arboretum-reveal"
+      },
+      "story": [
+        {
+          "text": "It was Andrew Mellon's estate. Parts of the grounds were designed in the 1930s by the Olmsted Brothers, the firm run by the sons of Central Park's designer.",
+          "audio": "chatham-university-arboretum-story1"
+        },
+        {
+          "text": "The campus was named an arboretum in 1998.",
+          "audio": "chatham-university-arboretum-story2"
+        }
+      ],
+      "skipLine": {
+        "text": "Alright, got it. Moving on.",
+        "audio": "skip-sky"
+      },
+      "reviewStatus": "needs-review",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Chatham_University_Arboretum",
+        "https://chatham.edu/locations/shadyside-campus/arboretum.html"
+      ],
+      "notes": "From Mara's north Squirrel Hill drafts (docs/content-research/squirrel-hill-north-drafts.md), imported Nov 20, 2026. Pin is approximate until Mara's site visit. Close to Andrew Mellon Hall; keep one if both feel like too much Chatham.",
+      "audioVoice": "not generated yet"
     }
   ],
   "lines": {
@@ -3037,21 +3413,15 @@
   "areas": [
     {
       "id": "oakland-pittsburgh",
-      "name": "Oakland, Pittsburgh",
-      "center": {
-        "latitude": 40.4443,
-        "longitude": -79.9532
-      },
-      "radiusMeters": 3000
+      "name": "Oakland, Pittsburgh"
+    },
+    {
+      "id": "squirrel-hill-pittsburgh",
+      "name": "Squirrel Hill, Pittsburgh"
     },
     {
       "id": "niles-fremont",
-      "name": "Niles, Fremont",
-      "center": {
-        "latitude": 37.5773,
-        "longitude": -121.9786
-      },
-      "radiusMeters": 1500
+      "name": "Niles, Fremont"
     }
   ]
 }

@@ -68,6 +68,15 @@ def year_words(year):
     return two_digits(high) + " " + ("oh " + ONES[low] if low < 10 else two_digits(low))
 
 
+# "the 1930s" -> "the nineteen thirties", "the 1900s" -> "the nineteen hundreds".
+DECADE = re.compile(r"(?<![\d,])(1\d{3}|20\d{2})s\b")
+
+
+def decade_words(year):
+    words = year_words(year)
+    return words[:-1] + "ies" if words.endswith("y") else words + "s"
+
+
 # Initials in names ("Y. A. Tittle", "H. J. Heinz", "John P. Bindley"): Kokoro takes each full
 # stop as the end of a sentence and pauses, so the name falls apart. Read them as letters with no
 # stops. A alone reads as "uh", so it's written "Eigh" (said like the letter).
@@ -97,6 +106,7 @@ def spoken(text):
     text = INITIALS.sub(say_initials, text)
     text = re.sub(r"\bU\.\s?S\.", "U S", text)        # "U.S." without two full stops
     text = re.sub(r"\bSt\. (?=[A-Z])", "Saint ", text)   # "St. Paul" is Saint Paul, not "sint."
+    text = DECADE.sub(lambda m: decade_words(int(m.group(1))), text)   # before YEAR, which would leave "thirtys"
     return YEAR.sub(lambda m: year_words(int(m.group(1))), text)
 
 

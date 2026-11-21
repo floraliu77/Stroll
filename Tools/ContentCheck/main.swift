@@ -39,13 +39,12 @@ for poi in content.pois {
     }
 }
 for line in [content.lines.skip, content.lines.done] { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
-// Areas (the map's area picker): every place in exactly one area, and the map finds it there.
+// Areas (the map's area picker): every place names a real area, and every area has places.
 check(!content.areas.isEmpty, "there must be at least one area")
 check(Set(content.areas.map(\.id)).count == content.areas.count, "area ids must be unique")
+for area in content.areas { check(!content.pois(in: area).isEmpty, "area \(area.id) has no places") }
 for poi in content.pois {
-    let inAreas = content.areas.filter { content.pois(in: $0).contains(poi) }
-    check(inAreas.count == 1, "\(poi.id): must be in exactly one area, is in \(inAreas.count)")
-    check(content.area(near: poi.coordinate) == inAreas.first, "\(poi.id): the map would name the wrong area there")
+    check(content.area(poi.area) != nil, "\(poi.id): unknown area '\(poi.area)'")
     check(!(poi.address ?? "").isEmpty, "\(poi.id): needs an address, so the team can find it (Developer tools)")
 }
 // Set walks (the Walks tab)

@@ -129,7 +129,9 @@ struct ExploreView: View {
     private func show(_ area: StrollContent.Area) {
         centeredOnUser = true   // the map stays on the area, not back on the participant
         shownArea = area
-        withAnimation { position = .region(Self.region(showing: content.pois(in: area), around: area.center.location)) }
+        let places = content.pois(in: area)
+        guard let first = places.first else { return }
+        withAnimation { position = .region(Self.region(showing: places, around: first.coordinate.location)) }
     }
 
     // MARK: Top: area, settings, filters

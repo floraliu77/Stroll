@@ -15,13 +15,11 @@ struct StrollContent: Decodable {
     /// The places Stroll covers, for the map's area picker (the pill at the top of Explore).
     let areas: [Area]
 
-    /// A city area, e.g. "Oakland, Pittsburgh". Its points of interest are the ones within
-    /// `radiusMeters` of `center`.
+    /// A neighbourhood or city area, e.g. "Oakland, Pittsburgh". Each point of interest names its
+    /// area (`POI.area`).
     struct Area: Decodable, Identifiable, Hashable {
         let id: String
         let name: String
-        let center: Coordinate
-        let radiusMeters: Double
     }
 
     struct Category: Decodable, Identifiable, Hashable {
@@ -34,6 +32,7 @@ struct StrollContent: Decodable {
         let id: String
         let name: String
         let category: String             // Category.id
+        let area: String                 // Area.id
         let coordinate: Coordinate
         /// A street address or landmark for the team to find the place (Developer tools), e.g.
         /// "37592 Niles Blvd". From OpenStreetMap, checked by hand. Not shown to participants.
@@ -131,17 +130,18 @@ struct StrollContent: Decodable {
 
     // MARK: Areas
 
-    /// How far from an area's places the map can be and still count as looking at that area.
+    /// How far from the nearest place the map can be and still count as looking at its area.
     static let areaReachMeters = 15_000.0
 
-    func pois(in area: Area) -> [POI] {
-        pois.filter { Route.distance($0.coordinate, area.center) <= area.radiusMeters }
-    }
+    func area(_ id: String) -> Area? { areas.first { $0.id == id } }
 
-    /// The area around `point` (e.g. the middle of the map), or nil far from all of them.
+    func pois(in area: Area) -> [POI] { pois.filter { $0.area == area.id } }
+
+    /// The area of the place nearest `point` (e.g. the middle of the map), or nil far from all of them.
     func area(near point: Coordinate) -> Area? {
-        areas.filter { Route.distance(point, $0.center) <= $0.radiusMeters + Self.areaReachMeters }
-            .min { Route.distance(point, $0.center) < Route.distance(point, $1.center) }
+        let nearest = pois.min { Route.distance(point, $0.coordinate) < Route.distance(point, $1.coordinate) }
+        guard let nearest, Route.distance(point, nearest.coordinate) <= Self.areaReachMeters else { return nil }
+        return area(nearest.area)
     }
 
     // MARK: Loading
