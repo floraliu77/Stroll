@@ -209,7 +209,10 @@ struct ExploreView: View {
                 HStack(spacing: 8) {
                     FilterChip(title: "All", isSelected: filter == nil) { filter = nil }
                     ForEach(content.categories) { category in
-                        FilterChip(title: category.name, isSelected: filter == category.id) { filter = category.id }
+                        // Tapping the selected chip again clears it, back to All.
+                        FilterChip(title: category.name, isSelected: filter == category.id) {
+                            filter = filter == category.id ? nil : category.id
+                        }
                     }
                 }
                 .padding(.horizontal, 16)
