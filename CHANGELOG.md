@@ -15,6 +15,10 @@ Groups: **Added** (new features), **Changed** (works differently now), **Fixed**
 ### Content
 - **North Squirrel Hill drafts.** Prompts, reveals, stories and alt text for 8 places in north
   Squirrel Hill, with sources and on-site checks, plus photos for 6 of them. Not in the app yet.
+- **Arrival checkpoints drafted.** In user testing, people hadn't found the place before the
+  question started. All 56 places now have a locate line, a question and (where there's
+  something to find) a help clue, for a "Found it" checkpoint before the question. Not in the
+  app yet.
 
 ### Design
 - **New category icons.** Natural history is now a fossil shell (was a paw print) and History
@@ -29,6 +33,7 @@ Groups: **Added** (new features), **Changed** (works differently now), **Fixed**
 - Rewrote the README for the current app: how to install and try it, demo walk vs. real
   location, what's real and what's faked, and how the team works.
 - Started this change log.
+- Build plan for arrival checkpoints: `docs/plans/arrival-checkpoints.md`.
 
 ## Build 3 (version 0.1), Nov 16, 2026
 
