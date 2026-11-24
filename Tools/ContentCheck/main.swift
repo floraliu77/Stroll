@@ -39,6 +39,14 @@ for poi in content.pois {
     }
 }
 for line in [content.lines.skip, content.lines.done] { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
+// Areas (the map's area picker): every place names a real area, and every area has places.
+check(!content.areas.isEmpty, "there must be at least one area")
+check(Set(content.areas.map(\.id)).count == content.areas.count, "area ids must be unique")
+for area in content.areas { check(!content.pois(in: area).isEmpty, "area \(area.id) has no places") }
+for poi in content.pois {
+    check(content.area(poi.area) != nil, "\(poi.id): unknown area '\(poi.area)'")
+    check(!(poi.address ?? "").isEmpty, "\(poi.id): needs an address, so the team can find it (Developer tools)")
+}
 // Set walks (the Walks tab)
 /// Set-walk directions with no recording yet: walk id -> number of lines.
 var iPhoneVoiceCues: [String: Int] = [:]

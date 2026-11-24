@@ -12,6 +12,15 @@ struct StrollContent: Decodable {
     let lines: Lines
     let demoWalk: DemoWalk
     let walks: [Route]
+    /// The places Stroll covers, for the map's area picker (the pill at the top of Explore).
+    let areas: [Area]
+
+    /// A neighbourhood or city area, e.g. "Oakland, Pittsburgh". Each point of interest names its
+    /// area (`POI.area`).
+    struct Area: Decodable, Identifiable, Hashable {
+        let id: String
+        let name: String
+    }
 
     struct Category: Decodable, Identifiable, Hashable {
         let id: String       // e.g. "natural-history"
@@ -23,8 +32,12 @@ struct StrollContent: Decodable {
         let id: String
         let name: String
         let category: String             // Category.id
+        let area: String                 // Area.id
         let coordinate: Coordinate
-        let coordinateStatus: String     // "placeholder" until the location research confirms it
+        /// A street address or landmark for the team to find the place (Developer tools), e.g.
+        /// "37592 Niles Blvd". From OpenStreetMap, checked by hand. Not shown to participants.
+        let address: String?
+        let coordinateStatus: String    // "placeholder" until the location research confirms it
         let triggerRadiusMeters: Double
         let image: String                // asset catalog name
         /// What the photo shows, read by VoiceOver. Describes the photo without naming the place or
@@ -114,6 +127,22 @@ struct StrollContent: Decodable {
     func poi(_ id: String) -> POI? { pois.first { $0.id == id } }
     func category(_ id: String) -> Category? { categories.first { $0.id == id } }
     func route(_ id: String) -> Route? { walks.first { $0.id == id } }
+
+    // MARK: Areas
+
+    /// How far from the nearest place the map can be and still count as looking at its area.
+    static let areaReachMeters = 15_000.0
+
+    func area(_ id: String) -> Area? { areas.first { $0.id == id } }
+
+    func pois(in area: Area) -> [POI] { pois.filter { $0.area == area.id } }
+
+    /// The area of the place nearest `point` (e.g. the middle of the map), or nil far from all of them.
+    func area(near point: Coordinate) -> Area? {
+        let nearest = pois.min { Route.distance(point, $0.coordinate) < Route.distance(point, $1.coordinate) }
+        guard let nearest, Route.distance(point, nearest.coordinate) <= Self.areaReachMeters else { return nil }
+        return area(nearest.area)
+    }
 
     // MARK: Loading
 

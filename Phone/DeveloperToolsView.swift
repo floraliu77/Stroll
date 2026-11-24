@@ -89,30 +89,22 @@ struct DeveloperToolsView: View {
                     Text("Stops the guide and takes the phone and watch back to Start Exploring.")
                         .foregroundStyle(Color.devSecondary)
                 }
-                Section {
-                    ForEach(session.content.pois) { poi in
-                        Button {
-                            session.arriveNow(poi.id)
-                            dismiss()
-                        } label: {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(poi.name).foregroundStyle(Color.primary)
-                                Text(session.content.category(poi.category)?.name ?? "")
-                                    // A fixed colour, not .secondary: the rows are disabled until exploring
-                                    // starts, which dimmed grey text to nearly invisible. ~7:1 contrast in
-                                    // light and dark mode.
-                                    .font(.footnote).foregroundStyle(Color.devSecondary)
-                            }
+                // One section per area (Oakland first, then Niles), so a city's places are together.
+                ForEach(Array(session.content.areas.enumerated()), id: \.element.id) { index, area in
+                    Section {
+                        ForEach(session.content.pois(in: area)) { poi in poiRow(poi) }
+                    } header: {
+                        Text(index == 0 ? "Bring up a point of interest now · \(area.name)" : area.name)
+                            .foregroundStyle(Color.devSecondary)
+                    } footer: {
+                        if index == session.content.areas.count - 1 {
+                            Text((canArrive
+                                  ? "Tap a place to start it straight away, even mid-story. The demo walk carries on afterwards."
+                                  : "Tap Start Exploring first to bring a place up.")
+                                 + " The map button opens the exact spot in Maps.")
+                                .foregroundStyle(Color.devSecondary)
                         }
-                        .disabled(!canArrive)
                     }
-                } header: {
-                    Text("Bring up a point of interest now").foregroundStyle(Color.devSecondary)
-                } footer: {
-                    Text(canArrive
-                         ? "Starts it straight away, even mid-story. The demo walk carries on afterwards."
-                         : "Tap Start Exploring first.")
-                        .foregroundStyle(Color.devSecondary)
                 }
             }
             .tint(Color.devGreen)   // buttons; the app's green is too dark on the dark-mode sheet
@@ -180,6 +172,46 @@ struct DeveloperToolsView: View {
         case .tracking: "Tracking"
         case .denied: "Location is off for Stroll. Settings → Stroll → Location → While Using the App"
         }
+    }
+
+    /// A place: tap to bring it up now (once exploring), or open its pin in Maps (always).
+    private func poiRow(_ poi: StrollContent.POI) -> some View {
+        HStack(spacing: 12) {
+            Button {
+                session.arriveNow(poi.id)
+                dismiss()
+            } label: {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(poi.name).foregroundStyle(Color.primary)
+                    // Fixed colours, not .secondary: the rows are disabled until exploring starts,
+                    // which dimmed grey text to nearly invisible. ~7:1 contrast in light and dark mode.
+                    Text(session.content.category(poi.category)?.name ?? "")
+                        .font(.footnote).foregroundStyle(Color.devSecondary)
+                    if let address = poi.address {
+                        Text(address).font(.footnote).foregroundStyle(Color.devSecondary)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.borderless)   // two buttons in one row, each with its own tap
+            .disabled(!canArrive)
+            if let maps = mapsURL(poi) {
+                Link(destination: maps) {
+                    Image(systemName: "map").font(.body).foregroundStyle(Color.devGreen)
+                        .frame(width: 44, height: 44)
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("Open \(poi.name) in Maps")
+            }
+        }
+    }
+
+    /// Apple Maps with a pin at the place, labelled with its name.
+    private func mapsURL(_ poi: StrollContent.POI) -> URL? {
+        var parts = URLComponents(string: "https://maps.apple.com/")
+        parts?.queryItems = [URLQueryItem(name: "ll", value: "\(poi.coordinate.latitude),\(poi.coordinate.longitude)"),
+                             URLQueryItem(name: "q", value: poi.name)]
+        return parts?.url
     }
 
     private func nearestPlace(to coordinate: StrollContent.Coordinate) -> (poi: StrollContent.POI, meters: Double)? {
