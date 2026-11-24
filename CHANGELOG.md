@@ -17,6 +17,9 @@ Groups: **Added** (new features), **Changed** (works differently now), **Fixed**
   Squirrel Hill, with sources and on-site checks, plus photos for 6 of them. Not in the app yet.
 
 ### Design
+- **New category icons.** Natural history is now a fossil shell (was a paw print) and History
+  is a scroll (was an hourglass), on map pins, labels, the Journal and the watch. Both are
+  Apple symbols, so there's no new artwork to maintain.
 - New Figma page **"v2 – Design system (from code)"** in AxD-Stroll. It matches the app as
   built, with 21 documented components, 16 text styles, corner radius, spacing and shadow
   variables, and AA category colors. Each section notes what changed since v1. The v1 page is
