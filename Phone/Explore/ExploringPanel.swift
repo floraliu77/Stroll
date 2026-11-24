@@ -108,7 +108,7 @@ struct StopSheet: View {
     @EnvironmentObject private var session: ExploreSession
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverOn
     @AccessibilityFocusState private var focusedControl: MainControl?
-    private enum MainControl { case tellMeMore, pause, keepExploring }
+    private enum MainControl { case foundIt, tellMeMore, pause, keepExploring }
     /// Opens full height, as before; the participant can slide it down.
     @State private var detent: PresentationDetent = .large
     /// The panel behind the sheet (Exploring, or the walk's next stop): slid down, the sheet is
@@ -188,6 +188,9 @@ struct StopSheet: View {
             switch session.phase {
             case .preview:
                 pauseButton
+            case .locating:   // Help me find it is in the half and full sheet: two buttons fit here
+                PanelButton(title: "Found it", symbol: nil, filled: true) { session.foundIt() }
+                PanelButton(title: "Skip", symbol: nil, filled: false) { session.skip() }
             case .prompt:
                 PanelButton(title: "Tell me more", symbol: nil, filled: true) { session.tellMeMore() }
                 PanelButton(title: "Skip", symbol: nil, filled: false) { session.skip() }
@@ -233,6 +236,7 @@ struct StopSheet: View {
         .onChange(of: session.phase) { _, phase in
             guard voiceOverOn else { return }
             switch phase {
+            case .locating: focusedControl = .foundIt
             case .prompt: focusedControl = .tellMeMore
             case .story: focusedControl = .pause   // not Keep exploring: a stray tap would skip the story
             case .finished: focusedControl = .keepExploring
@@ -293,7 +297,7 @@ struct StopSheet: View {
         guard let poi = session.poi, session.phase == .story || session.phase == .finished else {
             return session.transcript
         }
-        return [poi.prompt.narration, poi.reveal.narration] + poi.story.map(\.narration)
+        return session.introLines + [poi.reveal.narration] + poi.story.map(\.narration)
     }
 
     @ViewBuilder private var controls: some View {
@@ -301,6 +305,16 @@ struct StopSheet: View {
             switch session.phase {
             case .preview:
                 pauseButton
+            case .locating:
+                PanelButton(title: "Found it", symbol: nil, filled: true) { session.foundIt() }
+                    .accessibilityFocused($focusedControl, equals: .foundIt)
+                HStack(spacing: 10) {
+                    if session.canHelp {
+                        PanelButton(title: "Help me find it", symbol: nil, filled: false) { session.helpMeFind() }
+                    }
+                    PanelButton(title: "Skip", symbol: nil, filled: false) { session.skip() }
+                }
+                listeningRow
             case .prompt:
                 PanelButton(title: "Tell me more", symbol: nil, filled: true) { session.tellMeMore() }
                     .accessibilityFocused($focusedControl, equals: .tellMeMore)

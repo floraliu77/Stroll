@@ -25,6 +25,7 @@ struct WalkView: View {
                 case .exploring:
                     if mirror.route != nil { NextStopScreen() } else { ExploringScreen() }
                 case .preview: PreviewScreen()
+                case .locating: LocatingScreen()
                 case .prompt: PromptScreen()
                 case .story: StoryScreen()
                 case .finished: FinishedScreen()
@@ -197,13 +198,37 @@ private struct PreviewScreen: View {
     }
 }
 
-private struct PromptScreen: View {
+/// "find" places: where it is, then one large Found it, with Help (once) and Skip below.
+private struct LocatingScreen: View {
     @EnvironmentObject private var mirror: MirrorModel
 
     var body: some View {
         SpotScreen {
             POIPhoto(controls: [.replay, .pause])
-            ReadText(lines: mirror.poi.map { [$0.prompt.text] } ?? [])
+            ReadText(lines: mirror.poi.map { [$0.locate.text] } ?? [])
+            PrimaryButton("Found it") { mirror.send(.foundIt) }
+            if !mirror.state.helpGiven {
+                SecondaryButton("Help me find it") { mirror.send(.helpMeFind) }
+            }
+            SecondaryButton("Skip") { mirror.send(.skip) }
+        }
+    }
+}
+
+private struct PromptScreen: View {
+    @EnvironmentObject private var mirror: MirrorModel
+
+    /// The question; at "here" and "gone" places, where there was no Found it step, the locate
+    /// line above it too.
+    private var lines: [String] {
+        guard let poi = mirror.poi else { return [] }
+        return poi.arrival == .find ? [poi.question.text] : [poi.locate.text, poi.question.text]
+    }
+
+    var body: some View {
+        SpotScreen {
+            POIPhoto(controls: [.replay, .pause])
+            ReadText(lines: lines)
             PrimaryButton("Tell me more") { mirror.send(.tellMeMore) }
             SecondaryButton("Skip") { mirror.send(.skip) }
         }

@@ -9,7 +9,8 @@ enum ExplorePhase: String, Codable, Equatable {
     case idle        // before Start Exploring
     case exploring   // wandering until the next point of interest
     case preview     // buzz + photo
-    case prompt      // Tell me more / Skip
+    case locating    // "find" places: the locate line, waiting for Found it
+    case prompt      // the question: Tell me more / Skip
     case story       // reveal + story playing
     case finished    // story done: Keep exploring
     case skipping    // "Alright, got it. Moving on."
@@ -35,6 +36,9 @@ struct MirrorState: Codable, Equatable {
     var waitingForHeadphones = false
     /// Read mode and headphones just connected: "Turn on voice?"
     var offeringVoice = false
+    /// While locating: Help me find it was used (or the place has no help line), so the watch
+    /// hides the Help button.
+    var helpGiven = false
 
     static let idle = MirrorState(phase: .idle, poiID: nil, paused: false, foundCount: 0, everythingVisited: false)
 }
@@ -48,6 +52,7 @@ enum WatchAction: String, Codable, Equatable {
     case start, tellMeMore, skip, keepExploring, replay, pause, resume, end, reset, sync, skipStop
     case listenWithHeadphones, listenByReading, listenOutLoud, cancelStart
     case voiceOn, keepReading
+    case foundIt, helpMeFind   // arrival checkpoint at a "find" place
 }
 
 /// The answer to "Headphones aren't connected" when starting.

@@ -44,9 +44,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Columns_of_the_Mellon_Institute,_2021-12-20,_01.jpg"
       },
-      "prompt": {
-        "text": "This building has a long row of giant stone columns. How many pieces of stone make up one column?",
-        "audio": "mellon-columns-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Fifth Avenue, a huge stone building has a long row of giant columns across its front.",
+        "audio": "mellon-columns-locate"
+      },
+      "question": {
+        "text": "How many pieces of stone do you think make up one column?",
+        "audio": "mellon-columns-question"
+      },
+      "findHelp": {
+        "text": "The columns line the whole Fifth Avenue front, at the corner of Bellefield Avenue.",
+        "audio": "mellon-columns-help"
       },
       "reveal": {
         "text": "None stacked. Each column is a single piece of stone.",
@@ -92,9 +101,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:DippyStatuteCarnegiePittsburgh.jpg"
       },
-      "prompt": {
-        "text": "A life-size dinosaur stands outside the museum. Is it made of real bone, or something else?",
-        "audio": "dippy-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Outside the Carnegie Museum on Forbes Avenue, a life-size dinosaur stands on the lawn, its long neck curving up.",
+        "audio": "dippy-locate"
+      },
+      "question": {
+        "text": "Is it made of real bone, or something else?",
+        "audio": "dippy-question"
+      },
+      "findHelp": {
+        "text": "It stands near the corner of Forbes Avenue and South Craig Street, at the east end of the museum.",
+        "audio": "dippy-help"
       },
       "reveal": {
         "text": "It's a life-size fiberglass copy.",
@@ -140,9 +158,18 @@
         "licenseUrl": "",
         "source": "https://commons.wikimedia.org/wiki/File:Mary_Schenley_Fountain_-_Pittsburgh_-_IMG_0755.jpg"
       },
-      "prompt": {
-        "text": "Around the rim of this fountain's basin, bronze animals spout water. What kind of animals are they?",
-        "audio": "song-to-nature-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Near Schenley Plaza and the Carnegie Library, a big stone fountain has a wide round basin with bronze figures in the middle.",
+        "audio": "song-to-nature-locate"
+      },
+      "question": {
+        "text": "Around the rim, bronze animals spout water. What kind of animals are they?",
+        "audio": "song-to-nature-question"
+      },
+      "findHelp": {
+        "text": "It's on Schenley Drive, where the plaza's lawn meets the road.",
+        "audio": "song-to-nature-help"
       },
       "reveal": {
         "text": "Turtles. Four bronze turtles spout water into the basin.",
@@ -188,9 +215,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Forbes_Field_outfield_walls.jpg"
       },
-      "prompt": {
-        "text": "This old brick wall has large numbers painted on it. What do you think they measure?",
-        "audio": "forbes-wall-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Roberto Clemente Drive, a long, old red brick wall stands on its own, with big white numbers painted on it.",
+        "audio": "forbes-wall-locate"
+      },
+      "question": {
+        "text": "What do you think the numbers measure?",
+        "audio": "forbes-wall-question"
+      },
+      "findHelp": {
+        "text": "It runs alongside the street, across from Pitt's Posvar Hall.",
+        "audio": "forbes-wall-help"
       },
       "reveal": {
         "text": "Distances from home plate: 457 and 436 feet.",
@@ -236,9 +272,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:St._Nicholas_Greek_Orthodox_Cathedral,_Oakland,_2023-08-21,_01.jpg"
       },
-      "prompt": {
-        "text": "The columns on this church's front porch each curl out into a shape at the top. What shape do you think it is?",
-        "audio": "st-nicholas-cathedral-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On South Dithridge Street, a pale stone church has six tall columns on its front porch and wide steps up to the door.",
+        "audio": "st-nicholas-cathedral-locate"
+      },
+      "question": {
+        "text": "Each column curls out into a shape at the top. What shape do you think it is?",
+        "audio": "st-nicholas-cathedral-question"
+      },
+      "findHelp": {
+        "text": "It's near the corner of Dithridge Street and Forbes Avenue, with a triangular roof above the columns.",
+        "audio": "st-nicholas-cathedral-help"
       },
       "reveal": {
         "text": "Scrolls. These are Ionic columns, a style from ancient Greece.",
@@ -292,9 +337,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Young_Men_and_Women%E2%80%99s_Hebrew_Association,_Oakland,_2022-01-11.jpg"
       },
-      "prompt": {
-        "text": "Words carved above this building's tall arched doorway name who it was built for. Who do you think it was?",
-        "audio": "bellefield-hall-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Bellefield Avenue, a large red brick building on a corner has a tall arched stone doorway at one end.",
+        "audio": "bellefield-hall-locate"
+      },
+      "question": {
+        "text": "Words carved above the doorway name who it was built for. Who do you think it was?",
+        "audio": "bellefield-hall-question"
+      },
+      "findHelp": {
+        "text": "It's just up Bellefield Avenue from the Mellon Institute's giant columns. Iron lanterns hang by the main entrance.",
+        "audio": "bellefield-hall-help"
       },
       "reveal": {
         "text": "The Young Men and Women's Hebrew Association.",
@@ -349,9 +403,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Heinz_Memorial_Chapel,_exterior.jpg"
       },
-      "prompt": {
-        "text": "Shields are carved into this chapel's stone walls. What do you think they stand for?",
-        "audio": "heinz-chapel-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Pitt's campus, a pale stone chapel with one very tall, thin, pointed spire stands on its own on a wide lawn.",
+        "audio": "heinz-chapel-locate"
+      },
+      "question": {
+        "text": "Shields are carved into its stone walls. What do you think they stand for?",
+        "audio": "heinz-chapel-question"
+      },
+      "findHelp": {
+        "text": "It's right beside the Cathedral of Learning, the tall stone tower.",
+        "audio": "heinz-chapel-help"
       },
       "reveal": {
         "text": "Schools. They're the seals of old European universities and early American colleges.",
@@ -405,9 +468,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Cathedral_of_Learning,_northeast_face,_2022-09-14,_02.jpg"
       },
-      "prompt": {
-        "text": "This stone tower rises high above the campus. How many floors do you think it has?",
-        "audio": "cathedral-of-learning-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "A pale stone tower rises high above the campus, with long, narrow pointed windows running up its sides.",
+        "audio": "cathedral-of-learning-locate"
+      },
+      "question": {
+        "text": "How many floors do you think it has?",
+        "audio": "cathedral-of-learning-question"
+      },
+      "findHelp": {
+        "text": "It's the tallest building around, between Fifth and Forbes Avenues.",
+        "audio": "cathedral-of-learning-help"
       },
       "reveal": {
         "text": "42. It's 535 feet tall.",
@@ -461,9 +533,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Hiker_Pittsburgh.jpg"
       },
-      "prompt": {
-        "text": "Words on the front of this statue's base name the war this soldier fought in. Which war do you think it was?",
-        "audio": "the-hiker-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "At the edge of Schenley Park, a bronze soldier in a wide-brimmed hat stands on a stone base, holding a rifle across his body.",
+        "audio": "the-hiker-locate"
+      },
+      "question": {
+        "text": "Words on the front of the base name the war he fought in. Which war do you think it was?",
+        "audio": "the-hiker-question"
+      },
+      "findHelp": {
+        "text": "He stands beside Schenley Drive, at the edge of the park.",
+        "audio": "the-hiker-help"
       },
       "reveal": {
         "text": "The War with Spain, in 1898. Today it's called the Spanish-American War.",
@@ -517,9 +598,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:First_Baptist_Church,_Oakland,_Pittsburgh,_2023-05-20.jpg"
       },
-      "prompt": {
-        "text": "This church has a tall, thin spire that has turned green. Why do you think it's green?",
-        "audio": "first-baptist-church-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "At Bellefield Avenue and Bayard Street, a pale stone church has tall pointed windows and a thin spire that has turned green.",
+        "audio": "first-baptist-church-locate"
+      },
+      "question": {
+        "text": "Why do you think the spire is green?",
+        "audio": "first-baptist-church-question"
+      },
+      "findHelp": {
+        "text": "It's on the corner, a block from the Mellon Institute's giant columns. The spire is the tallest thing on the block.",
+        "audio": "first-baptist-church-help"
       },
       "reveal": {
         "text": "It's copper. Copper turns green as it weathers.",
@@ -573,9 +663,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:St._Paul%E2%80%99s_Cathedral,_Oakland,_Pittsburgh,_2022-09-14,_02.jpg"
       },
-      "prompt": {
-        "text": "A row of arched doorways runs across the front of this cathedral. How many do you think there are?",
-        "audio": "st-paul-cathedral-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On North Dithridge Street at Fifth Avenue, a pale stone cathedral has two tall towers with a big pointed window between them.",
+        "audio": "st-paul-cathedral-locate"
+      },
+      "question": {
+        "text": "A row of arched doorways runs across its front. How many do you think there are?",
+        "audio": "st-paul-cathedral-question"
+      },
+      "findHelp": {
+        "text": "The brick church right next door has a cross near the top of its tower.",
+        "audio": "st-paul-cathedral-help"
       },
       "reveal": {
         "text": "Five. Three in the middle, and one at the bottom of each spire.",
@@ -629,9 +728,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Fairfax_Apartments,_Oakland,_Pittsburgh,_2023-11-20.jpg"
       },
-      "prompt": {
-        "text": "Fancy carved stone tops crown the roofline of this tall brick building. How many do you think there are?",
-        "audio": "fairfax-apartments-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Fifth Avenue, a tall, wide red brick apartment building has rows of windows and pale stone trim along the roofline.",
+        "audio": "fairfax-apartments-locate"
+      },
+      "question": {
+        "text": "Fancy carved stone tops crown that roofline. How many do you think there are?",
+        "audio": "fairfax-apartments-question"
+      },
+      "findHelp": {
+        "text": "It's a short walk east of St. Paul Cathedral's twin towers, the tallest brick building on that stretch.",
+        "audio": "fairfax-apartments-help"
       },
       "reveal": {
         "text": "Three. Each one crowns a section that sticks out a little from the wall.",
@@ -686,9 +794,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
         "source": "https://commons.wikimedia.org/wiki/File:Allen_Hall_(University_of_Pittsburgh).jpg"
       },
-      "prompt": {
+      "arrival": "find",
+      "locate": {
+        "text": "On O'Hara Street, a six-story stone building has four tall columns across the middle and a triangular roof above them.",
+        "audio": "allen-hall-locate"
+      },
+      "question": {
         "text": "A bronze plaque by the entrance honors a famous scientist. Who do you think it is?",
-        "audio": "allen-hall-prompt"
+        "audio": "allen-hall-question"
+      },
+      "findHelp": {
+        "text": "It's a block up the hill from Fifth Avenue. The plaque is beside the main entrance.",
+        "audio": "allen-hall-help"
       },
       "reveal": {
         "text": "Marie Curie, who received an honorary degree from Pitt in 1921.",
@@ -739,9 +856,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Carnegie_Museum_of_Natural_History_as_seen_from_Cathedral_of_Learning.jpg"
       },
-      "prompt": {
-        "text": "Four bronze figures sit along the Forbes Avenue front, two by the concert hall and two by the museum doors. What do they have in common?",
-        "audio": "carnegie-institute-and-library-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Along Forbes Avenue, a long, grand stone building has a row of arched windows, with bronze figures sitting out front.",
+        "audio": "carnegie-institute-and-library-locate"
+      },
+      "question": {
+        "text": "There are four of them, two by the concert hall and two by the museum doors. What do they have in common?",
+        "audio": "carnegie-institute-and-library-question"
+      },
+      "findHelp": {
+        "text": "It's the huge building across Forbes Avenue from Schenley Plaza, with Dippy the dinosaur on its lawn.",
+        "audio": "carnegie-institute-and-library-help"
       },
       "reveal": {
         "text": "Each is a giant of a different field: Shakespeare for writing, Bach for music, Michelangelo for art and Galileo for science.",
@@ -792,9 +918,18 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Carnegie_Library_of_Pittsburgh_-_IMG_0789.jpg"
       },
-      "prompt": {
-        "text": "Words are carved in stone above the three arched doors. What do they promise?",
-        "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "In the Carnegie building on Forbes Avenue, the library has a wide stairway up to three arched doors, with a row of columns above.",
+        "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-locate"
+      },
+      "question": {
+        "text": "Words are carved in stone above the doors. What do they promise?",
+        "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-question"
+      },
+      "findHelp": {
+        "text": "The library entrance is at the end of the building closest to Schenley Plaza.",
+        "audio": "main-branch-of-the-carnegie-library-of-pittsburgh-help"
       },
       "reveal": {
         "text": "\"Free to the people.\"",
@@ -843,9 +978,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Panther_Hollow_Bridge.jpg"
       },
-      "prompt": {
-        "text": "A big bronze animal crouches on each corner of this bridge. What animal is it?",
-        "audio": "panther-hollow-bridge-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "In Schenley Park, a steel arch bridge crosses a deep wooded hollow, with a big bronze animal crouching on a stone base at each corner.",
+        "audio": "panther-hollow-bridge-locate"
+      },
+      "question": {
+        "text": "What animal do you think it is?",
+        "audio": "panther-hollow-bridge-question"
+      },
+      "findHelp": {
+        "text": "There are four animals, two at each end of the bridge. It's the Panther Hollow Bridge, on the road through the park.",
+        "audio": "panther-hollow-bridge-help"
       },
       "reveal": {
         "text": "A panther. Four of them guard the bridge, sculpted by Giuseppe Moretti.",
@@ -896,9 +1040,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
         "source": "https://commons.wikimedia.org/wiki/File:PittsburghAthleticAssociation2012.jpg"
       },
-      "prompt": {
-        "text": "This stone clubhouse was modeled on palaces in an Italian city. Which city do you think?",
-        "audio": "pittsburgh-athletic-association-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Fifth Avenue, an eight-story stone clubhouse has tall arched windows and carved decoration.",
+        "audio": "pittsburgh-athletic-association-locate"
+      },
+      "question": {
+        "text": "It was modeled on palaces in an Italian city. Which city do you think?",
+        "audio": "pittsburgh-athletic-association-question"
+      },
+      "findHelp": {
+        "text": "It's at Fifth Avenue and Bigelow Boulevard, across from the Cathedral of Learning.",
+        "audio": "pittsburgh-athletic-association-help"
       },
       "reveal": {
         "text": "Venice. The architect, Benno Janssen, based it on palaces along its canals.",
@@ -949,9 +1102,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Pittsburgh_Chinese_Church.jpg"
       },
-      "prompt": {
-        "text": "Words run down the front of the brick tower in two languages. Which two?",
-        "audio": "pittsburgh-chinese-church-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On North Dithridge Street, a brick church has a tall square tower with a cross near the top.",
+        "audio": "pittsburgh-chinese-church-locate"
+      },
+      "question": {
+        "text": "Words run down the front of the tower in two languages. Which two?",
+        "audio": "pittsburgh-chinese-church-question"
+      },
+      "findHelp": {
+        "text": "It's right next door to St. Paul Cathedral and its two tall towers.",
+        "audio": "pittsburgh-chinese-church-help"
       },
       "reveal": {
         "text": "Chinese and English. The Chinese characters name the church's Oakland congregation.",
@@ -1002,9 +1164,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Schenley_Bridge_from_South_Oakland_3.jpg"
       },
-      "prompt": {
-        "text": "Small metal objects are clipped all along this bridge's railings. What are they?",
-        "audio": "schenley-bridge-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Behind the Carnegie Museum, a long steel arch bridge carries the road over a deep wooded valley.",
+        "audio": "schenley-bridge-locate"
+      },
+      "question": {
+        "text": "Small metal objects are clipped all along its railings. What are they?",
+        "audio": "schenley-bridge-question"
+      },
+      "findHelp": {
+        "text": "It runs from Schenley Drive by the museum toward Flagstaff Hill. The objects are on the railings on both sides.",
+        "audio": "schenley-bridge-help"
       },
       "reveal": {
         "text": "Love locks, padlocks left by couples since the 2010s.",
@@ -1055,9 +1226,18 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Main_Building,_U.S._Bureau_of_Mines.jpg"
       },
-      "prompt": {
-        "text": "Tall arched windows line this pale brick building. It was built for the U.S. government. What do you think it studied?",
-        "audio": "main-building-u-s-bureau-of-mines-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Along Forbes Avenue, at the edge of Carnegie Mellon's campus, a long pale brick building has a row of tall arched windows on its lower floor.",
+        "audio": "main-building-u-s-bureau-of-mines-locate"
+      },
+      "question": {
+        "text": "It was built for the U.S. government. What do you think it studied?",
+        "audio": "main-building-u-s-bureau-of-mines-question"
+      },
+      "findHelp": {
+        "text": "It's across Forbes Avenue from Carnegie Mellon's main campus.",
+        "audio": "main-building-u-s-bureau-of-mines-help"
       },
       "reveal": {
         "text": "Mining, and how to make it safer. It was the main building of the Bureau of Mines research station.",
@@ -1108,9 +1288,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:WightmanSchool.jpg"
       },
-      "prompt": {
-        "text": "This big brick school hasn't had pupils since 1980. What do you think it's used for now?",
-        "audio": "wightman-school-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "In Squirrel Hill, a three-story red brick school building has arched windows and a black iron fire escape.",
+        "audio": "wightman-school-locate"
+      },
+      "question": {
+        "text": "It hasn't had pupils since 1980. What do you think it's used for now?",
+        "audio": "wightman-school-question"
+      },
+      "findHelp": {
+        "text": "It's on Solway Street, right next to Wightman Park.",
+        "audio": "wightman-school-help"
       },
       "reveal": {
         "text": "It's a community building, home to small businesses and nonprofits since 1981.",
@@ -1161,9 +1350,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Bindley_Hardware_Co._Building.jpg"
       },
-      "prompt": {
-        "text": "This brick warehouse sits right beside the railroad tracks. Why do you think it was built here?",
-        "audio": "bindley-hardware-company-building-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Amberson Avenue, a large three-story red brick warehouse sits right beside the railroad tracks.",
+        "audio": "bindley-hardware-company-building-locate"
+      },
+      "question": {
+        "text": "Why do you think it was built here?",
+        "audio": "bindley-hardware-company-building-question"
+      },
+      "findHelp": {
+        "text": "It's at the bottom of Amberson Avenue, where the road meets the tracks and the busway.",
+        "audio": "bindley-hardware-company-building-help"
       },
       "reveal": {
         "text": "To ship by train. It was the main warehouse of a big hardware wholesaler, next to the old Shadyside station.",
@@ -1214,9 +1412,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Church_of_the_Ascension_Pittsburgh_01.JPG"
       },
-      "prompt": {
-        "text": "This dark stone church has a tall square tower. Its first stone was laid on a famous holiday. Which one?",
-        "audio": "church-of-the-ascension-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "At Ellsworth Avenue and North Neville Street, a dark gray stone church has a tall square tower.",
+        "audio": "church-of-the-ascension-locate"
+      },
+      "question": {
+        "text": "Its first stone was laid on a famous holiday. Which one?",
+        "audio": "church-of-the-ascension-question"
+      },
+      "findHelp": {
+        "text": "Its front door is painted red.",
+        "audio": "church-of-the-ascension-help"
       },
       "reveal": {
         "text": "The Fourth of July, in 1897.",
@@ -1267,9 +1474,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:McCook_Mansion_-_Pittsburgh,_PA_-_DSC05088-001.JPG"
       },
-      "prompt": {
-        "text": "This stone mansion has tall chimneys, bay windows and a stone balustrade. What do you think it is today?",
-        "audio": "mccook-family-estate-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Fifth Avenue, a large gray stone mansion has tall chimneys, bay windows and a stone balustrade.",
+        "audio": "mccook-family-estate-locate"
+      },
+      "question": {
+        "text": "What do you think it is today?",
+        "audio": "mccook-family-estate-question"
+      },
+      "findHelp": {
+        "text": "It's nearly across Fifth Avenue from a white house with arched windows.",
+        "audio": "mccook-family-estate-help"
       },
       "reveal": {
         "text": "A hotel called Mansions on Fifth, open since 2012.",
@@ -1320,9 +1536,18 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Moreland-Hoffstot_House.jpg"
       },
-      "prompt": {
-        "text": "The ground floor of this white house has a row of arched openings, front door included. How many do you think there are?",
-        "audio": "moreland-hoffstot-house-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Fifth Avenue, a white two-story mansion sits behind two clipped hedges and a lawn.",
+        "audio": "moreland-hoffstot-house-locate"
+      },
+      "question": {
+        "text": "The ground floor has a row of arched openings, front door included. How many do you think there are?",
+        "audio": "moreland-hoffstot-house-question"
+      },
+      "findHelp": {
+        "text": "It's nearly across Fifth Avenue from the big gray stone McCook mansion.",
+        "audio": "moreland-hoffstot-house-help"
       },
       "reveal": {
         "text": "Five: the door in the middle, with two arched windows on each side.",
@@ -1369,9 +1594,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
         "source": "https://commons.wikimedia.org/wiki/File:ShadysidePresbyterianChurchPHLF.jpg"
       },
-      "prompt": {
-        "text": "The big roof over the middle rises to a point, with a small window poking out on each side. What does it remind you of?",
-        "audio": "shadyside-presbyterian-church-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Westminster Place, a large stone church has a broad, steep roof that rises to a point over the middle.",
+        "audio": "shadyside-presbyterian-church-locate"
+      },
+      "question": {
+        "text": "A small window pokes out on each side of that roof. What does it remind you of?",
+        "audio": "shadyside-presbyterian-church-question"
+      },
+      "findHelp": {
+        "text": "It's at the corner of Westminster Place and Amberson Avenue, with a small tower at the very top of the roof.",
+        "audio": "shadyside-presbyterian-church-help"
       },
       "reveal": {
         "text": "A witch's hat. That's what this kind of pointed roof with dormer windows is called.",
@@ -1422,9 +1656,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:BellefieldBoilerPlantCarnegie.jpg"
       },
-      "prompt": {
-        "text": "A tall concrete smokestack rises out of the hollow. What do you think this plant heats?",
-        "audio": "bellefield-boiler-plant-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Down in the hollow behind the Carnegie Museum, a brick building has a very tall, thin concrete smokestack rising out of it.",
+        "audio": "bellefield-boiler-plant-locate"
+      },
+      "question": {
+        "text": "What do you think this plant heats?",
+        "audio": "bellefield-boiler-plant-question"
+      },
+      "findHelp": {
+        "text": "The smokestack is easiest to see from the Schenley Bridge, rising above the trees.",
+        "audio": "bellefield-boiler-plant-help"
       },
       "reveal": {
         "text": "Most of Oakland. Its steam warms most of the big buildings around here, including the Cathedral of Learning.",
@@ -1475,9 +1718,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Pitt_-_first_building.jpg"
       },
-      "prompt": {
-        "text": "A small log cabin sits in the shadow of the Cathedral of Learning's tall stone tower. What do you think it's used for now?",
-        "audio": "log-cabin-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On the lawn beside the Cathedral of Learning, a small log cabin with a stone chimney and a porch sits below the tall tower.",
+        "audio": "log-cabin-locate"
+      },
+      "question": {
+        "text": "What do you think it's used for now?",
+        "audio": "log-cabin-question"
+      },
+      "findHelp": {
+        "text": "It's close to the base of the tower, on the lawn.",
+        "audio": "log-cabin-help"
       },
       "reveal": {
         "text": "Storing salt for icy winter paths.",
@@ -1528,9 +1780,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:OaklandSquarePittsburgh.jpg"
       },
-      "prompt": {
-        "text": "These houses circle a small park, like the squares of London and Dublin. What do most of them have on the front?",
-        "audio": "oakland-square-historic-district-prompt"
+      "arrival": "here",
+      "locate": {
+        "text": "You're in Oakland Square. The houses around you circle a small park, like the squares of London and Dublin.",
+        "audio": "oakland-square-historic-district-locate"
+      },
+      "question": {
+        "text": "What do most of them have on the front?",
+        "audio": "oakland-square-historic-district-question"
       },
       "reveal": {
         "text": "Porches and bay windows.",
@@ -1581,9 +1838,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
         "source": "https://commons.wikimedia.org/wiki/File:InsidePittStadium.jpg"
       },
-      "prompt": {
-        "text": "A huge football stadium stood here for 75 years. What do you think was built on this spot after it?",
-        "audio": "pitt-stadium-prompt"
+      "arrival": "gone",
+      "locate": {
+        "text": "A huge football stadium stood right around here for 75 years. The old photo on your phone shows it packed with fans.",
+        "audio": "pitt-stadium-locate"
+      },
+      "question": {
+        "text": "What do you think was built on this spot after it?",
+        "audio": "pitt-stadium-question"
       },
       "reveal": {
         "text": "The Petersen Events Center and student housing, built partly with the old stadium's ground-up concrete.",
@@ -1634,9 +1896,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:SalkHallSidePitt.jpg"
       },
-      "prompt": {
-        "text": "This tan brick building was built in 1941 for something very different from teaching. What do you think it was?",
-        "audio": "salk-hall-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Terrace Street, a tall tan brick building rises in steps, with narrow rows of windows running up it.",
+        "audio": "salk-hall-locate"
+      },
+      "question": {
+        "text": "It was built in 1941 for something very different from teaching. What do you think it was?",
+        "audio": "salk-hall-question"
+      },
+      "findHelp": {
+        "text": "It's up the hill on Pitt's upper campus, near the Petersen Events Center.",
+        "audio": "salk-hall-help"
       },
       "reveal": {
         "text": "A city hospital for contagious diseases.",
@@ -1687,9 +1958,14 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Oakland.jpg"
       },
-      "prompt": {
+      "arrival": "here",
+      "locate": {
+        "text": "You're in Schenley Farms, a neighborhood of grand stone buildings and big old houses.",
+        "audio": "schenley-farms-historic-district-locate"
+      },
+      "question": {
         "text": "Many big buildings around you resemble Greek temples or Italian palaces. Why do you think they match?",
-        "audio": "schenley-farms-historic-district-prompt"
+        "audio": "schenley-farms-historic-district-question"
       },
       "reveal": {
         "text": "They were part of a 1905 plan by developer Franklin Nicola to build a grand civic center here.",
@@ -1740,9 +2016,14 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Public_skating_at_the_casino.png"
       },
-      "prompt": {
-        "text": "Where this art building stands, there used to be an ice rink. What do you think made it special?",
-        "audio": "schenley-park-casino-prompt"
+      "arrival": "gone",
+      "locate": {
+        "text": "Right where the art building beside you stands, there used to be a big arena with towers. The old photo on your phone shows it.",
+        "audio": "schenley-park-casino-locate"
+      },
+      "question": {
+        "text": "It held an ice rink. What do you think made it special?",
+        "audio": "schenley-park-casino-question"
       },
       "reveal": {
         "text": "It had the first artificial ice in North America.",
@@ -1789,9 +2070,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:SoldiersMemorial_Pittsburgh.jpg"
       },
-      "prompt": {
-        "text": "Cannons sit on the lawn in front of this huge memorial. Which war was it first built to honor?",
-        "audio": "soldiers-and-sailors-memorial-hall-and-museum-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Fifth Avenue, a huge, square stone memorial hall with columns sits back behind a wide lawn with cannons.",
+        "audio": "soldiers-and-sailors-memorial-hall-and-museum-locate"
+      },
+      "question": {
+        "text": "Which war do you think it was first built to honor?",
+        "audio": "soldiers-and-sailors-memorial-hall-and-museum-question"
+      },
+      "findHelp": {
+        "text": "It's a short walk from the Pittsburgh Athletic Association's stone clubhouse, across Fifth Avenue from Pitt's campus.",
+        "audio": "soldiers-and-sailors-memorial-hall-and-museum-help"
       },
       "reveal": {
         "text": "The Civil War. Union veterans planned it in the 1890s, on ground where soldiers had once gathered to enlist.",
@@ -1842,9 +2132,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by/2.5/",
         "source": "https://commons.wikimedia.org/wiki/File:StephenFosterMemorial.jpg"
       },
-      "prompt": {
-        "text": "On the grounds near the shrine is a stone sundial. Something important is missing from it. What?",
-        "audio": "stephen-foster-memorial-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Forbes Avenue, beside the Cathedral of Learning, stands a Gothic-style stone building with red double doors. A stone sundial is on the grounds nearby.",
+        "audio": "stephen-foster-memorial-locate"
+      },
+      "question": {
+        "text": "Something important is missing from the sundial. What?",
+        "audio": "stephen-foster-memorial-question"
       },
       "reveal": {
         "text": "The pointer that casts the shadow, called the gnomon.",
@@ -1895,9 +2190,14 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Syria_Mosque,_Oakland_Neighborhood,_Pittsburgh,_PA.jpg"
       },
-      "prompt": {
-        "text": "A grand concert hall with 3,700 seats stood here until 1991. What do you think replaced it?",
-        "audio": "syria-mosque-prompt"
+      "arrival": "gone",
+      "locate": {
+        "text": "A grand concert hall with 3,700 seats stood right around here, on Bigelow Boulevard, until 1991. The old photo on your phone shows it.",
+        "audio": "syria-mosque-locate"
+      },
+      "question": {
+        "text": "What do you think replaced it?",
+        "audio": "syria-mosque-question"
       },
       "reveal": {
         "text": "A parking lot.",
@@ -1948,9 +2248,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:NeillLogHouse.jpg"
       },
-      "prompt": {
-        "text": "On the east side of this log house is a tiny window, about one foot high and two feet wide. Why do you think it's so small?",
-        "audio": "neill-log-house-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "In Schenley Park, a small one-story house of dark hewn logs sits on a stone foundation, with a stone chimney.",
+        "audio": "neill-log-house-locate"
+      },
+      "question": {
+        "text": "On one side is a tiny window, about one foot high and two feet wide. Why do you think it's so small?",
+        "audio": "neill-log-house-question"
       },
       "reveal": {
         "text": "It was built small for defense, and it's rare now, because most log houses around here later had their windows made bigger.",
@@ -2001,9 +2306,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:RodefShalomPittsburgh.jpg"
       },
-      "prompt": {
-        "text": "This yellow brick temple is trimmed with colorful terra cotta. A huge dome covers the main hall. What holds it up?",
-        "audio": "rodef-shalom-temple-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "At Fifth and Morewood Avenues, a wide yellow brick temple has a broad arched entrance and colorful terra cotta trim.",
+        "audio": "rodef-shalom-temple-locate"
+      },
+      "question": {
+        "text": "A huge dome covers the main hall. What do you think holds it up?",
+        "audio": "rodef-shalom-temple-question"
+      },
+      "findHelp": {
+        "text": "The broad arched entrance faces Fifth Avenue.",
+        "audio": "rodef-shalom-temple-help"
       },
       "reveal": {
         "text": "No steel at all. The 90-foot dome is made of thin interlocking tiles, a Spanish building method.",
@@ -2054,9 +2368,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Phipps_Conservatory_winter_2015_welcome_center.jpg"
       },
-      "prompt": {
-        "text": "This glass and iron greenhouse opened in 1893. Where do you think its very first plants came from?",
-        "audio": "phipps-conservatory-and-botanical-gardens-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "At the edge of Schenley Park, a Victorian glass and iron greenhouse has a large glass dome, surrounded by gardens.",
+        "audio": "phipps-conservatory-and-botanical-gardens-locate"
+      },
+      "question": {
+        "text": "It opened in 1893. Where do you think its very first plants came from?",
+        "audio": "phipps-conservatory-and-botanical-gardens-question"
+      },
+      "findHelp": {
+        "text": "It's on Schenley Drive, with the big glass dome at the front.",
+        "audio": "phipps-conservatory-and-botanical-gardens-help"
       },
       "reveal": {
         "text": "The 1893 World's Fair in Chicago.",
@@ -2105,9 +2428,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Oakland_Viewed_From_Flagstaff_Hill.jpg"
       },
-      "prompt": {
-        "text": "This grassy slope fills up with picnics, frisbees and sleds. What do you think once stood on it?",
-        "audio": "flagstaff-hill-prompt"
+      "arrival": "here",
+      "locate": {
+        "text": "You're on Flagstaff Hill, the wide grassy slope across Schenley Drive from Carnegie Mellon.",
+        "audio": "flagstaff-hill-locate"
+      },
+      "question": {
+        "text": "It fills up with picnics, frisbees and sleds. What do you think once stood on it?",
+        "audio": "flagstaff-hill-question"
       },
       "reveal": {
         "text": "A giant round electric fountain that put on light shows at night.",
@@ -2158,9 +2486,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Panther_Hollow_Pano.jpg"
       },
-      "prompt": {
-        "text": "This deep wooded valley is named after something that runs along its floor. What do you think it is?",
-        "audio": "junction-hollow-prompt"
+      "arrival": "here",
+      "locate": {
+        "text": "You're at Junction Hollow, the deep wooded valley below Carnegie Mellon's campus.",
+        "audio": "junction-hollow-locate"
+      },
+      "question": {
+        "text": "It's named after something that runs along its floor. What do you think it is?",
+        "audio": "junction-hollow-question"
       },
       "reveal": {
         "text": "A railroad. The Pittsburgh Junction Railroad laid tracks here in the 1880s.",
@@ -2211,9 +2544,18 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Christopher_Lyman_Magee_memorial_-_IMG_0783.jpg"
       },
-      "prompt": {
-        "text": "At the bottom of this tall stone memorial, water once poured from a bronze animal's mouth. Which animal?",
-        "audio": "christopher-lyman-magee-memorial-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Near the Carnegie Museum, a tall granite slab has a bronze woman holding a horn of fruit, above a curved stone bench.",
+        "audio": "christopher-lyman-magee-memorial-locate"
+      },
+      "question": {
+        "text": "At the bottom, water once poured from a bronze animal's mouth. Which animal?",
+        "audio": "christopher-lyman-magee-memorial-question"
+      },
+      "findHelp": {
+        "text": "It's at the corner of Forbes Avenue and Schenley Drive, by the museum.",
+        "audio": "christopher-lyman-magee-memorial-help"
       },
       "reveal": {
         "text": "A lion.",
@@ -2264,9 +2606,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Westinghouse_Memorial_Schenley_Park_2.jpg"
       },
-      "prompt": {
-        "text": "Small bronze animals hold up each of the picture panels here. What animal are they?",
-        "audio": "westinghouse-memorial-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "In Schenley Park, three bronze panels stand in a half circle beside a lily pond, with a statue of a boy facing them.",
+        "audio": "westinghouse-memorial-locate"
+      },
+      "question": {
+        "text": "Small bronze animals hold up each of the picture panels. What animal are they?",
+        "audio": "westinghouse-memorial-question"
       },
       "reveal": {
         "text": "Turtles, a pair under each of the six panels.",
@@ -2317,9 +2664,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Niles_Depot_from_the_southwest,_April_2024.jpg"
       },
-      "prompt": {
-        "text": "When this yellow station came back to downtown Niles in 2009, movers changed one thing about the way it sits. What do you think they changed?",
-        "audio": "niles-depot-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Niles Boulevard, a long, low yellow wooden train station has a wide gray roof, with a red caboose at the far end.",
+        "audio": "niles-depot-locate"
+      },
+      "question": {
+        "text": "When it came back downtown in 2009, movers changed one thing about the way it sits. What do you think they changed?",
+        "audio": "niles-depot-question"
+      },
+      "findHelp": {
+        "text": "It's beside the town plaza, near the railroad tracks, with its long front facing the plaza.",
+        "audio": "niles-depot-help"
       },
       "reveal": {
         "text": "They turned it all the way around, 180 degrees, so it faces this plaza.",
@@ -2372,9 +2728,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Transcontinental_Railroad_marker_and_Niles_Merchants_Association_train_car,_April_2024.jpg"
       },
-      "prompt": {
+      "arrival": "find",
+      "locate": {
+        "text": "Near Niles Boulevard, a short pillar of rough gray stones has a bronze plaque on its front.",
+        "audio": "niles-transcontinental-marker-locate"
+      },
+      "question": {
         "text": "Most people think the Transcontinental Railroad was finished with a golden spike in Utah. How long after that do you think the last link through this canyon opened?",
-        "audio": "niles-transcontinental-marker-prompt"
+        "audio": "niles-transcontinental-marker-question"
+      },
+      "findHelp": {
+        "text": "It stands in front of an old green passenger car.",
+        "audio": "niles-transcontinental-marker-help"
       },
       "reveal": {
         "text": "About four months later, on September 6, 1869.",
@@ -2426,9 +2791,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Niles_hillside_sign_2655_02.JPG"
       },
-      "prompt": {
-        "text": "Giant white letters on the hillside above town spell out its name. When the sign first went up, who do you think it was meant to help?",
-        "audio": "niles-hillside-sign-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Up on the dry hillside above town, giant white letters spell out the town's name.",
+        "audio": "niles-hillside-sign-locate"
+      },
+      "question": {
+        "text": "When the sign first went up, who do you think it was meant to help?",
+        "audio": "niles-hillside-sign-question"
+      },
+      "findHelp": {
+        "text": "The letters are on the hills behind Niles Boulevard, high above the rooftops.",
+        "audio": "niles-hillside-sign-help"
       },
       "reveal": {
         "text": "Pilots. It was a landmark for planes flying overhead, and a way to show off the town.",
@@ -2481,9 +2855,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Niles_Essanay_Silent_Film_Museum_2657.JPG"
       },
-      "prompt": {
-        "text": "Under the museum's sign hangs a second sign with the building's name from 1913. What do you think it says?",
-        "audio": "niles-essanay-museum-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Niles Boulevard, a two-story white building with dark green trim has a row of shopfronts and a museum sign over the middle door.",
+        "audio": "niles-essanay-museum-locate"
+      },
+      "question": {
+        "text": "Under the museum's sign hangs a second sign, with the building's name from 1913. What do you think it says?",
+        "audio": "niles-essanay-museum-question"
+      },
+      "findHelp": {
+        "text": "It's about half a block from the red brick fire station.",
+        "audio": "niles-essanay-museum-help"
       },
       "reveal": {
         "text": "Edison Theater. It opened in 1913 as a nickelodeon, one of the first small neighbourhood movie theatres.",
@@ -2535,9 +2918,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Niles_Station_Number_2_2659.JPG"
       },
-      "prompt": {
-        "text": "A plaque at this fire station marks where a film studio once stood, in what it calls America's first Hollywood. Which famous comedian do you think made movies here?",
-        "audio": "niles-essanay-studio-site-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Niles Boulevard, a two-story red brick fire station on a corner has arched garage doors and a band of diamond tiles along its base.",
+        "audio": "niles-essanay-studio-site-locate"
+      },
+      "question": {
+        "text": "A plaque here marks where a film studio once stood, in what it calls America's first Hollywood. Which famous comedian do you think made movies here?",
+        "audio": "niles-essanay-studio-site-question"
+      },
+      "findHelp": {
+        "text": "It's about half a block from the silent film museum.",
+        "audio": "niles-essanay-studio-site-help"
       },
       "reveal": {
         "text": "Charlie Chaplin. He filmed The Tramp in Niles in 1915.",
@@ -2591,9 +2983,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Foundation_of_1852_Vallejo_Flour_Mill,_April_2024.jpg"
       },
-      "prompt": {
-        "text": "A plaque here remembers a flour mill that José de Jesús Vallejo built just up the road. Before this town was called Niles, what do you think it was named?",
-        "audio": "vallejo-flour-mill-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "Near Mission Boulevard, a plaque remembers an old flour mill. Its roofless stone walls still stand nearby, behind a chain-link fence.",
+        "audio": "vallejo-flour-mill-locate"
+      },
+      "question": {
+        "text": "José de Jesús Vallejo built that mill. Before this town was called Niles, what do you think it was named?",
+        "audio": "vallejo-flour-mill-question"
       },
       "reveal": {
         "text": "Vallejo Mills, after his mill.",
@@ -2647,9 +3044,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Jane_R._Clouch_Memorial_Library,_Niles,_California,_April_2024.jpg"
       },
-      "prompt": {
-        "text": "This small library is older than the city it stands in. Who do you think still owns it?",
-        "audio": "niles-library-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On I Street, a small white library with a red tile roof and tall many-paned windows sits on a street corner.",
+        "audio": "niles-library-locate"
+      },
+      "question": {
+        "text": "It's older than the city it stands in. Who do you think still owns it?",
+        "audio": "niles-library-question"
+      },
+      "findHelp": {
+        "text": "It's a single-story building on the corner, smaller than its neighbors.",
+        "audio": "niles-library-help"
       },
       "reveal": {
         "text": "Alameda County. It opened in 1928, long before the city of Fremont was formed in 1956.",
@@ -2701,9 +3107,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Manor_Theatre,_Squirrel_Hill,_2024-12-06.jpg"
       },
-      "prompt": {
-        "text": "This building on Murray Avenue has timber beams set into its walls, like an old English cottage. What do you think has been inside it for over a hundred years?",
-        "audio": "manor-theatre-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Murray Avenue, a two-story corner building has timber beams set into its walls, like an old English cottage.",
+        "audio": "manor-theatre-locate"
+      },
+      "question": {
+        "text": "What do you think has been inside it for over a hundred years?",
+        "audio": "manor-theatre-question"
+      },
+      "findHelp": {
+        "text": "It's a short walk south of Forbes Avenue, with steep brown roofs.",
+        "audio": "manor-theatre-help"
       },
       "reveal": {
         "text": "A movie theater: the Manor has shown films here since 1922.",
@@ -2757,9 +3172,14 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/",
         "source": "https://www.flickr.com/photos/44124427152@N01/60677048"
       },
-      "prompt": {
-        "text": "Two busy streets cross here, lined with bakeries, delis and shops. Locals have a nickname for this shopping strip. What do you think they call it?",
-        "audio": "forbes-and-murray-prompt"
+      "arrival": "here",
+      "locate": {
+        "text": "You're at Forbes and Murray, where two busy streets cross, lined with bakeries, delis and shops.",
+        "audio": "forbes-and-murray-locate"
+      },
+      "question": {
+        "text": "Locals have a nickname for this shopping strip. What do you think they call it?",
+        "audio": "forbes-and-murray-question"
       },
       "reveal": {
         "text": "\"Upstreet\", short for \"up the street\", because this corner is the heart of Squirrel Hill.",
@@ -2813,9 +3233,18 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Worthington_Mansion_exterior_2.jpg"
       },
-      "prompt": {
-        "text": "This big mansion on Forbes Avenue was built in 1914 for an oil company executive. What do you think it has been since the 1940s?",
-        "audio": "temple-sinai-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Forbes Avenue, a big stone mansion with tall chimneys and leaded windows sits back behind a lawn and a curving path.",
+        "audio": "temple-sinai-locate"
+      },
+      "question": {
+        "text": "It was built in 1914 for an oil company executive. What do you think it has been since the 1940s?",
+        "audio": "temple-sinai-question"
+      },
+      "findHelp": {
+        "text": "It's set well back from the street, behind old trees, a few blocks west of Murray Avenue.",
+        "audio": "temple-sinai-help"
       },
       "reveal": {
         "text": "A synagogue: Temple Sinai, a Reform congregation founded in 1946, made the mansion its home.",
@@ -2868,9 +3297,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Sunnyledge,_Squirrel_Hill,_Pittsburgh,_2021-10-07.jpg"
       },
-      "prompt": {
-        "text": "At one corner of this house, the wall curves out into a big round tower with a cone-shaped roof. What do you think that room was used for?",
-        "audio": "sunnyledge-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Fifth Avenue, a large red brick house has a big round tower at one corner, under a cone-shaped roof.",
+        "audio": "sunnyledge-locate"
+      },
+      "question": {
+        "text": "What do you think the room in that tower was used for?",
+        "audio": "sunnyledge-question"
+      },
+      "findHelp": {
+        "text": "It sits above the street on a sloping lawn, with a tall chimney behind the tower.",
+        "audio": "sunnyledge-help"
       },
       "reveal": {
         "text": "It was a doctor's office: Dr. James McClelland saw patients there, and they came in through their own porch.",
@@ -2922,9 +3360,18 @@
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
         "source": "https://commons.wikimedia.org/wiki/File:Mellon_Hall,_Chatham_University,_2023-04-20,_01.jpg"
       },
-      "prompt": {
-        "text": "In 1917, banker Andrew Mellon bought this mansion and more than doubled its size. One addition was rare in a home back then. What do you think it was?",
-        "audio": "andrew-mellon-hall-prompt"
+      "arrival": "find",
+      "locate": {
+        "text": "On Chatham's campus, off Woodland Road, a large red brick Tudor-style mansion has three pointed gables and tall chimneys.",
+        "audio": "andrew-mellon-hall-locate"
+      },
+      "question": {
+        "text": "In 1917, banker Andrew Mellon bought this house and more than doubled its size. One addition was rare in a home back then. What do you think it was?",
+        "audio": "andrew-mellon-hall-question"
+      },
+      "findHelp": {
+        "text": "Its front door is set in a carved stone doorway, behind trimmed shrubs.",
+        "audio": "andrew-mellon-hall-help"
       },
       "reveal": {
         "text": "An indoor swimming pool, 60 feet long and lined with Guastavino tile.",
@@ -2977,9 +3424,14 @@
         "licenseUrl": "https://en.wikipedia.org/wiki/Public_domain",
         "source": "https://commons.wikimedia.org/wiki/File:Chatham_University_Arboretum_-_IMG_7655.JPG"
       },
-      "prompt": {
-        "text": "The old trees and lawns around you were once one man's private estate. Today the whole campus counts as something special. What do you think it is?",
-        "audio": "chatham-university-arboretum-prompt"
+      "arrival": "here",
+      "locate": {
+        "text": "You're on Chatham University's campus, among old trees and wide lawns.",
+        "audio": "chatham-university-arboretum-locate"
+      },
+      "question": {
+        "text": "This was once one man's private estate. Today the whole campus counts as something special. What do you think it is?",
+        "audio": "chatham-university-arboretum-question"
       },
       "reveal": {
         "text": "An arboretum: 32 acres of campus recognized as a living collection of trees.",
@@ -3016,6 +3468,22 @@
     "done": {
       "text": "Your walk is complete. Check your phone for your field journal.",
       "audio": "done-sky"
+    },
+    "checkpoint": {
+      "text": "Tap Found it when you see it.",
+      "audio": "checkpoint-sky"
+    },
+    "nudge": {
+      "text": "Are you still checking? Take your time. Help me find it gives another clue.",
+      "audio": "nudge-sky"
+    },
+    "nudgeNoHelp": {
+      "text": "Are you still checking? Take your time.",
+      "audio": "nudgeNoHelp-sky"
+    },
+    "giveUp": {
+      "text": "No problem. I'll save this one in your Journal for later.",
+      "audio": "giveUp-sky"
     }
   },
   "demoWalk": {

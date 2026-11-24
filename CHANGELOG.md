@@ -12,13 +12,37 @@ Groups: **Added** (new features), **Changed** (works differently now), **Fixed**
 
 ## Unreleased
 
+### Added
+- **Tappable map pins.** Before exploring, tapping a pin enlarges it and shows a card above the
+  tab bar with the place's photo, name, category and area, and a close button. People asked to
+  know what's around them before setting off.
+- **Compass cone and location button.** The blue dot shows which way the phone faces, like
+  Apple Maps, and the map stays north-up. The "show my location" button is always on screen,
+  so people can find themselves again.
+
+### Changed
+- **Arrival checkpoints in the app.** At the 47 places with something to find, the guide says
+  where it is, then waits for **Found it** before asking the question, with **Help me find it**
+  (once), a nudge after 20 seconds, and after 20 more the place is saved as skipped. "You're
+  here" places pause 3 seconds before the question; "used to be here" places ask straight away.
+  On the phone and the watch, with new Sky clips. In user testing, people were still searching
+  when the question started.
+- **The story sheet slides.** Full, half, or a small bar with the main buttons, like a place in
+  Google Maps, so people can see the map while listening. Testers felt lost with the map hidden.
+
+### Fixed
+- Wide photos (Flagstaff Hill's panorama) no longer push the story text off the screen; the
+  two panoramas are also cropped to 4:3.
+- Developer tools no longer reappears after bringing a place up from it.
+
 ### Content
 - **North Squirrel Hill drafts.** Prompts, reveals, stories and alt text for 8 places in north
-  Squirrel Hill, with sources and on-site checks, plus photos for 6 of them. Not in the app yet.
+  Squirrel Hill, with sources and on-site checks, plus photos for 6 of them. The 6 with photos
+  are in the app, as the new map area "Squirrel Hill, Pittsburgh".
 - **Arrival checkpoints drafted.** In user testing, people hadn't found the place before the
   question started. All 56 places now have a locate line, a question and (where there's
-  something to find) a help clue, for a "Found it" checkpoint before the question. Not in the
-  app yet.
+  something to find) a help clue, for a "Found it" checkpoint before the question. Now in the
+  app (see Changed).
 
 ### Design
 - **New category icons.** Natural history is now a fossil shell (was a paw print) and History

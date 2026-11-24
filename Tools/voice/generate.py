@@ -111,7 +111,10 @@ def spoken(text):
 
 
 def all_lines(poi):
-    lines = [("prompt", poi["prompt"]), ("reveal", poi["reveal"])]
+    lines = [("locate", poi["locate"]), ("question", poi["question"])]
+    if poi.get("findHelp"):
+        lines.append(("help", poi["findHelp"]))
+    lines.append(("reveal", poi["reveal"]))
     lines += [(f"story{n}", line) for n, line in enumerate(poi["story"], start=1)]
     return [(kind, line, f"{poi['id']}-{kind}") for kind, line in lines]
 
@@ -201,9 +204,9 @@ def main():
         if poi is None:
             sys.exit(f"No place with id '{args.sample}'")
         SAMPLES.mkdir(parents=True, exist_ok=True)
-        out = SAMPLES / f"{args.sample}-prompt-{args.voice}.m4a"
-        speak(poi["prompt"]["text"], out)
-        print(f"Sample: {out}\nText: {poi['prompt']['text']}")
+        out = SAMPLES / f"{args.sample}-locate-{args.voice}.m4a"
+        speak(poi["locate"]["text"], out)
+        print(f"Sample: {out}\nText: {poi['locate']['text']}")
         return
 
     # Per-place "Alright, got it. Moving on." lines without audio share one clip per voice (e.g. skip-sky).

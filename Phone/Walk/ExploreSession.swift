@@ -72,11 +72,17 @@ final class ExploreSession: ObservableObject {
     }
 
     struct Timing {
-        var preview = 2.5        // photo on screen before the prompt (no cue line in round 1)
+        var preview = 2.5        // photo on screen before the locate line
         var betweenLines = 0.7   // pause between story lines, as on the watch
         /// After a stop ends (Keep exploring or Skip), nothing new comes up for this long, so
         /// places close together don't fire back to back. Pausing pauses it too.
         var quietAfterStop = 30.0
+        /// "find" places: no Found it for this long → the nudge line; as long again → give up
+        /// (saved as skipped). Not in Read mode, where people read at their own speed.
+        var nudgeAfter = 20.0
+        var giveUpAfter = 20.0
+        /// "here" places: the pause between the locate line and the question.
+        var herePause = 3.0
     }
 
     @Published private(set) var phase: Phase = .idle
@@ -90,6 +96,8 @@ final class ExploreSession: ObservableObject {
     /// With VoiceOver on, the stop sheet keeps VoiceOver from reading the same words over it.
     @Published private(set) var narrating = false
     @Published private(set) var visits: [Visit] = []
+    /// "find" places: Help me find it was played (it's offered once).
+    @Published private(set) var helpGiven = false
     /// The set walk being followed, or nil while exploring freely.
     @Published private(set) var route: StrollContent.Route?
     /// On a set walk: the stop being walked to, or the one open now (0-based).
@@ -123,7 +131,15 @@ final class ExploreSession: ObservableObject {
 
     let content: StrollContent
     var category: StrollContent.Category? { poi.flatMap { content.category($0.category) } }
-    var showsStop: Bool { [.preview, .prompt, .story, .finished, .skipping].contains(phase) }
+    var showsStop: Bool { [.preview, .locating, .prompt, .story, .finished, .skipping].contains(phase) }
+    /// Help me find it can be offered: waiting for Found it, the place has a help line, not used yet.
+    var canHelp: Bool { phase == .locating && poi?.findHelp != nil && !helpGiven }
+    /// What comes before the reveal, as heard: the locate line, the help line if it was played,
+    /// and the question. The transcript shows these above the story.
+    var introLines: [Narration] {
+        guard let poi else { return [] }
+        return [poi.locate.narration] + (helpGiven ? poi.findHelp.map { [$0.narration] } ?? [] : []) + [poi.question.narration]
+    }
     var foundCount: Int { visits.filter { $0.outcome == .found }.count }
     /// Nothing more will come up this session.
     /// Exploring freely only: a set walk ends by itself after its last stop.
@@ -145,7 +161,7 @@ final class ExploreSession: ObservableObject {
                     walkID: route?.id, stopIndex: route == nil ? nil : stopIndex,
                     reading: reading,
                     askingHowToListen: listenQuestion != nil, waitingForHeadphones: waitingForHeadphones != nil,
-                    offeringVoice: offeringVoice)
+                    offeringVoice: offeringVoice, helpGiven: phase == .locating && !canHelp)
     }
 
     private let voice: GuideVoice
@@ -287,8 +303,30 @@ final class ExploreSession: ObservableObject {
         run { [self] in try await playStory(lines) }
     }
 
+    /// "find" places: the participant has found it. The question plays.
+    func foundIt() {
+        guard phase == .locating, let poi else { return }
+        run { [self] in
+            phase = .prompt
+            transcript = Array(introLines.dropLast())   // locate (+ help); the checkpoint line goes
+            speaking = nil
+            try await say(poi.question.narration)
+        }
+    }
+
+    /// "find" places: Help me find it. The help line, the checkpoint again, and the wait starts
+    /// over. Offered once.
+    func helpMeFind() {
+        guard canHelp, let help = poi?.findHelp else { return }
+        helpGiven = true
+        run { [self] in
+            try await say(help.narration)
+            try await waitForFound()
+        }
+    }
+
     func skip() {
-        guard phase == .prompt else { return }
+        guard phase == .prompt || phase == .locating else { return }
         record(.skipped)
         // "Alright, got it. Moving on." in the same voice as this place (its own line), else the shared one.
         let line = poi?.skipLine ?? content.lines.skip
@@ -309,8 +347,17 @@ final class ExploreSession: ObservableObject {
     func replay() {
         guard let poi else { return }
         switch phase {
+        case .locating:   // the locate line (and help, if heard), the checkpoint, and the wait again
+            run { [self] in
+                try await say(poi.locate.narration, restart: true)
+                if helpGiven, let help = poi.findHelp { try await say(help.narration) }
+                try await waitForFound()
+            }
         case .prompt:
-            run { [self] in try await say(poi.prompt.narration, restart: true) }
+            run { [self] in
+                transcript = []
+                for line in introLines { try await say(line) }
+            }
         case .story, .finished:
             let lines = [poi.reveal.narration] + poi.story.map(\.narration)
             run { [self] in try await playStory(lines) }
@@ -379,6 +426,8 @@ final class ExploreSession: ObservableObject {
         case .end: end()
         case .reset: if phase == .ended { reset() }
         case .skipStop: skipStop()
+        case .foundIt: foundIt()
+        case .helpMeFind: helpMeFind()
         case .sync: break   // answered by PhoneLink
         }
     }
@@ -445,19 +494,52 @@ final class ExploreSession: ObservableObject {
             poi = next
             transcript = []
             speaking = nil
+            helpGiven = false
             phase = .preview
             alert.arrived(at: next, category: content.category(next.category))
             try await pausableSleep(timing.preview)
-            phase = .prompt
-            try await say(next.prompt.narration)
+            switch next.arrival {
+            case .find:
+                // Locate, then wait for Found it before asking (people were still searching
+                // when the question started).
+                phase = .locating
+                try await say(next.locate.narration)
+                try await waitForFound()
+            case .here:
+                phase = .prompt
+                try await say(next.locate.narration)
+                if !reading { try await pausableSleep(timing.herePause) }
+                try await say(next.question.narration)
+            case .gone:
+                phase = .prompt
+                try await say(next.locate.narration)
+                try await say(next.question.narration)
+            }
         }
+    }
+
+    /// "find" places: the checkpoint line, then wait for Found it. No tap after `nudgeAfter`:
+    /// the nudge; after `giveUpAfter` more, give up (saved as skipped, like Skip). Read mode
+    /// waits without timers. Any new sequence (Found it, Help, Replay, Skip) cancels this one.
+    private func waitForFound() async throws {
+        try await say(content.lines.checkpoint.narration)
+        guard !reading else { return }
+        try await pausableSleep(timing.nudgeAfter)
+        // Mention the clue only while there's one left to give.
+        let clueLeft = poi?.findHelp != nil && !helpGiven
+        try await say((clueLeft ? content.lines.nudge : content.lines.nudgeNoHelp).narration)
+        try await pausableSleep(timing.giveUpAfter)
+        record(.skipped)
+        phase = .skipping
+        try await say(content.lines.giveUp.narration)
+        backToExploring()
     }
 
     // MARK: Sequences
 
     private func playStory(_ lines: [Narration]) async throws {
         phase = .story
-        if let prompt = poi?.prompt.narration { transcript = [prompt] }
+        transcript = introLines
         for (k, line) in lines.enumerated() {
             if k > 0, !reading { try await pausableSleep(timing.betweenLines) }
             try await say(line)
@@ -521,6 +603,7 @@ final class ExploreSession: ObservableObject {
 
     private func clearStop() {
         pending = nil
+        helpGiven = false
         poi = nil
         transcript = []
         speaking = nil

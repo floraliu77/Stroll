@@ -24,7 +24,9 @@ for poi in content.pois {
     check(abs(poi.coordinate.latitude) <= 90 && abs(poi.coordinate.longitude) <= 180, "\(poi.id): coordinate out of range")
     check(poi.triggerRadiusMeters > 0, "\(poi.id): trigger radius must be positive")
     check(!poi.story.isEmpty, "\(poi.id): needs at least one story line")
-    for line in [poi.prompt, poi.reveal] + poi.story {
+    // Arrival checkpoints: Help me find it only where there's something to find.
+    check(poi.findHelp == nil || poi.arrival == .find, "\(poi.id): a help line only makes sense for \"find\" places")
+    for line in [poi.locate, poi.question] + (poi.findHelp.map { [$0] } ?? []) + [poi.reveal] + poi.story {
         check(!line.text.isEmpty, "\(poi.id): empty line")
         if line.hasRecording {
             check(clipExists(line.audio), "\(poi.id): missing audio clip '\(line.audio)'")
@@ -39,6 +41,12 @@ for poi in content.pois {
     }
 }
 for line in [content.lines.skip, content.lines.done] { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
+// The arrival checkpoint's shared lines may wait for their recording (the iPhone voice reads them).
+for (name, line) in [("checkpoint", content.lines.checkpoint), ("nudge", content.lines.nudge), ("nudgeNoHelp", content.lines.nudgeNoHelp), ("giveUp", content.lines.giveUp)] {
+    check(!line.text.isEmpty, "lines.\(name): empty")
+    if line.hasRecording { check(clipExists(line.audio), "missing audio clip '\(line.audio)'") }
+    else { iPhoneVoice["(shared lines)", default: 0] += 1 }
+}
 // Areas (the map's area picker): every place names a real area, and every area has places.
 check(!content.areas.isEmpty, "there must be at least one area")
 check(Set(content.areas.map(\.id)).count == content.areas.count, "area ids must be unique")

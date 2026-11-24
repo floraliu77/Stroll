@@ -44,12 +44,26 @@ struct StrollContent: Decodable {
         /// giving away the prompt's answer, since it's read before the reveal. Optional.
         let altText: String?
         let photoCredit: PhotoCredit
-        let prompt: Line
+        /// How the guide arrives (Mara's arrival checkpoints, docs/plans/arrival-checkpoints.md).
+        let arrival: Arrival
+        /// Where the place is and what it looks like, said first.
+        let locate: Line
+        /// The question, after Found it ("find") or straight after the locate line.
+        let question: Line
+        /// "Help me find it": another clue. Only for "find" places, and not for all of them.
+        let findHelp: Line?
         let reveal: Line
         let story: [Line]
         /// "Alright, got it. Moving on." after Skip, when this place uses a different voice from the shared
         /// `lines.skip` (e.g. the generated Sky voice). Optional.
         let skipLine: Line?
+    }
+
+    /// What happens between the photo and the question.
+    enum Arrival: String, Decodable, Hashable {
+        case find   // something to find: wait for Found it, then the question
+        case here   // you're standing in it: a short pause, then the question
+        case gone   // it used to be here: the question straight away
     }
 
     struct Coordinate: Decodable, Hashable {
@@ -87,6 +101,15 @@ struct StrollContent: Decodable {
     struct Lines: Decodable {
         let skip: Line
         let done: Line
+        /// After the locate line at a "find" place: "Tap Found it when…".
+        let checkpoint: Line
+        /// No Found it for a while: "Are you still checking? Take your time. Help me find it gives…",
+        /// while the help clue is still there to offer.
+        let nudge: Line
+        /// The same, once the clue was used or where there's none: no mention of another clue.
+        let nudgeNoHelp: Line
+        /// Still nothing: the place is saved as skipped and the walk goes on.
+        let giveUp: Line
     }
 
     /// The scripted demo walk used for testing before live location (see docs/round1-plan.md).

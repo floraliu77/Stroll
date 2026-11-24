@@ -67,3 +67,5 @@ clips, and run the tool with `--voice NAME` (or record them by hand).
 - Coordinates: © OpenStreetMap contributors, ODbL (see `coordinateSource` in the content file).
 
 **Nov 16:** `skip-sky` and `done-sky` were remade by hand for a more natural tone. `skip-sky` is "Alright, got it." and "Moving on." said as two separate sentences and joined (so "it" falls instead of rising); `done-sky` became "Your walk is complete…". Don't regenerate them with `generate.py --redo`, which would lose the joined take.
+
+**Nov 24:** `nudge-sky` and `nudgeNoHelp-sky` (arrival checkpoints) were also made by hand: "Are you still checking?", "Take your time." and the clue sentence recorded separately, with their trailing silence trimmed, and joined with 0.4 s pauses, so the question rises and the sentences don't run together. Don't regenerate them with `generate.py --redo` either.

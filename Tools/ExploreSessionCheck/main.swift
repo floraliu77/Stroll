@@ -14,7 +14,7 @@ final class FakeVoice: GuideVoice {
     private var isPaused = false
 
     func play(_ line: Narration) async {
-        spoken.append(line.clip)
+        spoken.append(key(line))
         holdingAudio = true
         clip += 1
         let mine = clip
@@ -48,6 +48,22 @@ func waitFor(_ what: String, timeout: Double = 10, _ condition: () -> Bool) asyn
         if Date().timeIntervalSince(start) > timeout { fail("timed out waiting for \(what)") }
         try? await Task.sleep(nanoseconds: 10_000_000)
     }
+}
+
+/// What FakeVoice records for a line: its clip, or its text while it has no recording yet.
+func key(_ line: Narration) -> String { line.clip.isEmpty ? "text:" + line.text : line.clip }
+func key(_ line: StrollContent.Line) -> String { key(line.narration) }
+
+/// Arrival checkpoints: waits for the place to come up; at a "find" place, waits for the
+/// checkpoint line and taps Found it; then waits for the question. `also` adds a condition.
+@MainActor
+func reachQuestion(_ session: ExploreSession, _ what: String, also: () -> Bool = { true }) async {
+    await waitFor(what) { (session.phase == .locating || session.phase == .prompt) && also() }
+    if session.phase == .locating {
+        await waitFor(what + ": checkpoint") { session.transcript.last?.text == session.content.lines.checkpoint.text }
+        session.foundIt()
+    }
+    await waitFor(what + ": question") { session.phase == .prompt && session.transcript.last?.text == session.poi?.question.text }
 }
 
 func fail(_ message: String) -> Never {
@@ -85,17 +101,23 @@ func runChecks() async {
     // First POI: buzz, photo, then the prompt (no cue line)
     await waitFor("first arrival") { session.phase == .preview }
     check(alert.arrivals == [order[0]], "first POI in the demo order arrives with a buzz")
-    await waitFor("prompt") { session.phase == .prompt }
-    await waitFor("prompt spoken") { voice.spoken.last == first.prompt.audio }
-    check(voice.spoken == [first.prompt.audio], "only the prompt is spoken (no cue)")
-    check(session.transcript.map(\.clip) == [first.prompt.audio], "transcript shows the prompt")
+    check(first.arrival == .find, "the first demo place has something to find")
+    await waitFor("locating") { session.phase == .locating }
+    await waitFor("checkpoint") { voice.spoken.last == key(content.lines.checkpoint) }
+    check(voice.spoken == [key(first.locate), key(content.lines.checkpoint)], "the locate line, then the checkpoint (no cue, no question yet)")
+    try? await Task.sleep(nanoseconds: 300_000_000)
+    check(session.phase == .locating, "the guide waits for Found it")
+    session.foundIt()
+    await waitFor("question spoken") { voice.spoken.last == key(first.question) }
+    check(session.phase == .prompt, "Found it plays the question")
+    check(session.transcript.map(key) == [key(first.locate), key(first.question)], "transcript shows where it is and the question")
 
     // Tell me more: reveal + story, transcript grows, then finished
     session.tellMeMore()
     await waitFor("story finished") { session.phase == .finished }
-    let storyClips = [first.reveal.audio] + first.story.map(\.audio)
+    let storyClips = [key(first.reveal)] + first.story.map(key)
     check(Array(voice.spoken.suffix(storyClips.count)) == storyClips, "reveal and story play in order")
-    check(session.transcript.map(\.clip) == [first.prompt.audio] + storyClips, "transcript holds prompt, reveal and story")
+    check(session.transcript.map(key) == [key(first.locate), key(first.question)] + storyClips, "transcript holds locate, question, reveal and story")
     check(session.visits.last?.outcome == .found, "POI recorded as found")
     check(session.secondsUntilNext == nil, "no countdown while the finished story is open")
     try? await Task.sleep(nanoseconds: 500_000_000)
@@ -106,7 +128,7 @@ func runChecks() async {
     check(session.phase == .exploring && session.secondsUntilNext != nil, "Keep exploring starts the next countdown")
     await waitFor("second arrival") { alert.arrivals.count == 2 }
     check(alert.arrivals[1] == order[1], "second POI follows the demo order")
-    await waitFor("second prompt") { session.phase == .prompt }
+    await reachQuestion(session, "second prompt")
 
     // An interruption (a timer going off) pauses, and Resume carries on
     voice.onInterrupted?()
@@ -131,7 +153,7 @@ func runChecks() async {
     session.resume()
 
     // Third POI: leave the story early
-    await waitFor("third prompt") { session.phase == .prompt && alert.arrivals.count == 3 }
+    await reachQuestion(session, "third prompt") { alert.arrivals.count == 3 }
     session.tellMeMore()
     await waitFor("story playing") { session.phase == .story }
     session.keepExploring()
@@ -139,7 +161,7 @@ func runChecks() async {
     check(session.visits.last?.outcome == .found, "leaving early still counts as found")
 
     // Fourth POI: hear the whole story
-    await waitFor("fourth prompt") { session.phase == .prompt && alert.arrivals.count == 4 }
+    await reachQuestion(session, "fourth prompt") { alert.arrivals.count == 4 }
     session.tellMeMore()
     await waitFor("fourth story finished") { session.phase == .finished }
     check(session.everythingVisited, "every POI has come up")
@@ -174,6 +196,7 @@ func runChecks() async {
     await checkSetWalk(content)
     await checkSetWalkDemo(content)
     await checkListening(content)
+    await checkArrivalCheckpoints(content)
     print("All exploring checks passed.")
 }
 
@@ -189,7 +212,7 @@ func checkWatchMirror(_ content: StrollContent) async {
     session.handle(.start)
     check(session.mirrorState.phase == .exploring, "Start Exploring on the watch starts the phone's session")
     source.onLocation?(a.coordinate)
-    await waitFor("prompt") { session.phase == .prompt }
+    await reachQuestion(session, "prompt")
     check(session.mirrorState.poiID == a.id, "the watch is told which POI to show")
     session.handle(.pause)
     check(session.mirrorState.paused, "Pause on the watch pauses the phone")
@@ -206,7 +229,7 @@ func checkWatchMirror(_ content: StrollContent) async {
     // Developer tools: Restart walk in the middle of a story, paused.
     session.handle(.start)
     source.onLocation?(content.pois[1].coordinate)
-    await waitFor("second prompt") { session.phase == .prompt }
+    await reachQuestion(session, "second prompt")
     session.handle(.tellMeMore)
     session.handle(.pause)
     session.reset()
@@ -246,7 +269,7 @@ func checkQuietGap(_ content: StrollContent) async {
     let farAway = StrollContent.Coordinate(latitude: 0, longitude: 0)
     session.start()
     source.onLocation?(a.coordinate)
-    await waitFor("prompt") { session.phase == .prompt }
+    await reachQuestion(session, "prompt")
     session.skip()
     await waitFor("back to exploring") { session.phase == .exploring }
     source.onLocation?(b.coordinate)
@@ -255,7 +278,7 @@ func checkQuietGap(_ content: StrollContent) async {
     await waitFor("arrival after the gap", timeout: 3) { alert.arrivals.count == 2 }
     check(alert.arrivals.last == b.id, "a place still in range comes up when the gap ends")
 
-    await waitFor("second prompt") { session.phase == .prompt }
+    await reachQuestion(session, "second prompt")
     session.skip()
     await waitFor("back to exploring again") { session.phase == .exploring }
     source.onLocation?(c.coordinate)
@@ -266,7 +289,7 @@ func checkQuietGap(_ content: StrollContent) async {
     await waitFor("arrival once back in range") { alert.arrivals.count == 3 }
     check(alert.arrivals.last == c.id, "after the gap, walking up to a place brings it up as usual")
 
-    await waitFor("third prompt") { session.phase == .prompt }
+    await reachQuestion(session, "third prompt")
     session.skip()
     await waitFor("exploring after third") { session.phase == .exploring }
     session.pause()
@@ -293,13 +316,13 @@ func checkSkipVoice(_ content: StrollContent) async {
                                  timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
     session.start()
     source.onLocation?(own.coordinate)
-    await waitFor("own prompt") { session.phase == .prompt }
+    await reachQuestion(session, "own prompt")
     session.skip()
     await waitFor("own skip line") { voice.spoken.last == own.skipLine!.audio }
     check(true, "Skip at a place with its own skip line plays that line")
     await waitFor("exploring") { session.phase == .exploring }
     source.onLocation?(shared.coordinate)
-    await waitFor("shared prompt") { session.phase == .prompt }
+    await reachQuestion(session, "shared prompt")
     session.skip()
     await waitFor("shared skip line") { voice.spoken.last == content.lines.skip.audio }
     check(true, "Skip at a place without one plays the shared line")
@@ -317,7 +340,8 @@ func checkMusicPause(_ content: StrollContent) async {
                                  timing: .init(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0))
     session.start()
     source.onLocation?(first.coordinate)
-    await waitFor("prompt") { session.phase == .prompt && voice.spoken.last == first.prompt.audio }
+    await reachQuestion(session, "prompt")
+    await waitFor("question spoken") { voice.spoken.last == key(first.question) }
     try? await Task.sleep(nanoseconds: 100_000_000)   // the question has finished; they're deciding
     check(voice.holdingAudio, "music stays paused while the participant decides on the question")
     session.tellMeMore()
@@ -325,7 +349,7 @@ func checkMusicPause(_ content: StrollContent) async {
     check(!voice.holdingAudio, "music comes back when the story ends, before Keep exploring")
     session.keepExploring()
     source.onLocation?(second.coordinate)
-    await waitFor("second prompt") { session.phase == .prompt }
+    await reachQuestion(session, "second prompt")
     session.skip()
     await waitFor("exploring") { session.phase == .exploring }
     check(!voice.holdingAudio, "music comes back after a skip")
@@ -364,7 +388,7 @@ func checkBusyArrivals(_ content: StrollContent) async {
     let a = content.pois[0], b = content.pois[1]
     session.start()
     source.onLocation?(a.coordinate)
-    await waitFor("prompt") { session.phase == .prompt }
+    await reachQuestion(session, "prompt")
     session.tellMeMore()
     await waitFor("story") { session.phase == .story }
     source.onLocation?(b.coordinate)
@@ -397,12 +421,12 @@ func checkJournal(_ content: StrollContent) async {
     let a = content.pois[0], b = content.pois[1]
     session.start()
     source.onLocation?(a.coordinate)
-    await waitFor("prompt") { session.phase == .prompt }
+    await reachQuestion(session, "prompt")
     session.tellMeMore()
     check(journal.entries.first?.poiID == a.id && journal.entries.first?.outcome == .found, "Tell me more adds a find to the journal straight away")
     session.keepExploring()
     source.onLocation?(b.coordinate)
-    await waitFor("second prompt") { session.phase == .prompt }
+    await reachQuestion(session, "second prompt")
     session.skip()
     check(journal.entries.map(\.poiID) == [b.id, a.id], "the journal lists the newest first")
     check(journal.entries.first?.outcome == .skipped, "Skip adds a skipped entry")
@@ -486,7 +510,7 @@ func checkSetWalk(_ content: StrollContent) async {
     await waitFor("arrival") { alert.arrivals.count == 1 }
     check(!alert.arrivals.contains(offRoute.id), "places off the route don't come up on a set walk")
     check(alert.arrivals == [stops[1].id] && session.stopIndex == 1, "walking to a later stop first jumps ahead to it")
-    await waitFor("prompt") { session.phase == .prompt }
+    await reachQuestion(session, "prompt")
     session.tellMeMore()
     check(session.foundStop(1) && !session.foundStop(0), "the stop heard is marked found, the one passed isn't")
     await waitFor("story finished") { session.phase == .finished }
@@ -508,7 +532,7 @@ func checkSetWalk(_ content: StrollContent) async {
           "finds on a set walk are tagged with the walk (one journal card per walk)")
 
     source.onLocation?(stops[3].coordinate)
-    await waitFor("last prompt") { session.phase == .prompt }
+    await reachQuestion(session, "last prompt")
     session.skip()
     await waitFor("walk ended") { session.phase == .ended }
     check(session.route?.id == route.id, "the walk ends by itself after the last stop")
@@ -612,13 +636,13 @@ func checkListening(_ content: StrollContent) async {
     session.handle(.listenByReading)
     check(session.phase == .exploring && session.reading, "Read mode (from the watch) starts with no sound")
     source.onLocation?(poi.coordinate)
-    await waitFor("prompt shown") { session.phase == .prompt }
-    check(session.transcript.map(\.text) == [poi.prompt.text], "Read mode shows the question")
+    await reachQuestion(session, "prompt shown")
+    check(session.transcript.map(\.text) == [poi.locate.text, poi.question.text], "Read mode shows where it is and the question")
     check(alert.arrivals.last == poi.id, "Read mode still buzzes")
     check(session.mirrorState.reading, "the watch knows it's Read mode")
     session.tellMeMore()
     await waitFor("whole story shown", timeout: 1) { session.phase == .finished }
-    check(session.transcript.count == 2 + poi.story.count, "Read mode shows the whole story at once, with no timing")
+    check(session.transcript.count == session.introLines.count + 1 + poi.story.count, "Read mode shows the whole story at once, with no timing")
     check(session.speaking == nil, "nothing is highlighted as being read")
     check(voice.spoken.count == spokenBefore, "nothing is played in Read mode")
 
@@ -632,4 +656,113 @@ func checkListening(_ content: StrollContent) async {
     check(true, "after Turn on voice, the guide speaks")
     session.end(); session.reset()
     check(!session.reading, "Read mode ends with the walk")
+}
+
+
+/// Arrival checkpoints (Mara's plan, docs/plans/arrival-checkpoints.md): "find" places wait for
+/// Found it, with Help once, a nudge and then giving up; "here" pauses; "gone" asks straight away.
+@MainActor
+func checkArrivalCheckpoints(_ content: StrollContent) async {
+    let quick = ExploreSession.Timing(preview: 0.05, betweenLines: 0.01, quietAfterStop: 0,
+                                      nudgeAfter: 0.3, giveUpAfter: 0.3, herePause: 0.3)
+    let withHelp = content.pois.first { $0.arrival == .find && $0.findHelp != nil }!
+    let noHelp = content.pois.first { $0.arrival == .find && $0.findHelp == nil }!
+    let here = content.pois.first { $0.arrival == .here }!
+    let gone = content.pois.first { $0.arrival == .gone }!
+    let lines = content.lines
+
+    // Help me find it: the help line, the checkpoint again, offered once; Found it after it.
+    var voice = FakeVoice()
+    var alert = FakeAlert()
+    var source = ManualSource()
+    var session = ExploreSession(content: content, voice: voice, alert: alert, source: source, timing: quick)
+    session.start()
+    source.onLocation?(withHelp.coordinate)
+    await waitFor("locating") { session.phase == .locating && voice.spoken.last == key(lines.checkpoint) }
+    check(session.canHelp && !session.mirrorState.helpGiven, "Help me find it is offered at a place with a help line")
+    session.handle(.helpMeFind)
+    await waitFor("help, then the checkpoint again") {
+        Array(voice.spoken.suffix(2)) == [key(withHelp.findHelp!), key(lines.checkpoint)]
+    }
+    check(!session.canHelp && session.mirrorState.helpGiven, "Help is offered only once")
+    await waitFor("nudge after help") { voice.spoken.last == key(lines.nudgeNoHelp) || voice.spoken.last == key(lines.nudge) }
+    check(voice.spoken.last == key(lines.nudgeNoHelp), "after the clue, the nudge doesn't offer another one")
+    session.handle(.foundIt)
+    await waitFor("question after help") { voice.spoken.last == key(withHelp.question) }
+    check(session.transcript.map(key) == [key(withHelp.locate), key(withHelp.findHelp!), key(withHelp.question)],
+          "the transcript keeps the help line above the question")
+    session.tellMeMore()
+    await waitFor("story") { session.phase == .finished }
+    check(session.transcript.prefix(3).map(key) == [key(withHelp.locate), key(withHelp.findHelp!), key(withHelp.question)],
+          "the story shows locate, help and question above it")
+    session.end(); session.reset()
+
+    // No help line: no Help button. No tap: the nudge, then give up, saved as skipped.
+    session.start()
+    source.onLocation?(noHelp.coordinate)
+    await waitFor("locating, no help") { session.phase == .locating }
+    check(!session.canHelp && session.mirrorState.helpGiven, "no Help button where there's no help line")
+    await waitFor("nudge") { voice.spoken.last == key(lines.nudgeNoHelp) }
+    check(session.phase == .locating, "the nudge keeps waiting, and doesn't offer a clue where there's none")
+    await waitFor("give up") { voice.spoken.last == key(lines.giveUp) }
+    await waitFor("back to exploring after giving up") { session.phase == .exploring }
+    check(session.visits.last?.poiID == noHelp.id && session.visits.last?.outcome == .skipped, "giving up saves the place as skipped")
+    session.end(); session.reset()
+
+    // Pause stops the wait: no nudge while paused.
+    session.start()
+    source.onLocation?(withHelp.coordinate)
+    await waitFor("locating again") { session.phase == .locating && voice.spoken.last == key(lines.checkpoint) }
+    session.pause()
+    try? await Task.sleep(nanoseconds: 700_000_000)
+    check(voice.spoken.last == key(lines.checkpoint) && session.phase == .locating, "no nudge or give-up while paused")
+    session.resume()
+    await waitFor("nudge after resuming") { voice.spoken.last == key(lines.nudge) }
+    check(true, "with the clue still unused, the nudge offers it")
+    check(true, "the wait carries on after Resume")
+    session.skip()
+    await waitFor("skip while locating") { session.phase == .exploring }
+    check(session.visits.last?.outcome == .skipped, "Skip works while waiting for Found it")
+    session.end(); session.reset()
+
+    // "here": locate, a pause, then the question with no tap.
+    voice = FakeVoice(); alert = FakeAlert(); source = ManualSource()
+    session = ExploreSession(content: content, voice: voice, alert: alert, source: source, timing: quick)
+    session.start()
+    source.onLocation?(here.coordinate)
+    await waitFor("here: locate") { voice.spoken.last == key(here.locate) }
+    check(session.phase == .prompt, "\"here\" places skip the checkpoint")
+    let locatedAt = Date()
+    await waitFor("here: question") { voice.spoken.last == key(here.question) }
+    check(Date().timeIntervalSince(locatedAt) >= 0.25, "\"here\" pauses before the question")
+    session.end(); session.reset()
+
+    // "gone": locate, then the question straight away.
+    session.start()
+    source.onLocation?(gone.coordinate)
+    await waitFor("gone: question") { voice.spoken.last == key(gone.question) }
+    check(Array(voice.spoken.suffix(2)) == [key(gone.locate), key(gone.question)], "\"gone\" asks straight after the locate line")
+    session.end(); session.reset()
+
+    // Read mode: no timers at the checkpoint.
+    session.start(reading: true)
+    source.onLocation?(noHelp.coordinate)
+    await waitFor("read: locating") { session.phase == .locating }
+    try? await Task.sleep(nanoseconds: 900_000_000)
+    check(session.phase == .locating && session.transcript.last?.text == lines.checkpoint.text,
+          "Read mode waits for Found it with no nudge or give-up")
+    session.foundIt()
+    await waitFor("read: question") { session.phase == .prompt }
+    check(session.transcript.map(\.text) == [noHelp.locate.text, noHelp.question.text], "Read mode shows the question after Found it")
+    session.end(); session.reset()
+
+    // Set walk: giving up moves on to the next stop.
+    let route = content.route("oakland")!
+    let firstStop = content.poi(route.stops[0].poi)!
+    session.start(walk: route)
+    source.onLocation?(firstStop.coordinate)
+    await waitFor("walk: locating") { session.phase == .locating }
+    await waitFor("walk: give up") { session.phase == .exploring && session.stopIndex == 1 }
+    check(!session.foundStop(0), "a stop given up on isn't counted as found, and the walk moves on")
+    session.end(); session.reset()
 }
