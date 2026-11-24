@@ -1,7 +1,8 @@
 import MapKit
 import SwiftUI
 
-/// Figma 05 "Walks": the set walks, as cards. Tapping one opens its detail (Figma 06).
+/// The Walks tab: the set walks on a map with a list sheet (WalksMapScreen, after user testing,
+/// Nov 2026). See stops opens a walk's detail (Figma 06).
 struct WalksView: View {
     /// The walk ids shown (the detail, when one is open). RootTabs hides its tab bar on the detail.
     @Binding var path: [String]
@@ -9,29 +10,7 @@ struct WalksView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Walks")
-                            .font(.largeTitle.bold())
-                            .foregroundStyle(Color.strollInk)
-                        Text("Guided routes, with stops chosen for you.")
-                            .font(.subheadline)
-                            .foregroundStyle(Color.strollMuted)
-                    }
-                    .padding(.horizontal, 4)
-                    ForEach(content.walks) { walk in
-                        NavigationLink(value: walk.id) {
-                            WalkCard(walk: walk)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
-                .padding(.bottom, 24)
-            }
-            .background(Color.strollPaper)
+            WalksMapScreen(openDetail: { path.append($0) })
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: String.self) { id in
                 if let walk = content.route(id) { WalkDetailView(walk: walk) }

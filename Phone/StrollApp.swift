@@ -77,6 +77,9 @@ struct RootTabs: View {
     @State private var tab = Tab.explore
     /// The Walks tab's navigation: a walk's detail has its own Start walk bar instead of the tab bar (Figma 06).
     @State private var walkPath: [String] = []
+    /// The floating tab bar's height. Screens inside a NavigationStack (Walks) don't get the room
+    /// it takes as safe area, so they're told it and keep their content above it.
+    @State private var tabBarHeight: CGFloat = 0
 
     var body: some View {
         ZStack {
@@ -87,6 +90,7 @@ struct RootTabs: View {
                 .accessibilityHidden(tab != .explore)
             if tab == .walks {
                 WalksView(path: $walkPath)
+                    .environment(\.tabBarInset, tabBarHeight)
             }
             if tab == .journal {
                 JournalView()
@@ -95,6 +99,7 @@ struct RootTabs: View {
         .safeAreaInset(edge: .bottom, spacing: 0) {
             if tab != .walks || walkPath.isEmpty {
                 StrollTabBar(selection: $tab)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { tabBarHeight = $0 }
             }
         }
         .tint(.strollGreen)
@@ -106,6 +111,18 @@ struct RootTabs: View {
                 .environmentObject(link)
                 .environmentObject(liveLocation)
         }
+    }
+}
+
+/// How much of the bottom the floating tab bar covers, for screens that don't get it as safe area.
+private struct TabBarInsetKey: EnvironmentKey {
+    static let defaultValue: CGFloat = 0
+}
+
+extension EnvironmentValues {
+    var tabBarInset: CGFloat {
+        get { self[TabBarInsetKey.self] }
+        set { self[TabBarInsetKey.self] = newValue }
     }
 }
 

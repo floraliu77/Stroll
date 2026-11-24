@@ -21,6 +21,9 @@ enum SetupStep: Equatable {
     case intro
     /// One iOS permission: why Stroll needs it, then "Allow" (the system prompt) or "Not now".
     case permission(SetupPermission)
+    /// The last screen: Stroll does nothing until Start Exploring is tapped on the map (testers
+    /// didn't realise this). "Go to the map" finishes the setup.
+    case ready
 }
 
 /// Asks iOS for one permission. Returns whether it was allowed; Stroll carries on either way.
@@ -58,7 +61,7 @@ final class SetupFlow: ObservableObject {
 
     /// Every screen this device will show, in order, for the progress dots.
     var steps: [SetupStep] {
-        [.intro] + SetupPermission.order.filter(asker.canAsk).map(SetupStep.permission)
+        [.intro] + SetupPermission.order.filter(asker.canAsk).map(SetupStep.permission) + [.ready]
     }
 
     /// "Continue" on the intro screen.
@@ -83,6 +86,13 @@ final class SetupFlow: ObservableObject {
         moveOn(after: permission)
     }
 
+    /// "Go to the map" on the last screen.
+    func finish() {
+        guard !isFinished, step == .ready else { return }
+        isFinished = true
+        defaults.set(true, forKey: Self.storageKey)
+    }
+
     /// Developer tools: show the setup again from the intro (iOS remembers the answers).
     func reset() {
         guard !isAsking else { return }
@@ -99,8 +109,7 @@ final class SetupFlow: ObservableObject {
         if let next = remaining.first(where: asker.canAsk) {
             step = .permission(next)
         } else {
-            isFinished = true
-            defaults.set(true, forKey: Self.storageKey)
+            step = .ready
         }
     }
 }

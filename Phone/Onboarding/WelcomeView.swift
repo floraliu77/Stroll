@@ -18,6 +18,9 @@ struct WelcomeView: View {
                 PermissionScreen(permission: permission)
                     .id(permission)
                     .transition(.push(from: .trailing))
+            case .ready:
+                ReadyScreen()
+                    .transition(.push(from: .trailing))
             }
         }
         .animation(.easeInOut(duration: 0.3), value: setup.step)
@@ -52,7 +55,8 @@ private struct IntroScreen: View {
                 .padding(.top, 30)
                 .accessibilityAddTraits(.isHeader)
             VStack(alignment: .leading, spacing: 20) {
-                step("figure.walk", "Start exploring", "Tap Start Exploring on the map, put your phone away and wander anywhere.")
+                // An instruction, not a description: testers didn't realise nothing happens until they tap it.
+                step("figure.walk", "Tap Start Exploring", "Stroll only checks for points of interest once you tap Start Exploring on the map. Then put your phone away and wander anywhere.")
                 step("applewatch", "Get notified", "Stroll notifies you when you're near a point of interest, with a tap on your wrist or a buzz from your phone.")
                 step("sparkles", "Discover it", "Stroll describes what's around you as audio or text, so you can find it yourself.")
             }
@@ -144,6 +148,31 @@ private struct PermissionScreen: View {
              "Stroll sends a notification when you're near a point of interest and your phone is in your pocket.",
              "You can change this anytime in Settings.",
              "Allow notifications")
+        }
+    }
+}
+
+// MARK: - Ready
+
+/// The last setup screen: the map opens next, and nothing happens until Start Exploring.
+private struct ReadyScreen: View {
+    @EnvironmentObject private var setup: SetupFlow
+
+    var body: some View {
+        SetupPage {
+            SetupIcon(symbol: "figure.walk", size: 72)
+                .padding(.bottom, 28)
+            Text("You're ready")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundStyle(Color.strollInk)
+                .accessibilityAddTraits(.isHeader)
+            Text("Tap **Start Exploring** at the bottom of the map whenever you want Stroll to find points of interest around you.")
+                .font(.body)
+                .foregroundStyle(Color.strollInk)
+                .padding(.top, 16)
+                .fixedSize(horizontal: false, vertical: true)
+        } footer: {
+            SetupButton(title: "Go to the map") { setup.finish() }
         }
     }
 }

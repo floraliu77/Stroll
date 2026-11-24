@@ -260,7 +260,7 @@ struct ExploreView: View {
                     Text(countText)
                         .font(.title3.bold())
                         .foregroundStyle(Color.strollInk)
-                    Text("Start exploring and wander anywhere. You'll feel a buzz when you're near one.")
+                    Text("Tap Start Exploring when you're ready. Stroll then lets you know when you're near one.")
                         .font(.subheadline)
                         .foregroundStyle(Color.strollMuted)
                         .multilineTextAlignment(.center)

@@ -3504,7 +3504,7 @@
     {
       "id": "oakland",
       "title": "Oakland",
-      "summary": "A short walk through Oakland past four things most people walk right by. Your watch buzzes at each stop and tells you what to look for.",
+      "summary": "A short walk through Oakland past four things most people walk right by. At each stop, Stroll lets you know you've arrived and tells you about what's there.",
       "cover": "mellon-columns",
       "path": [
         {
@@ -3702,7 +3702,7 @@
     {
       "id": "steeples",
       "title": "Steeples and Spires",
-      "summary": "A loop of Oakland's churches, from a grand cathedral to a quiet chapel. Look up: each stop has something most people miss.",
+      "summary": "A loop of Oakland's churches, from a grand cathedral to a quiet chapel. Each stop has a detail most people pass by.",
       "cover": "st-paul-cathedral",
       "path": [
         {

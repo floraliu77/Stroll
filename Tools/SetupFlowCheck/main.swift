@@ -41,8 +41,8 @@ func run() async {
     let asker = FakeAsker()
     let flow = SetupFlow(asker: asker, defaults: defaults)
     check(flow.needsWelcome && flow.step == .intro, "setup starts on the intro screen on first launch")
-    check(flow.steps == [.intro, .permission(.location), .permission(.health), .permission(.notifications)],
-          "there's an intro screen, then Location, Health and Notifications screens")
+    check(flow.steps == [.intro, .permission(.location), .permission(.health), .permission(.notifications), .ready],
+          "there's an intro screen, then Location, Health and Notifications screens, then You're ready")
 
     flow.continueFromIntro()
     check(flow.step == .permission(.location) && asker.asked.isEmpty, "Continue opens the Location screen without prompting yet")
@@ -56,7 +56,9 @@ func run() async {
     check(flow.step == .permission(.notifications), "after the Health answer, the Notifications screen shows")
     await flow.allow()
     check(asker.asked == SetupPermission.order, "each permission is asked once, on its own screen, in order")
-    check(!flow.needsWelcome, "setup goes away after the last permission screen")
+    check(flow.step == .ready && flow.needsWelcome, "after the last permission, the You're ready screen shows")
+    flow.finish()
+    check(!flow.needsWelcome, "Go to the map finishes the setup")
     check(!SetupFlow(asker: FakeAsker(), defaults: defaults).needsWelcome, "setup doesn't come back on the next launch")
 
     // Declining
@@ -65,6 +67,7 @@ func run() async {
     let declined = SetupFlow(asker: saysNo, defaults: freshDefaults())
     declined.continueFromIntro()
     for _ in SetupPermission.order { await declined.allow() }
+    declined.finish()
     check(saysNo.asked == SetupPermission.order, "a Don't Allow still moves on to the next screen")
     check(!declined.needsWelcome, "Stroll opens even if every permission is declined")
     check(declined.answers[.location] == false, "a declined permission is remembered as declined")
@@ -77,6 +80,7 @@ func run() async {
     check(notNow.step == .permission(.health) && skipping.asked.isEmpty, "Not now moves on without a prompt")
     notNow.notNow()
     await notNow.allow()
+    notNow.finish()
     check(skipping.asked == [.notifications] && !notNow.needsWelcome, "skipped screens aren't asked; setup still finishes")
     check(notNow.answers[.location] == nil, "a skipped permission has no answer")
 
@@ -103,7 +107,9 @@ func run() async {
     let wrongScreen = SetupFlow(asker: early, defaults: freshDefaults())
     await wrongScreen.allow()
     wrongScreen.notNow()
-    check(wrongScreen.step == .intro && early.asked.isEmpty, "Allow and Not now do nothing on the intro screen")
+    wrongScreen.finish()
+    check(wrongScreen.step == .intro && early.asked.isEmpty && wrongScreen.needsWelcome,
+          "Allow, Not now and Go to the map do nothing on the intro screen")
 
     // After finishing, nothing is asked again
     let again = FakeAsker()
