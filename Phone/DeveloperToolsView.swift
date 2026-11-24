@@ -178,8 +178,14 @@ struct DeveloperToolsView: View {
     private func poiRow(_ poi: StrollContent.POI) -> some View {
         HStack(spacing: 12) {
             Button {
-                session.arriveNow(poi.id)
+                // Close this sheet first and bring the place up once it has gone: opening the
+                // story sheet mid-close cut the close short, and Developer tools came back later
+                // (for example when tapping End).
                 dismiss()
+                Task {
+                    try? await Task.sleep(for: .milliseconds(500))
+                    session.arriveNow(poi.id)
+                }
             } label: {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(poi.name).foregroundStyle(Color.primary)
@@ -191,6 +197,8 @@ struct DeveloperToolsView: View {
                         Text(address).font(.footnote).foregroundStyle(Color.devSecondary)
                     }
                 }
+                // A button centres wrapped lines by default; long names and addresses stay left too.
+                .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .buttonStyle(.borderless)   // two buttons in one row, each with its own tap

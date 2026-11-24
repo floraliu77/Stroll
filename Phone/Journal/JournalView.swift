@@ -196,7 +196,7 @@ private struct MysteryStopRow: View {
                     .foregroundStyle(Color.strollInk)
                 if let category = category.flatMap({ StrollContent.shared.category($0) }) {
                     Label(category.name, systemImage: category.symbol)
-                        .font(JournalFont.category)
+                        .labelStyle(JournalCategoryLabel())
                         .foregroundStyle(Color.category(category.id))
                 }
             }
@@ -217,8 +217,19 @@ private struct MysteryStopRow: View {
 /// Still follows the phone's text size setting.
 enum JournalFont {
     static let title = Font.subheadline.weight(.semibold)      // 15 pt (was 17)
-    static let category = Font.caption2.weight(.semibold)     // 11 pt (was 13)
+    static let category = Font.footnote.weight(.semibold)     // 13 pt: 11 pt was too small to read (testing, Nov 24)
+    static let categoryIcon = Font.caption2.weight(.semibold) // 11 pt: the icons stay as they were
     static let tag = Font.caption2.weight(.semibold)          // 11 pt (was 12)
+}
+
+/// A category on a journal card: the name at `JournalFont.category`, the icon kept smaller.
+struct JournalCategoryLabel: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(spacing: 4) {
+            configuration.icon.font(JournalFont.categoryIcon)
+            configuration.title.font(JournalFont.category)
+        }
+    }
 }
 
 private struct JournalCard: View {
@@ -265,7 +276,7 @@ private struct JournalCard: View {
                     .foregroundStyle(Color.strollInk)
                 if let category {
                     Label(category.name, systemImage: category.symbol)
-                        .font(JournalFont.category)
+                        .labelStyle(JournalCategoryLabel())
                         .foregroundStyle(Color.category(category.id))
                 }
             }

@@ -27,6 +27,8 @@ struct ExploreView: View {
     @State private var selectedID: String?
     /// How far the map is zoomed out, kept so a tapped pin can be centred without changing the zoom.
     @State private var cameraDistance: Double?
+    /// The compass, for the cone on the participant's dot.
+    @StateObject private var heading = HeadingSource()
 
     /// Street level: about a 5–10 minute walk across the visible map.
     static let streetSpan = MKCoordinateSpan(latitudeDelta: 0.008, longitudeDelta: 0.008)
@@ -90,7 +92,8 @@ struct ExploreView: View {
 
     var body: some View {
         MapReader { proxy in
-            Map(position: $position, selection: selection) {
+            // North always stays up (no rotate or tilt), so the heading cone, not the map, turns.
+            Map(position: $position, interactionModes: [.pan, .zoom], selection: selection) {
                 ForEach(visiblePOIs) { poi in
                     // Category on the pin; tap it to see the place's name and photo on a card.
                     Annotation(content.category(poi.category)?.name ?? "", coordinate: poi.coordinate.location, anchor: .center) {
@@ -100,7 +103,9 @@ struct ExploreView: View {
                     .annotationTitles(.hidden)
                     .tag(poi.id)
                 }
-                UserAnnotation()
+                UserAnnotation(anchor: .center) {
+                    HeadingDot(degrees: heading.degrees, accuracy: heading.accuracy)
+                }
             }
             .mapStyle(.standard(pointsOfInterest: .excludingAll))   // keep Apple's own places out of the way
             .mapControls { }
@@ -110,25 +115,34 @@ struct ExploreView: View {
                 topBar.onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).maxY } action: { topBarBottom = $0 }
             }
             .safeAreaInset(edge: .bottom) {
-                Group {
-                    // A set walk has its own full-screen view (WalkInProgressView), over this one.
-                    if let poi = selectedPOI, session.phase == .idle {
-                        PlaceCard(poi: poi) { withAnimation(.snappy) { selectedID = nil } }
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                    } else if session.phase == .idle || session.route != nil {
-                        startPanel
-                    } else {
-                        ExploringPanel()
+                VStack(alignment: .trailing, spacing: 12) {
+                    // Always there, above whatever is at the bottom (panel, card, or the slid-down
+                    // story sheet), so people can find themselves again.
+                    RoundButton(symbol: "location.fill", label: "Show my location", tint: .blue) { showNearMe() }
+                        .padding(.trailing, 16)
+                    Group {
+                        // A set walk has its own full-screen view (WalkInProgressView), over this one.
+                        if let poi = selectedPOI, session.phase == .idle {
+                            PlaceCard(poi: poi) { withAnimation(.snappy) { selectedID = nil } }
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                        } else if session.phase == .idle || session.route != nil {
+                            startPanel
+                        } else {
+                            ExploringPanel()
+                        }
                     }
+                    .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).minY } action: { panelTop = $0 }
                 }
-                .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).minY } action: { panelTop = $0 }
             }
+            .onAppear { heading.start() }
+            .onDisappear { heading.stop() }
             .onChange(of: session.phase) { _, phase in
                 if phase != .idle { selectedID = nil }
             }
             // When a place comes up, follow the participant on the map, so they can see where
             // they are with the story sheet slid down.
             .onChange(of: session.showsStop) { _, showing in
+                if showing { showingSettings = false }   // never leave Developer tools waiting to reappear
                 if showing, session.route == nil { withAnimation { position = .userLocation(fallback: position) } }
             }
             .onMapCameraChange(frequency: .onEnd) { context in
@@ -234,12 +248,10 @@ struct ExploreView: View {
         .accessibilityHint("Shows the areas you can explore")
     }
 
-    // MARK: Bottom: locate button and Start Exploring panel
+    // MARK: Bottom: Start Exploring panel (the locate button sits above it, in body)
 
     private var startPanel: some View {
         VStack(alignment: .trailing, spacing: 12) {
-            RoundButton(symbol: "location.fill", label: "Show my location", tint: .blue) { showNearMe() }
-            .padding(.trailing, 16)
             VStack(spacing: 14) {
                 VStack(spacing: 4) {
                     Text(countText)

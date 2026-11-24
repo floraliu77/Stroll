@@ -221,6 +221,8 @@ struct RouteMap: View {
     var found: (Int) -> Bool = { _ in false }
     @Binding var position: MapCameraPosition
     private let content = StrollContent.shared
+    /// The compass, for the cone on the walker's dot (only on the interactive map, during a walk).
+    @StateObject private var heading = HeadingSource()
 
     init(walk: StrollContent.Route, interactive: Bool, progress: Int? = nil, found: @escaping (Int) -> Bool = { _ in false },
          position: Binding<MapCameraPosition>? = nil) {
@@ -232,7 +234,8 @@ struct RouteMap: View {
     }
 
     var body: some View {
-        Map(position: $position, interactionModes: interactive ? .all : []) {
+        // North always stays up (no rotate or tilt), so the heading cone, not the map, turns.
+        Map(position: $position, interactionModes: interactive ? [.pan, .zoom] : []) {
             let split = progress.map { $0 > 0 ? walk.pathIndex(of: $0 - 1, in: content) : 0 } ?? 0
             if split > 0 {
                 MapPolyline(coordinates: walk.path[0...split].map(\.location))
@@ -250,11 +253,17 @@ struct RouteMap: View {
                     .annotationTitles(.hidden)
                 }
             }
-            if interactive { UserAnnotation() }
+            if interactive {
+                UserAnnotation(anchor: .center) {
+                    HeadingDot(degrees: heading.degrees, accuracy: heading.accuracy)
+                }
+            }
         }
         .mapStyle(.standard(pointsOfInterest: .excludingAll))
         .mapControls { }
         .tint(.blue)
+        .onAppear { if interactive { heading.start() } }
+        .onDisappear { heading.stop() }
     }
 
     private func state(_ index: Int) -> StopBadge.State {

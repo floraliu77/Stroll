@@ -26,12 +26,13 @@ struct WalkInProgressView: View {
                             withAnimation { position = .userLocation(fallback: .region(walk.region)) }
                         }
                         .padding(.trailing, 16)
+                        // Hidden while a stop's sheet is up, so it never shows above the slid-down
+                        // sheet. The location button above stays, to find yourself on the route.
                         panel(walk)
+                            .opacity(session.showsStop ? 0 : 1)
+                            .allowsHitTesting(!session.showsStop)
+                            .accessibilityHidden(session.showsStop)
                     }
-                    // Hidden while a stop's sheet is up, so it never shows above the slid-down sheet.
-                    .opacity(session.showsStop ? 0 : 1)
-                    .allowsHitTesting(!session.showsStop)
-                    .accessibilityHidden(session.showsStop)
                 }
                 .modifier(ListeningPrompts(place: .walk))
                 .sheet(isPresented: .constant(session.showsStop)) {
