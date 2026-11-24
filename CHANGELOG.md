@@ -15,8 +15,15 @@ Groups: **Added** (new features), **Changed** (works differently now), **Fixed**
 ### Content
 - **North Squirrel Hill drafts.** Prompts, reveals, stories and alt text for 8 places in north
   Squirrel Hill, with sources and on-site checks, plus photos for 6 of them. Not in the app yet.
+- **Arrival checkpoints drafted.** In user testing, people hadn't found the place before the
+  question started. All 56 places now have a locate line, a question and (where there's
+  something to find) a help clue, for a "Found it" checkpoint before the question. Not in the
+  app yet.
 
 ### Design
+- **New category icons.** Natural history is now a fossil shell (was a paw print) and History
+  is a scroll (was an hourglass), on map pins, labels, the Journal and the watch. Both are
+  Apple symbols, so there's no new artwork to maintain.
 - New Figma page **"v2 – Design system (from code)"** in AxD-Stroll. It matches the app as
   built, with 21 documented components, 16 text styles, corner radius, spacing and shadow
   variables, and AA category colors. Each section notes what changed since v1. The v1 page is
@@ -26,6 +33,7 @@ Groups: **Added** (new features), **Changed** (works differently now), **Fixed**
 - Rewrote the README for the current app: how to install and try it, demo walk vs. real
   location, what's real and what's faked, and how the team works.
 - Started this change log.
+- Build plan for arrival checkpoints: `docs/plans/arrival-checkpoints.md`.
 
 ## Build 3 (version 0.1), Nov 16, 2026
 

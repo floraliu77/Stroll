@@ -10,7 +10,7 @@
     {
       "id": "natural-history",
       "name": "Natural history",
-      "symbol": "pawprint"
+      "symbol": "fossil.shell"
     },
     {
       "id": "public-art",
@@ -20,7 +20,7 @@
     {
       "id": "history",
       "name": "History",
-      "symbol": "hourglass"
+      "symbol": "scroll"
     }
   ],
   "pois": [
