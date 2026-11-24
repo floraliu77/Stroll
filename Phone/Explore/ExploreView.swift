@@ -23,6 +23,10 @@ struct ExploreView: View {
     @State private var panelTop: CGFloat = 0
     /// The area the map is showing, named in the pill at the top. nil when the map is far from all of them.
     @State private var shownArea: StrollContent.Area? = StrollContent.shared.area(near: ExploreView.oakland.center.coordinate)
+    /// The pin tapped before exploring starts (its card shows at the bottom), or nil.
+    @State private var selectedID: String?
+    /// How far the map is zoomed out, kept so a tapped pin can be centred without changing the zoom.
+    @State private var cameraDistance: Double?
 
     /// Street level: about a 5–10 minute walk across the visible map.
     static let streetSpan = MKCoordinateSpan(latitudeDelta: 0.008, longitudeDelta: 0.008)
@@ -65,15 +69,36 @@ struct ExploreView: View {
         content.pois.filter { filter == nil || $0.category == filter }
     }
 
+    private var selectedPOI: StrollContent.POI? { selectedID.flatMap(content.poi) }
+
+    /// Pins can be tapped before exploring starts. Tapping empty map clears the selection
+    /// (the map does that itself); once exploring, taps are ignored so the walk panel stays.
+    private var selection: Binding<String?> {
+        Binding(get: { selectedID }, set: { id in
+            guard session.phase == .idle || id == nil else { return }
+            if selectedID != nil, id != nil {
+                // From one pin to another: swap the card at once, without sliding the text around.
+                var instant = Transaction()
+                instant.disablesAnimations = true
+                withTransaction(instant) { selectedID = id }
+            } else {
+                withAnimation(.snappy) { selectedID = id }   // the card slides up, or away
+            }
+            if let id, let poi = content.poi(id) { center(on: poi) }
+        })
+    }
+
     var body: some View {
         MapReader { proxy in
-            Map(position: $position) {
+            Map(position: $position, selection: selection) {
                 ForEach(visiblePOIs) { poi in
-                    // Category only: the name and photo stay a surprise until it's found.
+                    // Category on the pin; tap it to see the place's name and photo on a card.
                     Annotation(content.category(poi.category)?.name ?? "", coordinate: poi.coordinate.location, anchor: .center) {
-                        CategoryPin(category: poi.category, symbol: content.category(poi.category)?.symbol ?? "mappin")
+                        CategoryPin(category: poi.category, symbol: content.category(poi.category)?.symbol ?? "mappin",
+                                    selected: poi.id == selectedID)
                     }
                     .annotationTitles(.hidden)
+                    .tag(poi.id)
                 }
                 UserAnnotation()
             }
@@ -87,11 +112,27 @@ struct ExploreView: View {
             .safeAreaInset(edge: .bottom) {
                 Group {
                     // A set walk has its own full-screen view (WalkInProgressView), over this one.
-                    if session.phase == .idle || session.route != nil { startPanel } else { ExploringPanel() }
+                    if let poi = selectedPOI, session.phase == .idle {
+                        PlaceCard(poi: poi) { withAnimation(.snappy) { selectedID = nil } }
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    } else if session.phase == .idle || session.route != nil {
+                        startPanel
+                    } else {
+                        ExploringPanel()
+                    }
                 }
                 .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).minY } action: { panelTop = $0 }
             }
+            .onChange(of: session.phase) { _, phase in
+                if phase != .idle { selectedID = nil }
+            }
+            // When a place comes up, follow the participant on the map, so they can see where
+            // they are with the story sheet slid down.
+            .onChange(of: session.showsStop) { _, showing in
+                if showing, session.route == nil { withAnimation { position = .userLocation(fallback: position) } }
+            }
             .onMapCameraChange(frequency: .onEnd) { context in
+                cameraDistance = context.camera.distance
                 centerOnUserIfNeeded(context.camera.centerCoordinate)
                 countVisible(proxy)
                 shownArea = content.area(near: context.camera.centerCoordinate.coordinate)
@@ -118,6 +159,12 @@ struct ExploreView: View {
         visibleCount = visiblePOIs.filter { poi in
             proxy.convert(poi.coordinate.location, to: .global).map { visible.contains($0) } ?? false
         }.count
+    }
+
+    /// Moves a tapped pin to the middle of the map, at the same zoom, so the card doesn't cover it.
+    private func center(on poi: StrollContent.POI) {
+        centeredOnUser = true   // the participant moved the map on purpose
+        withAnimation { position = .camera(MapCamera(centerCoordinate: poi.coordinate.location, distance: cameraDistance ?? 1500)) }
     }
 
     /// Back to the participant, at street level, as when the map first opens.
@@ -240,18 +287,89 @@ struct ExploreView: View {
 // MARK: - Pieces
 
 /// A map pin: a category-coloured circle with the category's icon, white ring and shadow.
+/// Selected, it just grows (no outline or glow, by the team's choice after testing).
 struct CategoryPin: View {
     let category: String
     let symbol: String
+    var selected = false
 
     var body: some View {
         Image(systemName: symbol)
-            .font(.system(size: 17, weight: .semibold))
+            .font(.system(size: selected ? 22 : 17, weight: .semibold))
             .foregroundStyle(.white)
-            .frame(width: 40, height: 40)
+            .frame(width: selected ? 52 : 40, height: selected ? 52 : 40)
             .background(Color.category(category), in: Circle())
             .overlay(Circle().stroke(.white, lineWidth: 3))
-            .shadow(color: .black.opacity(0.25), radius: 3, y: 2)
+            .shadow(color: .black.opacity(selected ? 0.35 : 0.25), radius: selected ? 6 : 3, y: 2)
+            .accessibilityAddTraits(selected ? [.isButton, .isSelected] : .isButton)
+    }
+}
+
+/// The card for a tapped pin, above the tab bar: photo on the left, name, category and area on
+/// the right. The × (or tapping empty map) closes it.
+struct PlaceCard: View {
+    let poi: StrollContent.POI
+    let close: () -> Void
+    private let content = StrollContent.shared
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 14) {
+            Image(poi.image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 88, height: 88)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .accessibilityLabel(poi.altText.map { "Photo: \($0)" } ?? "Photo of \(poi.name)")
+            VStack(alignment: .leading, spacing: 4) {
+                Text(poi.name)
+                    .font(.headline)
+                    .foregroundStyle(Color.strollInk)
+                    .fixedSize(horizontal: false, vertical: true)
+                if let category = content.category(poi.category) {
+                    Label(category.name, systemImage: category.symbol)
+                        .font(.subheadline)
+                        .labelStyle(CategoryIconLabel(category: category.id))
+                }
+                if let area = content.area(poi.area) {
+                    Text(area.name)
+                        .font(.subheadline)
+                        .foregroundStyle(Color.strollMuted)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+            Button(action: close) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(Color.strollInk)
+                    .frame(width: 30, height: 30)
+                    .background(Color.strollInk.opacity(0.08), in: Circle())
+                    .frame(width: 44, height: 44)   // a full-size tap target around the small circle
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .padding(.top, -8).padding(.trailing, -8)
+            .accessibilityLabel("Close")
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity)
+        .background(Color.strollPaper, in: RoundedRectangle(cornerRadius: 20))
+        .shadow(color: .black.opacity(0.15), radius: 10, y: 4)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 12)
+    }
+}
+
+/// The category icon in its colour, the name in dark text (category colours are for icons and
+/// pins; dark text reads best on the beige card).
+private struct CategoryIconLabel: LabelStyle {
+    let category: String
+
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(spacing: 6) {
+            configuration.icon.foregroundStyle(Color.category(category))
+            configuration.title.foregroundStyle(Color.strollInk)
+        }
     }
 }
 

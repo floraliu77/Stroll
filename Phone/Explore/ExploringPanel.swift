@@ -6,6 +6,9 @@ import SwiftUI
 struct ExploringPanel: View {
     @EnvironmentObject private var session: ExploreSession
     @State private var confirmingEnd = false
+    /// Height of this panel from its top edge to the bottom of the screen: the story sheet slides
+    /// down to exactly this, so it covers the panel instead of sinking below it.
+    @State private var panelHeight: CGFloat = 0
 
     var body: some View {
         VStack(spacing: 14) {
@@ -22,12 +25,17 @@ struct ExploringPanel: View {
             UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
                 .fill(Color.strollPaper)
                 .ignoresSafeArea(edges: .bottom)
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { panelHeight = $0 }
         }
         .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
+        // While a place's sheet is up, this panel is hidden, so it never shows above the sheet
+        // when the sheet is slid down.
+        .opacity(session.showsStop ? 0 : 1)
+        .allowsHitTesting(!session.showsStop)
+        .accessibilityHidden(session.showsStop)
         .sheet(isPresented: .constant(session.showsStop)) {
-            StopSheet()
+            StopSheet(collapsedHeight: panelHeight)
                 .interactiveDismissDisabled()
-                .presentationDragIndicator(.hidden)
         }
         .confirmationDialog("End exploring?", isPresented: $confirmingEnd, titleVisibility: .visible) {
             Button("End", role: .destructive) { session.end() }
@@ -92,27 +100,119 @@ struct ExploringPanel: View {
 
 /// One point of interest: photo, then the prompt, then the story, with the transcript of
 /// everything said so far.
+///
+/// A sheet that can be dragged, like a place in Google Maps: full height to read, half to see
+/// the map too, or slid down to a small bar (photo, title, the line being read, and the main
+/// buttons) with the map behind it usable. People felt lost listening with the map hidden.
 struct StopSheet: View {
     @EnvironmentObject private var session: ExploreSession
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverOn
     @AccessibilityFocusState private var focusedControl: MainControl?
     private enum MainControl { case tellMeMore, pause, keepExploring }
+    /// Opens full height, as before; the participant can slide it down.
+    @State private var detent: PresentationDetent = .large
+    /// The panel behind the sheet (Exploring, or the walk's next stop): slid down, the sheet is
+    /// exactly as tall, so the two never show at once.
+    var collapsedHeight: CGFloat = 0
+    private var collapsed: PresentationDetent { .height(max(collapsedHeight, 220)) }
 
     /// One voice at a time: while the guide is talking, VoiceOver doesn't read the transcript
     /// (it's the same words). Paused or finished, everything can be read again.
     private var guideTalking: Bool { voiceOverOn && session.narrating && !session.paused }
 
     var body: some View {
+        Group {
+            if detent == collapsed { compact } else { full }
+        }
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(Color.strollPaper)
+        .presentationDetents([collapsed, .medium, .large], selection: $detent)
+        .presentationDragIndicator(.visible)
+        // Half height or less, the map behind can be moved and zoomed.
+        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+        .presentationBackground(Color.strollPaper)
+    }
+
+    /// Slid down: one row with the photo, title and the line being read, then the main buttons.
+    /// The room above and below the content row is shared evenly, so the bar looks balanced at
+    /// whatever height the panel behind it has.
+    private var compact: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Spacer(minLength: 20)
+            HStack(alignment: .center, spacing: 14) {
+                if let poi = session.poi {
+                    Image(poi.image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 72, height: 72)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .accessibilityHidden(true)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    header
+                    Text(title)
+                        .font(.title3.bold())
+                        .foregroundStyle(Color.strollInk)
+                        .lineLimit(1)
+                    if let line = currentLine {
+                        Text(line)
+                            .font(.subheadline)
+                            .foregroundStyle(Color.strollMuted)
+                            .lineLimit(2)
+                            .accessibilityHidden(guideTalking)
+                    }
+                }
+            }
+            Spacer(minLength: 16)
+            compactControls
+            Spacer(minLength: 12)
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 8)   // below the grabber
+        .padding(.bottom, 8)
+    }
+
+    /// The place's name once the story starts; before that, it stays unnamed, as in the full sheet.
+    private var title: String {
+        if let poi = session.poi, [.story, .finished].contains(session.phase) { return poi.name }
+        return "Something to notice nearby"
+    }
+
+    private var currentLine: String? {
+        if let index = session.speaking, lines.indices.contains(index) { return lines[index].text }
+        return lines.last?.text
+    }
+
+    @ViewBuilder private var compactControls: some View {
+        HStack(spacing: 10) {
+            switch session.phase {
+            case .preview:
+                pauseButton
+            case .prompt:
+                PanelButton(title: "Tell me more", symbol: nil, filled: true) { session.tellMeMore() }
+                PanelButton(title: "Skip", symbol: nil, filled: false) { session.skip() }
+            case .story:
+                pauseButton
+                PanelButton(title: continueTitle, symbol: nil, filled: false) { session.keepExploring() }
+            case .finished:
+                PanelButton(title: continueTitle, symbol: nil, filled: true) { session.keepExploring() }
+            default:
+                EmptyView()
+            }
+        }
+    }
+
+    private var full: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
             if let poi = session.poi {
-                Image(poi.image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .accessibilityLabel(poi.altText.map { "Photo: \($0)" } ?? "Photo of a point of interest")
+                // At half height the photo makes way for the text and buttons (the small bar and
+                // the full sheet both show it).
+                if detent == .large {
+                    FillPhoto(name: poi.image, height: 200)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .accessibilityLabel(poi.altText.map { "Photo: \($0)" } ?? "Photo of a point of interest")
+                }
                 if [.story, .finished].contains(session.phase) {
                     Text(poi.name)
                         .font(.title2.bold())
@@ -121,10 +221,12 @@ struct StopSheet: View {
             }
             transcript
                 .accessibilityHidden(guideTalking)
+                .layoutPriority(-1)   // the transcript scrolls, so it gives up room first, never the header
             controls
         }
-        .padding(24)
-        .background(Color.strollPaper)
+        .padding(.horizontal, 24)
+        .padding(.top, 32)   // clear of the grabber at every height, so the category never touches the edge
+        .padding(.bottom, 24)
         // The buttons change with each phase. Without this, VoiceOver jumps to whatever is
         // left, often a long line of text, and reads it over the guide. Landing on the main
         // button only says its short name ("Keep exploring" also signals the story is over).

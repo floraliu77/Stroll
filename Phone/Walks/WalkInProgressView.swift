@@ -9,6 +9,9 @@ struct WalkInProgressView: View {
     @EnvironmentObject private var liveLocation: LiveLocationSource
     @State private var position: MapCameraPosition = .automatic
     @State private var confirmingEnd = false
+    /// Height of the next-stop panel down to the bottom of the screen; the story sheet slides down
+    /// to exactly this, so it covers the panel instead of sinking below it.
+    @State private var panelHeight: CGFloat = 0
     private let content = StrollContent.shared
 
     var body: some View {
@@ -25,13 +28,24 @@ struct WalkInProgressView: View {
                         .padding(.trailing, 16)
                         panel(walk)
                     }
+                    // Hidden while a stop's sheet is up, so it never shows above the slid-down sheet.
+                    .opacity(session.showsStop ? 0 : 1)
+                    .allowsHitTesting(!session.showsStop)
+                    .accessibilityHidden(session.showsStop)
                 }
                 .modifier(ListeningPrompts(place: .walk))
                 .sheet(isPresented: .constant(session.showsStop)) {
-                    StopSheet()
+                    StopSheet(collapsedHeight: panelHeight)
                         .modifier(ListeningPrompts(place: .stop))
                         .interactiveDismissDisabled()
-                        .presentationDragIndicator(.hidden)
+                }
+                // When a stop comes up on a real walk, follow the walker, so they can see where they
+                // are on the route with the story sheet slid down. (In demo mode the phone isn't
+                // on the route, so the map stays on the walk.)
+                .onChange(of: session.showsStop) { _, showing in
+                    if showing, liveLocation.status == .tracking {
+                        withAnimation { position = .userLocation(fallback: .region(walk.region)) }
+                    }
                 }
                 .confirmationDialog("End this walk?", isPresented: $confirmingEnd, titleVisibility: .visible) {
                     Button("End walk", role: .destructive) { session.end() }
@@ -100,6 +114,7 @@ struct WalkInProgressView: View {
             UnevenRoundedRectangle(topLeadingRadius: 24, topTrailingRadius: 24)
                 .fill(.white)
                 .ignoresSafeArea(edges: .bottom)
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { panelHeight = $0 }
         }
         .shadow(color: .black.opacity(0.12), radius: 10, y: -4)
     }

@@ -47,12 +47,7 @@ struct WalkCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Image(walk.cover)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 150)
-                .frame(maxWidth: .infinity)
-                .clipped()
+            FillPhoto(name: walk.cover, height: 150)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 6) {
                 Text(walk.title)
@@ -92,12 +87,7 @@ struct WalkDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                Image(walk.cover)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 290)
-                    .frame(maxWidth: .infinity)
-                    .clipped()
+                FillPhoto(name: walk.cover, height: 290)
                     .overlay(alignment: .top) {
                         LinearGradient(colors: [.black.opacity(0.35), .clear], startPoint: .top, endPoint: .bottom)
                             .frame(height: 120)

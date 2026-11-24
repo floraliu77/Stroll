@@ -308,11 +308,7 @@ private struct POIPhoto: View {
 
     var body: some View {
         if let poi = mirror.poi {
-            Image(poi.image)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
-                .frame(height: 72)
+            FillPhoto(name: poi.image, height: 72)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .accessibilityLabel(poi.altText.map { "Photo: \($0)" } ?? "Photo of a point of interest")
                 .overlay(alignment: .topLeading) {

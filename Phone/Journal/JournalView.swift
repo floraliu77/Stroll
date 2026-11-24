@@ -284,11 +284,7 @@ private struct JournalCard: View {
     }
 
     @ViewBuilder private var details: some View {
-        Image(poi.image)
-            .resizable()
-            .scaledToFill()
-            .frame(maxWidth: .infinity)
-            .frame(height: 180)
+        FillPhoto(name: poi.image, height: 180)
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .accessibilityLabel("Photo of \(poi.name)" + (poi.altText.map { ". \($0)" } ?? ""))
         if found {
