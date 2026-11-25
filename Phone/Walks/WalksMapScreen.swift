@@ -21,6 +21,8 @@ struct WalksMapScreen: View {
     @Environment(\.tabBarInset) private var tabBarInset
     /// The screen's height, for the expanded list (about three quarters of it).
     @State private var screenHeight: CGFloat = 800
+    /// The map's fixed bottom margin: the short list's height, measured once.
+    @State private var bottomMargin: CGFloat = 0
 
     private var selected: StrollContent.Route? { selectedID.flatMap(content.route) }
 
@@ -46,10 +48,13 @@ struct WalksMapScreen: View {
                     MapPolyline(coordinates: walk.path.map(\.location))
                         .stroke(Color.strollMuted.opacity(0.4), style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
                     if let start = walk.path.first {
-                        Annotation("", coordinate: start.location, anchor: .center) {
-                            Circle().fill(Color.strollMuted.opacity(0.55)).frame(width: 12, height: 12)
-                                .overlay(Circle().stroke(.white, lineWidth: 2))
-                                .allowsHitTesting(false)
+                        // Where the walk starts: a grey pin the size of the Explore pins, easy to tap.
+                        Annotation(walk.title, coordinate: start.location, anchor: .center) {
+                            Button { select(walk.id) } label: {
+                                WalkPin(symbol: "figure.walk", fill: .strollMuted)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("\(walk.title) walk")
                         }
                         .annotationTitles(.hidden)
                     }
@@ -60,8 +65,9 @@ struct WalksMapScreen: View {
                     ForEach(Array(walk.stops.enumerated()), id: \.offset) { index, stop in
                         if let poi = content.poi(stop.poi) {
                             Annotation("Stop \(index + 1)", coordinate: poi.coordinate.location, anchor: .center) {
-                                StopBadge(number: index + 1, category: poi.category, state: .later)
+                                WalkPin(number: index + 1, fill: .category(poi.category))
                                     .allowsHitTesting(false)
+                                    .accessibilityLabel("Stop \(index + 1)")
                             }
                             .annotationTitles(.hidden)
                         }
@@ -76,7 +82,10 @@ struct WalksMapScreen: View {
             .tint(.blue)
             // Tap on or near a route to pick it; tap empty map to let go.
             .onTapGesture { point in select(walk(near: point, proxy: proxy)) }
-            .safeAreaInset(edge: .bottom) {
+            // A fixed bottom margin (the short list's height) and the panels floating over the map:
+            // when the list turned into the card, the map used to resize, jump and flash black.
+            .safeAreaInset(edge: .bottom) { Color.clear.frame(height: bottomMargin) }
+            .overlay(alignment: .bottom) {
                 VStack(alignment: .trailing, spacing: 12) {
                     RoundButton(symbol: "location.fill", label: "Show my location", tint: .blue) {
                         withAnimation { position = .userLocation(fallback: .region(Self.allWalksRegion)) }
@@ -89,6 +98,9 @@ struct WalksMapScreen: View {
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                     } else {
                         listSheet
+                            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+                                if !expanded { bottomMargin = max(bottomMargin, height) }
+                            }
                     }
                 }
             }
@@ -209,6 +221,29 @@ struct WalksMapScreen: View {
             if drag.translation.height < -40 { withAnimation(.snappy) { expanded = true } }
             if drag.translation.height > 40 { withAnimation(.snappy) { expanded = false } }
         })
+    }
+}
+
+/// A pin on the Walks map, the same size as the Explore pins (40 pt, white ring, shadow): a
+/// walk's start (an icon) or, on the picked walk, a numbered stop.
+private struct WalkPin: View {
+    var symbol: String? = nil
+    var number: Int? = nil
+    let fill: Color
+
+    var body: some View {
+        Group {
+            if let number {
+                Text("\(number)").font(.system(size: 17, weight: .bold))
+            } else {
+                Image(systemName: symbol ?? "mappin").font(.system(size: 17, weight: .semibold))
+            }
+        }
+        .foregroundStyle(.white)
+        .frame(width: 40, height: 40)
+        .background(fill, in: Circle())
+        .overlay(Circle().stroke(.white, lineWidth: 3))
+        .shadow(color: .black.opacity(0.25), radius: 3, y: 2)
     }
 }
 

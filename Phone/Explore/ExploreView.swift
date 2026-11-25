@@ -27,6 +27,8 @@ struct ExploreView: View {
     @State private var selectedID: String?
     /// How far the map is zoomed out, kept so a tapped pin can be centred without changing the zoom.
     @State private var cameraDistance: Double?
+    /// The map's fixed bottom margin: the Start panel's height, measured once. Panels float over it.
+    @State private var bottomMargin: CGFloat = 0
     /// The compass, for the cone on the participant's dot.
     @StateObject private var heading = HeadingSource()
 
@@ -114,7 +116,11 @@ struct ExploreView: View {
             .safeAreaInset(edge: .top) {
                 topBar.onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).maxY } action: { topBarBottom = $0 }
             }
-            .safeAreaInset(edge: .bottom) {
+            // The map keeps one fixed bottom margin (the Start panel's height), and the panels float
+            // over it. When the bottom panel changed height (Start panel ↔ place card ↔ Exploring),
+            // the map used to resize with it: it jumped up and flashed black before zooming.
+            .safeAreaInset(edge: .bottom) { Color.clear.frame(height: bottomMargin) }
+            .overlay(alignment: .bottom) {
                 VStack(alignment: .trailing, spacing: 12) {
                     // Always there, above whatever is at the bottom (panel, card, or the slid-down
                     // story sheet), so people can find themselves again.
@@ -127,6 +133,7 @@ struct ExploreView: View {
                                 .transition(.move(edge: .bottom).combined(with: .opacity))
                         } else if session.phase == .idle || session.route != nil {
                             startPanel
+                                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { bottomMargin = max(bottomMargin, $0) }
                         } else {
                             ExploringPanel()
                         }
